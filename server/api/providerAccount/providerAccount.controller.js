@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import ProviderAccount from './providerAccount.model';
+import request from 'request';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -61,9 +62,12 @@ function handleError(res, statusCode) {
 
 // Gets a list of ProviderAccounts
 export function index(req, res) {
-  req.app.models.provideraccount.find()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  request('http://localhost:9000/api/oprWithoutAuth/providerAccount', function (err, res, body) {
+    respondWithResult(body);
+  });
+  //req.app.models.provideraccount.find()
+  //  .then(respondWithResult(res))
+  //  .catch(handleError(res));
 }
 
 // Gets a single ProviderAccount from the DB
