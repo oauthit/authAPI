@@ -2,6 +2,8 @@
 
 var path = require('path');
 var _ = require('lodash');
+var restAdapter = require('sails-rest');
+var diskAdapter = require('sails-disk');
 
 function requiredProcessEnv(name) {
   if (!process.env[name]) {
@@ -19,7 +21,7 @@ var all = {
   root: path.normalize(__dirname + '/../../..'),
 
   // Server port
-  port: process.env.PORT || 9000,
+  port: process.env.PORT || 9090,
 
   // Server IP
   ip: process.env.IP || '0.0.0.0',
@@ -45,6 +47,41 @@ var all = {
     clientID:     process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+  },
+
+  waterline: {
+    adapters: {
+      disk: diskAdapter,
+      rest: restAdapter
+    },
+    connections: {
+      rest: {
+        adapter: 'rest',
+        host:     'localhost:9000',  // api host
+        protocol: 'http',            // api HTTP protocol
+        pathname: '/api/opr',                 // api endpoint path name
+        headers:  {},                // Optional HTTP headers
+        hooks: {
+          merge:    true,            // flag that indicates whether or not to merge build-in hooks with user-provided hooks
+          before:   [],              // array of hook functions that run before a request
+          after:    [
+            function (err, res, cb) {
+              if (res.statusCode === 401) {
+                return cb('Unauthorized!');
+              }
+              cb();
+            }
+          ]               // array of hook functions that run after a request
+        }
+      },
+      localDisk: {
+        adapter: 'disk'
+      }
+    },
+
+    defaults: {
+      migrate: 'alter'
+    }
   }
 };
 
