@@ -12,9 +12,7 @@ angular.module('authApiApp', [
   'ui.bootstrap',
   'validation.match'
 ])
-  .config(function($urlRouterProvider, $locationProvider) {
+  .config(function($urlRouterProvider) {
     $urlRouterProvider
       .otherwise('/');
-
-    $locationProvider.html5Mode(true);
   });
