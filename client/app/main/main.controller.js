@@ -12,7 +12,7 @@ class MainController {
 
   }
 
-  deleteThing(thing) {
+  deleteThing() {
 
   }
 }
