@@ -1,14 +1,9 @@
 'use strict';
 
-import passport from 'passport';
 import config from '../config/environment';
-import jwt from 'jsonwebtoken';
-import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 
-var validateJwt = expressJwt({
-  secret: config.secrets.session
-});
+var debug = require('debug') ('authAPI:auth.service');
 
 /**
  * Attaches the user object to the request if authenticated
@@ -22,19 +17,19 @@ export function isAuthenticated() {
       if (req.query && req.query.hasOwnProperty('access_token')) {
         req.headers.authorization = 'Bearer ' + req.query.access_token;
       }
-      validateJwt(req, res, next);
+      //validateJwt(req, res, next);
     })
     // Attach user to request
     .use(function(req, res, next) {
-      User.findByIdAsync(req.user._id)
-        .then(user => {
-          if (!user) {
-            return res.status(401).end();
-          }
-          req.user = user;
-          next();
-        })
-        .catch(err => next(err));
+      //User.findByIdAsync(req.user._id)
+      //  .then(user => {
+      //    if (!user) {
+      //      return res.status(401).end();
+      //    }
+      //    req.user = user;
+      //    next();
+      //  })
+      //  .catch(err => next(err));
     });
 }
 
@@ -58,23 +53,12 @@ export function hasRole(roleRequired) {
     });
 }
 
-/**
- * Returns a jwt token signed by the app secret
- */
-export function signToken(id, role) {
-  return jwt.sign({ _id: id, role: role }, config.secrets.session, {
-    expiresIn: 60 * 60 * 5
-  });
-}
 
 /**
  * Set token cookie directly for oAuth strategies
  */
-export function setTokenCookie(req, res) {
-  if (!req.user) {
-    return res.status(404).send('It looks like you aren\'t logged in, please try again.');
-  }
-  var token = signToken(req.user._id, req.user.role);
-  res.cookie('token', token);
-  res.redirect('/');
+export function setAuthorized(req, res) {
+  debug ('User:', req.user);
+  debug ('AuthInfo:', req.authInfo);
+  res.redirect('/#/?access-token=' + req.authInfo);
 }
