@@ -3,6 +3,7 @@
 import config from '../config/environment';
 import compose from 'composable-middleware';
 
+
 var debug = require('debug') ('authAPI:auth.service');
 
 /**
@@ -14,8 +15,10 @@ export function isAuthenticated() {
     // Validate jwt
     .use(function(req, res, next) {
       // allow access_token to be passed through query parameter as well
-      if (req.query && req.query.hasOwnProperty('access_token')) {
-        req.headers.authorization = 'Bearer ' + req.query.access_token;
+      if (req.query && req.query.hasOwnProperty('authorization:')) {
+        req.headers.authorization = req.query['authorization:'];
+      } else if (true) {
+
       }
       //validateJwt(req, res, next);
     })
@@ -44,12 +47,17 @@ export function hasRole(roleRequired) {
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
-      if (config.userRoles.indexOf(req.user.role) >=
-          config.userRoles.indexOf(roleRequired)) {
+      if (req.user[roleRequired]) {
         next();
       } else {
         res.status(403).send('Forbidden');
       }
+      //if (config.userRoles.indexOf(req.user.role) >=
+      //    config.userRoles.indexOf(roleRequired)) {
+      //  next();
+      //} else {
+      //  res.status(403).send('Forbidden');
+      //}
     });
 }
 

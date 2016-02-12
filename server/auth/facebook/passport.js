@@ -1,20 +1,8 @@
 import passport from 'passport';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 var debug = require('debug')('authAPI:facebook/passport');
-import request from 'request';
-import redis from 'redis';
-var redisClient = redis.createClient();
-import uuid from 'node-uuid';
-
-function createToken (body, done) {
-  //generate token
-  let token = uuid.v4();
-  redisClient.hset('authHash', token, JSON.stringify(body), (err) => {
-    if (err) done(err);
-
-    done(null, body, token);
-  })
-}
+import Token from '../../api/token/token.model';
+import ProviderAccount from '../../api/providerAccount/providerAccount.model';
 
 export function setup(config) {
   passport.use(new FacebookStrategy({
@@ -23,13 +11,10 @@ export function setup(config) {
     callbackURL: config.facebook.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    request({
-      url: 'http://localhost:9000/api/aa/providerAccount',
-      qs: {
-        provider: 'facebook',
-        profileId: profile.id
-      }
-    }, function (err, res, body) {
+    ProviderAccount.find({
+      provider: 'facebook',
+      profileId: profile.id
+    }).then((body) => {
       if (!body) {
         let postBody = {
           provider: 'facebook',
@@ -38,19 +23,17 @@ export function setup(config) {
           name: profile.displayName
         };
 
-
-        request.post({
-          url: 'http://localhost:9000/api/aa/providerAccount',
-          form: postBody
-        }, function (err) {
-          if (err) return done(err);
-
-          return createToken(postBody, done);
-        });
+        ProviderAccount.save(postBody).then(() => {
+          return Token.createToken(postBody).then((token) => {
+            done(null, postBody, token);
+          }, done);
+        }, done);
       } else {
-        return createToken(JSON.parse(body)[0], done);
+        body = JSON.parse(body)[0];
+        return Token.createToken(body).then((token) => {
+          done(null, body, token);
+        }, done);
       }
-    });
-
+    }, done);
   }));
 }
