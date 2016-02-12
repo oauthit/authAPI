@@ -7,7 +7,7 @@ import Account from '../api/providerAccount/providerAccount.model';
 
 // Passport Configuration
 require('./local/passport').setup(Account, config);
-require('./facebook/passport').setup(config);
+require('./facebook/passport').setup(Account, config);
 
 var router = express.Router();
 
