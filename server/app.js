@@ -18,18 +18,11 @@ var socketio = require('socket.io')(server, {
 require('./config/socketio')(socketio);
 require('./config/express')(app);
 require('./routes')(app);
-var db = require('./api');
 
 // Start server
 function startServer() {
-  db.waterline.initialize(db.config, function (err, models) {
-    if (err) throw err;
-    global.Models = app.models = models.collections;
-    app.connections = models.connections;
-
-    app.angularFullstack = server.listen(config.port, config.ip, function () {
-      console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-    });
+  app.angularFullstack = server.listen(config.port, config.ip, function () {
+    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
   });
 }
 
