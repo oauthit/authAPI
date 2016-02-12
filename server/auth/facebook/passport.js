@@ -16,15 +16,13 @@ function createToken (body, done) {
   })
 }
 
-export function setup(Account, config) {
+export function setup(config) {
   passport.use(new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    //TODO request stapi for providerAccount where provider is facebook and providerProfileId is profile.id
-
     request({
       url: 'http://localhost:9000/api/aa/providerAccount',
       qs: {
