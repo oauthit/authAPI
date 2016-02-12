@@ -4,7 +4,6 @@ angular.module('authApiApp', [
   'authApiApp.auth',
   'authApiApp.admin',
   'authApiApp.constants',
-  'ngCookies',
   'ngResource',
   'ngSanitize',
   'ui.router',

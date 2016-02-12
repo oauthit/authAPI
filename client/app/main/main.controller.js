@@ -23,6 +23,6 @@ class MainController {
 }
 
 angular.module('authApiApp')
-  .controller('MainController', ['$state', 'localStorageService', MainController]);
+  .controller('MainController', MainController);
 
 })();

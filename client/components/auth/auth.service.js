@@ -2,12 +2,12 @@
 
 (function() {
 
-function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
+function AuthService($location, $http, $q, localStorageService, appConfig, Util, User) {
   var safeCb = Util.safeCb;
   var currentUser = {};
   var userRoles = appConfig.userRoles || [];
 
-  if ($cookies.get('token') && $location.path() !== '/logout') {
+  if (localStorageService.get('access_token') && $location.path() !== '/logout') {
     currentUser = User.get();
   }
 
@@ -26,7 +26,7 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
         password: password
       })
         .then(res => {
-          $cookies.put('token', res.data.token);
+          localStorageService.set('access_token', res.data.token);
           currentUser = User.get();
           return currentUser.$promise;
         })
@@ -45,7 +45,7 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
      * Delete access token and user info
      */
     logout() {
-      $cookies.remove('token');
+      localStorageService.remove('access_token');
       currentUser = {};
     },
 
@@ -59,7 +59,7 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
     createUser(user, callback) {
       return User.save(user,
         function(data) {
-          $cookies.put('token', data.token);
+          localStorageService.set('access_token', data.token);
           currentUser = User.get();
           return safeCb(callback)(null, user);
         },
@@ -67,25 +67,6 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
           Auth.logout();
           return safeCb(callback)(err);
         }).$promise;
-    },
-
-    /**
-     * Change password
-     *
-     * @param  {String}   oldPassword
-     * @param  {String}   newPassword
-     * @param  {Function} callback    - optional, function(error, user)
-     * @return {Promise}
-     */
-    changePassword(oldPassword, newPassword, callback) {
-      return User.changePassword({ id: currentUser._id }, {
-        oldPassword: oldPassword,
-        newPassword: newPassword
-      }, function() {
-        return safeCb(callback)(null);
-      }, function(err) {
-        return safeCb(callback)(err);
-      }).$promise;
     },
 
     /**
@@ -176,7 +157,7 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
      * @return {String} - a token string used for authenticating
      */
     getToken() {
-      return $cookies.get('token');
+      return localStorageService.get('access_token');
     }
   };
 

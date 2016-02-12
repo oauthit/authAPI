@@ -8,16 +8,16 @@ import Token from '../api/token/token.model';
 var debug = require('debug') ('authAPI:auth.service');
 
 var validateAuth = (req,res,next) => {
-  let token = req.headers.authorization;
+  let token = req.headers.access_token;
   if (!token) {
-    return res.status(401).end();
+    return res.status(401).send('Unauthorized');
   }
 
   Token.findById(token).then((user) => {
     req.user = user;
     next();
   }, (err) => {
-    return res.status(401).end(err);
+    return res.status(401).send(err);
   })
 };
 
@@ -30,8 +30,8 @@ export function isAuthenticated() {
 
     .use(function(req, res, next) {
       // allow authorization to be passed through query parameter as well
-      if (req.query && req.query.hasOwnProperty('authorization:')) {
-        req.headers.authorization = req.query['authorization:'];
+      if (req.query && req.query.hasOwnProperty('access_token')) {
+        req.headers.access_token = req.query.access_token;
       }
       validateAuth (req, res, next);
     })
