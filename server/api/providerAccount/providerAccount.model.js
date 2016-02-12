@@ -5,16 +5,33 @@ function getProviderAccount(options) {
   return new Promise(function (resolve, reject) {
     request({
       url: 'http://localhost:9000/api/aa/providerAccount',
-      qs: {
-        provider: options.provider,
-        profileId: options.profileId
-      }
+      qs: options
     }, function (err, res, body) {
       if (err) {
-        reject(err);
+        return reject(err);
       }
 
-      resolve(body);
+      if (!body) {
+        return resolve([]);
+      }
+      try {
+        resolve(JSON.parse(body));
+      } catch (err) {
+        reject(err);
+      }
+    });
+  });
+}
+
+function getOne(options) {
+  return new Promise((resolve, reject) => {
+    getProviderAccount(options).then((reply) => {
+      if (reply && reply.length === 0) {
+        return resolve(false);
+      }
+      resolve(reply[0]);
+    }, (err) => {
+      reject(err);
     });
   });
 }
@@ -30,7 +47,7 @@ function createProviderAccount(body) {
 
     request.post({
       url: 'http://localhost:9000/api/aa/providerAccount',
-      form: postBody
+      json: postBody
     }, function (err) {
       if (err) {
         return reject(err);
@@ -43,5 +60,6 @@ function createProviderAccount(body) {
 
 export default {
   find: getProviderAccount,
+  findOne: getOne,
   save: createProviderAccount
 };
