@@ -2,16 +2,15 @@ import passport from 'passport';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 var debug = require('debug')('authAPI:facebook/passport');
 import Token from '../../api/token/token.model';
-import ProviderAccount from '../../api/providerAccount/providerAccount.model';
 
-export function setup(config) {
+export function setup(Account, config) {
   passport.use(new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    ProviderAccount.find({
+    Account.findOne({
       provider: 'facebook',
       profileId: profile.id
     }).then((body) => {
@@ -23,14 +22,13 @@ export function setup(config) {
           name: profile.displayName
         };
 
-        ProviderAccount.save(postBody).then(() => {
-          return Token.createToken(postBody).then((token) => {
+        Account.save(postBody).then(() => {
+          return Token.save(postBody).then((token) => {
             done(null, postBody, token);
           }, done);
         }, done);
       } else {
-        body = JSON.parse(body)[0];
-        return Token.createToken(body).then((token) => {
+        return Token.save(body).then((token) => {
           done(null, body, token);
         }, done);
       }

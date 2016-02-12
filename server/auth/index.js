@@ -3,9 +3,10 @@
 import express from 'express';
 import passport from 'passport';
 import config from '../config/environment';
+import Account from '../api/providerAccount/providerAccount.model';
 
 // Passport Configuration
-require('./local/passport').setup(config);
+require('./local/passport').setup(Account, config);
 require('./facebook/passport').setup(config);
 
 var router = express.Router();
