@@ -25,7 +25,7 @@ function find(options) {
 
 function findOne(options) {
   return new Promise((resolve, reject) => {
-    getProviderAccount(options).then((reply) => {
+    find(options).then((reply) => {
       if (reply && reply.length === 0) {
         return resolve(false);
       }
