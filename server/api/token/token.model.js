@@ -32,6 +32,6 @@ function checkToken(token) {
 }
 
 export default {
-  createToken: createToken,
-  checkToken: checkToken
+  save: createToken,
+  findById: checkToken
 }
