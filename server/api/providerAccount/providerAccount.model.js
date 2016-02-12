@@ -1,7 +1,7 @@
 'use strict';
 import request from 'request';
 
-function getProviderAccount(options) {
+function find(options) {
   return new Promise(function (resolve, reject) {
     request({
       url: 'http://localhost:9000/api/aa/providerAccount',
@@ -23,7 +23,7 @@ function getProviderAccount(options) {
   });
 }
 
-function getOne(options) {
+function findOne(options) {
   return new Promise((resolve, reject) => {
     getProviderAccount(options).then((reply) => {
       if (reply && reply.length === 0) {
@@ -36,7 +36,7 @@ function getOne(options) {
   });
 }
 
-function createProviderAccount(body) {
+function save(body) {
   return new Promise(function (resolve, reject) {
     let postBody = {
       provider: body.provider,
@@ -59,7 +59,7 @@ function createProviderAccount(body) {
 }
 
 export default {
-  find: getProviderAccount,
-  findOne: getOne,
-  save: createProviderAccount
+  find: find,
+  findOne: findOne,
+  save: save
 };
