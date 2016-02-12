@@ -3,15 +3,9 @@
 (function() {
 
 function UserResource($resource) {
-  return $resource('/api/users/:id/:controller', {
+  return $resource('/api/providerAccount/:id', {
     id: '@_id'
   }, {
-    changePassword: {
-      method: 'PUT',
-      params: {
-        controller: 'password'
-      }
-    },
     get: {
       method: 'GET',
       params: {
