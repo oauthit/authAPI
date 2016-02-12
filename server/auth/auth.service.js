@@ -63,5 +63,5 @@ export function hasRole(roleRequired) {
 export function setAuthorized(req, res) {
   debug ('User:', req.user);
   debug ('AuthInfo:', req.authInfo);
-  res.redirect('/#/?authorization:=' + req.authInfo);
+  res.redirect('/#/?access_token=' + req.authInfo);
 }

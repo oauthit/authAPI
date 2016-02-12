@@ -9,9 +9,14 @@ angular.module('authApiApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'validation.match'
+  'validation.match',
+  'LocalStorageModule'
 ])
   .config(function($urlRouterProvider) {
     $urlRouterProvider
       .otherwise('/');
+  })
+  .config(function(localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('authAPI');
   });

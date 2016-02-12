@@ -4,8 +4,13 @@
 
 class MainController {
 
-  constructor() {
+  constructor($state, localStorageService) {
     this.awesomeThings = [];
+
+    let accessToken = $state.params['access_token'];
+    if (accessToken) {
+      localStorageService.set('access_token', accessToken);
+    }
   }
 
   addThing() {
@@ -18,6 +23,6 @@ class MainController {
 }
 
 angular.module('authApiApp')
-  .controller('MainController', MainController);
+  .controller('MainController', ['$state', 'localStorageService', MainController]);
 
 })();
