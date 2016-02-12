@@ -2,9 +2,24 @@
 
 import config from '../config/environment';
 import compose from 'composable-middleware';
+import Token from '../api/token/token.model';
 
 
 var debug = require('debug') ('authAPI:auth.service');
+
+var validateAuth = (req,res,next) => {
+  let token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).end();
+  }
+
+  Token.findById(token).then((user) => {
+    req.user = user;
+    next();
+  }, (err) => {
+    return res.status(401).end(err);
+  })
+};
 
 /**
  * Attaches the user object to the request if authenticated
@@ -12,28 +27,14 @@ var debug = require('debug') ('authAPI:auth.service');
  */
 export function isAuthenticated() {
   return compose()
-    // Validate jwt
+
     .use(function(req, res, next) {
-      // allow access_token to be passed through query parameter as well
+      // allow authorization to be passed through query parameter as well
       if (req.query && req.query.hasOwnProperty('authorization:')) {
         req.headers.authorization = req.query['authorization:'];
-      } else if (true) {
-
       }
-      //validateJwt(req, res, next);
+      validateAuth (req, res, next);
     })
-    // Attach user to request
-    .use(function(req, res, next) {
-      //User.findByIdAsync(req.user._id)
-      //  .then(user => {
-      //    if (!user) {
-      //      return res.status(401).end();
-      //    }
-      //    req.user = user;
-      //    next();
-      //  })
-      //  .catch(err => next(err));
-    });
 }
 
 /**
@@ -52,12 +53,6 @@ export function hasRole(roleRequired) {
       } else {
         res.status(403).send('Forbidden');
       }
-      //if (config.userRoles.indexOf(req.user.role) >=
-      //    config.userRoles.indexOf(roleRequired)) {
-      //  next();
-      //} else {
-      //  res.status(403).send('Forbidden');
-      //}
     });
 }
 
@@ -68,5 +63,5 @@ export function hasRole(roleRequired) {
 export function setAuthorized(req, res) {
   debug ('User:', req.user);
   debug ('AuthInfo:', req.authInfo);
-  res.redirect('/#/?access-token=' + req.authInfo);
+  res.redirect('/#/?authorization:=' + req.authInfo);
 }
