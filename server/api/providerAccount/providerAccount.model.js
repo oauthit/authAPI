@@ -42,7 +42,8 @@ function save(body) {
       provider: body.provider,
       profileId: body.profileId,
       profileData: body.profileData,
-      name: body.name
+      name: body.name,
+      roles: body.roles
     };
 
     request.post({

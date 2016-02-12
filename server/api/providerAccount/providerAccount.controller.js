@@ -43,5 +43,7 @@ export function show(req, res) {
       })
       .then(respondWithResult(res))
       .catch(handleError(res));
+  } else {
+    res.status(401).send('Unauthorized');
   }
 }

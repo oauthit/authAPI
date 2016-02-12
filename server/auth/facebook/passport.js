@@ -19,7 +19,8 @@ export function setup(Account, config) {
           provider: 'facebook',
           profileId: profile.id,
           profileData: JSON.stringify(profile),
-          name: profile.displayName
+          name: profile.displayName,
+          roles: ['admin']
         };
 
         Account.save(postBody).then(() => {

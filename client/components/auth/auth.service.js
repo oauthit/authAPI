@@ -102,12 +102,12 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
      */
     isLoggedIn(callback) {
       if (arguments.length === 0) {
-        return currentUser.hasOwnProperty('role');
+        return currentUser.hasOwnProperty('roles');
       }
 
       return Auth.getCurrentUser(null)
         .then(user => {
-          var is = user.hasOwnProperty('role');
+          var is = user.hasOwnProperty('roles');
           safeCb(callback)(is);
           return is;
         });
@@ -132,8 +132,8 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
 
       return Auth.getCurrentUser(null)
         .then(user => {
-          var has = (user.hasOwnProperty('role')) ?
-            hasRole(user.role, role) : false;
+          var has = (user.hasOwnProperty('roles')) ?
+            hasRole(user.roles, role) : false;
           safeCb(callback)(has);
           return has;
         });
