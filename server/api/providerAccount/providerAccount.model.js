@@ -1,12 +1,24 @@
 'use strict';
 import request from 'request';
 
-function find(options) {
+var collectionUrl = process.env.STAPI+'/aa/providerAccount';
+
+
+function find (options) {
   return new Promise(function (resolve, reject) {
+
+    let url = collectionUrl;
+
+    if (typeof options === 'string') {
+      url += '/' + options;
+      options = undefined;
+    }
+
     request({
-      url: 'http://localhost:9000/api/aa/providerAccount',
-      qs: options
+      url: url,
+      qs: options.params || options
     }, function (err, res, body) {
+
       if (err) {
         return reject(err);
       }
@@ -14,48 +26,38 @@ function find(options) {
       if (!body) {
         return resolve([]);
       }
+
       try {
         resolve(JSON.parse(body));
       } catch (err) {
         reject(err);
       }
+
     });
+
   });
 }
 
-function findOne(options) {
+function findOne (options) {
   return new Promise((resolve, reject) => {
-    find(options).then((reply) => {
-      if (reply && reply.length === 0) {
-        return resolve(false);
-      }
-      resolve(reply[0]);
-    }, (err) => {
-      reject(err);
-    });
+
+    find (options) .then (reply => {
+      reply && reply.length && resolve(reply[0]) || resolve(false);
+    },reject);
+
   });
 }
 
-function save(body) {
+function save (body) {
   return new Promise(function (resolve, reject) {
-    let postBody = {
-      provider: body.provider,
-      profileId: body.profileId,
-      profileData: body.profileData,
-      name: body.name,
-      roles: body.roles
-    };
 
     request.post({
-      url: 'http://localhost:9000/api/aa/providerAccount',
-      json: postBody
+      url: collectionUrl,
+      json: body
     }, function (err) {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve();
+      err && reject(err) || resolve();
     });
+
   });
 }
 
