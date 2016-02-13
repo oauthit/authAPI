@@ -2,28 +2,35 @@
 
 (function() {
 
-function authInterceptor($q, $injector, localStorageService, Util) {
-  var state;
+function authInterceptor($q, Token, Util) {
+
   return {
+
     // Add authorization token to headers
     request(config) {
+      let token = Token.get();
+
       config.headers = config.headers || {};
-      if (localStorageService.get('access-token') && Util.isSameOrigin(config.url)) {
-        config.headers['access-token'] = localStorageService.get('access-token');
+
+      if (token && Util.isSameOrigin(config.url)) {
+        config.headers.authorization = token;
       }
+
       return config;
     },
 
     // Intercept 401s and redirect you to login
     responseError(response) {
+
       if (response.status === 401) {
-        (state || (state = $injector.get('$state'))).go('login');
-        // remove any stale tokens
-        localStorageService.remove('access-token');
+        //$state.go('login');
+        Token.destroy();
       }
       return $q.reject(response);
     }
+
   };
+
 }
 
 angular.module('authApiApp.auth')

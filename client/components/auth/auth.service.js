@@ -2,12 +2,13 @@
 
 (function() {
 
-function AuthService($location, $http, $q, localStorageService, appConfig, Util, User) {
+function AuthService ($location, $http, $q, Token, appConfig, Util, User) {
+
   var safeCb = Util.safeCb;
   var currentUser = {};
   var userRoles = appConfig.userRoles || [];
 
-  if (localStorageService.get('access-token') && $location.path() !== '/logout') {
+  if (Token.get() && $location.path() !== '/logout') {
     currentUser = User.get();
   }
 
@@ -20,24 +21,22 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
      * @param  {Function} callback - optional, function(error, user)
      * @return {Promise}
      */
-    login({email, password}, callback) {
-      return $http.post('/auth/local', {
-        email: email,
-        password: password
+    login (token, callback) {
+      return $http.get('/api/token/' + token, {
+        headers: {
+          'authorization': token
+        }
       })
-        .then(res => {
-          localStorageService.set('access-token', res.data.token);
-          currentUser = User.get();
-          return currentUser.$promise;
-        })
         .then(user => {
-          safeCb(callback)(null, user);
-          return user;
+          currentUser = user.data;
+          Token.save(token);
+          safeCb (callback) (null, currentUser);
+          return currentUser;
         })
         .catch(err => {
           Auth.logout();
-          safeCb(callback)(err.data);
-          return $q.reject(err.data);
+          safeCb (callback) (err.data);
+          return $q.reject (err.data);
         });
     },
 
@@ -45,7 +44,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
      * Delete access token and user info
      */
     logout() {
-      localStorageService.remove('access-token');
+      Token.destroy();
       currentUser = {};
     },
 
@@ -59,7 +58,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
     createUser(user, callback) {
       return User.save(user,
         function(data) {
-          localStorageService.set('access-token', data.token);
+          Token.save(data.token);
           currentUser = User.get();
           return safeCb(callback)(null, user);
         },
@@ -157,7 +156,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
      * @return {String} - a token string used for authenticating
      */
     getToken() {
-      return localStorageService.get('access-token');
+      return Token.get();
     }
   };
 

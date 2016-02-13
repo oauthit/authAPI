@@ -4,12 +4,13 @@
 
 class MainController {
 
-  constructor($state, localStorageService) {
+  constructor($state, Auth) {
     this.awesomeThings = [];
 
-    let accessToken = $state.params['access-token'];
+    let accessToken = $state.params ['access-token'];
+
     if (accessToken) {
-      localStorageService.set('access-token', accessToken);
+      Auth.login (accessToken);
     }
   }
 
