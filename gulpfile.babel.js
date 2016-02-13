@@ -320,7 +320,9 @@ gulp.task('start:server', () => {
 gulp.task('watch', () => {
   var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
 
-  plugins.livereload.listen();
+  plugins.livereload.listen({
+    port:process.env.LIVERELOAD_PORT || 35729
+  });
 
   plugins.watch(paths.client.styles, () => {  //['inject:scss']
     gulp.src(paths.client.mainStyle)
