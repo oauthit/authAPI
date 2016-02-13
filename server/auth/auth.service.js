@@ -4,11 +4,14 @@ import config from '../config/environment';
 import compose from 'composable-middleware';
 import Token from '../api/token/token.model';
 
-
 var debug = require('debug') ('authAPI:auth.service');
 
 var validateAuth = (req,res,next) => {
-  let token = req.headers.access_token;
+
+  let token = req.headers.authorization;
+
+  debug ('validateAuth','token:',token);
+
   if (!token) {
     return res.status(401).send('Unauthorized');
   }
@@ -30,8 +33,9 @@ export function isAuthenticated() {
 
     .use(function(req, res, next) {
       // allow authorization to be passed through query parameter as well
-      if (req.query && req.query.hasOwnProperty('access_token')) {
-        req.headers.access_token = req.query.access_token;
+      debug ('isAuthenticated', 'query:', req.query);
+      if (req.query && req.query.hasOwnProperty('authorization:')) {
+        req.headers.authorization = req.query ['authorization:'];
       }
       validateAuth (req, res, next);
     })
