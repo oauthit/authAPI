@@ -8,8 +8,8 @@ function authInterceptor($q, $injector, localStorageService, Util) {
     // Add authorization token to headers
     request(config) {
       config.headers = config.headers || {};
-      if (localStorageService.get('access_token') && Util.isSameOrigin(config.url)) {
-        config.headers.access_token = localStorageService.get('access_token');
+      if (localStorageService.get('access-token') && Util.isSameOrigin(config.url)) {
+        config.headers['access-token'] = localStorageService.get('access-token');
       }
       return config;
     },
@@ -19,7 +19,7 @@ function authInterceptor($q, $injector, localStorageService, Util) {
       if (response.status === 401) {
         (state || (state = $injector.get('$state'))).go('login');
         // remove any stale tokens
-        localStorageService.remove('access_token');
+        localStorageService.remove('access-token');
       }
       return $q.reject(response);
     }

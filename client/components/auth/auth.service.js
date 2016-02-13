@@ -7,7 +7,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
   var currentUser = {};
   var userRoles = appConfig.userRoles || [];
 
-  if (localStorageService.get('access_token') && $location.path() !== '/logout') {
+  if (localStorageService.get('access-token') && $location.path() !== '/logout') {
     currentUser = User.get();
   }
 
@@ -26,7 +26,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
         password: password
       })
         .then(res => {
-          localStorageService.set('access_token', res.data.token);
+          localStorageService.set('access-token', res.data.token);
           currentUser = User.get();
           return currentUser.$promise;
         })
@@ -45,7 +45,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
      * Delete access token and user info
      */
     logout() {
-      localStorageService.remove('access_token');
+      localStorageService.remove('access-token');
       currentUser = {};
     },
 
@@ -59,7 +59,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
     createUser(user, callback) {
       return User.save(user,
         function(data) {
-          localStorageService.set('access_token', data.token);
+          localStorageService.set('access-token', data.token);
           currentUser = User.get();
           return safeCb(callback)(null, user);
         },
@@ -157,7 +157,7 @@ function AuthService($location, $http, $q, localStorageService, appConfig, Util,
      * @return {String} - a token string used for authenticating
      */
     getToken() {
-      return localStorageService.get('access_token');
+      return localStorageService.get('access-token');
     }
   };
 

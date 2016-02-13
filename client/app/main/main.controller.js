@@ -7,9 +7,9 @@ class MainController {
   constructor($state, localStorageService) {
     this.awesomeThings = [];
 
-    let accessToken = $state.params['access_token'];
+    let accessToken = $state.params['access-token'];
     if (accessToken) {
-      localStorageService.set('access_token', accessToken);
+      localStorageService.set('access-token', accessToken);
     }
   }
 
