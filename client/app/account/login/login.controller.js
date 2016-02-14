@@ -10,9 +10,20 @@ var LoginController = function (Auth, $state) {
   me.Auth = Auth;
   me.$state = $state;
 
+  var catchFn = function (text404) {
+    return function (err) {
+      if (err.status === 404) {
+        me.errors.other = text404;
+      } else {
+        me.errors.other = err.data.message || text404;
+      }
+      me.submitted = false;
+    };
+  };
+
   me.login = function () {
     me.submitted = true;
-
+    me.errors = {};
     if (me.user.mobileNumber && !me.smsId) {
       me.Auth.loginWithMobileNumber(me.user.mobileNumber)
         .then(res => {
@@ -20,23 +31,18 @@ var LoginController = function (Auth, $state) {
           me.smsId = res.data.ID;
           me.submitted = false;
         })
-        .catch(err => {
-          if (err.status === 404) {
-            me.errors.other = 'The phone number is unknown';
+        .catch(catchFn('Wrong mobile number'));
+    } else if (me.smsId && me.smsCode) {
+      me.Auth.authWithSmsCode (me.smsId, me.smsCode)
+        .then(function(res){
+          if (res.token) {
+            $state.go('main', {'access-token': res.token});
           } else {
-            me.errors.other = err.data.message || 'Error: wrong number';
+            me.errors.other = 'Error: got empty token';
           }
           me.submitted = false;
-        });
-    } else if (me.smsId && me.smsCode) {
-      me.Auth.authWithSmsCode (me.smsId, me.smsCode).then(function(res){
-        if (res.token) {
-          $state.go('main', {'access-token': res.token});
-        } else {
-          me.errors.other = 'Error: got empty token';
-        }
-        me.submitted = false;
-      });
+        })
+        .catch(catchFn('Wrong SMS code'));
     }
   };
 
