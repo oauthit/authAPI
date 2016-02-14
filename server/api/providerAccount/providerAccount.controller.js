@@ -36,14 +36,18 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+export function showMe(req, res) {
+
+  req.params.id = req.user.profileId;
+  show (req,res);
+
+}
+
 export function show(req, res) {
-  if (req.params.id === 'me') {
-    ProviderAccount.findOne({
-        profileId: req.user.profileId
-      })
-      .then(respondWithResult(res))
-      .catch(handleError(res));
-  } else {
-    res.status(401).send('Unauthorized');
-  }
+  ProviderAccount.findOne({
+      profileId: req.params.id
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res))
+  ;
 }

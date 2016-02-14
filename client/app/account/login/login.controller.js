@@ -1,33 +1,40 @@
 'use strict';
 
-class LoginController {
-  constructor(Auth, $state) {
-    this.user = {};
-    this.errors = {};
-    this.submitted = false;
+var LoginController = function (Auth, $state) {
 
-    this.Auth = Auth;
-    this.$state = $state;
-  }
+  var me = this;
 
-  login(form) {
-    this.submitted = true;
+  me.user = {};
+  me.errors = {};
+  me.submitted = false;
+  me.Auth = Auth;
+  me.$state = $state;
 
-    if (form.$valid) {
-      this.Auth.login({
-        email: this.user.email,
-        password: this.user.password
-      })
-      .then(() => {
-        // Logged in, redirect to home
-        this.$state.go('main');
-      })
-      .catch(err => {
-        this.errors.other = err.message;
+  me.login = function () {
+    me.submitted = true;
+
+    if (me.user.mobileNumber && !me.smsId) {
+      me.Auth.loginWithMobileNumber(me.user.mobileNumber)
+        .then(res => {
+          console.log (res);
+          me.smsId = res.data.ID;
+          me.submitted = false;
+        })
+        .catch(err => {
+          me.errors.other = err.message;
+        });
+    } else if (me.smsId && me.smsCode) {
+      me.Auth.authWithSmsCode (me.smsId, me.smsCode).then(function(res){
+        if (res.token) {
+          $state.go('main', {'access-token': res.token});
+        } else {
+          me.errors.other = 'Error: got empty token';
+        }
       });
     }
-  }
-}
+  };
+
+};
 
 angular.module('authApiApp')
   .controller('LoginController', LoginController);

@@ -10,6 +10,7 @@ require('./facebook/passport').setup(Account, config);
 
 var router = express.Router();
 
+router.use('/pha', require('./pha'));
 router.use('/facebook', require('./facebook'));
 
 export default router;

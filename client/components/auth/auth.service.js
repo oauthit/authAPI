@@ -14,6 +14,25 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User) {
 
   var Auth = {
 
+    loginWithMobileNumber (mobileNumber) {
+
+      return $http.get ('/auth/pha/' + mobileNumber);
+
+    },
+
+    authWithSmsCode (id,code) {
+
+      return $http.get ('/auth/pha/' + id + '/' + code)
+        .then (function (res){
+          var token = res.headers ('x-access-token');
+          return {
+            token: token,
+            user: res.data
+          };
+        });
+
+    },
+
     /**
      * Authenticate user and save token
      *

@@ -10,17 +10,18 @@ var validateAuth = (req,res,next) => {
 
   let token = req.headers.authorization;
 
-  debug ('validateAuth','token:',token);
+  //debug ('validateAuth','token:',token);
 
   if (!token) {
-    return res.status(401).send('Unauthorized');
+    return res.status(401).end('Unauthorized');
   }
 
   Token.findById(token).then((user) => {
+    //debug ('validateAuth', 'user:', user);
     req.user = user;
     next();
   }, (err) => {
-    return res.status(401).send(err);
+    return res.status(401).end(err);
   })
 };
 
@@ -33,7 +34,7 @@ export function isAuthenticated() {
 
     .use(function(req, res, next) {
       // allow authorization to be passed through query parameter as well
-      debug ('isAuthenticated', 'query:', req.query);
+      //debug ('isAuthenticated', 'query:', req.query);
       if (req.query && req.query.hasOwnProperty('authorization:')) {
         req.headers.authorization = req.query ['authorization:'];
       }
@@ -52,10 +53,10 @@ export function hasRole(roleRequired) {
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
-      if (req.user.roles.indexOf(roleRequired) > -1) {
+      if (req.user.roles[roleRequired] || req.user.roles.indexOf(roleRequired) > -1) {
         next();
       } else {
-        res.status(403).send('Forbidden');
+        res.status(403).end('Forbidden');
       }
     });
 }
@@ -65,7 +66,7 @@ export function hasRole(roleRequired) {
  * Set token cookie directly for oAuth strategies
  */
 export function setAuthorized(req, res) {
-  debug ('User:', req.user);
+  //debug ('User:', req.user);
   debug ('AuthInfo:', req.authInfo);
   res.redirect('/#/?access-token=' + req.authInfo);
 }

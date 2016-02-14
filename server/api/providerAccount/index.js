@@ -4,8 +4,10 @@ var express = require('express');
 var controller = require('./providerAccount.controller');
 
 var router = express.Router();
+import {hasRole} from '../../auth/auth.service';
 
-router.get('/', controller.index);
-router.get('/:id', controller.show);
+router.get('/', hasRole('admin'), controller.index);
+router.get('/me', controller.show);
+router.get('/:id', hasRole('admin'), controller.show);
 
 module.exports = router;
