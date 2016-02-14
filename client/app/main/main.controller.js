@@ -10,7 +10,11 @@ class MainController {
     let accessToken = $state.params ['access-token'];
 
     if (accessToken) {
-      Auth.login (accessToken);
+      Auth.login (accessToken,function (err) {
+        if (!err) {
+          $state.go ('main',false, {inherit:false});
+        }
+      });
     }
   }
 
