@@ -21,7 +21,12 @@ var LoginController = function (Auth, $state) {
           me.submitted = false;
         })
         .catch(err => {
-          me.errors.other = err.message;
+          if (err.status === 404) {
+            me.errors.other = 'The phone number is unknown';
+          } else {
+            me.errors.other = err.data.message || 'Error: wrong number';
+          }
+          me.submitted = false;
         });
     } else if (me.smsId && me.smsCode) {
       me.Auth.authWithSmsCode (me.smsId, me.smsCode).then(function(res){
@@ -30,6 +35,7 @@ var LoginController = function (Auth, $state) {
         } else {
           me.errors.other = 'Error: got empty token';
         }
+        me.submitted = false;
       });
     }
   };
