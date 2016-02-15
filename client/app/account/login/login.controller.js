@@ -60,7 +60,7 @@ var LoginController = function (Auth, $state) {
       me.busy = q;
       q.finally(function(){
         me.submitted = false;
-      })
+      });
     }
   };
 
