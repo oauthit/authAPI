@@ -10,7 +10,8 @@ angular.module('authApiApp', [
   'ui.router',
   'ui.bootstrap',
   'validation.match',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'formly'
 ])
   .config(function($urlRouterProvider) {
     $urlRouterProvider
