@@ -8,6 +8,10 @@
         name: 'agent',
         relations: {
           hasMany: {
+            contact: {
+              localField: 'contacts',
+              foreignKey: 'agent'
+            },
             agentInvites: [
               {
                 localField: 'ownerInvites',
