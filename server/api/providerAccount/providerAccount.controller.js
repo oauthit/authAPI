@@ -38,14 +38,13 @@ export function index(req, res) {
 
 export function showMe(req, res) {
 
-  req.params.id = req.user.profileId;
   show (req,res);
 
 }
 
 export function show(req, res) {
   ProviderAccount.findOne({
-      profileId: req.params.id
+      id: req.params.id || req.user.id || 0
     })
     .then(respondWithResult(res))
     .catch(handleError(res))
