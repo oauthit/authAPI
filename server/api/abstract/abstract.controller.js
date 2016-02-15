@@ -20,6 +20,37 @@ function controller(model) {
     };
   }
 
+  function saveUpdates(updates) {
+    return function(entity) {
+      var updated = _.merge(entity, updates);
+      return updated.save()
+        .spread(updated => {
+          return updated;
+        });
+    };
+  }
+
+  function handleEntityNotFound(res) {
+    return function(entity) {
+      if (!entity) {
+        res.status(404).end();
+        return null;
+      }
+      return entity;
+    };
+  }
+
+  function removeEntity(res) {
+    return function(entity) {
+      if (entity) {
+        return entity.remove()
+          .then(() => {
+            res.status(204).end();
+          });
+      }
+    };
+  }
+
   // Gets a list of ProviderAccounts
   function index(req, res) {
     model.find()
@@ -34,9 +65,36 @@ function controller(model) {
     ;
   }
 
+  function create(req, res) {
+    model.create(req.body)
+      .then(respondWithResult(res, 201))
+      .catch(handleError(res));
+  }
+
+  function destroy(req, res) {
+    model.findById(req.params.id)
+      .then(handleEntityNotFound(res))
+      .then(removeEntity(res))
+      .catch(handleError(res));
+  }
+
+  function update(req, res) {
+    if (req.body.id) {
+      delete req.body.id;
+    }
+    model.findById(req.params.id)
+      .then(handleEntityNotFound(res))
+      .then(saveUpdates(req.body))
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }
+
   return {
     index: index,
-    show: show
+    show: show,
+    create: create,
+    destroy: destroy,
+    update: update
   };
 }
 

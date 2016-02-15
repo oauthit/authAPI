@@ -17,7 +17,7 @@ function createToken(body) {
         resolve(token);
       }
     });
-  })
+  });
 }
 
 function checkToken(token) {
@@ -28,7 +28,7 @@ function checkToken(token) {
       } else {
         resolve(JSON.parse(reply));
       }
-    })
+    });
   });
 }
 
