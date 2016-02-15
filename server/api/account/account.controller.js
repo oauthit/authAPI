@@ -1,10 +1,10 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/providerAccount              ->  index
- * POST    /api/providerAccount              ->  create
- * GET     /api/providerAccount/:id          ->  show
- * PUT     /api/providerAccount/:id          ->  update
- * DELETE  /api/providerAccount/:id          ->  destroy
+ * GET     /api/account              ->  index
+ * POST    /api/account              ->  create
+ * GET     /api/account/:id          ->  show
+ * PUT     /api/account/:id          ->  update
+ * DELETE  /api/account/:id          ->  destroy
  */
 
 'use strict';

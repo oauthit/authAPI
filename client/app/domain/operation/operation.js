@@ -5,13 +5,13 @@ angular.module('authApiApp')
     $stateProvider
       .state('operations', {
         url: '/operations',
-        templateUrl: 'app/operation/list/operationList.html',
+        templateUrl: 'app/domain/operation/list/operationList.html',
         controller: 'OperationListCtrl',
         controllerAs: 'operationList'
       })
       .state('operation.add', {
         url: '/operation/add',
-        templateUrl: 'app/operation/add/operationAdd.html',
+        templateUrl: 'app/domain/operation/add/operationAdd.html',
         controller: 'OperationAddCtrl',
         controllerAs: 'operationAdd'
       })

@@ -5,7 +5,7 @@ angular.module('authApiApp')
     $stateProvider
       .state('main', {
         url: '/?access-token',
-        templateUrl: 'app/main/main.html',
+        templateUrl: 'app/domain/main/main.html',
         controller: 'MainController',
         controllerAs: 'main'
       });
