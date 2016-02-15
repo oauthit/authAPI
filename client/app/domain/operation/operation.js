@@ -9,10 +9,14 @@ angular.module('authApiApp')
         controller: 'OperationListCtrl',
         controllerAs: 'operationList'
       })
+      .state('operation', {
+        abstract: true,
+        template: '<div ui-view></div>'
+      })
       .state('operation.add', {
         url: '/operation/add',
         templateUrl: 'app/domain/operation/add/operationAdd.html',
         controller: 'OperationAddCtrl',
         controllerAs: 'operationAdd'
-      })
+      });
   });
