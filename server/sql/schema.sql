@@ -7,6 +7,6 @@ meta.defineType 'aa.name';
 meta.defineType 'aa.profileData';
 meta.defineType 'aa.role';
 
-meta.defineEntity 'aa.ProviderAccount', 'provider;profileId;profileData;name;role';
+meta.defineEntity 'aa.Account', 'provider;profileId;profileData;name;role';
 
-meta.createTable 'aa.ProviderAccount',0,1;
+meta.createTable 'aa.Account',0,1;
