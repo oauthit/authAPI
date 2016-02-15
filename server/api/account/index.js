@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./providerAccount.controller');
+var controller = require('./account.controller.js');
 
 var router = express.Router();
 import {hasRole} from '../../auth/auth.service';

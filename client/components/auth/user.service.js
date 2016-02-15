@@ -3,7 +3,7 @@
 (function() {
 
 function UserResource($resource) {
-  return $resource('/api/providerAccount/:id', {
+  return $resource('/api/account/:id', {
     id: '@_id'
   }, {
     get: {

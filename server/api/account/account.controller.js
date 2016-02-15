@@ -9,8 +9,7 @@
 
 'use strict';
 
-import _ from 'lodash';
-import ProviderAccount from './providerAccount.model';
+import ProviderAccount from './account.model.js';
 import abstractController from '../abstract/abstract.controller';
 
 let ctrl = abstractController(ProviderAccount);
