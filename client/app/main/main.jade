@@ -4,19 +4,15 @@ header#banner.hero-unit
     p.lead Know your debt and credit app
     img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
 
+hr
+
 .container
   .row
-    .col-lg-12
-      h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in main.awesomeThings')
-        li
-          a(href='#', tooltip='{{thing.info}}')
-            | {{thing.name}}
-            button.close(type='button', ng-click='main.deleteThing(thing)') &times;
-
-  form.thing-form
-    label Syncs in realtime across clients
-    p.input-group
-      input.form-control(type='text', placeholder='Add a new thing here.', ng-model='main.newThing')
-      span.input-group-btn
-        button.btn.btn-primary(type='submit', ng-click='main.addThing()') Add New
+    .col-xs-6.text-right
+      .btn-group.btn-group-lg(role="group")
+        button.btn.btn-default(type="button" ui-sref="operations") Operations
+        button.btn.btn-warning(type="button" ui-sref="operation.add") +
+    .col-xs-6.text-left
+      .btn-group.btn-group-lg(role="group")
+        button.btn.btn-default(type="button" ui-sref="contacts") Contacts
+        button.btn.btn-warning(type="button" ui-sref="contact.add") +
