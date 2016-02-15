@@ -2,12 +2,12 @@
 
 (function () {
 
-  function OperationAddController (Operation, CounterAgent){
+  function OperationAddController (Operation, Contact){
 
     var vm = this;
 
     angular.extend(vm,{
-      contacts: CounterAgent.findAll(),
+      contacts: Contact.findAll(),
       fields: Operation.fields,
       operation: Operation.createInstance(),
       selectContact: function (item) {

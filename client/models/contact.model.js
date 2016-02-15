@@ -3,12 +3,12 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('CounterAgent', function (DS) {
+    .factory('Contact', function (DS) {
       return DS.defineResource({
-        name: 'counterAgent'
+        name: 'contact'
       });
     })
-    .run(function (CounterAgent) {
+    .run(function (Contact) {
     });
 
 }());
