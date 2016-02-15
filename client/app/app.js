@@ -9,7 +9,8 @@ angular.module('authApiApp', [
   'ui.router',
   'ui.bootstrap',
   'validation.match',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'js-data'
 ])
   .config(function($urlRouterProvider) {
     $urlRouterProvider
@@ -18,4 +19,11 @@ angular.module('authApiApp', [
   .config(function(localStorageServiceProvider) {
     localStorageServiceProvider
       .setPrefix('authAPI');
-  });
+  })
+  .config(function (DSProvider, DSHttpAdapterProvider) {
+    angular.extend(DSProvider.defaults, {});
+    angular.extend(DSHttpAdapterProvider.defaults, {
+      basePath: 'http://localhost:9000/api/opr/'
+    });
+  })
+;

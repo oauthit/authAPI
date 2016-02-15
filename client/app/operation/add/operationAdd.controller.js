@@ -10,7 +10,7 @@
 
   }
 
-  angular.module('debtApp')
+  angular.module('authApiApp')
     .controller('OperationAddCtrl', OperationAddController);
 
 }());

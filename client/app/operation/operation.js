@@ -9,10 +9,10 @@ angular.module('authApiApp')
         controller: 'OperationListCtrl',
         controllerAs: 'operationList'
       })
-    .state('operation.add', {
-      url: '/operation/add',
-      templateUrl: 'app/operation/add/operationAdd.html',
-      controller: 'OperationAddCtrl',
-      controllerAs: 'operationAdd'
-    })
+      .state('operation.add', {
+        url: '/operation/add',
+        templateUrl: 'app/operation/add/operationAdd.html',
+        controller: 'OperationAddCtrl',
+        controllerAs: 'operationAdd'
+      })
   });
