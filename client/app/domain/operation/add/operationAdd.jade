@@ -6,9 +6,9 @@
       thead
       th Name
       tbody
-        tr
-          td test1
+        tr(ng-repeat='item in vm.contacts track by item.id')
+          td(ng-click='vm.selectContact(item)') {{item.name}}
 
     form(ng-submit='operationAdd.onSubmit()')
-      formly-form(model='vm.operation' fields='vm.operationFields')
+      formly-form(model='vm.operation' fields='vm.fields')
         button.btn.btn-default(type='submit') Submit

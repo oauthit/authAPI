@@ -2,16 +2,20 @@
 
 (function () {
 
-  class OperationAddController {
+  function OperationAddController (Operation, CounterAgent){
 
-    constructor(operationFields) {
-      this.operation = {};
-      this.operationFields = operationFields;
-    }
+    var vm = this;
 
-    onSubmit() {
+    angular.extend(vm,{
+      contacts: CounterAgent.findAll(),
+      fields: Operation.fields,
+      operation: Operation.createInstance(),
+      selectContact: function (item) {
+        console.log (item.id);
+      }
+    });
 
-    }
+
   }
 
   angular.module('authApiApp')
