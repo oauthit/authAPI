@@ -12,7 +12,7 @@ function authInterceptor($q, Token, Util) {
 
       config.headers = config.headers || {};
 
-      if (token && Util.isSameOrigin(config.url)) {
+      if (token) {
         config.headers.authorization = token;
       }
 
