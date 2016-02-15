@@ -9,40 +9,19 @@
 
 'use strict';
 
-import _ from 'lodash';
 import Token from './token.model';
+import abstractController from '../abstract/abstract.controller';
 
-function respondWithResult(res, statusCode) {
-  statusCode = statusCode || 200;
-  return function(entity) {
-    if (entity) {
-      res.status(statusCode).json(entity);
-    }
-  };
-}
-
-function handleEntityNotFound(res) {
-  return function(entity) {
-    if (!entity) {
-      res.status(404).end();
-      return null;
-    }
-    return entity;
-  };
-}
-
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
-  return function(err) {
-    res.status(statusCode).send(err);
-  };
-}
+let ctrl = abstractController(Token);
+let showOriginal = ctrl.show;
 
 // Gets a single Token from the DB
-export function show(req, res) {
+ctrl.show = function show(req,res) {
   let token = req.params.id || req.headers.authorization;
-  Token.findById(token)
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
+  if (token) {
+    req.params.id = token;
+  }
+  showOriginal(req,res);
+};
+
+export default ctrl;
