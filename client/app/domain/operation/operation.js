@@ -7,7 +7,7 @@ angular.module('authApiApp')
         url: '/operations',
         templateUrl: 'app/domain/operation/list/operationList.html',
         controller: 'OperationListCtrl',
-        controllerAs: 'operationList'
+        controllerAs: 'vm'
       })
       .state('operation', {
         abstract: true,
@@ -17,6 +17,6 @@ angular.module('authApiApp')
         url: '/operation/add',
         templateUrl: 'app/domain/operation/add/operationAdd.html',
         controller: 'OperationAddCtrl',
-        controllerAs: 'operationAdd'
+        controllerAs: 'vm'
       });
   });

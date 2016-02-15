@@ -9,3 +9,6 @@
         tr
           td test1
 
+    form(ng-submit='operationAdd.onSubmit()')
+      formly-form(model='vm.operation' fields='vm.operationFields')
+        button.btn.btn-default(type='submit') Submit
