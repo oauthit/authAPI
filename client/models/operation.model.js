@@ -54,55 +54,66 @@
           } else {
             cb(null, operation);
           }
-        },
-        afterInject: function (res, array) {
-          _.each(array, function (i) {
-            if (i.hasOwnProperty('lenderConfirmedAt')) {
-              i.lenderConfirmedAt = moment(+i.lenderConfirmedAt);
-            }
-            if (i.hasOwnProperty('debtorConfirmedAt')) {
-              i.debtorConfirmedAt = moment(+i.debtorConfirmedAt);
-            }
-            if (i.hasOwnProperty('remindDuration')) {
-              i.remindDuration = moment(+i.remindDuration);
-            }
-          });
-          return array;
-        },
-        beforeUpdate: function (res, obj, cb) {
-
-          var isNumber;
-          if (obj.hasOwnProperty('lenderConfirmedAt')) {
-            isNumber = typeof obj.lenderConfirmedAt;
-            obj.lenderConfirmedAt = isNumber === "number" ? obj.lenderConfirmedAt : obj.lenderConfirmedAt._i;
-          }
-          if (obj.hasOwnProperty('debtorConfirmedAt')) {
-            isNumber = typeof obj.debtorConfirmedAt;
-            obj.debtorConfirmedAt = isNumber === "number" ? obj.debtorConfirmedAt : obj.debtorConfirmedAt._i;
-          }
-          if (obj.hasOwnProperty('remindDuration')) {
-            isNumber = typeof obj.remindDuration;
-            obj.remindDuration = isNumber === "number" ? obj.remindDuration : obj.remindDuration._i;
-          }
-
-          cb(null, obj);
-        },
-        afterUpdate: function (res, obj, cb) {
-          if (obj.hasOwnProperty('lenderConfirmedAt')) {
-            obj.lenderConfirmedAt = moment(+obj.lenderConfirmedAt);
-          }
-          if (obj.hasOwnProperty('debtorConfirmedAt')) {
-            obj.debtorConfirmedAt = moment(+obj.debtorConfirmedAt);
-          }
-          if (obj.hasOwnProperty('remindDuration')) {
-            obj.remindDuration = moment(+obj.remindDuration);
-          }
-
-          cb(null, obj);
         }
       });
     })
     .run(function (Operation) {
+      Operation.fields = [
+        {
+          key: 'owner',
+          type: 'input',
+          templateOptions: {
+            label: 'Owner',
+            type: 'text',
+            placeholder: 'Owner',
+            required: true,
+            disabled: true,
+            description: 'Owner of the operation'
+          }
+        },
+        {
+          key: 'contact',
+          type: 'input',
+          templateOptions: {
+            label: 'Contact',
+            type: 'text',
+            placeholder: 'Contact',
+            required: true,
+            disabled: true,
+            description: 'Contact which interacts in operation'
+          }
+        },
+        {
+          key: 'total',
+          type: 'input',
+          templateOptions: {
+            label: 'Total',
+            type: 'number',
+            placeholder: 'Total',
+            required: true,
+            description: 'Enter total'
+          }
+        },
+        {
+          key: 'currency',
+          type: 'select',
+          templateOptions: {
+            label: 'Select currency',
+            labelProp: 'sign',
+            description: 'Currency of the operation',
+            options: [
+              {
+                sign: '$',
+                name: 'Dollar'
+              },
+              {
+                sign: '€',
+                name: 'Euro'
+              }
+            ]
+          }
+        }
+      ];
     });
 
 }());
