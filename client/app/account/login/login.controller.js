@@ -28,15 +28,21 @@ var LoginController = function (Auth, $state) {
     me.submitted = true;
 
     if (me.user.mobileNumber && !me.smsId) {
+
       q = me.Auth.loginWithMobileNumber(me.user.mobileNumber)
+
         .then(res => {
           console.log (res);
           me.smsId = res.data.ID;
           me.submitted = false;
         })
+
         .catch(catchFn('Wrong mobile number'));
+
     } else if (me.smsId && me.smsCode) {
+
       q = me.Auth.authWithSmsCode (me.smsId, me.smsCode)
+
         .then(function(res){
           if (res.token) {
             $state.go('main', {'access-token': res.token});
@@ -45,7 +51,9 @@ var LoginController = function (Auth, $state) {
           }
           me.submitted = false;
         })
+
         .catch(catchFn('Wrong SMS code'));
+
     }
 
     if (q) {
