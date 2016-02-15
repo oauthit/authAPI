@@ -3,7 +3,7 @@
 import express from 'express';
 import passport from 'passport';
 import config from '../config/environment';
-import Account from '../api/providerAccount/account.model.js';
+import Account from '../api/account/account.model.js';
 
 // Passport Configuration
 require('./facebook/passport').setup(Account, config);

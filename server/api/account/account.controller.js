@@ -9,10 +9,10 @@
 
 'use strict';
 
-import ProviderAccount from './account.model.js';
+import Account from './account.model.js';
 import abstractController from '../abstract/abstract.controller';
 
-let ctrl = abstractController(ProviderAccount);
+let ctrl = abstractController(Account);
 
 ctrl.showMe = function (req, res) {
   if (!req.params) {
