@@ -2,28 +2,40 @@
 
 (function () {
 
-  function OperationAddController ($scope, Operation, Contact){
+  function OperationAddController($scope, Operation, Contact, Agent, CounterAgent, DS) {
 
     var vm = this;
-
     Contact.findAll().then(function (contacts) {
-      contacts.forEach (function (contact) {
-        Contact.loadRelations(contact).then (function (c){
+      contacts.forEach(function (contact) {
+        Contact.loadRelations(contact).then(function (c) {
           vm.contacts.push(c);
         });
       });
     });
 
-    //Contact.bindAll(false, $scope, 'vm.contacts');
+    console.log (DS);
 
-    angular.extend(vm,{
+    angular.extend(vm, {
       contacts: [],
       fields: Operation.fields,
-      operation: Operation.createInstance(),
+      operation: {},
       selectContact: function (item) {
-        console.log (item.id);
+        vm.operation.contactId = item.counterAgentId;
+      },
+      onSubmit: function () {
+        Operation.create(vm.operation).then(function (res) {
+          console.log(res);
+        }, function (err) {
+          console.log(err);
+        });
       }
     });
+
+    vm.ownerField = vm.fields[0];
+    vm.contactField = vm.fields[1];
+
+    Agent.bindAll(false, $scope, 'vm.ownerField.templateOptions.options');
+    CounterAgent.bindAll(false, $scope, 'vm.contactField.templateOptions.options');
 
   }
 
