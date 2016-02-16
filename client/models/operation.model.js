@@ -34,53 +34,33 @@
               localKey: 'currency'
             }
           }
-        },
-        validate: function (Operation, operation, cb) {
-          var operationSchema = {
-            lender: {
-              presence: true
-            },
-            debtor: {
-              presence: true
-            },
-            total: {
-              presence: true
-            }
-          };
-
-          var err = validate(operation, operationSchema);
-          if (err) {
-            cb(err);
-          } else {
-            cb(null, operation);
-          }
         }
       });
     })
     .run(function (Operation) {
       Operation.fields = [
         {
-          key: 'owner',
-          type: 'input',
+          key: 'lendorId',
+          type: 'select',
           templateOptions: {
             label: 'Owner',
-            type: 'text',
-            placeholder: 'Owner',
             required: true,
-            disabled: true,
-            description: 'Owner of the operation'
+            description: 'Owner of the operation',
+            options: [],
+            valueProp: 'id',
+            labelProp: 'name'
           }
         },
         {
-          key: 'contact',
-          type: 'input',
+          key: 'debtorId',
+          type: 'select',
           templateOptions: {
             label: 'Contact',
-            type: 'text',
-            placeholder: 'Contact',
             required: true,
-            disabled: true,
-            description: 'Contact which interacts in operation'
+            description: 'Contact which interacts in operation',
+            options: [],
+            valueProp: 'id',
+            labelProp: 'name'
           }
         },
         {
@@ -95,20 +75,23 @@
           }
         },
         {
-          key: 'currency',
+          key: 'currencyId',
           type: 'select',
           templateOptions: {
             label: 'Select currency',
             labelProp: 'sign',
+            valueProp: 'id',
             description: 'Currency of the operation',
             options: [
               {
                 sign: '$',
-                name: 'Dollar'
+                name: 'Dollar',
+                id: '1'
               },
               {
                 sign: '€',
-                name: 'Euro'
+                name: 'Euro',
+                id: '2'
               }
             ]
           }
