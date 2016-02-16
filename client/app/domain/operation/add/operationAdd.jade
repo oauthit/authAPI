@@ -7,7 +7,7 @@
       th Name
       tbody
         tr(ng-repeat='item in vm.contacts track by item.id')
-          td(ng-click='vm.selectContact(item)') {{item.agent.name}}
+          td(ng-click='vm.selectContact(item)') {{item.agentObj.name}}
 
     form(ng-submit='operationAdd.onSubmit()')
       formly-form(model='vm.operation' fields='vm.fields')

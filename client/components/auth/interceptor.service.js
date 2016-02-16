@@ -2,7 +2,7 @@
 
 (function() {
 
-function authInterceptor($q, Token, Util) {
+function authInterceptor($q, Token) {
 
   return {
 

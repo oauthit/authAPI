@@ -26,6 +26,7 @@
       });
     })
     .run(function (Invite) {
+      console.log (Invite);
     });
 
 }());

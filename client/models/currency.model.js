@@ -17,6 +17,7 @@
       });
     })
     .run(function (Currency) {
+      console.log (Currency);
     });
 
 }());

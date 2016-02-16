@@ -8,13 +8,16 @@
 
     Contact.findAll().then(function (contacts) {
       contacts.forEach (function (contact) {
-        Contact.loadRelations(contact,['agent1']);
+        Contact.loadRelations(contact).then (function (c){
+          vm.contacts.push(c);
+        });
       });
     });
 
-    Contact.bindAll(false, $scope, 'vm.contacts');
+    //Contact.bindAll(false, $scope, 'vm.contacts');
 
     angular.extend(vm,{
+      contacts: [],
       fields: Operation.fields,
       operation: Operation.createInstance(),
       selectContact: function (item) {

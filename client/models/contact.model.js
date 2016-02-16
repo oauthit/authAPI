@@ -9,14 +9,15 @@
         relations: {
           belongsTo: {
             agent: {
-              localField: 'agent1',
-              localKey: 'agent'
+              localField: 'agent',
+              localKey: 'agentId'
             }
           }
         }
       });
     })
     .run(function (Contact) {
+      console.log (Contact);
     });
 
 }());

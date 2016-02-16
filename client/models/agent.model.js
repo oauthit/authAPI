@@ -50,6 +50,7 @@
       });
     })
     .run(function (Agent) {
+      console.log (Agent);
     });
 
 }());

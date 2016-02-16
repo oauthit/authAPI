@@ -27,8 +27,8 @@
         }
       });
     })
-    //.run(function (Account) {
-    //})
-    ;
+    .run(function (Account) {
+      console.log (Account);
+    });
 
 }());
