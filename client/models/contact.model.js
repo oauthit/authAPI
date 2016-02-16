@@ -9,15 +9,19 @@
         relations: {
           belongsTo: {
             agent: {
-              localField: 'agent',
-              localKey: 'agentId'
+              localField: 'owner',
+              localKey: 'ownerId'
+            },
+            counterAgent: {
+              localField: 'counterAgent',
+              localKey: 'counterAgentId'
             }
           }
         }
       });
     })
     .run(function (Contact) {
-      console.log (Contact);
+      console.log(Contact);
     });
 
 }());
