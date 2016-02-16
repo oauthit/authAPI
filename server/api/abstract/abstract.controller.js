@@ -55,26 +55,26 @@ function controller(model) {
 
   // Gets a list of ProviderAccounts
   function index(req, res) {
-    model.find()
+    model(req).find()
       .then(respondWithResult(res))
       .catch(handleError(res));
   }
 
   function show(req, res) {
-    model.findById(req.params.id)
+    model(req).findById(req.params.id)
       .then(respondWithResult(res))
       .catch(handleError(res))
     ;
   }
 
   function create(req, res) {
-    model.create(req.body)
+    model(req).create(req.body)
       .then(respondWithResult(res, 201))
       .catch(handleError(res));
   }
 
   function destroy(req, res) {
-    model.findById(req.params.id)
+    model(req).findById(req.params.id)
       .then(handleEntityNotFound(res))
       .then(removeEntity(res))
       .catch(handleError(res));
@@ -84,7 +84,7 @@ function controller(model) {
     if (req.body.id) {
       delete req.body.id;
     }
-    model.findById(req.params.id)
+    model(req).findById(req.params.id)
       .then(handleEntityNotFound(res))
       .then(saveUpdates(req.body))
       .then(respondWithResult(res))

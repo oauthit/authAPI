@@ -12,7 +12,7 @@
 import Token from './token.model';
 import abstractController from '../abstract/abstract.controller';
 
-let ctrl = abstractController(Token);
+let ctrl = abstractController(function () { return Token; });
 let showOriginal = ctrl.show;
 
 // Gets a single Token from the DB

@@ -10,7 +10,7 @@ const phaUrl = 'https://api.sistemium.com/pha/auth';
 const rolesUrl = 'https://api.sistemium.com/pha/roles';
 
 import Token from '../../api/token/token.model';
-import Account from '../../api/account/account.model.js';
+import account from '../../api/account/account.model.js';
 
 
 var err401 = function (res) {
@@ -112,7 +112,7 @@ var smsProcessor = function(req, res, next) {
           roles: data.roles
         };
 
-        Account.getOrCreate(keys,acc).then (account => {
+        account().getOrCreate(keys,acc).then (account => {
 
           Token.save (account)
             .then (token => {
