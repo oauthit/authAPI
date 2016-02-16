@@ -8,9 +8,9 @@
         name: 'currency',
         relations: {
           hasMany: {
-            accounts: {
-              localField: 'accounts',
-              foreignKey: 'currency'
+            operation: {
+              localField: 'operations',
+              foreignKey: 'currencyId'
             }
           }
         }

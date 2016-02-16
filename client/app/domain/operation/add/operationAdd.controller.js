@@ -2,7 +2,7 @@
 
 (function () {
 
-  function OperationAddController($scope, Operation, Contact, Agent, CounterAgent, DS) {
+  function OperationAddController($scope, Operation, Contact, Agent, CounterAgent, Currency, DS) {
 
     var vm = this;
     Contact.findAll().then(function (contacts) {
@@ -13,6 +13,10 @@
       });
     });
 
+    Currency.findAll().then(function (currencies) {
+      vm.currencies = currencies;
+    });
+
     console.log (DS);
 
     angular.extend(vm, {
@@ -20,7 +24,7 @@
       fields: Operation.fields,
       operation: {},
       selectContact: function (item) {
-        vm.operation.contactId = item.counterAgentId;
+        vm.operation.debtorId = item.counterAgentId;
       },
       onSubmit: function () {
         Operation.create(vm.operation).then(function (res) {
@@ -33,9 +37,11 @@
 
     vm.ownerField = vm.fields[0];
     vm.contactField = vm.fields[1];
+    vm.currencyField = vm.fields[3];
 
     Agent.bindAll(false, $scope, 'vm.ownerField.templateOptions.options');
     CounterAgent.bindAll(false, $scope, 'vm.contactField.templateOptions.options');
+    Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
 
   }
 

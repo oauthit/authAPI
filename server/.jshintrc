@@ -11,6 +11,5 @@
   "undef": true,
   "smarttabs": true,
   "asi": true,
-  "debug": true,
-  "uuid": true
+  "debug": true
 }

@@ -8,30 +8,21 @@
         name: 'operation',
         relations: {
           belongsTo: {
-            agents: [
+            counterAgent: [
               {
-                localField: 'lenderAgent',
-                localKey: 'lender'
+                localField: 'lender',
+                localKey: 'lenderId'
               },
               {
-                localField: 'debtorAgent',
-                localKey: 'debtor'
-              }
-            ],
-            accounts: [
-              {
-                localField: 'lenderAccountEntity',
-                localKey: 'lenderAccount'
-              }, {
-                localField: 'debtorAccountEntity',
-                localKey: 'debtorAccount'
+                localField: 'debtor',
+                localKey: 'debtorId'
               }
             ]
           },
           hasOne: {
-            currencies: {
-              localField: 'currencyEntity',
-              localKey: 'currency'
+            currency: {
+              localField: 'currency',
+              localKey: 'currencyId'
             }
           }
         }
@@ -40,10 +31,10 @@
     .run(function (Operation) {
       Operation.fields = [
         {
-          key: 'lendorId',
+          key: 'lenderId',
           type: 'select',
           templateOptions: {
-            label: 'Owner',
+            label: 'Lender',
             required: true,
             description: 'Owner of the operation',
             options: [],
@@ -55,7 +46,7 @@
           key: 'debtorId',
           type: 'select',
           templateOptions: {
-            label: 'Contact',
+            label: 'Debtor',
             required: true,
             description: 'Contact which interacts in operation',
             options: [],
@@ -79,21 +70,10 @@
           type: 'select',
           templateOptions: {
             label: 'Select currency',
-            labelProp: 'sign',
+            labelProp: 'symbol',
             valueProp: 'id',
             description: 'Currency of the operation',
-            options: [
-              {
-                sign: '$',
-                name: 'Dollar',
-                id: '1'
-              },
-              {
-                sign: '€',
-                name: 'Euro',
-                id: '2'
-              }
-            ]
+            options: []
           }
         }
       ];
