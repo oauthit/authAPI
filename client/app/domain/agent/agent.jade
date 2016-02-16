@@ -1,0 +1,13 @@
+.container
+  .row
+    h1 My agents
+
+    .row(ng-repeat='agent in vm.agents track by agent.id')
+      .col-xs-6
+        | {{agent.name}}
+      .col-xs-6
+        form(ng-submit='vm.onSubmit()')
+          formly-form(model='agent' fields='vm.fields')
+            button.btn.btn-default(type='submit') Submit
+
+
