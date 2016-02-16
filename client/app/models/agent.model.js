@@ -32,25 +32,32 @@
               }
             ]
           }
-        },
-        validate: function (Agent, agent, cb) {
-          var agentSchema = {
-            name: {
-              presence: true
-            }
-          };
-
-          var err = validate(agent, agentSchema);
-          if (err) {
-            cb(err);
-          } else {
-            cb(null, agent);
-          }
         }
       });
     })
     .run(function (Agent) {
-      console.log (Agent);
+      Agent.fields = [
+        {
+          key: 'currencyId',
+          type: 'select',
+          templateOptions: {
+            label: 'Default currency:',
+            options: [],
+            valueProp: 'id',
+            labelProp: 'symbol'
+          }
+        },
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name:',
+            type: 'text',
+            placeholder: 'Name',
+            required: true
+          }
+        }
+      ]
     });
 
 }());
