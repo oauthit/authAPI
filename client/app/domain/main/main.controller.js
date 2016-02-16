@@ -13,7 +13,7 @@
       if (accessToken) {
         Auth.login(accessToken, function (err) {
           if (!err) {
-            $state.go('main', false, {inherit: false});
+            $state.go('debt.main', false, {inherit: false});
           }
         });
       }

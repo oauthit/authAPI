@@ -3,31 +3,31 @@
 angular.module('authApiApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('login', {
+      .state('debt.login', {
         url: '/login',
         templateUrl: 'app/account/login/login.html',
         controller: 'LoginController',
         controllerAs: 'vm'
       })
-      .state('logout', {
+      .state('debt.logout', {
         url: '/logout?referrer',
-        referrer: 'main',
+        referrer: 'debt.main',
         template: '',
         controller: function($state, Auth) {
           var referrer = $state.params.referrer ||
                           $state.current.referrer ||
-                          'main';
+                          'debt.main';
           Auth.logout();
           $state.go(referrer);
         }
       })
-      .state('signup', {
+      .state('debt.signup', {
         url: '/signup',
         templateUrl: 'app/account/signup/signup.html',
         controller: 'SignupController',
         controllerAs: 'vm'
       })
-      .state('settings', {
+      .state('debt.settings', {
         url: '/settings',
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsController',

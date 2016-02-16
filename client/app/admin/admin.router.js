@@ -3,7 +3,7 @@
 angular.module('authApiApp.admin')
   .config(function($stateProvider) {
     $stateProvider
-      .state('admin', {
+      .state('debt.admin', {
         url: '/admin',
         templateUrl: 'app/admin/admin.html',
         controller: 'AdminController',

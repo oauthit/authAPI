@@ -3,17 +3,17 @@
 angular.module('authApiApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('operations', {
+      .state('debt.operations', {
         url: '/operations',
         templateUrl: 'app/domain/operation/list/operationList.html',
         controller: 'OperationListCtrl',
         controllerAs: 'vm'
       })
-      .state('operation', {
+      .state('debt.operation', {
         abstract: true,
         template: '<div ui-view></div>'
       })
-      .state('operation.add', {
+      .state('debt.operation.add', {
         url: '/operation/add',
         templateUrl: 'app/domain/operation/add/operationAdd.html',
         controller: 'OperationAddCtrl',
