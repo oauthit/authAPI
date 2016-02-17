@@ -10,27 +10,14 @@
           hasMany: {
             contact: {
               localField: 'contacts',
-              foreignKey: 'agent'
-            },
-            agentInvites: [
-              {
-                localField: 'ownerInvites',
-                foreignKey: 'owner'
-              }, {
-                localField: 'acceptorInvites',
-                foreignKey: 'acceptor'
-              }
-            ],
-            agentOperations: [
-              {
-                localField: 'lenderOperations',
-                foreignKey: 'lender'
-              },
-              {
-                localField: 'debtorOperations',
-                foreignKey: 'debtor'
-              }
-            ]
+              foreignKey: 'ownerId'
+            }
+          },
+          hasOne: {
+            currency: {
+              localField: 'currency',
+              localKey: 'currencyId'
+            }
           }
         }
       });
@@ -57,7 +44,7 @@
             required: true
           }
         }
-      ]
+      ];
     });
 
 }());

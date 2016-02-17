@@ -13,7 +13,7 @@
         }
       });
       angular.extend(DSHttpAdapterProvider.defaults, {
-        basePath: 'http://localhost:9090/api/opr/',
+        basePath: 'http://localhost:9000/api/opr/',
         httpConfig: {
           headers: {
             'X-Return-Post': 'true'

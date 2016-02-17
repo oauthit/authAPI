@@ -11,6 +11,10 @@
             operation: {
               localField: 'operations',
               foreignKey: 'currencyId'
+            },
+            agent: {
+              localField: 'agents',
+              foreignKey: 'currencyId'
             }
           }
         }
