@@ -40,6 +40,13 @@ angular.module('authApiApp')
         return vm.agents.some(function (agent) {
           return !agent.id;
         });
+      },
+      onRemove: function (agent) {
+        if (agent.id) {
+          Agent.destroy(agent.id).then(function () {
+            vm.agents.splice(vm.agents.indexOf(agent), 1);
+          });
+        }
       }
     });
 

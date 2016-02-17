@@ -5,6 +5,9 @@
 
   .section(ng-repeat='agent in vm.agents track by agent.id')
     h3 {{agent.name || 'New agent'}}
+      span
+        a(href='' ng-click='vm.onRemove(agent)')
+          i.fa.fa-trash
     form(ng-submit='vm.onSubmit(agent,"form" + $index)' name='vm.form{{$index}}')
       formly-form(model='agent' fields='vm.fields')
         .buttons(ng-show='vm["form" + $index].$dirty || !agent.id')
