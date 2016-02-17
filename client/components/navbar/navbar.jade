@@ -29,7 +29,11 @@ div.navbar.navbar-default.navbar-static-top
             span.caret
           ul.dropdown-menu(role='menu')
             li(ng-repeat='agent in nav.agents')
-              a(href='' ng-click='nav.setCurrentAgent(agent)') {{agent.name}}
+              a(href='' ng-click='nav.setCurrentAgent(agent)')
+                | {{agent.name}}
+                span(ng-if='agent.id==nav.currentAgent.id')
+                  = ' '
+                  i.fa.fa-check
             li.divider
             li
               a(ui-sref='debt.agent.manage') Manage Agents
