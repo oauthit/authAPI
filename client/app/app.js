@@ -5,6 +5,7 @@ angular.module('authApiApp', [
   'authApiApp.admin',
   'authApiApp.constants',
   'authApiApp.models',
+  'authApiApp.services',
   'ngResource',
   'ngSanitize',
   'ui.router',
