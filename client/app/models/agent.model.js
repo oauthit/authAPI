@@ -25,16 +25,6 @@
     .run(function (Agent) {
       Agent.fields = [
         {
-          key: 'currencyId',
-          type: 'select',
-          templateOptions: {
-            label: 'Default currency:',
-            options: [],
-            valueProp: 'id',
-            labelProp: 'symbol'
-          }
-        },
-        {
           key: 'name',
           type: 'input',
           templateOptions: {
@@ -42,6 +32,15 @@
             type: 'text',
             placeholder: 'Name',
             required: true
+          }
+        },{
+          key: 'currencyId',
+          type: 'select',
+          templateOptions: {
+            label: 'Default currency:',
+            options: [],
+            valueProp: 'id',
+            labelProp: 'symbol'
           }
         }
       ];

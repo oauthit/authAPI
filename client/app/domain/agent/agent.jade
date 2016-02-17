@@ -1,18 +1,19 @@
 .container
-  h1 My agents
   .buttons
-    button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableAddAgent()' ng-click='vm.onAdd()') Add agent
+    button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableAddAgent()' ng-click='vm.onAdd()')
+      | Add agent
+  h1 My agents
 
   .section(ng-repeat='agent in vm.agents track by agent.id')
-    h3 {{agent.name || 'New agent'}}
+    h3(ng-class='{red: vm["form" + $index].$invalid}') {{agent.name || 'Unnamed agent'}}
       = ' '
       span
-        a(href='' ng-click='vm.onRemove(agent)')
+        a(href='' ng-click='vm.onRemove(agent,vm["form" + $index])')
           i.fa.fa-trash.gray
-    form(ng-submit='vm.onSubmit(agent,"form" + $index)' name='vm.form{{$index}}')
+    form.col-md-offset-5.col-sm-offset-4(ng-submit='vm.onSubmit(agent,"form" + $index)' name='vm.form{{$index}}')
       formly-form(model='agent' fields='vm.fields')
         .buttons(ng-show='vm["form" + $index].$dirty || !agent.id')
-          button.btn.btn-success(type='submit') Save
+          button.btn.btn-success(type='submit' ng-disabled='vm["form" + $index].$invalid') Save
           = ' '
           button.btn.btn-warning(type='button' ng-click='vm.onCancel(agent,"form" + $index)') Cancel
-    hr
+    hr(ng-if='$index < vm.agents.length - 1')
