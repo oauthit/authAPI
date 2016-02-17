@@ -10,7 +10,8 @@
           belongsTo: {
             agent: {
               localField: 'owner',
-              localKey: 'ownerId'
+              localKey: 'ownerId',
+              parent: true
             },
             counterAgent: {
               localField: 'counterAgent',
