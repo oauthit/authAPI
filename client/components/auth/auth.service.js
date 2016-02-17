@@ -96,6 +96,7 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User) {
      */
     getCurrentUser(callback) {
       if (arguments.length === 0) {
+
         return currentUser;
       }
 

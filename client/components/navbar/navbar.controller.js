@@ -10,13 +10,10 @@ class NavbarController {
   isCollapsed = true;
   //end-non-standard
 
-  constructor(Auth, InitService) {
+  constructor(Auth) {
     this.isLoggedIn = Auth.isLoggedIn;
     this.isAdmin = Auth.isAdmin;
     this.getCurrentUser = Auth.getCurrentUser;
-    Auth.getCurrentUser(function () {
-      InitService.init();
-    });
   }
 }
 
