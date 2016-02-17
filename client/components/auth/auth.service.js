@@ -2,7 +2,7 @@
 
 (function() {
 
-function AuthService ($location, $http, $q, Token, appConfig, Util, User) {
+function AuthService ($location, $http, $q, Token, appConfig, Util, User, $rootScope) {
 
   var safeCb = Util.safeCb;
   var currentUser = {};
@@ -10,6 +10,10 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User) {
 
   if (Token.get() && $location.path() !== '/logout') {
     currentUser = User.get();
+    currentUser.$promise.then(function(){
+      console.log ('logged-in');
+      $rootScope.$broadcast('logged-in');
+    });
   }
 
   var Auth = {
@@ -50,6 +54,7 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User) {
           currentUser = user.data;
           Token.save(token);
           safeCb (callback) (null, currentUser);
+          $rootScope.$broadcast('logged-in');
           return currentUser;
         })
         .catch(err => {

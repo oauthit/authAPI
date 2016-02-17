@@ -25,7 +25,7 @@ angular.module('authApiApp')
         }
       },
       onSubmit: function (agent, form) {
-        Agent.create(agent).then(function (res) {
+        Agent.create(agent).then(function () {
           console.log(vm);
           vm[form].$setPristine();
         }, function (err) {

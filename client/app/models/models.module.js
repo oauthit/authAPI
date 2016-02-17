@@ -10,7 +10,12 @@
         beforeCreate: function (resource, data, cb) {
           data.id = uuid.v4();
           cb(null, data);
-        }
+        },
+        //afterCreateInstance: function (resource, instance) {
+        //  if (!instance.id) {
+        //    instance.id = uuid.v4();
+        //  }
+        //}
       });
       angular.extend(DSHttpAdapterProvider.defaults, {
         basePath: 'http://localhost:9000/api/opr/',

@@ -12,7 +12,7 @@
     "angular-sanitize": "~1.4.0",
     "angular-bootstrap": "~0.13.0",
     "font-awesome": ">=4.1.0",
-    "lodash": "~2.4.1",
+    "lodash": "~3.x.x",
     "angular-ui-router": "~0.2.15",
     "angular-validation-match": "~1.5.2",
     "angular-local-storage": "~0.2.3",
