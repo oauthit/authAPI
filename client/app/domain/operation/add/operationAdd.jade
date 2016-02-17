@@ -1,14 +1,15 @@
 .container
   h1 Add operation
-  .row
-    h3 Contacts
-    table.table
-      thead
-      th Name
-      tbody
-        tr(ng-repeat='item in vm.contacts track by item.id')
-          td(ng-click='vm.selectContact(item)') {{item.counterAgent.name}}
 
-    form(ng-submit='vm.onSubmit()')
-      formly-form(model='vm.operation' fields='vm.fields')
-        button.btn.btn-default(type='submit') Submit
+  h3 Contacts
+
+  table.table
+    thead
+    th Name
+    tbody
+      tr(ng-repeat='item in vm.contacts track by item.id')
+        td(ng-click='vm.selectContact(item)') {{item.counterAgent.name}}
+
+  form(ng-submit='vm.onSubmit()')
+    formly-form(model='vm.operation' fields='vm.fields')
+      button.btn.btn-default(type='submit') Submit
