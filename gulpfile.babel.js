@@ -575,14 +575,14 @@ gulp.task('coverage:pre', () => {
 gulp.task('coverage:unit', () => {
   return gulp.src(paths.server.test.unit)
     .pipe(mocha())
-    .pipe(istanbul())
+    .pipe(istanbul());
   // Creating the reports after tests ran
 });
 
 gulp.task('coverage:integration', () => {
   return gulp.src(paths.server.test.integration)
     .pipe(mocha())
-    .pipe(istanbul())
+    .pipe(istanbul());
   // Creating the reports after tests ran
 });
 
@@ -601,7 +601,7 @@ gulp.task('webdriver_update', webdriver_update);
 gulp.task('test:e2e', ['env:all', 'env:test', 'start:server', 'webdriver_update'], cb => {
   gulp.src(paths.client.e2e)
     .pipe(protractor({
-      configFile: 'protractor.conf.js',
+      configFile: 'protractor.conf.js'
     })).on('error', err => {
     console.log(err)
   }).on('end', () => {
