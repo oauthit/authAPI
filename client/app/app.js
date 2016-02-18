@@ -36,6 +36,5 @@ angular.module('authApiApp', [
     $rootScope.addError = function (error) {
       $rootScope.errors.push(error);
     };
-  })
+  });
 ;
-
