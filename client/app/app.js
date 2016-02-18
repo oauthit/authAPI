@@ -24,4 +24,10 @@ angular.module('authApiApp', [
     localStorageServiceProvider
       .setPrefix('authAPI');
   })
+  .run(function ($rootScope, InitService) {
+    //subscribe for logged-in event
+    $rootScope.$on('logged-in',function(){
+      InitService.init();
+    });
+  });
 ;
