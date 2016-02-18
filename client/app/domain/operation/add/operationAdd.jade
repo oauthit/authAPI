@@ -1,8 +1,9 @@
 .container
   div(error-widget)
 
-  h1 Add operation
-
+  h1
+    span.fa.fa-check-circle.animate.green(ng-show='vm.isSaved()')
+    | {{vm.isSaved() || 'Add operation'}}
   table.table.table-hover
     thead
     th Counteragent
