@@ -5,7 +5,7 @@
   angular.module('authApiApp.models', [
       'js-data'
     ])
-    .config(function (DSProvider, DSHttpAdapterProvider) {
+    .config(function (DSProvider, DSHttpAdapterProvider, appConfig) {
       angular.extend(DSProvider.defaults, {
         beforeCreate: function (resource, data, cb) {
           data.id = uuid.v4();
@@ -18,7 +18,7 @@
         //}
       });
       angular.extend(DSHttpAdapterProvider.defaults, {
-        basePath: 'http://localhost:9000/api/opr/',
+        basePath: appConfig.jsDataBasePath,
         httpConfig: {
           headers: {
             'X-Return-Post': 'true'

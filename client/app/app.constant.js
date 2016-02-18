@@ -6,7 +6,8 @@
 		"guest",
 		"user",
 		"admin"
-	]
+	],
+	"jsDataBasePath": "http://localhost:9000/api/opr/"
 })
 
 ;
