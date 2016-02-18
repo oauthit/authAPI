@@ -12,10 +12,10 @@
           vm.errors =  ErrorsService.errors;
           vm.closeError = function (index) {
             vm.errors.splice(index, 1);
-          }
+          };
         },
         controllerAs: 'ctrl'
-      }
+      };
     });
 
 }());
