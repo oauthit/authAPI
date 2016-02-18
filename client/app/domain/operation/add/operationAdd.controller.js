@@ -2,45 +2,79 @@
 
 (function () {
 
-  function OperationAddController($scope, Operation, Contact, Agent, CounterAgent, Currency, DS) {
+  function OperationAddController($scope, Operation, Agent, CounterAgent, Currency, SettingsService) {
 
     var vm = this;
-    Contact.findAll().then(function (contacts) {
-      contacts.forEach(function (contact) {
-        Contact.loadRelations(contact).then(function (c) {
-          vm.contacts.push(c);
-        });
-      });
-    });
 
-    Currency.findAll().then(function (currencies) {
-      vm.currencies = currencies;
-    });
-
-    console.log (DS);
+    CounterAgent.findAll();
 
     angular.extend(vm, {
+
       contacts: [],
       fields: Operation.fields,
       operation: {},
-      selectContact: function (item) {
-        vm.operation.debtorId = item.counterAgentId;
+
+      data: {
+        role: 'debt'
       },
+
+      submitDisabled: function () {
+        return !vm.data.selectedContact;
+      },
+
+      selectContact: function (item) {
+        vm.data.selectedContact = item;
+      },
+
       onSubmit: function () {
+
+        if (vm.data.role === 'debt') {
+          vm.data.debtorId = vm.data.selectedContact.ownerId;
+          vm.data.lenderId = vm.data.selectedContact.counterAgentId;
+        } else {
+          vm.data.debtorId = vm.data.selectedContact.counterAgentId;
+          vm.data.lenderId = vm.data.selectedContact.ownerId;
+        }
+
+        vm.operation = {
+          total: vm.data.total,
+          currencyId: vm.data.currencyId,
+          debtorId: vm.data.debtorId,
+          lenderId: vm.data.lenderId
+        };
+
         Operation.create(vm.operation).then(function (res) {
           console.log(res);
         }, function (err) {
           console.log(err);
         });
       }
+
     });
 
-    vm.ownerField = vm.fields[0];
-    vm.contactField = vm.fields[1];
-    vm.currencyField = vm.fields[3];
+    function setAgent(agent) {
+      Agent.loadRelations(agent).then(function () {
+        vm.agent = agent;
+        vm.data.contacts = agent.contacts;
+        vm.data.currencyId = agent.currencyId;
+      });
+    }
 
-    Agent.bindAll(false, $scope, 'vm.ownerField.templateOptions.options');
-    CounterAgent.bindAll(false, $scope, 'vm.contactField.templateOptions.options');
+    if (SettingsService.getCurrentAgent()) {
+      setAgent(SettingsService.getCurrentAgent());
+    }
+
+    $scope.$on('current-agent', function (e, agent) {
+      setAgent(agent);
+      vm.data.selectedContact = undefined;
+    });
+
+    Currency.findAll().then(function (currencies) {
+      vm.currencies = currencies;
+    });
+
+    vm.currencyField = vm.fields[1];
+
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
 
   }

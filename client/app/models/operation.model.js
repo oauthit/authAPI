@@ -31,30 +31,6 @@
     .run(function (Operation) {
       Operation.fields = [
         {
-          key: 'lenderId',
-          type: 'select',
-          templateOptions: {
-            label: 'Lender',
-            required: true,
-            description: 'Owner of the operation',
-            options: [],
-            valueProp: 'id',
-            labelProp: 'name'
-          }
-        },
-        {
-          key: 'debtorId',
-          type: 'select',
-          templateOptions: {
-            label: 'Debtor',
-            required: true,
-            description: 'Contact which interacts in operation',
-            options: [],
-            valueProp: 'id',
-            labelProp: 'name'
-          }
-        },
-        {
           key: 'total',
           type: 'input',
           templateOptions: {
@@ -74,6 +50,23 @@
             valueProp: 'id',
             description: 'Currency of the operation',
             options: []
+          }
+        },
+        {
+          key: 'role',
+          type: 'radio',
+          templateOptions: {
+            label: 'Choose type of operation',
+            options: [
+              {
+                name: 'Debt',
+                value: 'debt'
+              },
+              {
+                name: 'Lend',
+                value: 'lend'
+              }
+            ]
           }
         }
       ];

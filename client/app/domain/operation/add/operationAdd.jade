@@ -1,15 +1,14 @@
 .container
   h1 Add operation
 
-  h3 Contacts
-
-  table.table
+  table.table.table-hover
     thead
-    th Name
+    th Counteragent
     tbody
-      tr(ng-repeat='item in vm.contacts track by item.id')
-        td(ng-click='vm.selectContact(item)') {{item.counterAgent.name}}
+      tr(ng-repeat='item in vm.data.contacts track by item.id')
+        td(ng-click='vm.selectContact(item)' ng-class='{"active": item === vm.data.selectedContact}') {{item.counterAgent.name}}
 
-  form(ng-submit='vm.onSubmit()')
-    formly-form(model='vm.operation' fields='vm.fields')
-      button.btn.btn-default(type='submit') Submit
+  form(ng-submit='vm.onSubmit()' name='vm.addOperationForm')
+    formly-form(model='vm.data' fields='vm.fields')
+      button.btn.btn-default(type='submit' ng-disabled='vm.addOperationForm.$invalid || vm.submitDisabled()') Submit
+
