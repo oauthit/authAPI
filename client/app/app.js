@@ -7,6 +7,7 @@ angular.module('authApiApp', [
   'authApiApp.models',
   'authApiApp.filters',
   'authApiApp.services',
+  'authApiApp.directives',
   'ngResource',
   'ngSanitize',
   'ui.router',

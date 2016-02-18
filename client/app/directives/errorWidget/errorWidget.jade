@@ -1,0 +1,2 @@
+div(ng-show='vm.errors && vm.errors.length > 0')
+  alert(ng-repeat='alert in vm.errors' type='{{alert.type}}' close='vm.closeAlert($index)') {{alert.msg}}

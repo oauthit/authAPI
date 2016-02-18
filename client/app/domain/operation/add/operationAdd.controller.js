@@ -2,7 +2,7 @@
 
 (function () {
 
-  function OperationAddController($scope, Operation, Agent, CounterAgent, Currency, SettingsService) {
+  function OperationAddController($scope, Operation, Agent, CounterAgent, Currency, SettingsService, $timeout) {
 
     var vm = this;
 
@@ -14,8 +14,14 @@
       fields: Operation.fields,
       operation: {},
 
+      errors: [],
+
       data: {
         role: 'debt'
+      },
+
+      closeAlert: function (index) {
+        vm.alerts.splice(index, 1);
       },
 
       submitDisabled: function () {
@@ -46,7 +52,12 @@
         Operation.create(vm.operation).then(function (res) {
           console.log(res);
         }, function (err) {
-          console.log(err);
+          if (err.status === -1) {
+            vm.errors.push({
+              type: 'danger',
+              msg: 'Oh snap! Server is down... Try in a minute.'
+            });
+          }
         });
       }
 
