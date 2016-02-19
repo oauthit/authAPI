@@ -321,7 +321,7 @@ gulp.task('watch', () => {
   var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
 
   plugins.livereload.listen({
-    port:process.env.LIVERELOAD_PORT || 35729
+    port: process.env.LIVERELOAD_PORT || 35729
   });
 
   plugins.watch(paths.client.styles, () => {  //['inject:scss']
@@ -509,12 +509,24 @@ gulp.task('jade', function () {
 gulp.task('constant', function () {
   let sharedConfig = require(`./${serverPath}/config/environment/shared`);
 
+  let localConfig = require(`./${serverPath}/config/local.env.js`);
+
+  let merged = _.merge({}, sharedConfig, localConfig);
+  let appConfigConstants = {};
+  _.each(merged, function (val, key) {
+    if (sharedConfig[key] && localConfig[key]) {
+      appConfigConstants[key] = val;
+    }
+  });
+
+  appConfigConstants = _.merge({}, sharedConfig, appConfigConstants);
+
   return plugins.ngConstant({
       name: 'authApiApp.constants',
       deps: [],
       wrap: true,
       stream: true,
-      constants: {appConfig: sharedConfig}
+      constants: {appConfig: appConfigConstants}
     })
     .pipe(plugins.rename({
       basename: 'app.constant'
