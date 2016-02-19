@@ -11,7 +11,17 @@
             contact: {
               localField: 'contacts',
               foreignKey: 'ownerId'
-            }
+            },
+            invite: [
+              {
+                localField: 'invites',
+                foreignKey: 'ownerId'
+              },
+              {
+                localField: 'acceptedInvites',
+                foreignKey: 'acceptorId'
+              }
+            ]
           },
           hasOne: {
             currency: {
