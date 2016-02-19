@@ -3,7 +3,7 @@
 angular.module('authApiApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('debt.contacts', {
+      .state('debt.contact.contacts', {
         url: '/contacts',
         templateUrl: 'app/domain/contact/list/contactList.html',
         controller: 'ContactListCtrl',
@@ -11,7 +11,7 @@ angular.module('authApiApp')
       })
       .state('debt.contact', {
         abstract: true,
-        template: '<div ui-view></div>'
+        template: '<div ui-view class="container"></div>'
       })
       .state('debt.contact.add', {
         url: '/contact/add',

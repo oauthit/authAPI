@@ -5,7 +5,7 @@ angular.module('authApiApp')
     $stateProvider
       .state('debt.agent', {
         url: '/agent',
-        template: '<div ui-view></div>',
+        template: '<div ui-view class="container"></div>',
         abstract: true
       })
       .state('debt.agent.manage', {
