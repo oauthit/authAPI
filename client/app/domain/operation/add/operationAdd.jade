@@ -22,7 +22,7 @@ form(ng-submit='vm.onSubmit(vm.addOperationForm)' name='vm.addOperationForm')
       ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
     )
       | Save
-    = ''
+    = ' '
     button.btn.btn-warning(
       type='button'
       ng-click='vm.onCancel(vm.addOperationForm)'
