@@ -42,6 +42,9 @@
             type: 'text',
             placeholder: 'Name',
             required: true
+          },
+          expressionProperties: {
+            'templateOptions.focus': '!model.name'
           }
         },{
           key: 'currencyId',

@@ -3,7 +3,7 @@
     | Add agent
 h1 My agents
 
-.section(ng-repeat='agent in vm.agents track by agent.id')
+.section(ng-repeat='agent in vm.agents track by agent.id' ng-attr-id='{{agent.id || "new-agent"}}')
   h3(ng-class='{red: vm["form" + $index].$invalid}') {{agent.name || 'Unnamed agent'}}
     = ' '
     span

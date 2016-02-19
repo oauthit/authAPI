@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('authApiApp')
-  .controller('AgentCtrl', function ($scope, Agent, Currency) {
+  .controller('AgentCtrl', function ($scope, Agent, Currency, $uiViewScroll) {
     var vm = this;
 
     Currency.findAll();
@@ -39,6 +39,7 @@ angular.module('authApiApp')
       onAdd: function () {
         var agent = Agent.createInstance();
         vm.agents.push(agent);
+        setTimeout (function () {$uiViewScroll(angular.element('#new-agent'));},50);
       },
 
       disableAddAgent: function () {
