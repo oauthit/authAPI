@@ -17,6 +17,9 @@
 
       angular.extend(vm, {
         fields: Invite.fields,
+        onSuccess: function (e) {
+          console.log(e);
+        }
       });
     })
   ;
