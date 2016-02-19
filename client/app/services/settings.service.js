@@ -24,7 +24,7 @@
       }
 
       Agent.on('DS.afterInject', function () {
-        setCurrentAgentOnChange();
+        $timeout(setCurrentAgentOnChange());
       });
 
       Agent.on('DS.afterDestroy', function () {
