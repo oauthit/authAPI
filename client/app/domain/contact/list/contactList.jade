@@ -1,12 +1,13 @@
-.container
-  .buttons
-    button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableAddContact()' ui-sref='debt.contact.add')
-      | Add contact
-  h1 My contacts
+div(error-widget)
 
-  table.table
-    thead
-    th Name
-    tbody
-      tr(ng-repeat='contact in vm.contacts track by contact.id')
-        td {{contact.counterAgent.name}}
+.buttons
+  button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableCreateInvite()' ng-click='vm.createInvite()')
+    | Create invite
+h1 My contacts
+
+table.table
+  thead
+  th Name
+  tbody
+    tr(ng-repeat='contact in vm.contacts track by contact.id')
+      td {{contact.counterAgent.name}}
