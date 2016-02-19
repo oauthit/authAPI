@@ -16,7 +16,7 @@
       Invite.bindOne($stateParams.id, $scope, 'vm.data');
 
       angular.extend(vm, {
-        fields: Invite.fields
+        fields: Invite.fields,
       });
     })
   ;
