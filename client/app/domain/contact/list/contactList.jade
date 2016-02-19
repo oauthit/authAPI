@@ -4,9 +4,9 @@
       | Add contact
   h1 My contacts
 
-  table.table(ng-repeat='contact in vm.contacts track by contact.id')
+  table.table
     thead
     th Name
     tbody
-      tr
+      tr(ng-repeat='contact in vm.contacts track by contact.id')
         td {{contact.counterAgent.name}}
