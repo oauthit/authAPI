@@ -24,14 +24,19 @@
 
       selectContact: function (item) {
         vm.data.selectedContact = item;
+        vm.data.counterAgentId = item.counterAgentId;
+        vm.addOperationForm.$setDirty();
       },
 
       onCancel: function (form) {
         if (vm.operation.id) {
           Operation.revert(vm.operation.id);
-          vm.data = angular.copy (vm.dataPristine);
-          form.$setPristine();
         }
+        vm.data = angular.copy (vm.dataPristine);
+        if (!vm.data.currencyId) {
+          vm.data.currencyId = vm.agent.currencyId;
+        }
+        form.$setPristine();
       },
 
       onSubmit: function (form) {
@@ -74,7 +79,7 @@
     function setAgent(agent) {
       Agent.loadRelations(agent).then(function () {
         vm.agent = agent;
-        vm.data.contacts = agent.contacts;
+        vm.contacts = agent.contacts;
         vm.data.currencyId = agent.currencyId;
       });
     }

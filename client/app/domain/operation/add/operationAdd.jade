@@ -11,7 +11,7 @@
     thead
     th Choose CounterAgent
     tbody
-      tr(ng-repeat='item in vm.data.contacts track by item.id')
+      tr(ng-repeat='item in vm.contacts track by item.id')
         td(ng-click='vm.selectContact(item)' ng-class='{"active": item === vm.data.selectedContact}')
           | {{item.counterAgent.name}}
 
@@ -23,11 +23,11 @@
         ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
       )
         | Save
+      = ''
       button.btn.btn-warning(
         type='button'
         ng-click='vm.onCancel(vm.addOperationForm)'
-        ng-disabled='vm.addOperationForm.$invalid || vm.submitDisabled()'
-        ng-if='vm.isSaved() && vm.addOperationForm.$dirty'
+        ng-if='vm.addOperationForm.$dirty'
       )
         | Cancel
 

@@ -68,6 +68,14 @@
               }
             ]
           }
+        },
+        {
+          key: 'counterAgentId',
+          type: 'input',
+          templateOptions: {
+            type: 'hidden',
+            required: true
+          }
         }
       ];
     });
