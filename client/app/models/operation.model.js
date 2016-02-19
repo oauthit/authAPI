@@ -59,7 +59,7 @@
             label: 'Choose type of operation',
             options: [
               {
-                name: 'Debt',
+                name: 'Borrow',
                 value: 'debt'
               },
               {
