@@ -18,6 +18,12 @@ angular.module('authApiApp')
         templateUrl: 'app/domain/invite/info/inviteInfo.html',
         controller: 'InviteInfoCtrl',
         controllerAs: 'vm'
+      })
+      .state('debt.invite.list', {
+        url: '/invite/list',
+        templateUrl: 'app/domain/invite/list/inviteList.html',
+        controller: 'InviteListCtrl',
+        controllerAs: 'vm'
       });
   })
 ;

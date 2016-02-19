@@ -3,9 +3,12 @@
 (function () {
 
   angular.module('authApiApp')
-    .controller('InviteInfoCtrl', function ($scope,
-                                            $stateParams,
-                                            Invite) {
+    .controller('InviteInfoCtrl', function (
+      $scope,
+      $stateParams,
+      Invite,
+      $state
+    ) {
 
       var vm = this;
 
@@ -19,7 +22,14 @@
         fields: Invite.fields,
         onSuccess: function (e) {
           console.log(e);
+        },
+
+        deleteInvite: function () {
+          Invite.destroy(vm.data.id).then(function(){
+            $state.go('debt.main');
+          });
         }
+
       });
     })
   ;
