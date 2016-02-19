@@ -30,3 +30,19 @@
 .table-hover tr {
   cursor: pointer;
 }
+
+.display-flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.chapter-menu {
+  margin-top: 60px;
+}
+
+.chapter-menu > * {
+  margin-top: 10px;
+}

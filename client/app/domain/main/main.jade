@@ -4,19 +4,21 @@ header#banner.hero-unit
     p.lead Know your debt and credit app
     img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
 
-hr
 
 .container
-  .row
-    .col-xs-4.text-center
-      .btn-group.btn-group-lg(role="group")
-        button.btn.btn-default(type="button" ui-sref="debt.operation.operations") Operations
-        button.btn.btn-warning(type="button" ui-sref="debt.operation.add") +
-    .col-xs-4.text-center
-      .btn-group.btn-group-lg(role="group")
-        button.btn.btn-default(type="button" ui-sref="debt.contact.contacts") Contacts
-        button.btn.btn-warning(type="button" ui-sref="debt.contact.add") +
-    .col-xs-4.text-center
-      .btn-group.btn-group-lg(role="group")
-        button.btn.btn-default(type="button" ui-sref="debt.invite.list") Invites
-        button.btn.btn-warning(type="button" ui-sref="debt.invite.create") +
+  .row.chapter-menu
+    .col-sm-4
+      .btn-group.btn-group-lg.display-flex(role="group")
+        button.btn.btn-default.flex-1(type="button" ui-sref="debt.operation.operations") Operations
+        button.btn.btn-warning(type="button" ui-sref="debt.operation.add")
+          i.fa.fa-plus
+    .col-sm-4
+      .btn-group.btn-group-lg.display-flex(role="group")
+        button.btn.btn-default.flex-1(type="button" ui-sref="debt.contact.contacts") Contacts
+        button.btn.btn-warning(type="button" ui-sref="debt.contact.add")
+          i.fa.fa-plus
+    .col-sm-4
+      .btn-group.btn-group-lg.display-flex(role="group")
+        button.btn.btn-default.flex-1(type="button" ui-sref="debt.invite.list") Invites
+        button.btn.btn-warning(type="button" ui-sref="debt.invite.create")
+          i.fa.fa-plus
