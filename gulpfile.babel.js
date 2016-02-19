@@ -507,9 +507,22 @@ gulp.task('jade', function () {
 });
 
 gulp.task('constant', function () {
-  let sharedConfig = require(`./${serverPath}/config/environment/shared`);
 
-  let localConfig = require(`./${serverPath}/config/local.env.js`);
+  let sharedConfig;
+
+  try {
+    sharedConfig = require(`./${serverPath}/config/environment/shared`);
+  } catch (err) {
+    sharedConfig = {};
+  }
+
+  let localConfig;
+
+  try {
+    localConfig = require(`./${serverPath}/config/local.env.js`);
+  } catch (err) {
+    localConfig = {};
+  }
 
   let merged = _.merge({}, sharedConfig, localConfig);
   let appConfigConstants = {};
