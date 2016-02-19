@@ -1,0 +1,12 @@
+.container
+  .buttons
+    button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableAddContact()' ui-sref='debt.contact.add')
+      | Add contact
+  h1 My contacts
+
+  table.table(ng-repeat='contact in vm.contacts track by contact.id')
+    thead
+    th Name
+    tbody
+      tr
+        td {{contact.counterAgent.name}}
