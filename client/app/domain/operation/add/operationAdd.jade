@@ -2,16 +2,32 @@
   div(error-widget)
 
   h1
-    span.fa.fa-check-circle.animate.green(ng-show='vm.isSaved()')
-    | {{vm.isSaved() || 'Add operation'}}
+    span(ng-if='!vm.isSaved()') New operation
+    span.fade-in(ng-class='{animate: vm.isSaved()}')
+      i.fa.fa-check-circle.green
+      = ' '
+      span {{vm.isSaved()}}
   table.table.table-hover
     thead
-    th Counteragent
+    th Choose CounterAgent
     tbody
       tr(ng-repeat='item in vm.data.contacts track by item.id')
-        td(ng-click='vm.selectContact(item)' ng-class='{"active": item === vm.data.selectedContact}') {{item.counterAgent.name}}
+        td(ng-click='vm.selectContact(item)' ng-class='{"active": item === vm.data.selectedContact}')
+          | {{item.counterAgent.name}}
 
-  form(ng-submit='vm.onSubmit()' name='vm.addOperationForm')
+  form(ng-submit='vm.onSubmit(vm.addOperationForm)' name='vm.addOperationForm')
     formly-form(model='vm.data' fields='vm.fields')
-      button.btn.btn-default(type='submit' ng-disabled='vm.addOperationForm.$invalid || vm.submitDisabled()') Submit
+      button.btn.btn-success(
+        type='submit'
+        ng-disabled='vm.addOperationForm.$invalid || vm.submitDisabled()'
+        ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
+      )
+        | Save
+      button.btn.btn-warning(
+        type='button'
+        ng-click='vm.onCancel(vm.addOperationForm)'
+        ng-disabled='vm.addOperationForm.$invalid || vm.submitDisabled()'
+        ng-if='vm.isSaved() && vm.addOperationForm.$dirty'
+      )
+        | Cancel
 

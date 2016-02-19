@@ -26,7 +26,15 @@
         vm.data.selectedContact = item;
       },
 
-      onSubmit: function () {
+      onCancel: function (form) {
+        if (vm.operation.id) {
+          Operation.revert(vm.operation.id);
+          vm.data = angular.copy (vm.dataPristine);
+          form.$setPristine();
+        }
+      },
+
+      onSubmit: function (form) {
 
         if (vm.data.role === 'debt') {
           vm.data.debtorId = vm.data.selectedContact.ownerId;
@@ -46,7 +54,10 @@
         });
 
         Operation.create(vm.operation).then(function (res) {
+          vm.operation = res;
+          form.$setPristine();
           console.log(res);
+          vm.dataPristine = angular.copy (vm.data);
         }, function (err) {
           ErrorsService.addError(err);
         });
@@ -57,6 +68,8 @@
       }
 
     });
+
+    vm.dataPristine = angular.copy (vm.data);
 
     function setAgent(agent) {
       Agent.loadRelations(agent).then(function () {
