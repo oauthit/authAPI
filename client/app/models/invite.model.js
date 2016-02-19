@@ -3,30 +3,60 @@
 (function () {
 
   angular.module('authApiApp')
+
     .factory('Invite', function (DS) {
       return DS.defineResource({
         name: 'invite',
         relations: {
           belongsTo: {
-            agents: [
-              {
-                localField: 'ownerAgent',
-                localKey: 'owner'
-              },
-              {
-                localField: 'acceptorAgent',
-                localKey: 'acceptor'
-              }
-            ]
+            agent: {
+              localField: 'owner',
+              localKey: 'ownerId',
+              parent: true
+            }
+          },
+          hasOne: {
+            agent: {
+              localField: 'acceptor',
+              localKey: 'acceptorId'
+            }
           }
-        },
-        actions: {
-          findByCode: {}
         }
       });
     })
+
     .run(function (Invite) {
-      console.log (Invite);
-    });
+      Invite.fields = [
+        {
+          key: 'owner.name',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'Owner',
+            placeholder: 'Owner',
+            disabled: true
+          }
+        }, {
+          key: 'status',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'Status',
+            placeholder: 'Status',
+            disabled: true
+          }
+        }, {
+          key: 'code',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'Code',
+            placeholder: 'Code',
+            disabled: true
+          }
+        }
+      ];
+    })
+  ;
 
 }());
