@@ -1,5 +1,8 @@
-.thing-form {
-  margin: 20px 0;
+$primary-color: #428bca;
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: #357ebd;
 }
 
 #banner {
@@ -19,7 +22,8 @@
   color: #F5F5F5;
   text-align: center;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background: #4393B9;
+  // was 4393B9
+  background: $primary-color;
 }
 
 .navbar-text {
