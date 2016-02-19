@@ -5,9 +5,9 @@
   angular.module('authApiApp.services')
     .factory('InitCtrlService', function () {
 
-      function init (scope) {
+      function init (ctrl) {
 
-        return scope;
+        return ctrl;
 
       }
 
