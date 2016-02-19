@@ -3,11 +3,12 @@
 (function () {
 
   angular.module('authApiApp.services')
-    .factory('SettingsService', function ($timeout, Agent, $rootScope) {
+    .factory('SettingsService', function ($timeout, Agent, $rootScope, localStorageService) {
 
-      var currentAgent = null;
+      var currentAgent;
 
       function setCurrentAgent(agent) {
+        localStorageService.set ('current-agent-id', agent.id);
         $rootScope.$broadcast('current-agent', currentAgent = agent);
       }
 
@@ -19,7 +20,7 @@
         var agents = Agent.getAll();
 
         if (!currentAgent || !_.findWhere(agents,{id:currentAgent.id})) {
-          setCurrentAgent (_.head (agents));
+          setCurrentAgent (Agent.get(localStorageService.get('current-agent-id')) || _.head (agents));
         }
       }
 
