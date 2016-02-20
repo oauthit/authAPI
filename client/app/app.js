@@ -11,7 +11,8 @@
     'LocalStorageModule',
     'formly',
     'formlyBootstrap',
-    'ngclipboard'
+    'ngclipboard',
+    'angularMoment'
   ]);
 
   angular.module('authApiApp', [
