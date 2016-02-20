@@ -1,1 +1,19 @@
-div This is the operation view.
+.buttons
+  button.pull-right.btn.btn-primary(type="button" ui-sref="debt.operation.add")
+    | Add operation
+
+h1 My operations
+
+table.table.table-hover.table-striped
+  thead
+    th Status
+    th Counteragent
+    th.num Sum
+  tbody.table-striped
+    tr(ng-repeat="o in vm.operations track by o.id")
+      td {{o.ts | amCalendar}}
+      td {{o.debtorId == vm.currentAgent.id ? o.lender.name : o.debtor.name}}
+        //a(ui-sref="debt.invite.info({id: invite.id})") {{invite.code}}
+      td.num(ng-class="{red: o.lenderId == vm.currentAgent.id}")
+        span(ng-if="o.lenderId == vm.currentAgent.id") -
+        | {{o.total | number:2}} {{o.currency.symbol}}
