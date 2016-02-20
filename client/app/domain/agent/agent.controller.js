@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('authApiApp')
-  .controller('AgentCtrl', function ($scope, Agent, Currency, $uiViewScroll) {
+  .controller('AgentCtrl', function ($scope, Agent, Currency, $uiViewScroll, $timeout) {
     var vm = this;
 
     Currency.findAll();
@@ -28,8 +28,9 @@ angular.module('authApiApp')
       },
 
       onSubmit: function (agent, form) {
-        Agent.create(agent).then(function () {
-          console.log(vm);
+        delete agent.focus;
+        Agent.create(agent).then(function (res) {
+          console.log(res);
           vm[form].$setPristine();
         }, function (err) {
           console.log(err);
@@ -39,7 +40,14 @@ angular.module('authApiApp')
       onAdd: function () {
         var agent = Agent.createInstance();
         vm.agents.push(agent);
-        setTimeout (function () {$uiViewScroll(angular.element('#new-agent'));},50);
+
+        $timeout(function() {
+          agent.focus = true;
+          $timeout(function(){
+            var elem = angular.element('#new-agent');
+            $uiViewScroll(elem);
+          },100);
+        },200);
       },
 
       disableAddAgent: function () {
@@ -59,6 +67,12 @@ angular.module('authApiApp')
       }
 
     });
+
+    vm.nameField = vm.fields[0];
+
+    vm.nameField.expressionProperties = {
+      'templateOptions.focus': 'model.focus'
+    };
 
     vm.currencyField = vm.fields[1];
 
