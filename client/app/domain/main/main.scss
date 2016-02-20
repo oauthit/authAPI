@@ -1,8 +1,8 @@
-$primary-color: #428bca;
+$primary-color: #4290d0;
 
 .btn-primary {
   background-color: $primary-color;
-  border-color: #357ebd;
+  border-color: #357fbf;
 }
 
 #banner {
@@ -23,5 +23,5 @@ $primary-color: #428bca;
   text-align: center;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   // was 4393B9
-  background: $primary-color;
+  background-color: $primary-color;
 }
