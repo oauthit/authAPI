@@ -19,11 +19,13 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 // injector
 @import 'admin/admin';
 @import 'domain/agent/agent';
-@import 'domain/animation';
-@import 'domain/colors';
 @import 'domain/main/main';
 @import 'domain/operation/add/operationAdd';
 @import 'domain/operation/operation';
+@import 'styles/animation';
+@import 'styles/colors';
+@import 'styles/data';
+@import 'styles/layout';
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
