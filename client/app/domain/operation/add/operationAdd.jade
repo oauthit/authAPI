@@ -8,7 +8,7 @@ h1
     span {{vm.isSaved()}}
 table.table.table-hover
   thead
-  th Choose CounterAgent
+  th CounterAgent
   tbody
     tr(ng-repeat='item in vm.contacts track by item.id')
       td(ng-click='vm.selectContact(item)' ng-class='{"active": item === vm.data.selectedContact}')
@@ -28,5 +28,5 @@ form(ng-submit='vm.onSubmit(vm.addOperationForm)' name='vm.addOperationForm')
       ng-click='vm.onCancel(vm.addOperationForm)'
       ng-if='vm.addOperationForm.$dirty'
     )
-      | Cancel
+      | Cancel changes
 
