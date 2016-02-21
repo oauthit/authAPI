@@ -1,9 +1,4 @@
-$primary-color: #4290d0;
-
-.btn-primary {
-  background-color: $primary-color;
-  border-color: #357fbf;
-}
+@import '../../styles/colors';
 
 #banner {
   border-bottom: none;
