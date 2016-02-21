@@ -7,7 +7,8 @@
       $scope,
       $stateParams,
       Invite,
-      $state
+      $state,
+      ErrorsService
     ) {
 
       var vm = this;
@@ -31,6 +32,15 @@
           Invite.destroy(vm.data.id).then(function(){
             $state.go('debt.main');
           });
+        },
+
+        // TODO implement sms and email invite
+        sms: function () {
+          ErrorsService.addError ('Not implemented');
+        },
+
+        emailInvite: function () {
+          ErrorsService.addError ('Not implemented');
         }
 
       });
