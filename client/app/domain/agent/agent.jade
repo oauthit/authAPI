@@ -4,6 +4,7 @@
 h1 My agents
 
 .section(ng-repeat='agent in vm.agents track by agent.id' ng-attr-id='{{agent.id || "new-agent"}}')
+  hr.clear-both(ng-if='$index')
   h3(ng-class='{red: vm["form" + $index].$invalid}') {{agent.name || 'Unnamed agent'}}
     = ' '
     span
@@ -11,8 +12,7 @@ h1 My agents
         i.fa.fa-trash.gray
   form.col-md-offset-5.col-sm-offset-4(ng-submit='vm.onSubmit(agent,"form" + $index)' name='vm.form{{$index}}')
     formly-form(model='agent' fields='vm.fields')
-      .buttons(ng-show='vm["form" + $index].$dirty || !agent.id')
+      .buttons.pull-right(ng-show='vm["form" + $index].$dirty || !agent.id')
         button.btn.btn-success(type='submit' ng-disabled='vm["form" + $index].$invalid') Save
         = ' '
         button.btn.btn-warning(type='button' ng-click='vm.onCancel(agent,"form" + $index)') Cancel
-  hr(ng-if='$index < vm.agents.length - 1')
