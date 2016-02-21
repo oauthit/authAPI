@@ -3,51 +3,44 @@
 (function () {
 
   angular.module('authApiApp')
-    .controller('ContactListCtrl', function ($scope,
-                                             $state,
-                                             Agent,
-                                             CounterAgent,
-                                             Invite,
-                                             SettingsService,
-                                             ErrorsService,
-                                             InitCtrlService) {
+    .controller('ContactListCtrl', function (
+      $scope,
+      $state,
+      Agent,
+      CounterAgent,
+      Invite,
+      SettingsService,
+      ErrorsService,
+      InitCtrlService
+    ) {
 
       var vm = this;
 
-      CounterAgent.findAll();
+      angular.extend(vm,{
 
-      angular.extend(InitCtrlService.init(vm), {
-        contacts: [],
-        createInvite: function () {
-          //TODO change with spinner
-          vm.spinner = 'spinner started';
-          Invite.create({
-            ownerId: SettingsService.getCurrentAgent().id
-          }).then(function (response) {
-            vm.spinner = 'spinner stopped';
-            $state.go('debt.invite.info', {id: response.id});
-          }, function (err) {
-            ErrorsService.addError(err);
-          });
-        },
-        disableCreateInvite: function () {
-          return vm.spinner === 'spinner started';
-        }
+        buttons: [{
+          name: 'Add a contact',
+          sref: 'debt.contact.add'
+        }]
+
       });
 
-      function setAgent(agent) {
-        Agent.loadRelations(agent).then(function () {
+      InitCtrlService.init(vm);
+      CounterAgent.findAll();
+
+      function setAgent(e, agent) {
+        if (!agent) {
+          return;
+        }
+        vm.contacts = agent.contacts;
+        Agent.loadRelations(agent,'contact').then(function(){
           vm.contacts = agent.contacts;
         });
       }
 
-      if (SettingsService.getCurrentAgent()) {
-        setAgent(SettingsService.getCurrentAgent());
-      }
+      setAgent(false, SettingsService.getCurrentAgent());
 
-      $scope.$on('current-agent', function (e, agent) {
-        setAgent(agent);
-      });
+      $scope.$on('current-agent', setAgent);
 
     })
   ;

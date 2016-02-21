@@ -1,8 +1,13 @@
-div(error-widget)
+section(error-widget)
 
 .buttons
-  button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableCreateInvite()' ng-click='vm.createInvite()')
-    | Invite contact
+  button.pull-right.btn.btn-primary(
+    ng-repeat='b in vm.buttons track by b.name'
+    type='button'
+    ui-sref='{{b.sref}}'
+  )
+    | {{b.name}}
+
 h1 My contacts
 
 table.table
