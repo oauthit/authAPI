@@ -19,7 +19,10 @@
       Invite.bindOne($stateParams.id, $scope, 'vm.data');
 
       angular.extend(vm, {
+
+        copyTarget: '#formly_1_input_code_2',
         fields: Invite.fields,
+
         onSuccess: function (e) {
           console.log(e);
         },
