@@ -9,6 +9,8 @@
 
       var vm = this;
 
+      // TODO We need a service with a createInvite () function to use it in inviteCreate.controller
+
       function createInvite () {
 
         Invite.create({
