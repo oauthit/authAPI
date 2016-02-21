@@ -77,13 +77,8 @@
 
     $scope.$on('current-agent', setAgent);
 
-    CounterAgent.findAll().then(function (data) {
-      vm.counterAgents = data;
-    });
-
-    Currency.findAll().then(function (data) {
-      vm.currencies = data;
-    });
+    CounterAgent.findAll();
+    Currency.findAll();
 
     vm.counterAgentField = vm.fields[0];
     vm.currencyField = vm.fields[2];
