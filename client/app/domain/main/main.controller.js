@@ -4,6 +4,8 @@
 
   function MainController($state, Auth) {
 
+    var vm = this;
+
     let accessToken = $state.params ['access-token'];
 
     if (accessToken) {
@@ -13,6 +15,23 @@
         }
       });
     }
+
+    vm.data = [
+      {
+        sref: 'debt.operation.operations',
+        name: 'Operations',
+        addSref: 'debt.operation.add'
+      },{
+        sref: 'debt.contact.contacts',
+        name: 'Contacts',
+        addSref: 'debt.contact.add'
+      },{
+        sref: 'debt.invite.list',
+        name: 'Invites',
+        addSref: 'debt.invite.create'
+      }
+    ];
+
   }
 
   angular.module('authApiApp')
