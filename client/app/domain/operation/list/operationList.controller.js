@@ -21,8 +21,8 @@
       vm.currentAgent = agent;
 
       Operation.bindAll({}, $scope, 'vm.operations');
-      Operation.findAll(f,{bypassCache:true}).then(function () {
-        CounterAgent.findAll();
+      vm.busy = Operation.findAll(f,{bypassCache:true}).then(function () {
+        return CounterAgent.findAll();
       });
 
     }

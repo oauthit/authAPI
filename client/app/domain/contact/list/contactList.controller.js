@@ -33,7 +33,7 @@
           return;
         }
         vm.contacts = agent.contacts;
-        Agent.loadRelations(agent,'contact').then(function(){
+        vm.busy = Agent.loadRelations(agent,'contact').then(function(){
           vm.contacts = agent.contacts;
         });
       }
