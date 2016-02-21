@@ -1,1 +1,14 @@
-div Add contact
+section(error-widget)
+
+.buttons
+  button.pull-right.btn.btn-primary(
+    ng-repeat='b in vm.buttons track by b.name'
+    type='button'
+    ng-click="b.fn()"
+  )
+    | {{b.name}}
+
+h1 Add or invite a contact
+.lead Here you accept incoming invites, search public-searchable agents and issue them invites.
+
+

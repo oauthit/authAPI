@@ -29,6 +29,7 @@
       });
 
       angular.extend(vm, {
+
         deleteInvite: function () {
           Invite.destroy(vm.data.id).then(function(){
             $state.go('debt.main');

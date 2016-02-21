@@ -31,6 +31,17 @@
     .run(function (Operation) {
       Operation.fields = [
         {
+          key: 'counterAgentId',
+          type: 'select',
+          templateOptions: {
+            label: 'Counter-agent',
+            labelProp: 'name',
+            valueProp: 'id',
+            description: 'The other agent of the operation',
+            options: []
+          }
+        },
+        {
           key: 'total',
           type: 'input',
           templateOptions: {
@@ -67,14 +78,6 @@
                 value: 'lend'
               }
             ]
-          }
-        },
-        {
-          key: 'counterAgentId',
-          type: 'input',
-          templateOptions: {
-            type: 'hidden',
-            required: true
           }
         }
       ];

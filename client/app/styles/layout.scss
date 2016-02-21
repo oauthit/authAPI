@@ -31,6 +31,22 @@
 
   .buttons {
     margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+}
+
+.clear-both {
+  clear: both;
+}
+
+.buttons {
+  .btn {
+    margin-left: 10px;
   }
 }
 
+.alert .close {
+  top: -3px;
+  position: relative;
+}

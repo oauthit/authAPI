@@ -1,13 +1,18 @@
-div(error-widget)
+section(error-widget)
 
 .buttons
-  button.pull-right.btn.btn-primary(type='button' ng-disabled='vm.disableCreateInvite()' ng-click='vm.createInvite()')
-    | Invite contact
+  button.pull-right.btn.btn-primary(
+    ng-repeat='b in vm.buttons track by b.name'
+    type='button'
+    ui-sref='{{b.sref}}'
+  )
+    | {{b.name}}
+
 h1 My contacts
 
-table.table
+table.table.table-hover.table-striped
   thead
-  th Name
+    th Name
   tbody
     tr(ng-repeat='contact in vm.contacts track by contact.id')
       td {{contact.counterAgent.name}}

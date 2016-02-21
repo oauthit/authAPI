@@ -1,3 +1,5 @@
+section(error-widget)
+
 .buttons
   button.pull-right.btn.btn-warning(type='button' ng-disabled='vm.disableDeleteInvite()' ng-click='vm.deleteInvite()')
     | Delete invite
@@ -6,6 +8,10 @@ h1 Created invite
 
 form(name='vm.inviteInfoForm')
   formly-form(model='vm.data' fields='vm.fields')
-
-
-  button.btn(ngclipboard ngclipboard-success='vm.onSuccess(e);' data-clipboard-target="#formly_1_input_code_2") Copy
+    .buttons.pull-right
+      button.btn.btn-default(ng-click='vm.sms()')
+        | Send in SMS
+      button.btn.btn-default(ng-click='vm.emailInvite()')
+        | Email invite
+      button.btn(ngclipboard ngclipboard-success='vm.onSuccess(e);' data-clipboard-target="{{vm.copyTarget}}")
+        | Copy code

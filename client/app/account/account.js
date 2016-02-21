@@ -17,6 +17,7 @@ angular.module('authApiApp')
           var referrer = $state.params.referrer ||
                           $state.current.referrer ||
                           'debt.main';
+          // TODO use confirm modal
           Auth.logout();
           $state.go(referrer);
         }

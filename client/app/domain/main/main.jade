@@ -2,23 +2,14 @@ header#banner.hero-unit
   .container
     h1 Operator
     p.lead Know your debt and credit app
-    img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
-
+    //img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
 
 .container
   .row.chapter-menu
-    .col-sm-4
-      .btn-group.btn-group-lg.display-flex(role="group")
-        button.btn.btn-default.flex-1(type="button" ui-sref="debt.operation.operations") Operations
-        button.btn.btn-primary(type="button" ui-sref="debt.operation.add")
-          i.fa.fa-plus
-    .col-sm-4
-      .btn-group.btn-group-lg.display-flex(role="group")
-        button.btn.btn-default.flex-1(type="button" ui-sref="debt.contact.contacts") Contacts
-        button.btn.btn-primary(type="button" ui-sref="debt.contact.add")
-          i.fa.fa-plus
-    .col-sm-4
-      .btn-group.btn-group-lg.display-flex(role="group")
-        button.btn.btn-default.flex-1(type="button" ui-sref="debt.invite.list") Invites
-        button.btn.btn-primary(type="button" ui-sref="debt.invite.create")
+    .col-sm-4.btn-group.btn-group-lg.display-flex(
+      role="group"
+      ng-repeat="b in vm.data track by b.name"
+      )
+        button.btn.btn-default.flex-1(type="button" ui-sref="{{b.sref}}") {{b.name}}
+        button.btn.btn-primary(type="button" ui-sref="{{b.addSref}}")
           i.fa.fa-plus

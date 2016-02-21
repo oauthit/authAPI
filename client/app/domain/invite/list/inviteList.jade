@@ -1,10 +1,10 @@
 h1 My invites
 
-table.table
+table.table.table-striped
   thead
-  th Status
-  th Code
-  th Acceptor
+    th Status
+    th Code
+    th Acceptor
   tbody
     tr(ng-repeat='invite in vm.invites track by invite.id')
       td {{invite.status}}

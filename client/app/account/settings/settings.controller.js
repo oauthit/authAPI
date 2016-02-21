@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO show and edit account data
+
 class SettingsController {
   constructor(Auth) {
     this.errors = {};

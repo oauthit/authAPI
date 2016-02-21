@@ -6,27 +6,21 @@ h1
     i.fa.fa-check-circle.green
     = ' '
     span {{vm.isSaved()}}
-table.table.table-hover
-  thead
-  th CounterAgent
-  tbody
-    tr(ng-repeat='item in vm.contacts track by item.id')
-      td(ng-click='vm.selectContact(item)' ng-class='{"active": item === vm.data.selectedContact}')
-        | {{item.counterAgent.name}}
 
 form(ng-submit='vm.onSubmit(vm.addOperationForm)' name='vm.addOperationForm')
   formly-form(model='vm.data' fields='vm.fields')
-    button.btn.btn-success(
-      type='submit'
-      ng-disabled='vm.addOperationForm.$invalid || vm.submitDisabled()'
-      ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
-    )
-      | Save
-    = ' '
-    button.btn.btn-warning(
-      type='button'
-      ng-click='vm.onCancel(vm.addOperationForm)'
-      ng-if='vm.addOperationForm.$dirty'
-    )
-      | Cancel changes
+    .buttons.pull-right
+      button.btn.btn-primary(
+        type='submit'
+        ng-disabled='vm.addOperationForm.$invalid'
+        ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
+      )
+        | Save
+      = ' '
+      button.btn.btn-warning(
+        type='button'
+        ng-click='vm.onCancel(vm.addOperationForm)'
+        ng-if='vm.addOperationForm.$dirty'
+      )
+        | Cancel changes
 

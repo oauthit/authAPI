@@ -11,6 +11,6 @@ angular.module('authApiApp')
         url: '/?access-token',
         templateUrl: 'app/domain/main/main.html',
         controller: 'MainController',
-        controllerAs: 'main'
+        controllerAs: 'vm'
       });
   });
