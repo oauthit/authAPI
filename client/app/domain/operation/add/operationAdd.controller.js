@@ -87,7 +87,7 @@
       Currency.findAll()
     ]);
 
-    setAgent(false,SettingsService.getCurrentAgent())
+    setAgent(false,SettingsService.getCurrentAgent());
 
   }
 
