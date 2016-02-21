@@ -6,16 +6,18 @@
     .factory('ErrorsService', function () {
       var errors = [];
 
-      function parseError(error) {
+      function parseError(e) {
 
-        if (error && error.data && error.data.length > 0) {
-          error.data.forEach(function (errObj) {
-            errors.push({
-              type: 'danger',
-              msg: errObj.message
-            });
+        var data = e && e.data && e.data.length > 0 && e.data ||
+          [e]
+        ;
+
+        data.forEach(function (errObj) {
+          errors.push({
+            type: 'danger',
+            msg: errObj.message || errObj
           });
-        }
+        });
 
       }
 
