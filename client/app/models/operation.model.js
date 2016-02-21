@@ -31,14 +31,14 @@
     .run(function (Operation) {
       Operation.fields = [
         {
-          key: 'counterAgentId',
+          key: 'contact',
           type: 'select',
           templateOptions: {
             label: 'Counter-agent',
-            labelProp: 'name',
             valueProp: 'id',
             description: 'The other agent of the operation',
-            options: []
+            options: [],
+            ngOptions: 'option as option.counterAgent.name for option in to.options track by option.id'
           }
         },
         {

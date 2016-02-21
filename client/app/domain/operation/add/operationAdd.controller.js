@@ -31,9 +31,9 @@
 
         if (vm.data.role === 'debt') {
           vm.data.debtorId = vm.agent.id;
-          vm.data.lenderId = vm.data.counterAgentId;
+          vm.data.lenderId = vm.data.contact.counterAgentId;
         } else {
-          vm.data.debtorId = vm.data.counterAgentId;
+          vm.data.debtorId = vm.data.contact.counterAgentId;
           vm.data.lenderId = vm.agent.id;
         }
 
@@ -64,22 +64,18 @@
 
     vm.dataPristine = angular.copy (vm.data);
 
-    function setAgent(agent) {
+    function setAgent(e,agent) {
+      if (!agent) {
+        return;
+      }
       Agent.loadRelations(agent).then(function () {
         vm.agent = agent;
-        vm.contacts = agent.contacts;
+        vm.counterAgentField.templateOptions.options = agent.contacts;
         vm.data.currencyId = agent.currencyId;
       });
     }
 
-    if (SettingsService.getCurrentAgent()) {
-      setAgent(SettingsService.getCurrentAgent());
-    }
-
-    $scope.$on('current-agent', function (e, agent) {
-      setAgent(agent);
-      vm.data.selectedContact = undefined;
-    });
+    $scope.$on('current-agent', setAgent);
 
     CounterAgent.findAll().then(function (data) {
       vm.counterAgents = data;
@@ -92,8 +88,9 @@
     vm.counterAgentField = vm.fields[0];
     vm.currencyField = vm.fields[2];
 
-    CounterAgent.bindAll(false, $scope, 'vm.counterAgentField.templateOptions.options');
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
+
+    setAgent(false,SettingsService.getCurrentAgent());
 
   }
 
