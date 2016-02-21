@@ -9,17 +9,18 @@ h1
 
 form(ng-submit='vm.onSubmit(vm.addOperationForm)' name='vm.addOperationForm')
   formly-form(model='vm.data' fields='vm.fields')
-    button.btn.btn-success(
-      type='submit'
-      ng-disabled='vm.addOperationForm.$invalid'
-      ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
-    )
-      | Save
-    = ' '
-    button.btn.btn-warning(
-      type='button'
-      ng-click='vm.onCancel(vm.addOperationForm)'
-      ng-if='vm.addOperationForm.$dirty'
-    )
-      | Cancel changes
+    .buttons.pull-right
+      button.btn.btn-primary(
+        type='submit'
+        ng-disabled='vm.addOperationForm.$invalid'
+        ng-if='!vm.isSaved() || vm.addOperationForm.$dirty'
+      )
+        | Save
+      = ' '
+      button.btn.btn-warning(
+        type='button'
+        ng-click='vm.onCancel(vm.addOperationForm)'
+        ng-if='vm.addOperationForm.$dirty'
+      )
+        | Cancel changes
 
