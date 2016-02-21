@@ -6,8 +6,6 @@
 
     var vm = this;
 
-    CounterAgent.findAll();
-
     angular.extend(vm, {
 
       contacts: [],
@@ -16,16 +14,6 @@
 
       data: {
         role: 'debt'
-      },
-
-      submitDisabled: function () {
-        return !vm.data.selectedContact;
-      },
-
-      selectContact: function (item) {
-        vm.data.selectedContact = item;
-        vm.data.counterAgentId = item.counterAgentId;
-        vm.addOperationForm.$setDirty();
       },
 
       onCancel: function (form) {
@@ -42,11 +30,11 @@
       onSubmit: function (form) {
 
         if (vm.data.role === 'debt') {
-          vm.data.debtorId = vm.data.selectedContact.ownerId;
-          vm.data.lenderId = vm.data.selectedContact.counterAgentId;
+          vm.data.debtorId = vm.agent.id;
+          vm.data.lenderId = vm.data.counterAgentId;
         } else {
-          vm.data.debtorId = vm.data.selectedContact.counterAgentId;
-          vm.data.lenderId = vm.data.selectedContact.ownerId;
+          vm.data.debtorId = vm.data.counterAgentId;
+          vm.data.lenderId = vm.agent.id;
         }
 
         //vm.data.lenderId = null;
@@ -93,12 +81,18 @@
       vm.data.selectedContact = undefined;
     });
 
-    Currency.findAll().then(function (currencies) {
-      vm.currencies = currencies;
+    CounterAgent.findAll().then(function (data) {
+      vm.counterAgents = data;
     });
 
-    vm.currencyField = vm.fields[1];
+    Currency.findAll().then(function (data) {
+      vm.currencies = data;
+    });
 
+    vm.counterAgentField = vm.fields[0];
+    vm.currencyField = vm.fields[2];
+
+    CounterAgent.bindAll(false, $scope, 'vm.counterAgentField.templateOptions.options');
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
 
   }
