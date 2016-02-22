@@ -2,11 +2,15 @@
 
 (function() {
 
-function TokenStore(localStorageService) {
+function TokenStore(localStorageService,$rootScope) {
 
   var KEY = 'access-token';
 
   var token = localStorageService.get(KEY);
+
+  $rootScope.$on('logged-off',function(){
+    token = undefined;
+  });
 
   return {
     get: function () {
