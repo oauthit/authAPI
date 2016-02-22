@@ -43,4 +43,4 @@ div.navbar.navbar-default.navbar-static-top
             span.glyphicon.glyphicon-cog
 
         li(ng-show='nav.isLoggedIn()')
-          a(ui-sref='debt.logout') Logout
+          a(href='#' ng-click='nav.logout()') Logout

@@ -1,12 +1,18 @@
 'use strict';
 
-function NavbarController($rootScope, $scope, Agent, Auth, SettingsService) {
+function NavbarController($rootScope, $scope, $state, Modal, Agent, Auth, SettingsService) {
 
   var vm = this;
 
   var setCurrentAgent = function (agent) {
     SettingsService.setCurrentAgent(agent);
     vm.currentAgent = agent;
+  };
+
+  var logout = function () {
+    Modal.confirm.confirm(function () {
+      $state.go('debt.logout');
+    })();
   };
 
   angular.extend(vm, {
@@ -20,7 +26,8 @@ function NavbarController($rootScope, $scope, Agent, Auth, SettingsService) {
     isLoggedIn: Auth.isLoggedIn,
     isAdmin: Auth.isAdmin,
     getCurrentUser: Auth.getCurrentUser,
-    setCurrentAgent: setCurrentAgent
+    setCurrentAgent: setCurrentAgent,
+    logout: logout
   });
 
   $rootScope.$on('logged-in', function () {

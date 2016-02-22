@@ -67,6 +67,40 @@ angular.module('authApiApp')
               del.apply(event, args);
             });
           };
+        },
+
+        confirm(cb = angular.noop) {
+
+          return function() {
+            var args = Array.prototype.slice.call(arguments),
+              confirmModal;
+
+            confirmModal = openModal({
+              modal: {
+                dismissable: true,
+                title: 'Confirm logout',
+                html: '<p>Are you sure you want to logout?</p>',
+                buttons: [{
+                  classes: 'btn-primary',
+                  text: 'Logoff',
+                  click: function (e) {
+                    confirmModal.close(e);
+                  }
+                }, {
+                  classes: 'btn-default',
+                  text: 'Cancel',
+                  click: function (e) {
+                    confirmModal.dismiss(e);
+                  }
+                }]
+              }
+            });
+
+            confirmModal.result.then(function (event) {
+              cb.apply(event, args);
+            })
+          }
+
         }
       }
     };
