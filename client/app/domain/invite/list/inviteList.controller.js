@@ -8,7 +8,8 @@
       Agent,
       Invite,
       $state,
-      SettingsService
+      SettingsService,
+      $q
     ) {
 
       var vm = this;
@@ -17,16 +18,25 @@
         if (!agent) {
           return;
         }
-        Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
-        vm.busy = Invite.findAll({owner: agent},{bypassCache:true}).then(function () {
-          //vm.invites = agent.invites;
+        //Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
+        vm.busy = Invite.findAll({ownerId: agent.id},{bypassCache:true}).then(function (res) {
+
+          var qs = res.map(function(i){
+            return Invite.loadRelations(i).then(function(){
+              vm.invites.push(i);
+            });
+          });
+
+          if (qs.length) {
+            return $q.all(qs);
+          }
+
         });
       }
 
-      $scope.$on('current-agent', setAgent);
-      setAgent(false, SettingsService.getCurrentAgent());
-
       angular.extend(vm, {
+
+        invites: [],
 
         deleteInvite: function () {
           Invite.destroy(vm.data.id).then(function(){
@@ -35,6 +45,9 @@
         }
 
       });
+
+      $scope.$on('current-agent', setAgent);
+      setAgent(false, SettingsService.getCurrentAgent());
 
     })
   ;

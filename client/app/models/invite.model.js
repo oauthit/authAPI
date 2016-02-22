@@ -15,7 +15,7 @@
             }
           },
           hasOne: {
-            agent: {
+            counterAgent: {
               localField: 'acceptor',
               localKey: 'acceptorId'
             }
