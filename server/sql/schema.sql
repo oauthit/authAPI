@@ -7,7 +7,7 @@ meta.defineType 'aa.name';
 meta.defineType 'aa.profileData';
 meta.defineType 'aa.roles';
 meta.defineType 'aa.accessToken';
-meta.defineType 'aa.refreshToken,,nullable';
+meta.defineType 'aa.refreshToken:STRING,,nullable';
 meta.defineType 'aa.appId';
 
 meta.defineEntity 'aa.Account', 'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId';
