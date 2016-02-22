@@ -22,7 +22,17 @@
       });
     })
     .run(function (Contact) {
-      console.log(Contact);
+      Contact.fields = [
+        {
+          key: 'counterAgent.name',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            disabled: true,
+            label: 'Contact name'
+          }
+        }
+      ]
     });
 
 }());

@@ -14,5 +14,5 @@ table.table.table-hover.table-striped(cg-busy='vm.busy')
   thead
     th Name
   tbody
-    tr(ng-repeat='contact in vm.contacts track by contact.id')
+    tr(ng-repeat='contact in vm.contacts track by contact.id' ui-sref='^.info({id: contact.id})')
       td {{contact.counterAgent.name}}

@@ -18,5 +18,11 @@ angular.module('authApiApp')
         templateUrl: 'app/domain/contact/add/contactAdd.html',
         controller: 'ContactAddCtrl',
         controllerAs: 'vm'
+      })
+      .state('debt.contact.info', {
+        url: '/contact/info/:id',
+        templateUrl: 'app/domain/contact/info/contactInfo.html',
+        controller: 'ContactInfoCtrl',
+        controllerAs: 'vm'
       });
   });
