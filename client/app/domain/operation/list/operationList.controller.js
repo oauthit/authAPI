@@ -16,12 +16,13 @@
         return;
       }
 
-      var f = {owner: agent.id};
+      var f = {agentId: agent.id};
 
       vm.currentAgent = agent;
 
-      Operation.bindAll({}, $scope, 'vm.operations');
-      vm.busy = Operation.findAll(f,{bypassCache:true}).then(function () {
+      //Operation.bindAll({}, $scope, 'vm.operations');
+      vm.busy = Operation.findAll(f,{bypassCache:true}).then(function (res) {
+        vm.operations = res;
         return CounterAgent.findAll();
       });
 
