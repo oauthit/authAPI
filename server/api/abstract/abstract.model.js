@@ -2,6 +2,7 @@
 import request from 'request';
 var _ = require('lodash');
 var debug = require('debug')('authAPI:abstract.model');
+var uuid = require ('node-uuid');
 
 function model(name) {
 
@@ -82,7 +83,7 @@ function model(name) {
           if (body) {
             resolve(body);
           } else {
-            save(_.defaults(data, params)).then(resolve, reject);
+            save(_.defaults(data, params, {id: uuid.v4()})).then(resolve, reject);
           }
 
         }, reject);
