@@ -30,6 +30,7 @@
     })
     .run(function (Operation) {
       Operation.fields = [
+        // TODO: use ui-typeahead and auth-focus this field with dropdown open
         {
           key: 'contact',
           type: 'select',
