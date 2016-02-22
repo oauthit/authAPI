@@ -9,7 +9,7 @@ header#banner.hero-unit
     .col-sm-4.btn-group.btn-group-lg.display-flex(
       role="group"
       ng-repeat="b in vm.data track by b.name"
-      )
-        button.btn.btn-default.flex-1(type="button" ui-sref="{{b.sref}}") {{b.name}}
-        button.btn.btn-primary(type="button" ui-sref="{{b.addSref}}")
-          i.fa.fa-plus
+    )
+      button.btn.btn-default.flex-1(type="button" ui-sref="{{b.sref}}") {{b.name}}
+      button.btn.btn-primary(type="button" ui-sref="{{b.addSref}}")
+        i.fa.fa-plus
