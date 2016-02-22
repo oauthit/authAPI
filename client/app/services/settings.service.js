@@ -23,7 +23,8 @@
         var agents = Agent.getAll();
 
         if (!currentAgent || !_.findWhere(agents,{id:currentAgent.id})) {
-          setCurrentAgent (Agent.get(localStorageService.get('current-agent-id')) || _.head (agents));
+          var id = localStorageService.get('current-agent-id');
+          setCurrentAgent (id && Agent.get(id) || _.head (agents));
         }
       }
 
