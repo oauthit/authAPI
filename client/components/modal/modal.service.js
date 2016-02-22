@@ -98,8 +98,8 @@ angular.module('authApiApp')
 
             confirmModal.result.then(function (event) {
               cb.apply(event, args);
-            })
-          }
+            });
+          };
 
         }
       }

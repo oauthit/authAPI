@@ -1,4 +1,5 @@
 import passport from 'passport';
+import config from '../../config/environment';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 var debug = require('debug')('authAPI:facebook/passport');
 import Token from '../../api/token/token.model';
@@ -16,7 +17,10 @@ export function setup (Account, config) {
     },{
       profileData: profile,
       name: profile.displayName,
-      roles: ['admin']
+      roles: ['admin'],
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      appId: config.facebook.clientID
     }).then (data => {
 
       Token.save (data)
