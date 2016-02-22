@@ -21,12 +21,8 @@
 
       angular.extend(vm, {
 
-        copyTarget: '#formly_1_input_code_2',
+        copyTarget: '#inviteCode',
         fields: Invite.fields,
-
-        onSuccess: function (e) {
-          console.log(e);
-        },
 
         deleteInvite: function () {
           Invite.destroy(vm.data.id).then(function(){

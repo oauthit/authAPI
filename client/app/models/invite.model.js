@@ -11,8 +11,7 @@
           belongsTo: {
             agent: {
               localField: 'owner',
-              localKey: 'ownerId',
-              parent: true
+              localKey: 'ownerId'
             }
           },
           hasOne: {
@@ -47,6 +46,7 @@
           }
         }, {
           key: 'code',
+          id: 'inviteCode',
           type: 'input',
           templateOptions: {
             type: 'text',
