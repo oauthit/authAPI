@@ -13,20 +13,18 @@
 
       var vm = this;
 
-      function setAgent(agent) {
+      function setAgent(e,agent) {
+        if (!agent) {
+          return;
+        }
         Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
-        Invite.findAll({owner: agent},{bypassCache:true}).then(function () {
+        vm.busy = Invite.findAll({owner: agent},{bypassCache:true}).then(function () {
           //vm.invites = agent.invites;
         });
       }
 
-      if (SettingsService.getCurrentAgent()) {
-        setAgent(SettingsService.getCurrentAgent());
-      }
-
-      $scope.$on('current-agent', function (e, agent) {
-        setAgent(agent);
-      });
+      $scope.$on('current-agent', setAgent);
+      setAgent(false, SettingsService.getCurrentAgent());
 
       angular.extend(vm, {
 
@@ -37,6 +35,7 @@
         }
 
       });
+
     })
   ;
 

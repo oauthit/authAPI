@@ -2,7 +2,7 @@
 
 (function () {
 
-  function OperationAddController($scope, Operation, Agent, CounterAgent, Currency, SettingsService, ErrorsService) {
+  function OperationAddController($scope, $q, Operation, Agent, CounterAgent, Currency, SettingsService, ErrorsService) {
 
     var vm = this;
 
@@ -68,7 +68,7 @@
       if (!agent) {
         return;
       }
-      Agent.loadRelations(agent).then(function () {
+      vm.busy = Agent.loadRelations(agent).then(function () {
         vm.agent = agent;
         vm.counterAgentField.templateOptions.options = agent.contacts;
         vm.data.currencyId = agent.currencyId;
@@ -77,18 +77,15 @@
 
     $scope.$on('current-agent', setAgent);
 
-    CounterAgent.findAll().then(function (data) {
-      vm.counterAgents = data;
-    });
-
-    Currency.findAll().then(function (data) {
-      vm.currencies = data;
-    });
-
     vm.counterAgentField = vm.fields[0];
     vm.currencyField = vm.fields[2];
 
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
+
+    vm.busy = $q.all ([
+      CounterAgent.findAll(),
+      Currency.findAll()
+    ]);
 
     setAgent(false,SettingsService.getCurrentAgent());
 

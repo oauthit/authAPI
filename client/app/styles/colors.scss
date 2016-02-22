@@ -30,6 +30,13 @@
 
 $primary-color-active: rgba(56,144,208,0.5);
 $primary-color-hover: rgba(56,144,208,0.2);
+$primary-color: #4290d0;
+$primary-color-border: #258fbf;
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color-border;
+}
 
 .table-hover > tbody {
 
@@ -55,3 +62,13 @@ $primary-color-hover: rgba(56,144,208,0.2);
   }
 
 }
+
+a {
+  color: $primary-color;
+}
+
+a:hover, a:focus {
+  color: #3a7496;
+}
+
+//#2a6496;
