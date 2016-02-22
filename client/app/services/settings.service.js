@@ -8,6 +8,9 @@
       var currentAgent;
 
       function setCurrentAgent(agent) {
+        if (!agent) {
+          return;
+        }
         localStorageService.set ('current-agent-id', agent.id);
         $rootScope.$broadcast('current-agent', currentAgent = agent);
       }
