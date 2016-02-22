@@ -18,17 +18,17 @@
 
     vm.data = [
       {
-        sref: 'debt.operation.operations',
+        sref: 'debt.operation.list',
         name: 'Operations',
         addSref: 'debt.operation.add'
       },{
-        sref: 'debt.contact.contacts',
+        sref: 'debt.contact.list',
         name: 'Contacts',
         addSref: 'debt.contact.add'
       },{
         sref: 'debt.invite.list',
         name: 'Invites',
-        addSref: 'debt.invite.create'
+        addSref: 'debt.invite.add'
       }
     ];
 

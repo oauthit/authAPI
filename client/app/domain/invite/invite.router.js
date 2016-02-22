@@ -7,7 +7,7 @@ angular.module('authApiApp')
         abstract: true,
         template: '<div ui-view class="container"></div>'
       })
-      .state('debt.invite.create', {
+      .state('debt.invite.add', {
         url: '/invite/create',
         templateUrl: 'app/domain/invite/create/inviteCreate.html',
         controller: 'InviteCreateCtrl',
