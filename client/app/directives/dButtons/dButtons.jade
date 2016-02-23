@@ -4,6 +4,7 @@
     ui-sref='{{b.sref}}'
     ng-class='classes'
     type='button'
+    ng-disabled='b.disabled()'
   )
     | {{b.name}}
   button.pull-right.btn.btn-primary(
@@ -11,5 +12,6 @@
     ng-click='b.fn()'
     ng-class='classes'
     type='button'
+    ng-disabled='b.disabled()'
   )
     | {{b.name}}
