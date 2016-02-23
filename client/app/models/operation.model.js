@@ -76,6 +76,9 @@
             required: true
           }
         },{
+          /** TODO: need a custom formly type for combined number and currency field
+           * http://getbootstrap.com/components/#input-groups-buttons-dropdowns
+          **/
           key: 'currencyId',
           type: 'select',
           templateOptions: {
