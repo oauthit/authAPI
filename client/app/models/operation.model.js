@@ -28,7 +28,16 @@
         }
       });
     })
-    .run(function (Operation) {
+    .run(function (Operation, $http) {
+      Operation.getCount = function (params) {
+        return $http.get(
+          this.getAdapter('http').defaults.basePath + this.endpoint,
+          {
+            params: angular.extend({'agg:': 'count'}, params || {})
+          }).then(function (res) {
+          return res.headers('x-aggregate-count');
+        });
+      };
       Operation.fields = [
         // TODO: use ui-typeahead and auth-focus this field with dropdown open
         {
