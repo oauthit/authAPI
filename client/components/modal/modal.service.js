@@ -82,7 +82,7 @@ angular.module('authApiApp')
                 html: '<p>Are you sure you want to logout?</p>',
                 buttons: [{
                   classes: 'btn-primary',
-                  text: 'Logoff',
+                  text: 'Logout',
                   click: function (e) {
                     confirmModal.close(e);
                   }
