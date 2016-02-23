@@ -31,6 +31,7 @@
       });
     })
     .run(function (Operation, $http) {
+
       Operation.getCount = function (params) {
         return $http.get(
           this.getAdapter('http').defaults.basePath + this.endpoint, {
@@ -40,6 +41,47 @@
           return parseInt(res.headers('x-aggregate-count'));
         });
       };
+
+      Operation.fieldsInfo = [
+        {
+          key: 'debtorId',
+          type: 'select',
+          templateOptions: {
+            label: 'Debtor',
+            valueProp: 'id',
+            //description: 'The other agent of the operation',
+            options: []
+          }
+        },{
+          key: 'lenderId',
+          type: 'select',
+          templateOptions: {
+            label: 'Debtor',
+            valueProp: 'id',
+            //description: 'The other agent of the operation',
+            options: []
+          }
+        },{
+          key: 'total',
+          type: 'input',
+          templateOptions: {
+            label: 'Total',
+            type: 'number',
+            placeholder: 'Total',
+            required: true
+          }
+        },{
+          key: 'currencyId',
+          type: 'select',
+          templateOptions: {
+            label: 'Select currency',
+            labelProp: 'symbol',
+            valueProp: 'id',
+            options: []
+          }
+        }
+      ];
+
       Operation.fields = [
         // TODO: use ui-typeahead and auth-focus this field with dropdown open
         {

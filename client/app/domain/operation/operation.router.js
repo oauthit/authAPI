@@ -24,5 +24,5 @@ angular.module('authApiApp')
         templateUrl: 'app/domain/operation/info/operationInfo.html',
         controller: 'OperationInfoCtrl',
         controllerAs: 'vm'
-      })
+      });
   });
