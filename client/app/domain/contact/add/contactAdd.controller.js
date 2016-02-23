@@ -30,7 +30,14 @@
           code: vm.model.inviteCode
         };
 
-        Invite.findAll(query, {bypassCache: true}).then(function (response) {
+        ErrorsService.clear();
+
+        vm.busy = Invite.findAll(query, {bypassCache: true}).then(function (response) {
+
+          if (!response.length) {
+            return ErrorsService.addError('No invite with code "' + query.code + '"');
+          }
+
           vm.inviteByCode = response[0];
           vm.inviteFields = [{
             key: 'ownerName.name',

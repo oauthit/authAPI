@@ -12,7 +12,7 @@ section(error-widget)
 h1 Add or invite a contact
 .lead Here you accept incoming invites, search public-searchable agents and issue them invites.
 
-form(name='vm.getInviteByCodeForm')
+form(name='vm.getInviteByCodeForm' cg-busy='vm.busy')
   formly-form(model='vm.model' fields='vm.fields')
     .buttons.pull-right
       button.btn.btn-default(ng-click='vm.getInviteByCode()' ng-disabled='vm.getInviteByCodeForm.$invalid')
