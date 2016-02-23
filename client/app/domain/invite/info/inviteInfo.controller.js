@@ -30,6 +30,10 @@
           });
         },
 
+        disableDeleteInvite: function () {
+          return !vm.data || !vm.data.status || vm.data.status === 'accepted';
+        },
+
         // TODO implement sms and email invite
         sms: function () {
           ErrorsService.addError ('Not implemented');
