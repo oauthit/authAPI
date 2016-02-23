@@ -13,7 +13,8 @@
     'formlyBootstrap',
     'ngclipboard',
     'angularMoment',
-    'cgBusy'
+    'cgBusy',
+    'ngTable'
   ]);
 
   angular.module('authApiApp', [

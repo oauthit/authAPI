@@ -4,16 +4,19 @@
 
 h1 My operations
 
-table.table.table-hover.table-striped(cg-busy='vm.busy')
-  thead
-    th Status
-    th Counteragent
-    th.num Sum
-  tbody.table-striped
-    tr(ng-repeat="o in vm.operations track by o.id")
-      td {{o.ts | amCalendar}}
-      td {{o.debtorId == vm.currentAgent.id ? o.lender.name : o.debtor.name}}
-        //a(ui-sref="debt.invite.info({id: invite.id})") {{invite.code}}
-      td.num(ng-class="{red: o.lenderId == vm.currentAgent.id}")
-        span(ng-if="o.lenderId == vm.currentAgent.id") -
-        | {{o.total | number:2}} {{o.currency.symbol}}
+table.table.table-hover.table-striped(cg-busy='vm.busy' ng-table='vm.ngTableParams')
+  tr(ng-repeat="row in $data track by row.id")
+    td(
+      title="'Timestamp'"
+    ) {{row.ts | amCalendar}}
+    td(
+      title="'Counteragent'"
+    ) {{row.debtorId == vm.currentAgent.id ? row.lender.name : row.debtor.name}}
+      //a(ui-sref="debt.invite.info({id: invite.id})") {{invite.code}}
+    td.num(
+      ng-class="{red: row.lenderId == vm.currentAgent.id}"
+      title="'Sum'"
+      header-class="'num'"
+    )
+      span(ng-if="row.lenderId == vm.currentAgent.id") -
+      | {{row.total | number:2}} {{row.currency.symbol}}

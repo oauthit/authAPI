@@ -2,6 +2,8 @@
 
 (function () {
 
+  var deb = debug('debtee:operation.model');
+
   angular.module('authApiApp')
     .factory('Operation', function (DS) {
       return DS.defineResource({
@@ -31,11 +33,11 @@
     .run(function (Operation, $http) {
       Operation.getCount = function (params) {
         return $http.get(
-          this.getAdapter('http').defaults.basePath + this.endpoint,
-          {
+          this.getAdapter('http').defaults.basePath + this.endpoint, {
             params: angular.extend({'agg:': 'count'}, params || {})
           }).then(function (res) {
-          return res.headers('x-aggregate-count');
+          deb ('getCount',res);
+          return parseInt(res.headers('x-aggregate-count'));
         });
       };
       Operation.fields = [
