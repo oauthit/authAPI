@@ -26,8 +26,13 @@
         parseError(error);
       }
 
+      function clearErrors () {
+        errors.splice(0,errors.length);
+      }
+
       return {
         addError: addError,
+        clear: clearErrors,
         errors: errors
       };
     })
