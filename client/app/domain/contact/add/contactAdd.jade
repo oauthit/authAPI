@@ -18,6 +18,8 @@ form(name='vm.getInviteByCodeForm' cg-busy='vm.busy')
       button.btn.btn-default(ng-click='vm.getInviteByCode()' ng-disabled='vm.getInviteByCodeForm.$invalid')
         | Get invite
 
+// TODO: show social friends list
+
 section.clear-both(ng-show='vm.inviteByCode')
   form(name='vm.acceptInviteForm')
     formly-form(model='vm.inviteByCode' fields='vm.inviteFields')
