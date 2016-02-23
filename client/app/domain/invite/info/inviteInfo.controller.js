@@ -23,6 +23,14 @@
 
         copyTarget: '#inviteCode',
         fields: Invite.fields,
+        buttons: [
+          {
+            name: 'Delete invite',
+            disabled: vm.disableDeleteInvite,
+            fn: vm.deleteInvite,
+            classes: 'pull-right btn btn-warning'
+          }
+        ],
 
         deleteInvite: function () {
           Invite.destroy(vm.data.id).then(function(){

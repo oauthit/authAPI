@@ -1,18 +1,18 @@
- 'use strict';
+'use strict';
 
- (function () {
+(function () {
 
-   angular.module('authApiApp')
+  angular.module('authApiApp')
     .directive('dButtons', function () {
       return {
-        restrict: 'AE',
+        restrict: 'AC',
+        require: 'dButton',
         templateUrl: 'app/directives/dButtons/dButtons.html',
         scope: {
-          buttons: '=',
-          classes: '@'
+          buttons: '='
         }
       };
     })
-   ;
+  ;
 
- }());
+}());
