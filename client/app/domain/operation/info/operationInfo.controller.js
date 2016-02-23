@@ -29,6 +29,7 @@
 
       CounterAgent.findAll();
 
+      // TODO: make FormlyConfig service for retrieving fields configs and find by key
       vm.debtorField = vm.fields[0];
       vm.lenderField = vm.fields[1];
       vm.currencyField = vm.fields[3];

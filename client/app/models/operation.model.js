@@ -32,6 +32,8 @@
     })
     .run(function (Operation, $http) {
 
+      // TODO: create a service to setup extra model functionality like this
+
       Operation.getCount = function (params) {
         return $http.get(
           this.getAdapter('http').defaults.basePath + this.endpoint, {
@@ -41,6 +43,9 @@
           return parseInt(res.headers('x-aggregate-count'));
         });
       };
+
+      // TODO: need comments functionality on an operation
+      // TODO: need operation tagging and searching by tags in operation.list
 
       Operation.fieldsInfo = [
         {
