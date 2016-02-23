@@ -1,0 +1,15 @@
+.buttons(ng-repeat='b in buttons track by b.name')
+  button.pull-right.btn.btn-primary(
+    ng-if='b.sref'
+    ui-sref='{{b.sref}}'
+    ng-class='classes'
+    type='button'
+  )
+    | {{b.name}}
+  button.pull-right.btn.btn-primary(
+    ng-if='b.fn'
+    ng-click='b.fn()'
+    ng-class='classes'
+    type='button'
+  )
+    | {{b.name}}

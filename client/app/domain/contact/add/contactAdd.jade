@@ -1,13 +1,6 @@
 section(error-widget)
 
-//TODO directive for button
-.buttons
-  button.pull-right.btn.btn-primary(
-    ng-repeat='b in vm.buttons track by b.name'
-    type='button'
-    ng-click="b.fn()"
-  )
-    | {{b.name}}
+d-buttons(buttons='vm.buttons')
 
 h1 Add or invite a contact
 .lead Here you accept incoming invites, search public-searchable agents and issue them invites.

@@ -1,12 +1,6 @@
 section(error-widget)
 
-.buttons
-  button.pull-right.btn.btn-primary(
-    ng-repeat='b in vm.buttons track by b.name'
-    type='button'
-    ui-sref='{{b.sref}}'
-  )
-    | {{b.name}}
+d-buttons(buttons='vm.buttons')
 
 h1 My contacts
 
