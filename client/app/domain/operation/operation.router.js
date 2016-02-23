@@ -18,5 +18,11 @@ angular.module('authApiApp')
         templateUrl: 'app/domain/operation/add/operationAdd.html',
         controller: 'OperationAddCtrl',
         controllerAs: 'vm'
-      });
+      })
+      .state('debt.operation.info', {
+        url: '/operation/info/:id',
+        templateUrl: 'app/domain/operation/info/operationInfo.html',
+        controller: 'OperationInfoCtrl',
+        controllerAs: 'vm'
+      })
   });
