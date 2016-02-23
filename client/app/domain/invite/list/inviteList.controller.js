@@ -5,19 +5,16 @@
   angular.module('authApiApp')
     .controller('InviteListCtrl', function (
       $scope,
-      Agent,
-      Invite,
       $state,
-      SettingsService,
-      $q
+      $q,
+      Invite,
+      InitCtrlService
     ) {
 
-      var vm = this;
+      var vm = InitCtrlService.setup (this);
 
-      function setAgent(e,agent) {
-        if (!agent) {
-          return;
-        }
+      function onSetAgent (agent) {
+
         //Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
         vm.busy = Invite.findAll({ownerId: agent.id},{bypassCache:true}).then(function (res) {
 
@@ -32,11 +29,14 @@
           }
 
         });
+
       }
 
       angular.extend(vm, {
 
         invites: [],
+
+        onSetAgent: onSetAgent,
 
         deleteInvite: function () {
           Invite.destroy(vm.data.id).then(function(){
@@ -46,8 +46,7 @@
 
       });
 
-      $scope.$on('current-agent', setAgent);
-      setAgent(false, SettingsService.getCurrentAgent());
+      InitCtrlService.init (vm,$scope);
 
     })
   ;
