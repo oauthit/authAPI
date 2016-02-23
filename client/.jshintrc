@@ -36,6 +36,7 @@
     "element": true,
     "by": true,
     "validate": true,
-    "uuid": true
+    "uuid": true,
+    "debug": true
   }
 }
