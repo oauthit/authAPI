@@ -23,7 +23,6 @@
             })(vm.contact.counterAgent.name);
           }
         }]
-
       });
 
       vm.busy = Contact.find(contactId).then(function (c) {
