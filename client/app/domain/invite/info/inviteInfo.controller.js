@@ -19,6 +19,16 @@
 
       Invite.bindOne($stateParams.id, $scope, 'vm.data');
 
+      function deleteInvite () {
+        Invite.destroy(vm.data.id).then(function(){
+          $state.go('debt.main');
+        });
+      }
+
+      function disableDeleteInvite () {
+        return !vm.data || !vm.data.status || vm.data.status === 'accepted';
+      }
+
       angular.extend(vm, {
 
         copyTarget: '#inviteCode',
@@ -26,21 +36,11 @@
         buttons: [
           {
             name: 'Delete invite',
-            disabled: vm.disableDeleteInvite,
-            fn: vm.deleteInvite,
+            disabled: disableDeleteInvite,
+            fn: deleteInvite,
             classes: 'pull-right btn btn-warning'
           }
         ],
-
-        deleteInvite: function () {
-          Invite.destroy(vm.data.id).then(function(){
-            $state.go('debt.main');
-          });
-        },
-
-        disableDeleteInvite: function () {
-          return !vm.data || !vm.data.status || vm.data.status === 'accepted';
-        },
 
         // TODO implement sms and email invite
         sms: function () {
