@@ -2,9 +2,18 @@
 
 (function () {
 
-  function OperationAddController($scope, $q, Operation, Agent, CounterAgent, Currency, SettingsService, ErrorsService) {
+  function OperationAddController(
+    $scope,
+    $q,
+    Agent,
+    Operation,
+    CounterAgent,
+    Currency,
+    InitCtrlService,
+    ErrorsService
+  ) {
 
-    var vm = this;
+    var vm = InitCtrlService.setup (this);
 
     angular.extend(vm, {
 
@@ -46,6 +55,8 @@
           lenderId: vm.data.lenderId
         });
 
+        ErrorsService.clear();
+
         Operation.create(vm.operation).then(function (res) {
           vm.operation = res;
           form.$setPristine();
@@ -58,25 +69,19 @@
 
       isSaved: function () {
         return !ErrorsService.errors.length && vm.operation.id;
+      },
+
+      onSetAgent: function(agent) {
+        vm.busy = Agent.loadRelations(agent).then(function () {
+          vm.agent = agent;
+          vm.counterAgentField.templateOptions.options = agent.contacts;
+          vm.data.currencyId = agent.currencyId;
+        });
       }
 
     });
 
     vm.dataPristine = angular.copy (vm.data);
-
-    function setAgent(e,agent) {
-      if (!agent) {
-        return;
-      }
-      vm.busy = Agent.loadRelations(agent).then(function () {
-        vm.agent = agent;
-        vm.counterAgentField.templateOptions.options = agent.contacts;
-        vm.data.currencyId = agent.currencyId;
-      });
-    }
-
-    $scope.$on('current-agent', setAgent);
-
     vm.counterAgentField = vm.fields[0];
     vm.currencyField = vm.fields[2];
 
@@ -87,7 +92,7 @@
       Currency.findAll()
     ]);
 
-    setAgent(false,SettingsService.getCurrentAgent());
+    InitCtrlService.init (vm, $scope);
 
   }
 
