@@ -38,6 +38,9 @@
 
       onSubmit: function (form) {
 
+        //TODO set default value in STAPI
+        vm.data.confirmed = false;
+        vm.data.creatorId = vm.agent.id;
         if (vm.data.role === 'debt') {
           vm.data.debtorId = vm.agent.id;
           vm.data.lenderId = vm.data.contact.counterAgentId;
