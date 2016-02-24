@@ -469,6 +469,7 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
   var assetsFilter = plugins.filter('**/*.{js,css}');
 
   return gulp.src(paths.client.mainView)
+    .pipe(plugins.html2jade({nspaces:2}))
     .pipe(plugins.jade({pretty: true}))
     .pipe(plugins.useref())
     .pipe(appFilter)
