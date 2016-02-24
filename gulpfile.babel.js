@@ -466,11 +466,11 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
   var jsFilter = plugins.filter('**/*.js');
   var cssFilter = plugins.filter('**/*.css');
   var htmlBlock = plugins.filter(['**/*.!(html)']);
-  var assetsFilter = plugins.filter('**/*.{js,css}');
+  var assetsFilter = plugins.filter('**/*.{js,css,html}');
 
   return gulp.src(paths.client.mainView)
-    .pipe(plugins.html2jade({nspaces:2}))
-    .pipe(plugins.jade({pretty: true}))
+    //.pipe(plugins.html2jade({nspaces:2}))
+    //.pipe(plugins.jade({pretty: true}))
     .pipe(plugins.useref())
     .pipe(appFilter)
     .pipe(plugins.addSrc.append('.tmp/templates.js'))
