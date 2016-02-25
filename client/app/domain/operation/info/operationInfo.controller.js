@@ -10,6 +10,7 @@
                                                Operation,
                                                CounterAgent,
                                                Currency,
+                                               FormlyConfigService,
                                                ErrorsService) {
 
       var vm = InitCtrlService.setup(this);
@@ -41,7 +42,7 @@
 
       angular.extend(vm, {
 
-        fields: Operation.fieldsInfo,
+        fields: FormlyConfigService.getConfigFieldsByKey('operationInfo'),
 
         onSetAgent: function (agent) {
           vm.currentAgent = agent;
@@ -76,10 +77,9 @@
 
       CounterAgent.findAll();
 
-      // TODO: make FormlyConfig service for retrieving fields configs and find by key
-      vm.debtorField = vm.fields[0];
-      vm.lenderField = vm.fields[1];
-      vm.currencyField = vm.fields[3];
+      vm.debtorField = FormlyConfigService.getConfigKey(vm.fields, 'debtorId');
+      vm.lenderField = FormlyConfigService.getConfigKey(vm.fields, 'lenderId');
+      vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
       Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
       CounterAgent.bindAll(false, $scope, 'vm.debtorField.templateOptions.options');

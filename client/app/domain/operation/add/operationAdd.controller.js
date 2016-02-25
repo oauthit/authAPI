@@ -10,6 +10,7 @@
     CounterAgent,
     Currency,
     InitCtrlService,
+    FormlyConfigService,
     ErrorsService
   ) {
 
@@ -18,7 +19,7 @@
     angular.extend(vm, {
 
       contacts: [],
-      fields: Operation.fields,
+      fields: FormlyConfigService.getConfigFieldsByKey('operationCreate'),
       operation: {},
 
       data: {
@@ -87,8 +88,8 @@
     });
 
     vm.dataPristine = angular.copy (vm.data);
-    vm.counterAgentField = vm.fields[0];
-    vm.currencyField = vm.fields[2];
+    vm.counterAgentField = FormlyConfigService.getConfigKey(vm.fields, 'contact');
+    vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
 

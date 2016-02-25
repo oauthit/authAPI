@@ -28,12 +28,12 @@
         }
       });
     })
-    .run(function (Operation) {
+    .run(function (Operation, FormlyConfigService) {
 
       // TODO: need comments functionality on an operation
       // TODO: need operation tagging and searching by tags in operation.list
 
-      Operation.fieldsInfo = [
+      var operationInfo = [
         {
           key: 'debtorId',
           type: 'select',
@@ -76,7 +76,7 @@
         }
       ];
 
-      Operation.fields = [
+      var operationCreate = [
         // TODO: use ui-typeahead and auth-focus this field with dropdown open
         {
           key: 'contact',
@@ -129,6 +129,10 @@
           }
         }
       ];
+
+      FormlyConfigService.setConfig('operationInfo', operationInfo);
+      FormlyConfigService.setConfig('operationCreate', operationCreate);
     });
+
 
 }());
