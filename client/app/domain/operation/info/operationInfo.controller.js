@@ -45,31 +45,33 @@
 
         onSetAgent: function (agent) {
           vm.currentAgent = agent;
-        },
-
-        //TODO initialize buttons by state
-        buttons: (function () {
-
-          var buttons = [];
+          vm.buttons = [];
 
           operationPromise.then(function (o) {
             vm.model = o;
-            if (o.status === 'waiting') {
-              buttons.push({
+            if (o.status === 'waiting' && vm.currentAgent.id !== o.creatorId
+              && _.contains([o.debtorId, o.lenderId], vm.currentAgent.id)) {
+              vm.buttons.push({
                 name: 'Accept',
                 fn: acceptOperation
               });
-            } else if (o.status === 'accepted') {
-              buttons.push({
+            } else if (o.status === 'accepted' && vm.currentAgent.id === o.creatorId) {
+              vm.buttons.push({
                 name: 'Delete',
+                fn: deleteOperation
+              });
+            } else if (o.status === 'waiting' && vm.currentAgent.id === o.creatorId) {
+              vm.buttons.push({
+                name: 'Decline',
                 fn: deleteOperation
               });
             }
           });
 
-          return buttons;
+        },
 
-        }())
+        //TODO initialize buttons by state
+        buttons: []
 
       });
 
