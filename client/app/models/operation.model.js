@@ -30,19 +30,9 @@
         }
       });
     })
-    .run(function (Operation, $http) {
+    .run(function (ExtendModelService, Operation) {
 
-      // TODO: create a service to setup extra model functionality like this
-
-      Operation.getCount = function (params) {
-        return $http.get(
-          this.getAdapter('http').defaults.basePath + this.endpoint, {
-            params: angular.extend({'agg:': 'count'}, params || {})
-          }).then(function (res) {
-          deb ('getCount',res);
-          return parseInt(res.headers('x-aggregate-count'));
-        });
-      };
+      ExtendModelService(Operation);
 
       // TODO: need comments functionality on an operation
       // TODO: need operation tagging and searching by tags in operation.list
