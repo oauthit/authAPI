@@ -9,7 +9,8 @@
                                                InitCtrlService,
                                                Operation,
                                                CounterAgent,
-                                               Currency) {
+                                               Currency,
+                                               ErrorsService) {
 
       var vm = InitCtrlService.setup(this);
       var operationId = $stateParams.id;
@@ -31,7 +32,7 @@
           confirmed: true,
           acceptorId: vm.agent.id
         };
-        Operation.save(data).then(function (res) {
+        Operation.save(data).then(function () {
           //TODO message after success
         }, function (err) {
           ErrorsService.addError(err);

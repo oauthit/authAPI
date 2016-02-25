@@ -2,6 +2,8 @@
 
 (function () {
 
+  var deb = debug('debtee:operation.model');
+
   angular.module('authApiApp.services')
     .factory('ExtendModelService', function ($http) {
       return function (model) {
@@ -13,8 +15,8 @@
             deb ('getCount',res);
             return parseInt(res.headers('x-aggregate-count'));
           });
-        }
-      }
+        };
+      };
     })
   ;
 

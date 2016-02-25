@@ -2,8 +2,6 @@
 
 (function () {
 
-  var deb = debug('debtee:operation.model');
-
   angular.module('authApiApp')
     .factory('Operation', function (DS) {
       return DS.defineResource({
