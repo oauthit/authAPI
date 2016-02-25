@@ -3,8 +3,8 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('Operation', function (DS) {
-      return DS.defineResource({
+    .factory('Operation', function (ModelService) {
+      return ModelService.define({
         name: 'operation',
         relations: {
           belongsTo: {
@@ -28,9 +28,7 @@
         }
       });
     })
-    .run(function (ExtendModelService, Operation) {
-
-      ExtendModelService(Operation);
+    .run(function (Operation) {
 
       // TODO: need comments functionality on an operation
       // TODO: need operation tagging and searching by tags in operation.list

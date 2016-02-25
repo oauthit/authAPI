@@ -49,8 +49,8 @@
 
           operationPromise.then(function (o) {
             vm.model = o;
-            if (o.status === 'waiting' && vm.currentAgent.id !== o.creatorId
-              && _.contains([o.debtorId, o.lenderId], vm.currentAgent.id)) {
+            if (o.status === 'waiting' && vm.currentAgent.id !== o.creatorId &&
+              _.contains([o.debtorId, o.lenderId], vm.currentAgent.id)) {
               vm.buttons.push({
                 name: 'Accept',
                 fn: acceptOperation
@@ -70,7 +70,6 @@
 
         },
 
-        //TODO initialize buttons by state
         buttons: []
 
       });
