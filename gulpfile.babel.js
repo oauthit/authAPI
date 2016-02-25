@@ -468,6 +468,11 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
   var htmlBlock = plugins.filter(['**/*.!(html)']);
   var assetsFilter = plugins.filter('**/*.{js,css,html}');
 
+  gulp.src(paths.client.views)
+    .pipe(plugins.jade())
+    .pipe(gulp.dest(`${paths.dist}/${clientPath}`))
+  ;
+
   return gulp.src(paths.client.mainView)
     //.pipe(plugins.html2jade({nspaces:2}))
     //.pipe(plugins.jade({pretty: true}))
