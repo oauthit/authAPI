@@ -15,6 +15,7 @@
 
       function onSetAgent (agent) {
 
+        vm.invites = [];
         //Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
         vm.busy = Invite.findAll({ownerId: agent.id},{bypassCache:true}).then(function (res) {
 
