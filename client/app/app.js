@@ -38,6 +38,15 @@
         .setPrefix('authAPI');
     })
 
+    .value('cgBusyDefaults',{
+      //message:'Loading Stuff',
+      //backdrop: false,
+      //templateUrl: 'my_custom_template.html',
+      //minDuration: 700,
+      //wrapperClass: 'my-class my-class2'
+      delay: 300
+    })
+
     .run(function ($rootScope, InitService) {
       //subscribe for logged-in event
       $rootScope.$on('logged-in',function(){
