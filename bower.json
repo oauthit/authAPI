@@ -10,7 +10,7 @@
     "bootstrap-social": "~4.9.1",
     "angular-resource": "~1.4.0",
     "angular-sanitize": "~1.4.0",
-    "angular-bootstrap": "~0.13.0",
+    "angular-bootstrap": "~0.14.0",
     "font-awesome": ">=4.1.0",
     "lodash": "~3.x.x",
     "angular-ui-router": "~0.2.15",
