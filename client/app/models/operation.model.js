@@ -43,7 +43,7 @@
             //description: 'The other agent of the operation',
             options: []
           }
-        },{
+        }, {
           key: 'lenderId',
           type: 'select',
           templateOptions: {
@@ -52,7 +52,7 @@
             //description: 'The other agent of the operation',
             options: []
           }
-        },{
+        }, {
           key: 'total',
           type: 'input',
           templateOptions: {
@@ -61,10 +61,10 @@
             placeholder: 'Total',
             required: true
           }
-        },{
+        }, {
           /** TODO: need a custom formly type for combined number and currency field
            * http://getbootstrap.com/components/#input-groups-buttons-dropdowns
-          **/
+           **/
           key: 'currencyId',
           type: 'select',
           templateOptions: {
@@ -80,13 +80,14 @@
         // TODO: use ui-typeahead and auth-focus this field with dropdown open
         {
           key: 'contact',
-          type: 'select',
+          type: 'typeahead',
           templateOptions: {
             label: 'Counter-agent',
-            valueProp: 'id',
             description: 'The other agent of the operation',
-            options: [],
-            ngOptions: 'option as option.counterAgent.name for option in to.options track by option.id'
+            options: []
+          },
+          data: {
+            typeaheadOptions: 'item as item.counterAgent.name for item in to.liveSearch($viewValue)'
           }
         },
         {

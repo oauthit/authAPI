@@ -21,6 +21,7 @@
       contacts: [],
       fields: FormlyConfigService.getConfigFieldsByKey('operationCreate'),
       operation: {},
+      options: {},
 
       data: {
         role: 'debt'
@@ -80,15 +81,20 @@
       onSetAgent: function(agent) {
         vm.busy = Agent.loadRelations(agent).then(function () {
           vm.agent = agent;
-          vm.counterAgentField.templateOptions.options = agent.contacts;
           vm.data.currencyId = agent.currencyId;
         });
       }
 
     });
 
+    vm.originalFields = angular.copy(vm.fields);
     vm.dataPristine = angular.copy (vm.data);
     vm.counterAgentField = FormlyConfigService.getConfigKey(vm.fields, 'contact');
+    vm.counterAgentField.templateOptions.liveSearch = function (viewValue) {
+      return _.filter(vm.agent.contacts, function (c) {
+        return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase());
+      });
+    };
     vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');

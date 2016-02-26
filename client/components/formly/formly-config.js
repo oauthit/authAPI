@@ -186,4 +186,19 @@ angular.module('authApiApp').config(['formlyConfigProvider',function(formlyConfi
     template: selectTpl ('selectize')
   });
 
+  formlyConfig.templateManipulators.preWrapper.push(function (template, options, scope) {
+    if (!options.data.typeaheadOptions) {
+      return template;
+    }
+
+    return template.replace("item as item for item in to.options | filter:$viewValue | limitTo:8", options.data.typeaheadOptions);
+  });
+
+  formlyConfig.setType({
+    name: 'typeahead',
+    template: '<input type="text" ng-model="model[options.key]" uib-typeahead="item as item for item in to.options | filter:$viewValue | limitTo:8" class="form-control">',
+    wrapper: ['bootstrapLabel', 'bootstrapHasError']
+  });
+
+
 }]);
