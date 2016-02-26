@@ -92,7 +92,7 @@
     vm.counterAgentField = FormlyConfigService.getConfigKey(vm.fields, 'contact');
     vm.counterAgentField.templateOptions.liveSearch = function (viewValue) {
       return _.filter(vm.agent.contacts, function (c) {
-        return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase());
+        return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase()) || viewValue === ' ' ;
       });
     };
     vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');

@@ -194,9 +194,10 @@ angular.module('authApiApp').config(['formlyConfigProvider',function(formlyConfi
     return template.replace('item as item for item in to.options | filter:$viewValue | limitTo:8', options.data.typeaheadOptions);
   });
 
+  //TODO refactor this that attrs can be passed to template
   formlyConfig.setType({
     name: 'typeahead',
-    template: '<input type="text" ng-model="model[options.key]" uib-typeahead="item as item for item in to.options | filter:$viewValue | limitTo:8" class="form-control">',
+    template: '<input type="text" ng-model="model[options.key]" typeahead-focus="" uib-typeahead="item as item for item in to.options | filter:$viewValue | limitTo:8" class="form-control">',
     wrapper: ['bootstrapLabel', 'bootstrapHasError']
   });
 
