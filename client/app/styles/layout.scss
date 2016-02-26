@@ -9,10 +9,12 @@
 
 .display-flex {
   display: flex;
+  display: -webkit-flex;
 }
 
 .flex-1 {
   flex: 1;
+  -webkit-flex: 1;
 }
 
 .chapter-menu {
