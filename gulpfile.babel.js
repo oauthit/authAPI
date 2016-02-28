@@ -473,12 +473,7 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
   var jsFilter = plugins.filter('**/*.js');
   var cssFilter = plugins.filter('**/*.css');
   var htmlBlock = plugins.filter(['**/*.!(html)']);
-  var assetsFilter = plugins.filter('**/*.{js,css,html}');
-
-  gulp.src(paths.client.views)
-    .pipe(plugins.jade())
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}`))
-  ;
+  var assetsFilter = plugins.filter('**/*.{js,css}');
 
   return gulp.src(paths.client.mainView)
     //.pipe(plugins.html2jade({nspaces:2}))
@@ -503,11 +498,13 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
     .pipe(htmlBlock.restore())
     .pipe(plugins.revReplace({manifest}))
     .pipe(assetsFilter)
+    .pipe(assetsFilter.restore())
     .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
 });
 
 gulp.task('html', function () {
-  return gulp.src(`${clientPath}/{app,components}/**/*.html`)
+  return gulp.src(`${clientPath}/{app,components}/**/*.jade`)
+    .pipe(plugins.jade({pretty: true}))
     .pipe(plugins.angularTemplatecache({
       module: 'authApiApp'
     }))
