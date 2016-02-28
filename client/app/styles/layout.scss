@@ -34,13 +34,17 @@
 .container {
 
   h1 {
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin: {
+      top: 20px;
+      bottom: 20px;
+    }
   }
 
   .buttons {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: {
+      top: 20px;
+      bottom: 20px;
+    }
   }
 
   form .buttons {
