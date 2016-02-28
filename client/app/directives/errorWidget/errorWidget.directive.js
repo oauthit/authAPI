@@ -11,6 +11,7 @@
         templateUrl: 'app/directives/errorWidget/errorWidget.html',
         controllerAs: 'ctrl',
 
+        // FIXME Unclosed alert shows on every page
         controller: function (ErrorsService) {
           var vm = this;
           vm.errors =  ErrorsService.errors;
