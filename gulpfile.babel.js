@@ -15,6 +15,7 @@ import {Server as KarmaServer} from 'karma';
 import runSequence from 'run-sequence';
 import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
+var spawn = require('child_process').spawn;
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -317,6 +318,11 @@ gulp.task('start:server', () => {
     .on('log', onServerLog);
 });
 
+gulp.task('gulp-reload', function() {
+  spawn('gulp', ['watch'], {stdio: 'inherit'});
+  process.exit();
+});
+
 gulp.task('watch', () => {
   var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
 
@@ -350,6 +356,7 @@ gulp.task('watch', () => {
     .pipe(plugins.livereload());
 
   gulp.watch('bower.json', ['wiredep:client']);
+  gulp.watch('gulpfile.js', ['gulp-reload']);
 });
 
 gulp.task('serve', cb => {
