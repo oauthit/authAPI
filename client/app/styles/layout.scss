@@ -21,6 +21,12 @@
   margin-top: 60px;
 }
 
+@media (max-width: 767px) {
+  .chapter-menu {
+    margin-top: 10px;
+  }
+}
+
 .chapter-menu > * {
   margin-top: 10px;
 }
