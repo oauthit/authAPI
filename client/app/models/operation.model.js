@@ -87,7 +87,8 @@
             options: []
           },
           data: {
-            typeaheadOptions: 'item as item.counterAgent.name for item in to.liveSearch($viewValue)'
+            typeahead: 'uib-typeahead="item as item.counterAgent.name for item in to.liveSearch($viewValue)"',
+            typeaheadOnSelect: 'typeahead-on-select="to.onSelect($item)"'
           }
         },
         {

@@ -95,6 +95,9 @@
         return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase()) || viewValue === ' ' ;
       });
     };
+    vm.counterAgentField.templateOptions.onSelect = function (item) {
+      console.log(item, vm.data);
+    };
     vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
