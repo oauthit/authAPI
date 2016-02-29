@@ -1,2 +1,2 @@
-div(ng-show='ctrl.errors && ctrl.errors.length > 0')
-  alert(ng-repeat='error in ctrl.errors' type='{{error.type}}' close='ctrl.closeError($index)') {{error.msg}}
+div(ng-show='ctrl.errors.length')
+  uib-alert(ng-repeat='error in ctrl.errors' type='{{error.type}}' close='ctrl.closeError($index)') {{error.msg}}
