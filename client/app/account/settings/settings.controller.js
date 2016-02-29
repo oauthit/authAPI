@@ -2,29 +2,23 @@
 
 // TODO show and edit account data
 
-class SettingsController {
-  constructor(Auth) {
-    this.errors = {};
-    this.submitted = false;
+function SettingsController (Auth, FormlyConfigService){
 
-    this.Auth = Auth;
-  }
+  var vm = this;
 
-  changePassword(form) {
-    this.submitted = true;
+  angular.extend(vm, {
 
-    if (form.$valid) {
-      this.Auth.changePassword(this.user.oldPassword, this.user.newPassword)
-        .then(() => {
-          this.message = 'Password successfully changed.';
-        })
-        .catch(() => {
-          form.password.$setValidity('mongoose', false);
-          this.errors.other = 'Incorrect password';
-          this.message = '';
-        });
-    }
-  }
+    model: Auth.getCurrentUser(),
+    fields: FormlyConfigService.getConfigFieldsByKey('accountInfo'),
+    buttons: [
+      {
+        name: 'Manage agents',
+        sref: 'debt.agent.manage'
+      }
+    ]
+
+  });
+
 }
 
 angular.module('authApiApp')

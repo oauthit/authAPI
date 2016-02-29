@@ -5,30 +5,23 @@
   angular.module('authApiApp')
     .service('Account', function (DS) {
       return DS.defineResource({
-        name: 'account',
-        relations: {
-          hasMany: {
-            operations: [
-              {
-                localField: 'debtorAccountOperations',
-                foreignKey: 'debtorAccount'
-              }, {
-                localField: 'lenderAccountOperations',
-                foreignKey: 'lenderAccount'
-              }
-            ]
-          },
-          hasOne: {
-            currencies: {
-              localField: 'currencyEntity',
-              localKey: 'currency'
-            }
-          }
-        }
+        name: 'account'
       });
     })
-    .run(function (Account) {
-      console.log (Account);
+    .run(function (Account, FormlyConfigService) {
+      var accountFields = [
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name',
+            type: 'text',
+            disabled: true
+          }
+        }
+      ];
+
+      FormlyConfigService.setConfig('accountInfo', accountFields);
     });
 
 }());
