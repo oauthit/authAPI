@@ -54,30 +54,20 @@
           }
         }, {
           key: 'total',
-          type: 'input',
+          type: 'inputWithAddon',
           templateOptions: {
             label: 'Total',
             type: 'number',
             placeholder: 'Total',
-            required: true
-          }
-        }, {
-          /** TODO: need a custom formly type for combined number and currency field
-           * http://getbootstrap.com/components/#input-groups-buttons-dropdowns
-           **/
-          key: 'currencyId',
-          type: 'select',
-          templateOptions: {
-            label: 'Select currency',
-            labelProp: 'symbol',
+            options: [],
             valueProp: 'id',
-            options: []
+            labelProp: 'symbol',
+            dropdownKey: 'currency'
           }
         }
       ];
 
       var operationCreate = [
-        // TODO: use ui-typeahead and auth-focus this field with dropdown open
         {
           key: 'contact',
           type: 'typeahead',
@@ -93,24 +83,15 @@
         },
         {
           key: 'total',
-          type: 'input',
+          type: 'inputWithAddon',
           templateOptions: {
             label: 'Total',
             type: 'number',
             placeholder: 'Total',
-            required: true,
-            description: 'Enter total'
-          }
-        },
-        {
-          key: 'currencyId',
-          type: 'select',
-          templateOptions: {
-            label: 'Select currency',
-            labelProp: 'symbol',
+            options: [],
             valueProp: 'id',
-            description: 'Currency of the operation',
-            options: []
+            labelProp: 'symbol',
+            dropdownKey: 'currency'
           }
         },
         {

@@ -79,9 +79,9 @@
 
       vm.debtorField = FormlyConfigService.getConfigKey(vm.fields, 'debtorId');
       vm.lenderField = FormlyConfigService.getConfigKey(vm.fields, 'lenderId');
-      vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
+      vm.totalWithAddonField = FormlyConfigService.getConfigKey(vm.fields, 'total');
 
-      Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
+      Currency.bindAll(false, $scope, 'vm.totalWithAddonField.templateOptions.options');
       CounterAgent.bindAll(false, $scope, 'vm.debtorField.templateOptions.options');
       CounterAgent.bindAll(false, $scope, 'vm.lenderField.templateOptions.options');
 

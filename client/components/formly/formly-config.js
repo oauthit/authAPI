@@ -213,5 +213,19 @@ angular.module('authApiApp').config(['formlyConfigProvider', function (formlyCon
     wrapper: ['bootstrapLabel', 'bootstrapHasError']
   });
 
+  formlyConfig.setType({
+    name: 'inputWithAddon',
+    template: '<div ' +
+    'd-input-with-addon ' +
+    'd-input-model="model[options.key]" ' +
+    'd-select-model="model[to.dropdownKey]" ' +
+    'd-select-options="to.options"' +
+    'd-label-prop="{{to.labelProp}}" ' +
+    'd-value-prop="{{to.valueProp}}">',
+    wrapper: ['bootstrapLabel', 'bootstrapHasError']
+  });
+
+
+
 
 }]);

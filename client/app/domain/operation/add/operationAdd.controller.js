@@ -82,6 +82,7 @@
         vm.busy = Agent.loadRelations(agent).then(function () {
           vm.agent = agent;
           vm.data.currencyId = agent.currencyId;
+          vm.data.currency = agent.currency;
         });
       }
 
@@ -98,9 +99,9 @@
     vm.counterAgentField.templateOptions.onSelect = function (item) {
       console.log(item, vm.data);
     };
-    vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
+    vm.totalField = FormlyConfigService.getConfigKey(vm.fields, 'total');
 
-    Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
+    Currency.bindAll(false, $scope, 'vm.totalField.templateOptions.options');
 
     vm.busy = $q.all ([
       CounterAgent.findAll(),
