@@ -1,10 +1,12 @@
-
-.row
-  .input-group
-    .input-group-btn
-      button.btn.btn-default.dropdown-toggle(
-        type='button'
-        data-toggle='dropdown'
-        aria-haspopup='true'
-        aria-expanded='false'
-      )
+.input-group
+  .input-group-btn(uib-dropdown is-open='vm.isOpen')
+    button.btn.btn-default.dropdown-toggle(
+      type='button'
+      uib-dropdown-toggle
+    ) {{dSelectModel[dLabelProp]}}
+      = ' '
+      span.caret
+    ul.dropdown-menu
+      li(ng-repeat='item in dSelectOptions')
+        a(href='' ng-click='vm.setActiveItem(item)') {{item[dLabelProp]}}
+  input.form-control(ng-model='dInputModel' aria-label='...')
