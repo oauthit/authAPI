@@ -1,8 +1,8 @@
 'use strict';
 
-(function (ng) {
+(function () {
 
-  ng.module('authApiApp.core.directives')
+  angular.module('authApiApp.core.directives')
     .directive('dInputWithAddon', function () {
       return {
 
@@ -31,4 +31,4 @@
     })
   ;
 
-})(angular);
+})();
