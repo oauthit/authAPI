@@ -1,6 +1,6 @@
 .input-group
   .input-group-btn(uib-dropdown is-open='vm.isOpen')
-    button.btn.btn-default.dropdown-toggle(
+    button.btn.btn-default(
       type='button'
       uib-dropdown-toggle
     ) {{dSelectModel[dLabelProp]}}
@@ -9,4 +9,4 @@
     ul.dropdown-menu
       li(ng-repeat='item in dSelectOptions')
         a(href='' ng-click='vm.setActiveItem(item)') {{item[dLabelProp]}}
-  input.form-control(ng-model='dInputModel' aria-label='...')
+  input.form-control(ng-model='dInputModel' type='text' aria-label='...')
