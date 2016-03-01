@@ -74,6 +74,7 @@
           templateOptions: {
             label: 'Counter-agent',
             description: 'The other agent of the operation',
+            required: true,
             options: []
           },
           data: {
@@ -91,7 +92,8 @@
             options: [],
             valueProp: 'id',
             labelProp: 'symbol',
-            dropdownKey: 'currency'
+            dropdownKey: 'currency',
+            required: true
           }
         },
         {
@@ -99,6 +101,7 @@
           type: 'radio',
           templateOptions: {
             label: 'Choose type of operation',
+            required: true,
             options: [
               {
                 name: 'Borrow',

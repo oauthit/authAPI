@@ -7,7 +7,7 @@
       return {
         restrict: 'AC',
         require: 'dButton',
-        templateUrl: 'app/directives/dButtons/dButtons.html',
+        templateUrl: 'app/core/directives/dButtons/dButtons.html',
         scope: {
           buttons: '='
         }

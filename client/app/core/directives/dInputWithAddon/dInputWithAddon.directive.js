@@ -7,7 +7,7 @@
       return {
 
         restrict: 'AC',
-        templateUrl: 'app/directives/dInputWithAddon/dInputWithAddon.html',
+        templateUrl: 'app/core/directives/dInputWithAddon/dInputWithAddon.html',
         replace: true,
         scope: {
           dSelectModel: '=',
