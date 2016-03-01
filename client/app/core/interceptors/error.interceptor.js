@@ -42,14 +42,14 @@
             } else if (response.statusText) {
               message = response.statusText;
             } else {
-              message = $injector.get('HttpStatusService').getStatusCodeText(response.status);
+              message = $injector.get('httpStatusService').getStatusCodeText(response.status);
             }
 
             message = message + ' <span class="text-small">(HTTP status ' + response.status + ')</span>';
           }
 
           if (message) {
-            $injector.get('MessageService').error(message);
+            $injector.get('messageService').error(message);
           }
 
           return $q.reject(response);
