@@ -5,7 +5,7 @@ div(d-buttons buttons='vm.buttons')
 h1 Add or invite a contact
 .lead Here you accept incoming invites, search public-searchable agents and issue them invites.
 
-form(name='vm.getInviteByCodeForm' cg-busy='vm.busy')
+form(name='vm.getInviteByCodeForm' cg-busy='vm.busy' novalidate='')
   formly-form(model='vm.model' fields='vm.fields')
     .buttons.pull-right
       button.btn.btn-default(ng-click='vm.getInviteByCode()' ng-disabled='vm.getInviteByCodeForm.$invalid')
@@ -14,7 +14,7 @@ form(name='vm.getInviteByCodeForm' cg-busy='vm.busy')
 // TODO: show social friends list
 
 section.clear-both(ng-show='vm.inviteByCode')
-  form(name='vm.acceptInviteForm')
+  form(name='vm.acceptInviteForm' novalidate='')
     formly-form(model='vm.inviteByCode' fields='vm.inviteFields')
       .buttons.pull-right
         button.btn.btn-success(ng-show='vm.inviteByCode && vm.inviteByCode.status === "open"' ng-click='vm.acceptInvite()') Accept invite

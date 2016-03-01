@@ -217,6 +217,7 @@ angular.module('authApiApp').config(['formlyConfigProvider', function (formlyCon
     name: 'inputWithAddon',
     template: '<div ' +
     'd-input-with-addon ' +
+    'required="to.required || false"' +
     'd-input-model="model[options.key]" ' +
     'd-select-model="model[to.dropdownKey]" ' +
     'd-select-options="to.options"' +

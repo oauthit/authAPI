@@ -1,5 +1,5 @@
 .container
   div(d-buttons buttons='vm.buttons')
   h1 My account
-  form(name='vm.accountForm' role='form')
+  form(name='vm.accountForm' role='form' novalidate='')
     formly-form(model='vm.model' fields='vm.fields')

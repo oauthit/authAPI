@@ -14,7 +14,8 @@
           dInputModel: '=',
           dLabelProp: '@',
           dValueProp: '@',
-          dSelectOptions: '='
+          dSelectOptions: '=',
+          required: '@'
         },
 
         controller: function ($scope) {

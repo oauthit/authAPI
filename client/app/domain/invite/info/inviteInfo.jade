@@ -4,7 +4,7 @@ div(d-buttons buttons='vm.buttons')
 
 h1 Created invite
 
-form(name='vm.inviteInfoForm')
+form(name='vm.inviteInfoForm' novalidate='')
   formly-form(model='vm.data' fields='vm.fields')
     .buttons.pull-right
       button.btn.btn-default(ng-click='vm.sms()')

@@ -9,4 +9,4 @@
     ul.dropdown-menu
       li(ng-repeat='item in dSelectOptions')
         a(href='' ng-click='vm.setActiveItem(item)') {{item[dLabelProp]}}
-  input.form-control(ng-model='dInputModel' type='text' aria-label='...')
+  input.form-control(ng-model='dInputModel' type='number' ng-required='required')
