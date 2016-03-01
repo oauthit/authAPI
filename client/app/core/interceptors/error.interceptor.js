@@ -39,6 +39,9 @@
           } else {
             if (typeof response.data === 'string') {
               message = response.data;
+              if (message.length === 0) {
+                message = $injector.get('httpStatusService').getStatusCodeText(response.status);
+              }
             } else if (response.statusText) {
               message = response.statusText;
             } else {
