@@ -97,7 +97,7 @@
       });
     };
     vm.counterAgentField.templateOptions.onSelect = function (item) {
-      console.log(item, vm.data);
+      vm.data.contact = item;
     };
     vm.totalField = FormlyConfigService.getConfigKey(vm.fields, 'total');
 

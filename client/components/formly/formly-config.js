@@ -205,7 +205,7 @@ angular.module('authApiApp').config(['formlyConfigProvider', function (formlyCon
     template: '<input ' +
     'type="text" ' +
     'ng-model="model[options.key]" ' +
-    'typeahead-focus="" ' +
+    'typeahead-click-open="" ' +
     'typeahead-on-select="" ' +
     'uib-typeahead="item as item for item in to.options | filter:$viewValue | limitTo:8" ' +
     'autocomplete="off" ' +
