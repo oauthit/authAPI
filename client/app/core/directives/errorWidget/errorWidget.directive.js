@@ -2,7 +2,7 @@
 
 (function () {
 
-  angular.module('authApiApp.directives')
+  angular.module('authApiApp.core.directives')
     .directive('errorWidget', function () {
 
       return {

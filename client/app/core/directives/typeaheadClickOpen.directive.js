@@ -21,7 +21,7 @@
           };
           elem.bind('click', triggerFunc);
         }
-      }
+      };
     });
 
 }());

@@ -2,6 +2,6 @@
 
 (function () {
 
-  angular.module('authApiApp.directives', []);
+  angular.module('authApiApp.core.directives', []);
 
 }());

@@ -9,8 +9,6 @@
       // TODO: catch http errors 401, 403, 50x and arrays from STAPI validators
       function parseError(e) {
 
-        debugger;
-
         var data = e && e.data && e.data.length > 0 && e.data ||
           [e]
         ;

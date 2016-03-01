@@ -22,10 +22,9 @@
       'authApiApp.admin',
       'authApiApp.constants',
       'authApiApp.models',
-      'authApiApp.filters',
       'authApiApp.services',
-      'authApiApp.directives',
-      'authApiApp.dependencies'
+      'authApiApp.dependencies',
+      'authApiApp.core'
     ])
 
     .config(function($urlRouterProvider) {

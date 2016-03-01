@@ -2,7 +2,7 @@
 
 (function (ng) {
 
-  ng.module('authApiApp.directives')
+  ng.module('authApiApp.core.directives')
     .directive('dInputWithAddon', function () {
       return {
 

@@ -2,7 +2,7 @@
 
 (function () {
 
-  angular.module('authApiApp')
+  angular.module('authApiApp.core.directives')
     .directive('dButtons', function () {
       return {
         restrict: 'AC',
