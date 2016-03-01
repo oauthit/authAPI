@@ -55,7 +55,7 @@
 
         angular.extend (vm.operation,{
           total: vm.data.total,
-          currencyId: vm.data.currencyId,
+          currencyId: vm.data.currency && vm.data.currency.id || vm.data.currencyId,
           debtorId: vm.data.debtorId,
           lenderId: vm.data.lenderId,
           isConfirmed: false,
