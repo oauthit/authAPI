@@ -14,7 +14,8 @@
     'ngclipboard',
     'angularMoment',
     'cgBusy',
-    'ngTable'
+    'ngTable',
+    'toastr'
   ]);
 
   angular.module('authApiApp', [
@@ -24,25 +25,6 @@
       'authApiApp.admin',
       'authApiApp.constants'
     ])
-
-    .config(function($urlRouterProvider) {
-      $urlRouterProvider
-        .otherwise('/');
-    })
-
-    .config(function(localStorageServiceProvider) {
-      localStorageServiceProvider
-        .setPrefix('authAPI');
-    })
-
-    .value('cgBusyDefaults',{
-      //message:'Loading Stuff',
-      //backdrop: false,
-      //templateUrl: 'my_custom_template.html',
-      //minDuration: 700,
-      //wrapperClass: 'my-class my-class2'
-      delay: 300
-    })
 
     .run(function ($rootScope, InitService) {
       //subscribe for logged-in event
