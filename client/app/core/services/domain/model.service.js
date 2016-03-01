@@ -2,8 +2,6 @@
 
 (function () {
 
-  var deb = debug('debtee:operation.model');
-
   angular.module('authApiApp')
     .factory('ModelService', function ($http, DS) {
 
@@ -13,7 +11,6 @@
             this.getAdapter('http').defaults.basePath + this.endpoint, {
               params: angular.extend({'agg:': 'count'}, params || {})
             }).then(function (res) {
-            deb ('getCount',res);
             return parseInt(res.headers('x-aggregate-count'));
           });
         };

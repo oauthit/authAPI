@@ -2,7 +2,7 @@
 
 (function () {
 
-  angular.module('authApiApp.services')
+  angular.module('authApiApp.core.services')
     .factory('ErrorsService', function () {
       var errors = [];
 

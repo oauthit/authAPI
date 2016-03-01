@@ -2,8 +2,9 @@
 
 (function () {
 
-  angular.module('authApiApp.models', [
-      'js-data'
+  angular.module('authApiApp.core.models', [
+      'js-data',
+      'authApiApp.constants'
     ])
     .config(function (DSProvider, DSHttpAdapterProvider, appConfig) {
       angular.extend(DSProvider.defaults, {

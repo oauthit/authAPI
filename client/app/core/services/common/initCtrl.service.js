@@ -2,7 +2,7 @@
 
 (function () {
 
-  angular.module('authApiApp.services')
+  angular.module('authApiApp.core.services')
     .factory('InitCtrlService', function ($filter, NgTableParams, SettingsService) {
 
       var deb = debug('debtee:InitCtrlService');

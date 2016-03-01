@@ -2,8 +2,8 @@
 
 (function () {
 
-  angular.module('authApiApp.services', [
-    'authApiApp.models'
+  angular.module('authApiApp.core.services', [
+    'authApiApp.core.models'
   ]);
 
 }());
