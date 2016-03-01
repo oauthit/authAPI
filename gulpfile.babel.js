@@ -20,6 +20,8 @@ var spawn = require('child_process').spawn;
 var plugins = gulpLoadPlugins();
 var config;
 
+var isBuild;
+
 const clientPath = require('./bower.json').appPath || 'client';
 const serverPath = 'server';
 const paths = {
@@ -448,6 +450,8 @@ gulp.task('wiredep:test', () => {
 
 //FIXME: looks like font-awesome isn't getting loaded
 gulp.task('build', cb => {
+  isBuild = true;
+
   runSequence(
     'clean:dist',
     'clean:tmp',
@@ -530,6 +534,9 @@ gulp.task('constant', function () {
 
   try {
     localConfig = require(`./${serverPath}/config/local.env.js`);
+    if (isBuild) {
+      localConfig = _.assign (localConfig,localConfig.build);
+    }
   } catch (err) {
     localConfig = {};
   }
