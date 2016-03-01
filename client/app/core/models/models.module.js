@@ -30,7 +30,6 @@
     .run(function(DS,$rootScope){
       $rootScope.$on('logged-off',function(){
         DS.clear();
-        console.log (DS);
       });
     });
 

@@ -3,7 +3,12 @@
 (function () {
 
   angular.module('authApiApp')
-    .controller('ContactInfoCtrl', function ($stateParams, $state, Modal, Contact, ErrorsService) {
+    .controller('ContactInfoCtrl', function ($stateParams,
+                                             $state,
+                                             Modal,
+                                             Contact,
+                                             FormlyConfigService,
+                                             ErrorsService) {
 
       var vm = this;
 
@@ -29,7 +34,7 @@
 
         Contact.loadRelations(c).then(function (r) {
           vm.contact = r;
-          vm.fields = Contact.fields;
+          vm.fields = FormlyConfigService.getConfigFieldsByKey('contact');
         }, function (err) {
           ErrorsService.addError(err);
         });

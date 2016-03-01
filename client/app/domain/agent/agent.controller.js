@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('authApiApp')
-  .controller('AgentCtrl', function ($scope, Agent, Currency, $uiViewScroll, $timeout) {
+  .controller('AgentCtrl', function ($scope,
+                                     Agent,
+                                     Currency,
+                                     $uiViewScroll,
+                                     FormlyConfigService,
+                                     $timeout) {
     var vm = this;
 
     Currency.findAll();
@@ -15,7 +20,7 @@ angular.module('authApiApp')
 
     angular.extend(vm, {
 
-      fields: Agent.fields,
+      fields: FormlyConfigService.getConfigFieldsByKey('agent'),
       agents: [],
 
       onCancel: function (agent, form) {
@@ -41,13 +46,13 @@ angular.module('authApiApp')
         var agent = Agent.createInstance();
         vm.agents.push(agent);
 
-        $timeout(function() {
+        $timeout(function () {
           agent.focus = true;
-          $timeout(function(){
+          $timeout(function () {
             var elem = angular.element('#new-agent');
             $uiViewScroll(elem);
-          },100);
-        },200);
+          }, 100);
+        }, 200);
       },
 
       disableAddAgent: function () {
@@ -56,25 +61,25 @@ angular.module('authApiApp')
         });
       },
 
-      onRemove: function (agent,form) {
+      onRemove: function (agent, form) {
         if (agent.id) {
           Agent.destroy(agent.id).then(function () {
             vm.agents.splice(vm.agents.indexOf(agent), 1);
           });
         } else {
-          vm.onCancel (agent,form);
+          vm.onCancel(agent, form);
         }
       }
 
     });
 
-    vm.nameField = vm.fields[0];
+    vm.nameField = FormlyConfigService.getConfigKey(vm.fields, 'name');
 
     vm.nameField.expressionProperties = {
       'templateOptions.focus': 'model.focus'
     };
 
-    vm.currencyField = vm.fields[1];
+    vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
     //Agent.bindAll(false, $scope, 'vm.agents');
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');

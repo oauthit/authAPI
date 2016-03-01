@@ -7,6 +7,7 @@
                                             Invite,
                                             SettingsService,
                                             ErrorsService,
+                                            FormlyConfigService,
                                             InviteService) {
 
       var vm = this;
@@ -55,34 +56,7 @@
       angular.extend(vm, {
 
         model: {},
-        fields: [{
-          key: 'inviteCode',
-          type: 'input',
-          templateOptions: {
-            placeholder: 'Enter invite code',
-            type: 'text',
-            label: 'Invite code',
-            required: true
-          }
-        }, {
-          key: 'mobileNumber',
-          type: 'input',
-          templateOptions: {
-            placeholder: 'Search by mobile number',
-            type: 'text',
-            disabled: true,
-            label: 'Sms'
-          }
-        }, {
-          key: 'email',
-          type: 'input',
-          templateOptions: {
-            placeholder: 'Search by email',
-            type: 'text',
-            disabled: true,
-            label: 'Email'
-          }
-        }],
+        fields: FormlyConfigService.getConfigFieldsByKey('contactAdd'),
 
         getInviteByCode: getInviteByCode,
 

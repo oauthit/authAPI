@@ -32,8 +32,8 @@
         }
       });
     })
-    .run(function (Agent) {
-      Agent.fields = [
+    .run(function (Agent, FormlyConfigService) {
+      var fields = [
         {
           key: 'name',
           type: 'input',
@@ -54,6 +54,8 @@
           }
         }
       ];
+
+      FormlyConfigService.setConfig('agent', fields);
     });
 
 }());

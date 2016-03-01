@@ -8,6 +8,7 @@
       $stateParams,
       Invite,
       $state,
+      FormlyConfigService,
       ErrorsService
     ) {
 
@@ -32,7 +33,7 @@
       angular.extend(vm, {
 
         copyTarget: '#inviteCode',
-        fields: Invite.fields,
+        fields: FormlyConfigService.getConfigFieldsByKey('invite'),
         buttons: [
           {
             name: 'Delete invite',
