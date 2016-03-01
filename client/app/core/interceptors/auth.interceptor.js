@@ -2,7 +2,7 @@
 
 (function() {
 
-  function authInterceptor($q, Token) {
+  function authInterceptor($q, $injector, Token) {
 
     return {
 
@@ -22,8 +22,8 @@
       // Intercept 401s and redirect you to login
       responseError(response) {
 
-        if (response.status === 401) {
-          //$state.go('login');
+        if (response.status === 401 || response.status === 403) {
+          $injector.get('$state').go('debt.login');
           Token.destroy();
         }
         return $q.reject(response);
