@@ -1,8 +1,5 @@
 .container
   div(d-buttons buttons='vm.buttons')
-  .row
-    .col-sm-12
-      h1 My account
-    .col-sm-12
-      form(name='vm.accountForm' role='form')
-        formly-form(model='vm.model' fields='vm.fields')
+  h1 My account
+  form(name='vm.accountForm' role='form')
+    formly-form(model='vm.model' fields='vm.fields')
