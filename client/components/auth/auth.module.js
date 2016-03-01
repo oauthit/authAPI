@@ -7,4 +7,5 @@ angular.module('authApiApp.auth', [
 ])
   .config(function($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
-  });
+  })
+;

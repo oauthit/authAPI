@@ -18,13 +18,13 @@
   ]);
 
   angular.module('authApiApp', [
+      'authApiApp.dependencies',
+      'authApiApp.core',
       'authApiApp.auth',
       'authApiApp.admin',
       'authApiApp.constants',
       'authApiApp.models',
-      'authApiApp.services',
-      'authApiApp.dependencies',
-      'authApiApp.core'
+      'authApiApp.services'
     ])
 
     .config(function($urlRouterProvider) {
