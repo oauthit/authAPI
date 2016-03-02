@@ -6,7 +6,7 @@ meta.defineType 'aa.profileId:STRING';
 meta.defineType 'aa.name';
 meta.defineType 'aa.profileData';
 meta.defineType 'aa.roles';
-meta.defineType 'aa.accessToken:STRING,,nullable';
+meta.defineType 'aa.accessToken';
 meta.defineType 'aa.refreshToken:STRING,,nullable';
 meta.defineType 'aa.appId';
 

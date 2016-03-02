@@ -30,8 +30,8 @@
       function acceptOperation() {
         var data = {
           id: operationId,
-          confirmed: true,
           acceptorId: vm.agent.id
+          acceptorId: vm.currentAgent.id
         };
         Operation.save(data).then(function () {
           //TODO message after success
