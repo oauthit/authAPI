@@ -57,9 +57,7 @@
           total: vm.data.total,
           currencyId: vm.data.currency && vm.data.currency.id || vm.data.currencyId,
           debtorId: vm.data.debtorId,
-          lenderId: vm.data.lenderId,
-          isConfirmed: false,
-          creatorId: vm.agent.id
+          lenderId: vm.data.lenderId
         });
 
         ErrorsService.clear();
