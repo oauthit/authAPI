@@ -3,9 +3,10 @@ section(error-widget)
 div(d-buttons buttons='vm.buttons')
 
 h1 My contacts
+.lead(ng-hide='vm.contacts && vm.contacts.length > 0') Seems like you don't have contacts yet, add contact
 
 // TODO: show if contact is deleted by counter-agent
-table.table.table-hover.table-striped(cg-busy='vm.busy')
+table.table.table-hover.table-striped(cg-busy='vm.busy' ng-show='vm.contacts && vm.contacts.length > 0')
   thead
     th Name
   tbody

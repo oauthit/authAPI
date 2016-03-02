@@ -18,8 +18,8 @@ export function setup(Account, config) {
       profileData: profile,
       name: profile.displayName,
       roles: ['user'],
-      accessToken: accessToken,
-      refreshToken: JSON.stringify(refreshToken),
+      accessToken: refreshToken.access_token,
+      refreshToken: refreshToken.id_token,
       appId: config.google.clientID
     }).then(data => {
 
