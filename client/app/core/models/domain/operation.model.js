@@ -35,6 +35,13 @@
 
       var operationInfo = [
         {
+          key: 'status',
+          type: 'input',
+          templateOptions: {
+            label: 'Status',
+            disabled: true
+          }
+        }, {
           key: 'debtorId',
           type: 'select',
           templateOptions: {
@@ -47,7 +54,7 @@
           key: 'lenderId',
           type: 'select',
           templateOptions: {
-            label: 'Debtor',
+            label: 'Lender',
             valueProp: 'id',
             //description: 'The other agent of the operation',
             options: []

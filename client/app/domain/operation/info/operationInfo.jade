@@ -4,5 +4,5 @@ section(error-widget)
 
 h1 Operation info
 
-form(name='vm.operationInfoForm' novalidate='')
+form(name='vm.operationInfoForm' novalidate='' cg-busy='vm.busy')
   formly-form(model='vm.model' fields='vm.fields')

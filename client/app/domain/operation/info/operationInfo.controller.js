@@ -16,28 +16,31 @@
       var vm = InitCtrlService.setup(this);
       var operationId = $stateParams.id;
 
-      var operationPromise = Operation.find(operationId);
+      vm.busy = Operation.find(operationId).catch(ErrorsService.addError);
 
       function deleteOperation() {
         Operation.destroy(operationId).then(function () {
           //go to operation list after delete
           $state.go('^.list');
-        }, function (err) {
-          ErrorsService.addError(err);
-        });
+        }, ErrorsService.addError);
       }
 
-      function acceptOperation() {
-        var data = {
-          id: operationId,
-          acceptorId: vm.currentAgent.id,
-          isConfirmed: true
-        };
-        Operation.save(data).then(function () {
-          //TODO message after success
-        }, function (err) {
-          ErrorsService.addError(err);
-        });
+      function changeStatus (status) {
+        return function acceptOperation() {
+          vm.model.status = status;
+          Operation.save(vm.model.id).then(function () {
+            //TODO message after success
+          }, function (err) {
+            Operation.revert (vm.model.id);
+            ErrorsService.addError (err);
+          });
+        }
+      }
+
+      function acceptorShowFn () {
+        return vm.model && vm.currentAgent &&
+          vm.model.status === 'waiting'
+          && vm.currentAgent.authId !== vm.model.authId;
       }
 
       angular.extend(vm, {
@@ -46,32 +49,27 @@
 
         onSetAgent: function (agent) {
           vm.currentAgent = agent;
-          vm.buttons = [];
-
-          operationPromise.then(function (o) {
-            vm.model = o;
-            if (o.status === 'waiting' && vm.currentAgent.id !== o.creatorId &&
-              _.contains([o.debtorId, o.lenderId], vm.currentAgent.id)) {
-              vm.buttons.push({
-                name: 'Accept',
-                fn: acceptOperation
-              });
-            } else if (o.status === 'accepted' && vm.currentAgent.id === o.creatorId) {
-              vm.buttons.push({
-                name: 'Delete',
-                fn: deleteOperation
-              });
-            } else if (o.status === 'waiting' && vm.currentAgent.id === o.creatorId) {
-              vm.buttons.push({
-                name: 'Decline',
-                fn: deleteOperation
-              });
-            }
-          });
-
         },
 
-        buttons: []
+        buttons: [
+          {
+            name: 'Accept',
+            fn: changeStatus ('accept'),
+            showFn: acceptorShowFn
+          },{
+            name: 'Decline',
+            fn: changeStatus ('reject'),
+            showFn: acceptorShowFn
+          },{
+            name: 'Delete',
+            fn: deleteOperation,
+            showFn: function () {
+              return vm.model && vm.currentAgent &&
+                vm.model.status === 'waiting' &&
+                vm.currentAgent.authId === vm.model.authId;
+            }
+          }
+        ]
 
       });
 
@@ -84,6 +82,7 @@
       Currency.bindAll(false, $scope, 'vm.totalWithAddonField.templateOptions.options');
       CounterAgent.bindAll(false, $scope, 'vm.debtorField.templateOptions.options');
       CounterAgent.bindAll(false, $scope, 'vm.lenderField.templateOptions.options');
+      Operation.bindOne(operationId, $scope, 'vm.model');
 
 
       InitCtrlService.init(vm, $scope);
