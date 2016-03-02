@@ -8,6 +8,7 @@ var router = express.Router();
 
 router
   .get('/', passport.authenticate('google', {
+    failureRedirect: '/#/login',
     scope: [ 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read' ]
   }))
   .get('/callback', passport.authenticate('google', {

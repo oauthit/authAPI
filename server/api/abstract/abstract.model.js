@@ -68,8 +68,10 @@ function model(name) {
         request.post({
           url: collectionUrl,
           json: body
-        }, function (err) {
-          err && reject(err) || resolve(body);
+        }, function (err, res, json) {
+          let e = err || res.statusCode !== 200 && json;
+          debug ('save', e);
+          e && reject(e) || resolve(body);
         });
 
       });
