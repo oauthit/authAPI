@@ -6,10 +6,11 @@
     .directive('dButtons', function () {
       return {
         restrict: 'AC',
-        require: 'dButton',
+        //require: 'dButton',
         templateUrl: 'app/core/directives/dButtons/dButtons.html',
         scope: {
-          buttons: '='
+          buttons: '=',
+          busy: '='
         }
       };
     })

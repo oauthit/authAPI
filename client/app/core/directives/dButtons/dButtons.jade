@@ -4,8 +4,8 @@
     ui-sref='{{b.sref}}'
     ng-class='classes'
     type='button'
-    ng-disabled='b.disabled()'
-    ng-attr-ng-show="{{b.showFn && 'b.showFn()'}}"
+    ng-disabled='busy && !busy.$cgBusyFulfilled || b.disabled()'
+    ng-show="!b.showFn || b.showFn()"
   )
     | {{b.name}}
   button.pull-right.btn.btn-primary(
@@ -13,8 +13,8 @@
     ng-click='b.fn()'
     ng-class='classes'
     type='button'
-    ng-disabled='b.disabled()'
-    ng-attr-ng-show="{{b.showFn && 'b.showFn()'}}"
+    ng-disabled='busy && !busy.$cgBusyFulfilled || b.disabled()'
+    ng-show="!b.showFn || b.showFn()"
   )
     | {{b.name}}
 
