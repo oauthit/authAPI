@@ -17,7 +17,7 @@ export function setup (Account, config) {
     },{
       profileData: profile,
       name: profile.displayName,
-      roles: ['user'],
+      roles: ['admin'],
       accessToken: accessToken,
       refreshToken: refreshToken,
       appId: config.facebook.clientID

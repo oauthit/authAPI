@@ -1,5 +1,19 @@
 .container
   div(d-buttons buttons='vm.buttons')
   h1 My account
-  form(name='vm.accountForm' role='form' novalidate='')
+  form(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit()')
     formly-form(model='vm.model' fields='vm.fields')
+      .buttons.pull-right
+        button.btn.btn-primary(
+        type='submit'
+        ng-disabled='vm.accountForm.$invalid'
+        ng-if='vm.accountForm.$dirty'
+        )
+          | Save
+        = ' '
+        button.btn.btn-warning(
+        type='button'
+        ng-click='vm.onCancel(vm.accountForm)'
+        ng-if='vm.accountForm.$dirty'
+        )
+          | Cancel changes

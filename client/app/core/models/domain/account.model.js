@@ -5,7 +5,9 @@
   angular.module('authApiApp')
     .service('Account', function (DS) {
       return DS.defineResource({
-        name: 'account'
+        name: 'account',
+        //todo pass from sharedConfig
+        basePath: 'http://localhost:9000/api/aa/'
       });
     })
     .run(function (Account, FormlyConfigService) {
@@ -16,7 +18,8 @@
           templateOptions: {
             label: 'Name',
             type: 'text',
-            disabled: true
+            required: true,
+            maxlength: 30
           }
         }
       ];
