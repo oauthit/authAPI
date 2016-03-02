@@ -1,10 +1,10 @@
 section(error-widget)
 
-div(d-buttons buttons='vm.buttons')
+div(d-buttons buttons='vm.buttons' busy='vm.busy')
 
 h1 Created invite
 
-form(name='vm.inviteInfoForm' novalidate='')
+form(name='vm.inviteInfoForm' novalidate='' cg-busy='vm.busy')
   formly-form(model='vm.data' fields='vm.fields')
     .buttons.pull-right
       button.btn.btn-default(ng-click='vm.sms()')

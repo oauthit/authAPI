@@ -14,14 +14,14 @@
 
       var vm = this;
 
-      Invite.find($stateParams.id).then(function (invite) {
+      vm.busy = Invite.find($stateParams.id).then(function (invite) {
         console.log(invite);
       });
 
       Invite.bindOne($stateParams.id, $scope, 'vm.data');
 
       function deleteInvite () {
-        Invite.destroy(vm.data.id).then(function(){
+        vm.busy = Invite.destroy(vm.data.id).then(function(){
           $state.go('debt.main');
         });
       }
