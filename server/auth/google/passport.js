@@ -1,18 +1,18 @@
 import passport from 'passport';
 import config from '../../config/environment';
-import {Strategy as FacebookStrategy} from 'passport-facebook';
+import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
 var debug = require('debug')('authAPI:facebook/passport');
 import Token from '../../api/token/token.model';
 
 export function setup (Account, config) {
-  passport.use(new FacebookStrategy({
-    clientID: config.facebook.clientID,
-    clientSecret: config.facebook.clientSecret,
-    callbackURL: config.facebook.callbackURL
-  }, (accessToken, refreshToken, profile, done) => {
+  passport.use(new GoogleStrategy({
+    clientID: config.google.clientID,
+    clientSecret: config.google.clientSecret,
+    callbackURL: config.google.callbackURL
+  }, (request, accessToken, refreshToken, profile, done) => {
 
     Account.getOrCreate({
-      provider: 'facebook',
+      provider: 'google',
       profileId: profile.id
     },{
       profileData: profile,
@@ -20,7 +20,7 @@ export function setup (Account, config) {
       roles: ['user'],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      appId: config.facebook.clientID
+      appId: config.google.clientID
     }).then (data => {
 
       Token.save (data)

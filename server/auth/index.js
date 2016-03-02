@@ -7,10 +7,12 @@ import account from '../api/account/account.model.js';
 
 // Passport Configuration
 require('./facebook/passport').setup(account(), config);
+require('./google/passport').setup(account(), config);
 
 var router = express.Router();
 
 router.use('/pha', require('./pha'));
 router.use('/facebook', require('./facebook'));
+router.use('/google', require('./google'));
 
 export default router;
