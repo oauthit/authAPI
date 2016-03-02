@@ -5,6 +5,7 @@
     ng-class='classes'
     type='button'
     ng-disabled='b.disabled()'
+    ng-attr-ng-show="{{b.showFn && 'b.showFn()'}}"
   )
     | {{b.name}}
   button.pull-right.btn.btn-primary(
@@ -13,6 +14,7 @@
     ng-class='classes'
     type='button'
     ng-disabled='b.disabled()'
+    ng-attr-ng-show="{{b.showFn && 'b.showFn()'}}"
   )
     | {{b.name}}
 
