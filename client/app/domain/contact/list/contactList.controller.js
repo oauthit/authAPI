@@ -32,7 +32,8 @@
       };
 
       InitCtrlService.init (vm,$scope);
-      CounterAgent.findAll();
+      // TODO need to union promises to rid of flickering on first load
+      vm.busy = CounterAgent.findAll();
 
     })
   ;
