@@ -34,13 +34,13 @@
             Operation.revert (vm.model.id);
             ErrorsService.addError (err);
           });
-        }
+        };
       }
 
       function acceptorShowFn () {
         return vm.model && vm.currentAgent &&
-          vm.model.status === 'waiting'
-          && vm.currentAgent.authId !== vm.model.authId;
+          vm.model.status === 'waiting' &&
+          vm.currentAgent.authId !== vm.model.authId;
       }
 
       angular.extend(vm, {

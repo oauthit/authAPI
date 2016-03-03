@@ -31,12 +31,6 @@
       $rootScope.$on('logged-in',function(){
         InitService.init();
       });
-      $rootScope.errors = [];
-
-      //add function to $rootScope to add errors
-      $rootScope.addError = function (error) {
-        $rootScope.errors.push(error);
-      };
     });
 
 }());
