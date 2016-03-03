@@ -3,11 +3,10 @@
 (function () {
 
   angular.module('authApiApp')
-    .service('Account', function (DS) {
+    .service('Account', function (DS, appConfig) {
       return DS.defineResource({
         name: 'account',
-        //todo pass from sharedConfig
-        basePath: 'http://localhost:9000/api/aa/'
+        basePath: appConfig.jsDataBasePathForAA
       });
     })
     .run(function (Account, FormlyConfigService) {

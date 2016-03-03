@@ -3,14 +3,12 @@
 (function () {
 
   angular.module('authApiApp')
-    .controller('InviteInfoCtrl', function (
-      $scope,
-      $stateParams,
-      Invite,
-      $state,
-      FormlyConfigService,
-      ErrorsService
-    ) {
+    .controller('InviteInfoCtrl', function ($scope,
+                                            $stateParams,
+                                            Invite,
+                                            $state,
+                                            FormlyConfigService,
+                                            ErrorsService) {
 
       var vm = this;
 
@@ -20,13 +18,13 @@
 
       Invite.bindOne($stateParams.id, $scope, 'vm.data');
 
-      function deleteInvite () {
-        vm.busy = Invite.destroy(vm.data.id).then(function(){
+      function deleteInvite() {
+        vm.busy = Invite.destroy(vm.data.id).then(function () {
           $state.go('debt.main');
         });
       }
 
-      function disableDeleteInvite () {
+      function disableDeleteInvite() {
         return !vm.data || !vm.data.status || vm.data.status === 'accepted';
       }
 
@@ -45,11 +43,11 @@
 
         // TODO implement sms and email invite
         sms: function () {
-          ErrorsService.addError ('Not implemented');
+          ErrorsService.addError('Not implemented');
         },
 
         emailInvite: function () {
-          ErrorsService.addError ('Not implemented');
+          ErrorsService.addError('Not implemented');
         }
 
       });
