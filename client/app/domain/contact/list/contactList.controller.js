@@ -6,6 +6,7 @@
     .controller('ContactListCtrl', function (
       $scope,
       $state,
+      $q,
       Agent,
       CounterAgent,
       Invite,
@@ -13,7 +14,9 @@
       InitCtrlService
     ) {
 
+      var counterAgentPromise = CounterAgent.findAll();
       var vm = InitCtrlService.setup(this);
+
 
       angular.extend(vm,{
 
@@ -26,14 +29,16 @@
 
       vm.onSetAgent = function (agent) {
         vm.contacts = agent.contacts;
-        vm.busy = Agent.loadRelations(agent,'contact').then(function(){
+        var agentPromise = Agent.loadRelations(agent, 'contact');
+
+        vm.busy = $q.all([agentPromise, counterAgentPromise]);
+
+        agentPromise.then(function(){
           vm.contacts = agent.contacts;
         });
       };
 
       InitCtrlService.init (vm,$scope);
-      // TODO need to union promises to rid of flickering on first load
-      vm.busy = CounterAgent.findAll();
 
     })
   ;
