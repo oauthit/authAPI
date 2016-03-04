@@ -4,5 +4,5 @@ exports = module.exports = {
   // List of user roles
   userRoles: ['guest', 'user', 'admin'],
   jsDataBasePath: 'http://localhost:9000/api/opr/',
-  jsDataBasePathForAA: 'http://localhost:9000/api/aa'
+  apiUrl: 'http://localhost:9090/api/'
 };

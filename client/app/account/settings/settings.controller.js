@@ -26,7 +26,10 @@ function SettingsController(Auth, FormlyConfigService, Account, messageService, 
     },
 
     onSubmit: function () {
-      Account.create(vm.model).then(function () {
+      var data = {
+        name: vm.model.name
+      };
+      Account.create(data).then(function () {
         messageService.success('Account have been updated', 'Success!');
       }, function (err) {
         ErrorsService.addError(err);

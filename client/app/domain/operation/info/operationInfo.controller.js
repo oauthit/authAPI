@@ -28,7 +28,7 @@
       function changeStatus (status) {
         return function acceptOperation() {
           vm.model.status = status;
-          Operation.save(vm.model.id).then(function () {
+          vm.model.DSSave().then(function () {
             //TODO message after success
           }, function (err) {
             Operation.revert (vm.model.id);

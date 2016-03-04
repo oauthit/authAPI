@@ -6,7 +6,7 @@
     .service('Account', function (DS, appConfig) {
       return DS.defineResource({
         name: 'account',
-        basePath: appConfig.jsDataBasePathForAA
+        basePath: appConfig.apiUrl
       });
     })
     .run(function (Account, FormlyConfigService) {
