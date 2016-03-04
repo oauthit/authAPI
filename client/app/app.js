@@ -26,11 +26,16 @@
       'authApiApp.constants'
     ])
 
-    .run(function ($rootScope, InitService) {
+    .run(function ($rootScope, InitService, ErrorsService) {
       //subscribe for logged-in event
       $rootScope.$on('logged-in',function(){
         InitService.init();
       });
+
+      //add function to $rootScope to add errors
+      $rootScope.addError = function (error) {
+        ErrorsService.addError(error);
+      };
     });
 
 }());
