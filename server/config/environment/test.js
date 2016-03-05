@@ -2,4 +2,6 @@
 
 // Test specific configuration
 // ===========================
-module.exports = {};
+module.exports = {
+  port: 1234
+};
