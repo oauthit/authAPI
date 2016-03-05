@@ -76,7 +76,7 @@ angular.module('authApiApp')
                 }
                 lastFindAllParams = p;
                 lastFindAllData = data;
-                $defer.resolve(data);
+                $defer.resolve(lastFindAllData);
               }, function (res) {
                 deb('dataPromiseOrNothing', 'reject', res);
                 $defer.reject();
@@ -113,7 +113,10 @@ angular.module('authApiApp')
 
         ctrl.ngTableParams = new NgTableParams(angular.extend({
           page: 1,
-          count: count
+          count: count,
+          clearData: function () {
+            lastFindAllData = [];
+          }
         }, ctrl.ngTable), {
           filterDelay: 0,
           dataset: lastFindAllData,
