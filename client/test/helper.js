@@ -1,3 +1,5 @@
+'use strict';
+
 //// setup
 //
 //// load the controller's module
@@ -11,18 +13,17 @@
 //  $httpBackend.when('GET', '/api/account/me').respond(200, {});
 //}));
 
-var getItem, setItem, clear;
-
-beforeEach(function () {
-  var store = {};
-
-  getItem = sinon.spy(localStorage, 'getItem');
-  setItem = sinon.spy(localStorage, 'setItem');
-  clear = sinon.spy(localStorage, 'clear');
-});
-
-afterEach(function () {
-  getItem.reset();
-  setItem.reset();
-  clear.reset();
-});
+//var getItem, setItem, clear;
+//
+//beforeEach(function () {
+//
+//  getItem = sinon.spy(localStorage, 'getItem');
+//  setItem = sinon.spy(localStorage, 'setItem');
+//  clear = sinon.spy(localStorage, 'clear');
+//});
+//
+//afterEach(function () {
+//  getItem.reset();
+//  setItem.reset();
+//  clear.reset();
+//});
