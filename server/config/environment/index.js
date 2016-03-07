@@ -29,6 +29,12 @@ var all = {
     session: 'auth-api-secret'
   },
 
+  redisConfig: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    url: process.env.REDIS_URL
+  },
+
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
