@@ -6,9 +6,9 @@ div.navbar.navbar-default.navbar-static-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/') Operator
+      a.navbar-brand(href='/') Debt.ee
 
-    div#navbar-main.navbar-collapse.collapse(collapse='nav.isCollapsed')
+    div#navbar-main.navbar-collapse.collapse(uib-collapse='nav.isCollapsed')
       ul.nav.navbar-nav
         li(ng-repeat='item in nav.menu', ui-sref-active='active')
           a(ui-sref='{{item.state}}') {{item.title}}
@@ -23,8 +23,8 @@ div.navbar.navbar-default.navbar-static-top
         li(ng-hide='nav.isLoggedIn()', ui-sref-active='active')
           a(ui-sref='debt.login') Login
 
-        li.dropdown(ng-show='nav.isLoggedIn()' dropdown='' is-open='nav.agentNavOpen')
-          a.dropdown-toggle(href='#' dropdown-toggle='')
+        li.dropdown(ng-show='nav.isLoggedIn()' uib-dropdown='' is-open='nav.agentNavOpen')
+          a.dropdown-toggle(href='#' uib-dropdown-toggle='')
             span {{ nav.getCurrentUser().name }} ({{nav.currentAgent.name}})
             span.caret
           ul.dropdown-menu(role='menu')
@@ -43,4 +43,4 @@ div.navbar.navbar-default.navbar-static-top
             span.glyphicon.glyphicon-cog
 
         li(ng-show='nav.isLoggedIn()')
-          a(ui-sref='debt.logout') Logout
+          a(href='' ng-click='nav.logout()') Logout

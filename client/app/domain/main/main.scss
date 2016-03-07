@@ -1,9 +1,4 @@
-$primary-color: #4290d0;
-
-.btn-primary {
-  background-color: $primary-color;
-  border-color: #357fbf;
-}
+@import '../../styles/colors';
 
 #banner {
   border-bottom: none;
@@ -21,7 +16,7 @@ $primary-color: #4290d0;
   padding: 30px 15px;
   color: #F5F5F5;
   text-align: center;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.1);
   // was 4393B9
   background-color: $primary-color;
 }

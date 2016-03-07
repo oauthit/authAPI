@@ -3,37 +3,41 @@
 (function () {
 
   function OperationListController (
-    $scope, Operation, Agent, CounterAgent, Currency, SettingsService
+    $scope, Operation, CounterAgent, InitCtrlService
     //, ErrorsService
   ){
-    var vm = this;
-
-    function setAgent(oa, na) {
-
-      var agent = na || oa;
-
-      if (!agent) {
-        return;
-      }
-
-      var f = {owner: agent.id};
-
-      vm.currentAgent = agent;
-
-      Operation.bindAll({}, $scope, 'vm.operations');
-      Operation.findAll(f,{bypassCache:true}).then(function () {
-        CounterAgent.findAll();
-      });
-
-    }
-
-    $scope.$on('current-agent', setAgent);
-
-    setAgent (SettingsService.getCurrentAgent());
+    var vm = InitCtrlService.setup(this);
 
     angular.extend(vm, {
 
+      ngTable: {
+        count: 12
+      },
+
+      onSetAgent: function (agent) {
+        vm.currentAgent = agent;
+        vm.setupNgTable({
+
+          getCount: function(params,o){
+            return Operation.getCount(angular.extend({
+              agentId: vm.currentAgent.id
+            },params),o);
+          },
+
+          findAll: function(params,o){
+            return Operation.findAll(angular.extend({
+              agentId: vm.currentAgent.id
+            },params),o);
+          }
+
+        });
+      }
+
     });
+
+    CounterAgent.findAll();
+
+    InitCtrlService.init(vm, $scope);
 
   }
 

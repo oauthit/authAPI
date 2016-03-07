@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('authApiApp').config(['formlyConfigProvider',function(formlyConfig) {
+angular.module('authApiApp').config(['formlyConfigProvider', function (formlyConfig) {
   var attributes = [
     'date-disabled',
     'custom-class',
@@ -36,20 +36,20 @@ angular.module('authApiApp').config(['formlyConfigProvider',function(formlyConfi
 
   formlyConfig.removeChromeAutoComplete = true;
 
-  formlyConfig.templateManipulators.preWrapper.push(function(template, options) {
+  formlyConfig.templateManipulators.preWrapper.push(function (template, options) {
     if (options.type.match(/.*input/ig)) {
-      return template.replace('<input','<input autocomplete="off"');
+      return template.replace('<input', '<input autocomplete="off"');
     } else {
       return template;
     }
   });
 
 
-  angular.forEach(attributes, function(attr) {
+  angular.forEach(attributes, function (attr) {
     ngModelAttrs[_.camelCase(attr)] = {attribute: attr};
   });
 
-  angular.forEach(bindings, function(binding) {
+  angular.forEach(bindings, function (binding) {
     ngModelAttrs[_.camelCase(binding)] = {bound: binding};
   });
 
@@ -144,13 +144,13 @@ angular.module('authApiApp').config(['formlyConfigProvider',function(formlyConfi
       templateOptions: {
         addonRight: {
           class: 'glyphicon glyphicon-calendar',
-          onClick: function(options,scope) {
+          onClick: function (options, scope) {
             event.preventDefault();
             event.stopPropagation();
             scope.to.isOpen = !scope.to.isOpen;
           }
         },
-        onFocus: function($viewValue, $modelValue, scope) {
+        onFocus: function ($viewValue, $modelValue, scope) {
           scope.to.isOpen = !scope.to.isOpen;
         },
         datepickerOptions: {}
@@ -165,25 +165,68 @@ angular.module('authApiApp').config(['formlyConfigProvider',function(formlyConfi
       ' </ui-select-match> <ui-select-choices group-by="to.groupBy" repeat="option[to.valueProp || \'value\']' +
       ' as option in to.options | filter: $select.search"> <div ng-bind-html="option[to.labelProp || \'name\'] ' +
       '| highlight: $select.search"></div> </ui-select-choices> </ui-select>'
-    ;
+      ;
   };
 
   formlyConfig.setType({
-      name: 'ui-select',
-      extends: 'select',
-      template: selectTpl ('select')
-    });
+    name: 'ui-select',
+    extends: 'select',
+    template: selectTpl('select')
+  });
 
   formlyConfig.setType({
     name: 'ui-select-select2',
     extends: 'ui-select',
-    template: selectTpl ('select2')
+    template: selectTpl('select2')
   });
 
   formlyConfig.setType({
     name: 'ui-select-selectize',
     extends: 'ui-select',
-    template: selectTpl ('selectize')
+    template: selectTpl('selectize')
   });
+
+  formlyConfig.templateManipulators.preWrapper.push(function (template, options) {
+    if (options.data.typeahead) {
+      template = template.replace('uib-typeahead="item as item for item in to.options ' +
+        '| filter:$viewValue | limitTo:8"', options.data.typeahead);
+    }
+
+    if (options.data.typeaheadOnSelect) {
+      template = template.replace('typeahead-on-select=""', options.data.typeaheadOnSelect);
+    }
+
+    return template;
+  });
+
+  //TODO refactor this that attrs can be passed to template
+  formlyConfig.setType({
+    name: 'typeahead',
+    template: '<input ' +
+    'type="text" ' +
+    'ng-model="model[options.key]" ' +
+    'typeahead-click-open="" ' +
+    'typeahead-on-select="" ' +
+    'uib-typeahead="item as item for item in to.options | filter:$viewValue | limitTo:8" ' +
+    'autocomplete="off" ' +
+    'class="form-control">',
+    wrapper: ['bootstrapLabel', 'bootstrapHasError']
+  });
+
+  formlyConfig.setType({
+    name: 'inputWithAddon',
+    template: '<div ' +
+    'd-input-with-addon ' +
+    'required="to.required || false"' +
+    'd-input-model="model[options.key]" ' +
+    'd-select-model="model[to.dropdownKey]" ' +
+    'd-select-options="to.options"' +
+    'd-label-prop="{{to.labelProp}}" ' +
+    'd-value-prop="{{to.valueProp}}">',
+    wrapper: ['bootstrapLabel', 'bootstrapHasError']
+  });
+
+
+
 
 }]);

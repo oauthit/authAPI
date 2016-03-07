@@ -10,7 +10,7 @@ h1 My agents
     span
       a(href='' ng-click='vm.onRemove(agent,vm["form" + $index])')
         i.fa.fa-trash.gray
-  form.col-md-offset-5.col-sm-offset-4(ng-submit='vm.onSubmit(agent,"form" + $index)' name='vm.form{{$index}}')
+  form.col-md-offset-5.col-sm-offset-4(ng-submit='vm.onSubmit(agent,"form" + $index)' name='vm.form{{$index}}' novalidate='')
     formly-form(model='agent' fields='vm.fields')
       .buttons.pull-right(ng-show='vm["form" + $index].$dirty || !agent.id')
         button.btn.btn-success(type='submit' ng-disabled='vm["form" + $index].$invalid') Save

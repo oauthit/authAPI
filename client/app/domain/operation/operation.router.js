@@ -7,7 +7,7 @@ angular.module('authApiApp')
         abstract: true,
         template: '<div ui-view class="container"></div>'
       })
-      .state('debt.operation.operations', {
+      .state('debt.operation.list', {
         url: '/operations',
         templateUrl: 'app/domain/operation/list/operationList.html',
         controller: 'OperationListCtrl',
@@ -17,6 +17,12 @@ angular.module('authApiApp')
         url: '/operation/add',
         templateUrl: 'app/domain/operation/add/operationAdd.html',
         controller: 'OperationAddCtrl',
+        controllerAs: 'vm'
+      })
+      .state('debt.operation.info', {
+        url: '/operation/info/:id',
+        templateUrl: 'app/domain/operation/info/operationInfo.html',
+        controller: 'OperationInfoCtrl',
         controllerAs: 'vm'
       });
   });

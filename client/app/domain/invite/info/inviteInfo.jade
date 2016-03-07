@@ -1,12 +1,10 @@
 section(error-widget)
 
-.buttons
-  button.pull-right.btn.btn-warning(type='button' ng-disabled='vm.disableDeleteInvite()' ng-click='vm.deleteInvite()')
-    | Delete invite
+div(d-buttons buttons='vm.buttons' busy='vm.busy')
 
 h1 Created invite
 
-form(name='vm.inviteInfoForm')
+form(name='vm.inviteInfoForm' novalidate='' cg-busy='vm.busy')
   formly-form(model='vm.data' fields='vm.fields')
     .buttons.pull-right
       button.btn.btn-default(ng-click='vm.sms()')

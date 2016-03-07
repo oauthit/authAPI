@@ -2,15 +2,26 @@
 
 (function () {
 
-  function OperationAddController($scope, Operation, Agent, CounterAgent, Currency, SettingsService, ErrorsService) {
+  function OperationAddController(
+    $scope,
+    $q,
+    Agent,
+    Operation,
+    CounterAgent,
+    Currency,
+    InitCtrlService,
+    FormlyConfigService,
+    ErrorsService
+  ) {
 
-    var vm = this;
+    var vm = InitCtrlService.setup (this);
 
     angular.extend(vm, {
 
       contacts: [],
-      fields: Operation.fields,
+      fields: FormlyConfigService.getConfigFieldsByKey('operationCreate'),
       operation: {},
+      options: {},
 
       data: {
         role: 'debt'
@@ -29,22 +40,27 @@
 
       onSubmit: function (form) {
 
+
         if (vm.data.role === 'debt') {
           vm.data.debtorId = vm.agent.id;
-          vm.data.lenderId = vm.data.counterAgentId;
+          vm.data.lenderId = vm.data.contact.counterAgentId;
         } else {
-          vm.data.debtorId = vm.data.counterAgentId;
+          vm.data.debtorId = vm.data.contact.counterAgentId;
           vm.data.lenderId = vm.agent.id;
         }
 
         //vm.data.lenderId = null;
 
+        //TODO set default value in STAPI
+
         angular.extend (vm.operation,{
           total: vm.data.total,
-          currencyId: vm.data.currencyId,
+          currencyId: vm.data.currency && vm.data.currency.id || vm.data.currencyId,
           debtorId: vm.data.debtorId,
           lenderId: vm.data.lenderId
         });
+
+        ErrorsService.clear();
 
         Operation.create(vm.operation).then(function (res) {
           vm.operation = res;
@@ -58,42 +74,39 @@
 
       isSaved: function () {
         return !ErrorsService.errors.length && vm.operation.id;
+      },
+
+      onSetAgent: function(agent) {
+        vm.busy = Agent.loadRelations(agent).then(function () {
+          vm.agent = agent;
+          vm.data.currencyId = agent.currencyId;
+          vm.data.currency = agent.currency;
+        });
       }
 
     });
 
+    vm.originalFields = angular.copy(vm.fields);
     vm.dataPristine = angular.copy (vm.data);
-
-    function setAgent(agent) {
-      Agent.loadRelations(agent).then(function () {
-        vm.agent = agent;
-        vm.contacts = agent.contacts;
-        vm.data.currencyId = agent.currencyId;
+    vm.counterAgentField = FormlyConfigService.getConfigKey(vm.fields, 'contact');
+    vm.counterAgentField.templateOptions.liveSearch = function (viewValue) {
+      return _.filter(vm.agent.contacts, function (c) {
+        return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase()) || viewValue === ' ' ;
       });
-    }
+    };
+    vm.counterAgentField.templateOptions.onSelect = function (item) {
+      vm.data.contact = item;
+    };
+    vm.totalField = FormlyConfigService.getConfigKey(vm.fields, 'total');
 
-    if (SettingsService.getCurrentAgent()) {
-      setAgent(SettingsService.getCurrentAgent());
-    }
+    Currency.bindAll(false, $scope, 'vm.totalField.templateOptions.options');
 
-    $scope.$on('current-agent', function (e, agent) {
-      setAgent(agent);
-      vm.data.selectedContact = undefined;
-    });
+    vm.busy = $q.all ([
+      CounterAgent.findAll(),
+      Currency.findAll()
+    ]);
 
-    CounterAgent.findAll().then(function (data) {
-      vm.counterAgents = data;
-    });
-
-    Currency.findAll().then(function (data) {
-      vm.currencies = data;
-    });
-
-    vm.counterAgentField = vm.fields[0];
-    vm.currencyField = vm.fields[2];
-
-    CounterAgent.bindAll(false, $scope, 'vm.counterAgentField.templateOptions.options');
-    Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');
+    InitCtrlService.init (vm, $scope);
 
   }
 

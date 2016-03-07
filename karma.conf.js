@@ -18,8 +18,37 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // bower:js
+      'client/bower_components/jquery/dist/jquery.js',
+      'client/bower_components/angular/angular.js',
+      'client/bower_components/angular-resource/angular-resource.js',
+      'client/bower_components/angular-sanitize/angular-sanitize.js',
+      'client/bower_components/lodash/lodash.js',
+      'client/bower_components/angular-ui-router/release/angular-ui-router.js',
+      'client/bower_components/angular-validation-match/dist/angular-validation-match.min.js',
+      'client/bower_components/angular-local-storage/dist/angular-local-storage.js',
+      'client/bower_components/js-data/dist/js-data.js',
+      'client/bower_components/js-data-http/dist/js-data-http.js',
+      'client/bower_components/js-data-angular/dist/js-data-angular.js',
+      'client/bower_components/api-check/dist/api-check.js',
+      'client/bower_components/angular-formly/dist/formly.js',
+      'client/bower_components/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js',
+      'client/bower_components/validate/validate.js',
+      'client/bower_components/node-uuid/uuid.js',
+      'client/bower_components/clipboard/dist/clipboard.js',
+      'client/bower_components/ngclipboard/dist/ngclipboard.js',
+      'client/bower_components/moment/moment.js',
+      'client/bower_components/angular-moment/angular-moment.js',
+      'client/bower_components/angular-animate/angular-animate.js',
+      'client/bower_components/angular-busy/dist/angular-busy.js',
+      'client/bower_components/ng-table/dist/ng-table.min.js',
+      'client/bower_components/visionmedia-debug/dist/debug.js',
+      'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'client/bower_components/angular-toastr/dist/angular-toastr.tpls.js',
+      'client/bower_components/angular-mocks/angular-mocks.js',
+      'client/bower_components/js-data-angular-mocks/dist/js-data-angular-mocks.js',
       // endbower
       'node_modules/socket.io-client/socket.io.js',
+      'client/test/helper.js',
       'client/app/app.js',
       'client/{app,components}/**/*.module.js',
       'client/{app,components}/**/*.js',
@@ -61,6 +90,9 @@ module.exports = function(config) {
     // web server port
     port: 8080,
 
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
+
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
@@ -75,7 +107,7 @@ module.exports = function(config) {
     reporters: ['spec'],
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
     // Start these browsers, currently available:
     // - Chrome

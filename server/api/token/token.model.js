@@ -1,6 +1,13 @@
 'use strict';
 import redis from 'redis';
-var redisClient = redis.createClient();
+
+var redisConfig = {
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  url: process.env.REDIS_URL
+};
+
+var redisClient = redis.createClient(redisConfig);
 import uuid from 'node-uuid';
 var debug = require('debug') ('authAPI:token.model');
 const AUTH_HASH = 'authHash';

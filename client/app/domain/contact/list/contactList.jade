@@ -1,18 +1,13 @@
 section(error-widget)
 
-.buttons
-  button.pull-right.btn.btn-primary(
-    ng-repeat='b in vm.buttons track by b.name'
-    type='button'
-    ui-sref='{{b.sref}}'
-  )
-    | {{b.name}}
+div(d-buttons buttons='vm.buttons' busy='vm.busy')
 
 h1 My contacts
 
-table.table.table-hover.table-striped
+// TODO: show if contact is deleted by counter-agent
+table.table.table-hover.table-striped(cg-busy='vm.busy')
   thead
     th Name
   tbody
-    tr(ng-repeat='contact in vm.contacts track by contact.id')
+    tr(ng-repeat='contact in vm.contacts track by contact.id' ui-sref='^.info({id: contact.id})')
       td {{contact.counterAgent.name}}

@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('authApiApp')
-  .factory('Modal', function($rootScope, $modal) {
+  .factory('Modal', function($rootScope, $uibModal) {
     /**
      * Opens a modal
      * @param  {Object} scope      - an object to be merged with modal's scope
      * @param  {String} modalClass - (optional) class(es) to be applied to the modal
-     * @return {Object}            - the instance $modal.open() returns
+     * @return {Object}            - the instance $uibModal.open() returns
      */
     function openModal(scope = {}, modalClass = 'modal-default') {
       var modalScope = $rootScope.$new();
 
       angular.extend(modalScope, scope);
 
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'components/modal/modal.html',
         windowClass: modalClass,
         scope: modalScope
@@ -67,6 +67,40 @@ angular.module('authApiApp')
               del.apply(event, args);
             });
           };
+        },
+
+        confirm(cb = angular.noop) {
+
+          return function() {
+            var args = Array.prototype.slice.call(arguments),
+              confirmModal;
+
+            confirmModal = openModal({
+              modal: {
+                dismissable: true,
+                title: 'Confirm logout',
+                html: '<p>Are you sure you want to logout?</p>',
+                buttons: [{
+                  classes: 'btn-primary',
+                  text: 'Logout',
+                  click: function (e) {
+                    confirmModal.close(e);
+                  }
+                }, {
+                  classes: 'btn-default',
+                  text: 'Cancel',
+                  click: function (e) {
+                    confirmModal.dismiss(e);
+                  }
+                }]
+              }
+            });
+
+            confirmModal.result.then(function (event) {
+              cb.apply(event, args);
+            });
+          };
+
         }
       }
     };

@@ -5,30 +5,39 @@
   angular.module('authApiApp')
     .controller('InviteListCtrl', function (
       $scope,
-      Agent,
-      Invite,
       $state,
-      SettingsService
+      $q,
+      Invite,
+      InitCtrlService
     ) {
 
-      var vm = this;
+      var vm = InitCtrlService.setup (this);
 
-      function setAgent(agent) {
-        Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
-        Invite.findAll({owner: agent},{bypassCache:true}).then(function () {
-          //vm.invites = agent.invites;
+      function onSetAgent (agent) {
+
+        vm.invites = [];
+        //Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
+        vm.busy = Invite.findAll({ownerId: agent.id},{bypassCache:true}).then(function (res) {
+
+          var qs = res.map(function(i){
+            return Invite.loadRelations(i).then(function(){
+              vm.invites.push(i);
+            });
+          });
+
+          if (qs.length) {
+            return $q.all(qs);
+          }
+
         });
-      }
 
-      if (SettingsService.getCurrentAgent()) {
-        setAgent(SettingsService.getCurrentAgent());
       }
-
-      $scope.$on('current-agent', function (e, agent) {
-        setAgent(agent);
-      });
 
       angular.extend(vm, {
+
+        invites: [],
+
+        onSetAgent: onSetAgent,
 
         deleteInvite: function () {
           Invite.destroy(vm.data.id).then(function(){
@@ -37,6 +46,9 @@
         }
 
       });
+
+      InitCtrlService.init (vm,$scope);
+
     })
   ;
 

@@ -1,0 +1,22 @@
+.buttons(ng-repeat='b in buttons track by b.name')
+  button.pull-right.btn.btn-primary(
+    ng-if='b.sref'
+    ui-sref='{{b.sref}}'
+    ng-class='classes'
+    type='button'
+    ng-disabled='busy && !busy.$cgBusyFulfilled || b.disabled()'
+    ng-show="!b.showFn || b.showFn()"
+  )
+    | {{b.name}}
+  button.pull-right.btn.btn-primary(
+    ng-if='b.fn'
+    ng-click='b.fn()'
+    ng-class='classes'
+    type='button'
+    ng-disabled='busy && !busy.$cgBusyFulfilled || b.disabled()'
+    ng-show="!b.showFn || b.showFn()"
+  )
+    | {{b.name}}
+
+// TODO: user button class property to set class of btn-{default, primary, success, info, warning, danger, link}
+// TODO: check all .jade to rewrite buttons using the directive

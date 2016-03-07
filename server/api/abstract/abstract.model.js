@@ -2,6 +2,7 @@
 import request from 'request';
 var _ = require('lodash');
 var debug = require('debug')('authAPI:abstract.model');
+var uuid = require ('node-uuid');
 
 function model(name) {
 
@@ -67,8 +68,10 @@ function model(name) {
         request.post({
           url: collectionUrl,
           json: body
-        }, function (err) {
-          err && reject(err) || resolve(body);
+        }, function (err, res, json) {
+          let e = err || res.statusCode !== 200 && json;
+          debug ('save', e);
+          e && reject(e) || resolve(body);
         });
 
       });
@@ -82,7 +85,7 @@ function model(name) {
           if (body) {
             resolve(body);
           } else {
-            save(_.defaults(data, params)).then(resolve, reject);
+            save(_.defaults(data, params, {id: uuid.v4()})).then(resolve, reject);
           }
 
         }, reject);

@@ -12,40 +12,29 @@
     'formly',
     'formlyBootstrap',
     'ngclipboard',
-    'angularMoment'
+    'angularMoment',
+    'cgBusy',
+    'ngTable',
+    'toastr'
   ]);
 
   angular.module('authApiApp', [
+      'authApiApp.dependencies',
+      'authApiApp.core',
       'authApiApp.auth',
       'authApiApp.admin',
-      'authApiApp.constants',
-      'authApiApp.models',
-      'authApiApp.filters',
-      'authApiApp.services',
-      'authApiApp.directives',
-      'authApiApp.dependencies'
+      'authApiApp.constants'
     ])
 
-    .config(function($urlRouterProvider) {
-      $urlRouterProvider
-        .otherwise('/');
-    })
-
-    .config(function(localStorageServiceProvider) {
-      localStorageServiceProvider
-        .setPrefix('authAPI');
-    })
-
-    .run(function ($rootScope, InitService) {
+    .run(function ($rootScope, InitService, ErrorsService) {
       //subscribe for logged-in event
       $rootScope.$on('logged-in',function(){
         InitService.init();
       });
-      $rootScope.errors = [];
 
       //add function to $rootScope to add errors
       $rootScope.addError = function (error) {
-        $rootScope.errors.push(error);
+        ErrorsService.addError(error);
       };
     });
 

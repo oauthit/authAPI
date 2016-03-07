@@ -70,6 +70,7 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User, $rootS
     logout() {
       Token.destroy();
       currentUser = {};
+      $rootScope.$broadcast('logged-off');
     },
 
     /**

@@ -15,9 +15,12 @@ import {Server as KarmaServer} from 'karma';
 import runSequence from 'run-sequence';
 import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
+var spawn = require('child_process').spawn;
 
 var plugins = gulpLoadPlugins();
 var config;
+
+var isBuild;
 
 const clientPath = require('./bower.json').appPath || 'client';
 const serverPath = 'server';
@@ -317,6 +320,11 @@ gulp.task('start:server', () => {
     .on('log', onServerLog);
 });
 
+gulp.task('gulp-reload', function() {
+  spawn('gulp', ['watch'], {stdio: 'inherit'});
+  process.exit();
+});
+
 gulp.task('watch', () => {
   var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
 
@@ -350,6 +358,7 @@ gulp.task('watch', () => {
     .pipe(plugins.livereload());
 
   gulp.watch('bower.json', ['wiredep:client']);
+  gulp.watch('gulpfile.js', ['gulp-reload']);
 });
 
 gulp.task('serve', cb => {
@@ -380,7 +389,7 @@ gulp.task('test:server', cb => {
     'env:all',
     'env:test',
     'mocha:unit',
-    'mocha:integration',
+    //'mocha:integration',
     'mocha:coverage',
     cb);
 });
@@ -398,8 +407,10 @@ gulp.task('mocha:integration', () => {
 gulp.task('test:client', ['wiredep:test', 'constant'], (done) => {
   new KarmaServer({
     configFile: `${__dirname}/${paths.karma}`,
-    singleRun: true
-  }, done).start();
+    singleRun: false
+  }, function () {
+    done();
+  }).start();
 });
 
 // inject bower components
@@ -424,7 +435,7 @@ gulp.task('wiredep:test', () => {
     .pipe(wiredep({
       exclude: [
         /bootstrap-sass-official/,
-        /bootstrap.js/,
+        /[^-]bootstrap.js/,
         '/json3/',
         '/es5-shim/',
         /bootstrap.css/,
@@ -441,6 +452,8 @@ gulp.task('wiredep:test', () => {
 
 //FIXME: looks like font-awesome isn't getting loaded
 gulp.task('build', cb => {
+  isBuild = true;
+
   runSequence(
     'clean:dist',
     'clean:tmp',
@@ -469,7 +482,8 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
   var assetsFilter = plugins.filter('**/*.{js,css}');
 
   return gulp.src(paths.client.mainView)
-    .pipe(plugins.jade({pretty: true}))
+    //.pipe(plugins.html2jade({nspaces:2}))
+    //.pipe(plugins.jade({pretty: true}))
     .pipe(plugins.useref())
     .pipe(appFilter)
     .pipe(plugins.addSrc.append('.tmp/templates.js'))
@@ -490,11 +504,13 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
     .pipe(htmlBlock.restore())
     .pipe(plugins.revReplace({manifest}))
     .pipe(assetsFilter)
+    .pipe(assetsFilter.restore())
     .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
 });
 
 gulp.task('html', function () {
-  return gulp.src(`${clientPath}/{app,components}/**/*.html`)
+  return gulp.src(`${clientPath}/{app,components}/**/*.jade`)
+    .pipe(plugins.jade({pretty: true}))
     .pipe(plugins.angularTemplatecache({
       module: 'authApiApp'
     }))
@@ -520,6 +536,9 @@ gulp.task('constant', function () {
 
   try {
     localConfig = require(`./${serverPath}/config/local.env.js`);
+    if (isBuild) {
+      localConfig = _.assign (localConfig,localConfig.build);
+    }
   } catch (err) {
     localConfig = {};
   }

@@ -6,15 +6,17 @@
     .controller('ContactListCtrl', function (
       $scope,
       $state,
+      $q,
       Agent,
       CounterAgent,
       Invite,
-      SettingsService,
       ErrorsService,
       InitCtrlService
     ) {
 
-      var vm = this;
+      var counterAgentPromise = CounterAgent.findAll();
+      var vm = InitCtrlService.setup(this);
+
 
       angular.extend(vm,{
 
@@ -25,22 +27,18 @@
 
       });
 
-      InitCtrlService.init(vm);
-      CounterAgent.findAll();
-
-      function setAgent(e, agent) {
-        if (!agent) {
-          return;
-        }
+      vm.onSetAgent = function (agent) {
         vm.contacts = agent.contacts;
-        Agent.loadRelations(agent,'contact').then(function(){
+        var agentPromise = Agent.loadRelations(agent, 'contact');
+
+        vm.busy = $q.all([agentPromise, counterAgentPromise]);
+
+        agentPromise.then(function(){
           vm.contacts = agent.contacts;
         });
-      }
+      };
 
-      setAgent(false, SettingsService.getCurrentAgent());
-
-      $scope.$on('current-agent', setAgent);
+      InitCtrlService.init (vm,$scope);
 
     })
   ;

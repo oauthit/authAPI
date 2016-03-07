@@ -4,3 +4,9 @@ footer.footer {
   margin-top: 70px;
   border-top: 1px solid #E5E5E5;
 }
+
+@media (max-width: 767px) {
+  footer.footer {
+    margin-top: 20px;
+  }
+}
