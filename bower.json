@@ -31,6 +31,7 @@
     "angular-toastr": "~1.7.0"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.0"
+    "angular-mocks": "~1.4.0",
+    "js-data-angular-mocks": "~3.1.0"
   }
 }

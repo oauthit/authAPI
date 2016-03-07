@@ -407,7 +407,7 @@ gulp.task('mocha:integration', () => {
 gulp.task('test:client', ['wiredep:test', 'constant'], (done) => {
   new KarmaServer({
     configFile: `${__dirname}/${paths.karma}`,
-    singleRun: true
+    singleRun: false
   }, function () {
     done();
   }).start();
