@@ -83,7 +83,7 @@ function model(name) {
         findOne(params).then(body => {
 
           if (body) {
-            resolve(body);
+            resolve(body, 'get');
           } else {
             save(_.defaults(data, params, {id: uuid.v4()})).then(resolve, reject);
           }
