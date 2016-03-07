@@ -6,6 +6,7 @@
     'ngResource',
     'ngSanitize',
     'ui.router',
+    'ui.router.stateHelper',
     'ui.bootstrap',
     'validation.match',
     'LocalStorageModule',
