@@ -15,8 +15,11 @@ function createToken(profileId, accessToken, refreshToken) {
 }
 
 function checkToken(profileId) {
-  return new Promise(function (resolve) {
-    redisClient.hgetall(profileId, (reply) => {
+  return new Promise(function (resolve, reject) {
+    redisClient.hgetall(profileId, (err, reply) => {
+      if (err) {
+        reject();
+      }
       resolve(reply);
     });
   });
