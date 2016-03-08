@@ -29,7 +29,7 @@
 
       vm.onSetAgent = function (agent) {
         vm.contacts = agent.contacts;
-        var agentPromise = Agent.loadRelations(agent, 'contact');
+        var agentPromise = Agent.loadRelations(agent, 'contact', {bypassCache:true});
 
         vm.busy = $q.all([agentPromise, counterAgentPromise]);
 
