@@ -23,15 +23,15 @@ router.get('/', (req, response) => {
 
   const PROFILE = req.user.provider+':'+req.user.profileId;
   ProviderToken.findByProfileId(PROFILE).then(function (res) {
-    console.log(res);
+
+    FB.setAccessToken(res.accessToken);
     FB.api('me/friends?limit=10', function (res) {
       if(!res || res.error) {
-        console.log(!res ? 'error occurred' : res.error);
+        debug('api/fb GET', !res ? 'error occurred' : res.error);
         return;
       }
-      console.log(res);
 
-      return response.status(200).end();
+      return response.status(200).json(res.data);
     });
 
   });
