@@ -5,6 +5,8 @@ import redis from 'redis';
 var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
 import ProviderToken from '../../api/providerToken/providerToken.model';
+import bluebird from 'bluebird';
+bluebird.promisifyAll(redis.RedisClient.prototype);
 
 var redisClient = redis.createClient(config.redisConfig);
 
