@@ -12,6 +12,9 @@ form(name='vm.getInviteByCodeForm' cg-busy='vm.busy' novalidate='')
         | Get invite
 
 // TODO: show social friends list
+h1 Social network friends
+ul
+  li(ng-repeat='friend in vm.friends track by friend.id') {{friend.name}}
 
 section.clear-both(ng-show='vm.inviteByCode')
   form(name='vm.acceptInviteForm' novalidate='')

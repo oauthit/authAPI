@@ -4,7 +4,9 @@
 
   angular.module('authApiApp')
     .controller('ContactAddCtrl', function ($state,
+                                            $q,
                                             Invite,
+                                            FacebookFriend,
                                             SettingsService,
                                             ErrorsService,
                                             FormlyConfigService,
@@ -69,5 +71,12 @@
 
       });
 
+      function init() {
+        vm.busy = FacebookFriend.findAll().then(function (res) {
+          vm.friends = res;
+        });
+      }
+
+      init();
     });
 }());
