@@ -35,6 +35,8 @@ export default function (provider, profileId) {
         });
 
       });
+    }, function () {
+      console.log('no data');
     });
   });
 
