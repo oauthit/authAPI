@@ -18,6 +18,10 @@
             counterAgent: {
               localField: 'acceptor',
               localKey: 'acceptorId'
+            },
+            facebookFriend: {
+              localField: 'facebookFriend',
+              localKey: 'inviteeId'
             }
           }
         }

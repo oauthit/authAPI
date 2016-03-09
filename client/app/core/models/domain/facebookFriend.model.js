@@ -7,7 +7,14 @@
       return DS.defineResource({
         name: 'facebookFriend',
         basePath: appConfig.apiUrl,
-        endpoint: 'fb'
+        relations: {
+          hasMany: {
+            invite: {
+              localField: 'invites',
+              foreignKey: 'inviteeId'
+            }
+          }
+        }
       });
     })
 
