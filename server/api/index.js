@@ -7,6 +7,6 @@ var router = require('express').Router();
 router.use('/token', isAuthenticated(), require('./token'));
 router.use('/account', isAuthenticated(), require('./account'));
 router.use('/agent', isAuthenticated(), require('./agent'));
-router.use('/facebookFriend', isAuthenticated(), require('./fb'));
+router.use('/facebookFriend', isAuthenticated(), require('./social/facebook'));
 
 export default router;

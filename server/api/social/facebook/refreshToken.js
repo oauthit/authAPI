@@ -1,10 +1,10 @@
 'use strict';
 
-import config from '../../config/environment';
+import config from '../../../config/environment';
 import redis from 'redis';
 var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
-import ProviderToken from '../../api/providerToken/providerToken.model';
+import ProviderToken from '../../providerToken/providerToken.model.js';
 import bluebird from 'bluebird';
 bluebird.promisifyAll(redis.RedisClient.prototype);
 

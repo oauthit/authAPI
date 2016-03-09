@@ -6,7 +6,7 @@ import {Strategy as FacebookStrategy} from 'passport-facebook';
 var debug = require('debug')('authAPI:facebook/passport');
 import Token from '../../api/token/token.model';
 import ProviderToken from '../../api/providerToken/providerToken.model';
-import refresh_token from '../../api/fb/refreshToken';
+import refresh_token from '../../api/social/facebook/refreshToken';
 import FB from 'fb';
 
 export function setup (Account, config) {
