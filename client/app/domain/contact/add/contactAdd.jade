@@ -11,13 +11,12 @@ form(name='vm.getInviteByCodeForm' cg-busy='vm.busy' novalidate='')
       button.btn.btn-default(ng-click='vm.getInviteByCode()' ng-disabled='vm.getInviteByCodeForm.$invalid')
         | Get invite
 
-// TODO: show social friends list
-h1 Social network friends
-ul
-  li(ng-repeat='friend in vm.friends track by friend.id') {{friend.name}}
-
 section.clear-both(ng-show='vm.inviteByCode')
   form(name='vm.acceptInviteForm' novalidate='')
     formly-form(model='vm.inviteByCode' fields='vm.inviteFields')
       .buttons.pull-right
         button.btn.btn-success(ng-show='vm.inviteByCode && vm.inviteByCode.status === "open"' ng-click='vm.acceptInvite()') Accept invite
+
+section.clear-both(ng-show='vm.invitesWaitingForAccept')
+  ul
+    li(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id') {{invite}}

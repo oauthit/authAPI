@@ -4,13 +4,15 @@
 
   angular.module('authApiApp')
     .controller('ContactAddCtrl', function ($state,
-                                            $q,
+                                            $scope,
                                             Invite,
-                                            FacebookFriend,
+                                            Auth,
                                             SettingsService,
                                             ErrorsService,
                                             FormlyConfigService,
-                                            InviteService) {
+                                            InviteService,
+                                            messageService,
+                                            InitCtrlService) {
 
       var vm = this;
 
@@ -45,7 +47,6 @@
       }
 
       function acceptInvite() {
-
         vm.inviteByCode.acceptorId = SettingsService.getCurrentAgent().id;
         Invite.save(vm.inviteByCode).then(function () {
           $state.go('debt.contact.list');
@@ -57,6 +58,7 @@
 
       angular.extend(vm, {
 
+        invitesWaitingForAccept: [],
         model: {},
         fields: FormlyConfigService.getConfigFieldsByKey('contactAdd'),
 
@@ -67,16 +69,23 @@
         buttons: [{
           name: 'Issue an invite',
           fn: InviteService.create
+        }, {
+          name: 'Add friends',
+          sref: 'debt.contact.socialFriends'
         }]
 
       });
 
-      function init() {
-        vm.busy = FacebookFriend.findAll().then(function (res) {
-          vm.friends = res;
+      Auth.getCurrentUser(function (acc) {
+        Invite.findAll({inviteeId: acc.profileId}, {bypassCache: true}).then(function (invites) {
+          _.each(invites, function (invite) {
+            Invite.loadRelations(invite, ['facebookFriend']).then(function (i) {
+              vm.invitesWaitingForAccept.push(i);
+            });
+          });
         });
-      }
+      });
 
-      init();
+      InitCtrlService.init(vm, $scope);
     });
 }());
