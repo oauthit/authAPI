@@ -46,9 +46,15 @@
 
       }
 
-      function acceptInvite() {
-        vm.inviteByCode.acceptorId = SettingsService.getCurrentAgent().id;
-        Invite.save(vm.inviteByCode).then(function () {
+      function acceptInvite(invite) {
+
+        if (!invite) {
+          invite = vm.inviteByCode;
+        }
+
+        invite.acceptorId = SettingsService.getCurrentAgent().id;
+
+        Invite.save(invite).then(function () {
           $state.go('debt.contact.list');
         }, function (err) {
           ErrorsService.addError(err);
@@ -81,7 +87,7 @@
           _.each(invites, function (invite) {
             Invite.loadRelations(invite, ['facebookFriend']).then(function (i) {
               vm.invitesWaitingForAccept.push(i);
-            });
+            },function (res) {console.log (res)});
           });
         });
       });
