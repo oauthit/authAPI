@@ -18,7 +18,9 @@
       });
     })
 
-    .run(function (FacebookFriend) {})
+    .run(function (FacebookFriend) {
+      console.log(FacebookFriend);
+    })
   ;
 
 }());

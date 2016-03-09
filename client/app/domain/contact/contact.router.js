@@ -30,5 +30,5 @@ angular.module('authApiApp')
         templateUrl: 'app/domain/contact/socialNetworkFriends/friends.html',
         controller: 'FriendsCtrl',
         controllerAs: 'vm'
-      })
+      });
   });

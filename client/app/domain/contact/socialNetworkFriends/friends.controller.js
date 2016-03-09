@@ -5,9 +5,11 @@
   angular.module('authApiApp')
     .controller('FriendsCtrl', function ($scope,
                                          $q,
+                                         Invite,
                                          FacebookFriend,
                                          messageService,
-                                         InitCtrlService) {
+                                         InitCtrlService,
+                                         ErrorsService) {
 
       var vm = this;
 
