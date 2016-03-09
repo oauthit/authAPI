@@ -11,7 +11,7 @@
     "angular-resource": "~1.4.0",
     "angular-sanitize": "~1.4.0",
     "font-awesome": ">=4.1.0",
-    "lodash": "~3.x.x",
+    "lodash": "~4.x.x",
     "angular-ui-router": "~0.2.15",
     "angular-validation-match": "~1.7.1",
     "angular-local-storage": "~0.2.3",
