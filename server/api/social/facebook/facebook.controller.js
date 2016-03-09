@@ -23,16 +23,27 @@ FB.options({
   appSecret: config.facebook.clientSecret
 });
 
+function onReject (response, status) {
+  return function (err) {
+    debug('onReject:', err);
+    response.status(status || 500).end(err);
+  }
+}
+
 Object.assign(ctrl, {
 
   get: (req, response) => {
     //get access token by profile id
     if (!req.user) {
-      return response.end('Unauthorized!');
+      return onReject (response,401) ('Unauthorized');
     }
 
     const PROFILE = req.user.provider+':'+req.user.profileId;
     ProviderToken.findByProfileId(PROFILE).then(function (res) {
+
+      if (!res) {
+        return onReject (response,401) ('No redis data');
+      }
 
       FB.setAccessToken(res.accessToken);
       FB.api('me/friends?limit=10', function (res) {
@@ -44,7 +55,8 @@ Object.assign(ctrl, {
         return response.status(200).json(res.data);
       });
 
-    });
+    },onReject (response));
+
   },
 
   refreshToken: (req, response) => {
@@ -75,10 +87,11 @@ Object.assign(ctrl, {
           return response.status(400).end('Bad request');
         }
 
-        return response.status(200).json(res.data);
+        return response.status(200).json(res);
       })
 
-    })
+    },onReject (response));
+
   }
 
 });
