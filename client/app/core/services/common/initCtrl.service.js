@@ -19,6 +19,10 @@
 
       function init(ctrl, scope) {
 
+        ctrl.onSetAgent = ctrl.onSetAgent || function (agent) {
+          ctrl.agent = agent;
+        };
+
         function setAgent(o, n) {
           var agent = n || o;
           if (!agent) {
