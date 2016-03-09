@@ -7,11 +7,11 @@ h1 Add or invite a contact
 
 form(name='vm.getInviteByCodeForm' cg-busy='vm.busy' novalidate='')
   formly-form(model='vm.model' fields='vm.fields')
-    .buttons.pull-right
+    .buttons.pull-right.clearfix
       button.btn.btn-default(ng-click='vm.getInviteByCode()' ng-disabled='vm.getInviteByCodeForm.$invalid')
         | Get invite
 
-section.clear-both(ng-show='vm.inviteByCode')
+section.clear-both(ng-if='vm.inviteByCode')
   form(name='vm.acceptInviteForm' novalidate='')
     formly-form(model='vm.inviteByCode' fields='vm.inviteFields')
       .buttons.pull-right
@@ -19,4 +19,6 @@ section.clear-both(ng-show='vm.inviteByCode')
 
 section.clear-both(ng-show='vm.invitesWaitingForAccept')
   ul
-    li(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id') {{invite}}
+    li(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
+      span {{invite.ownerName.name}} ({{ invite.facebookFriend.name }})
+      button.btn.btn-warning(ng-click='vm.acceptInvite(invite)') Accept
