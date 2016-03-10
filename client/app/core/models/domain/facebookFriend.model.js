@@ -6,6 +6,7 @@
     .factory('FacebookFriend', function (DS, appConfig) {
       return DS.defineResource({
         name: 'facebookFriend',
+        endpoint: 'facebook/friend',
         basePath: appConfig.apiUrl,
         relations: {
           hasMany: {
