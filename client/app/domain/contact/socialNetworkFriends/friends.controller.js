@@ -37,7 +37,7 @@
           var data = {
             ownerId: vm.agent.id,
             inviteeId: friend.id,
-            inviterId: vm.currentUser
+            inviterId: vm.currentUser.profileId
           };
 
           Invite.create(data).then(function () {
