@@ -10,11 +10,11 @@
 
 'use strict';
 
-import config from '../../../config/environment';
+import config from '../../../../config/environment';
 import FB from 'fb';
 var debug = require('debug')('authAPI:fb/index');
-import refreshToken from './refreshToken';
-import ProviderToken from '../../providerToken/providerToken.model';
+import refreshToken from './../refreshToken';
+import ProviderToken from '../../../providerToken/providerToken.model.js';
 
 let ctrl = {};
 
