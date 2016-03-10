@@ -16,18 +16,25 @@
       vm.currentUserPromise = Auth.getCurrentUser();
 
       function init() {
-        vm.busy = $q.all([Invitee.findAll(), vm.currentUserPromise]).then(function (res) {
+        vm.busy = $q(function (resolve, reject) {
+          $q.all([Invitee.findAll(), vm.currentUserPromise]).then(function (res) {
 
-          vm.currentUser = res[1];
-          console.log(vm.currentUser);
-          vm.friends = [];
+            vm.currentUser = res[1];
+            vm.friends = [];
 
-          _.each(res[0], function (r) {
-            Invitee.loadRelations(r, ['invites']).then (function (){
-              vm.friends.push (r);
+            var promises = [];
+            _.each(res[0], function (r) {
+              promises.push(Invitee.loadRelations(r, ['invites']).then(function () {
+                vm.friends.push(r);
+              }));
             });
-          });
+            $q.all(promises).then(function () {
+              resolve();
+            }, function () {
+              reject();
+            });
 
+          });
         });
       }
 
