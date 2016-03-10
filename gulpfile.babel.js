@@ -320,7 +320,7 @@ gulp.task('start:server', () => {
     .on('log', onServerLog);
 });
 
-gulp.task('gulp-reload', function() {
+gulp.task('gulp-reload', function () {
   spawn('gulp', ['watch'], {stdio: 'inherit'});
   process.exit();
 });
@@ -454,14 +454,17 @@ gulp.task('wiredep:test', () => {
 gulp.task('build', cb => {
   isBuild = true;
 
-  runSequence(
-    'clean:dist',
-    'clean:tmp',
+  runSequence([
+      'clean:dist',
+      'clean:tmp'
+    ],
+    'jade',
     'inject',
     'wiredep:client',
     [
       'build:images',
       'copy:extras',
+      'copy:fonts',
       'copy:assets',
       'copy:server',
       'transpile:server',
@@ -537,7 +540,7 @@ gulp.task('constant', function () {
   try {
     localConfig = require(`./${serverPath}/config/local.env.js`);
     if (isBuild) {
-      localConfig = _.assign (localConfig,localConfig.build);
+      localConfig = _.assign(localConfig, localConfig.build);
     }
   } catch (err) {
     localConfig = {};
@@ -580,6 +583,11 @@ gulp.task('build:images', () => {
       merge: true
     }))
     .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
++gulp.task('copy:fonts', () => {
+  return gulp.src(`${clientPath}/bower_components/{bootstrap,font-awesome}/fonts/**/*`, {dot: true})
+    .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components`));
 });
 
 gulp.task('copy:extras', () => {
