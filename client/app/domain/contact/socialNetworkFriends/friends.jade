@@ -1,8 +1,13 @@
 h1 Social network friends
 
-ul(cg-busy='vm.busy')
-  li(ng-repeat='friend in vm.friends track by friend.id') {{friend.name}}
-    span
-      = ''
-      button.btn.btn-primary(type='button' ng-click='vm.inviteSocialFriend(friend)' ng-show='vm.showInviteButton(friend)') Invite
-      button.btn.btn-primary(type='button' ng-show='vm.showWaitingButton(friend)') Waiting
+table.table(cg-busy='vm.busy')
+  thead
+    th Name
+    th Status
+  tbody
+    tr(ng-repeat='friend in vm.friends track by friend.id')
+      td {{friend.name}}
+      td
+        button.btn.btn-primary(type='button' title='Accept the invite' ng-click='vm.inviteSocialFriend(friend)' ng-show='vm.showInviteButton(friend)') Invite
+        span.fa.fa-hourglass-half(title='Waiting for confirm' ng-show='vm.showWaitingButton(friend)')
+
