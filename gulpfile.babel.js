@@ -450,7 +450,6 @@ gulp.task('wiredep:test', () => {
  * Build
  ********************/
 
-//FIXME: looks like font-awesome isn't getting loaded
 gulp.task('build', cb => {
   isBuild = true;
 
