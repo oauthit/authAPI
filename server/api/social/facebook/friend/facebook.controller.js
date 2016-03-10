@@ -1,4 +1,3 @@
-
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/agent              ->  index
@@ -15,7 +14,8 @@ import FB from 'fb';
 var debug = require('debug')('authAPI:fb/index');
 import refreshToken from './../refreshToken';
 import ProviderToken from '../../../providerToken/providerToken.model.js';
-import FacebookFriend from './facebook.model';
+import FacebookFriend from './facebookFriend.model';
+import FacebookProfile from './facebookProfile.model';
 import _ from 'lodash';
 
 let ctrl = {};
@@ -25,7 +25,7 @@ FB.options({
   appSecret: config.facebook.clientSecret
 });
 
-function onReject (response, status) {
+function onReject(response, status) {
   return function (err) {
     debug('onReject:', err);
     response.status(status || 500).end(err);
@@ -37,35 +37,46 @@ Object.assign(ctrl, {
   get: (req, response) => {
     //get access token by profile id
     if (!req.user) {
-      return onReject (response,401) ('Unauthorized');
+      return onReject(response, 401)('Unauthorized');
     }
 
-    ProviderToken.findByProfileId(req.user.provider, req.user.profileId).then(function (res) {
+    let profileId = req.user.profileId;
+    let provider = req.user.provider;
+
+    ProviderToken.findByProfileId(provider, profileId).then(function (res) {
 
       if (!res) {
-        return onReject (response,401) ('No redis data');
+        return onReject(response, 401)('No redis data');
       }
 
       try {
         var parsed = JSON.parse(res);
         FB.setAccessToken(parsed.accessToken);
         FB.api('me/friends?limit=10', function (res) {
-          if(!res || res.error) {
+          if (!res || res.error) {
             debug('api/fb GET', !res ? 'error occurred' : res.error);
-            return;
+
+            //if fb not returning data get it from redis
+            FacebookFriend.getAll(profileId).then(function (reply) {
+
+              try {
+                return response.status(200).json(JSON.parse(reply));
+              } catch (err) {
+                return onReject(response) (err);
+              }
+
+            });
           }
 
-          _.each(res.data, function (friend) {
-            FacebookFriend.save(friend.id, JSON.stringify(friend));
-          });
+          FacebookFriend.saveAll(profileId, JSON.stringify(res.data));
 
           return response.status(200).json(res.data);
         });
       } catch (err) {
-        return onReject (response) (err);
+        return onReject(response)(err);
       }
 
-    },onReject (response));
+    }, onReject(response));
 
   },
 
@@ -88,23 +99,31 @@ Object.assign(ctrl, {
       return response.end('Unauthorized!');
     }
 
-    ProviderToken.findByProfileId(req.user.provider, req.user.profileId).then(function (res) {
+    let profileId = req.user.profileId;
+    ProviderToken.findByProfileId(req.user.provider, profileId).then(function (res) {
 
       try {
         var parsed = JSON.parse(res);
         FB.setAccessToken(parsed.accessToken);
         FB.api(req.params.id, function (res) {
           if (!res || res.error) {
-            return response.status(400).end('Bad request');
+            FacebookProfile.get(profileId).then (function (reply) {
+              try {
+                return response.status(200).json(JSON.parse(reply));
+              } catch (err) {
+                return onReject(response) (err);
+              }
+            });
           }
 
+          FacebookProfile.save(profileId, JSON.stringify(res));
           return response.status(200).json(res);
         })
       } catch (err) {
-        return onReject (response) (err);
+        return onReject(response)(err);
       }
 
-    },onReject (response));
+    }, onReject(response));
 
   }
 
