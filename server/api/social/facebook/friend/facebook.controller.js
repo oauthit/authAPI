@@ -102,26 +102,35 @@ Object.assign(ctrl, {
     let profileId = req.user.profileId;
     ProviderToken.findByProfileId(req.user.provider, profileId).then(function (res) {
 
-      try {
-        var parsed = JSON.parse(res);
-        FB.setAccessToken(parsed.accessToken);
-        FB.api(req.params.id, function (res) {
-          if (!res || res.error) {
-            FacebookProfile.get(profileId).then (function (reply) {
-              try {
-                return response.status(200).json(JSON.parse(reply));
-              } catch (err) {
-                return onReject(response) (err);
-              }
-            });
-          }
+      FacebookProfile.get(profileId).then (function (reply) {
+        try {
+          return response.status(200).json(JSON.parse(reply));
+        } catch (err) {
+          return onReject(response) (err);
+        }
+      }, function () {
+        try {
+          var parsed = JSON.parse(res);
+          FB.setAccessToken(parsed.accessToken);
+          FB.api(req.params.id, function (res) {
+            if (!res || res.error) {
+              FacebookProfile.get(profileId).then (function (reply) {
+                try {
+                  return response.status(200).json(JSON.parse(reply));
+                } catch (err) {
+                  return onReject(response) (err);
+                }
+              });
+            }
 
-          FacebookProfile.save(profileId, JSON.stringify(res));
-          return response.status(200).json(res);
-        })
-      } catch (err) {
-        return onReject(response)(err);
-      }
+            FacebookProfile.save(profileId, JSON.stringify(res));
+            return response.status(200).json(res);
+          })
+        } catch (err) {
+          return onReject(response)(err);
+        }
+      });
+
 
     }, onReject(response));
 
