@@ -8,6 +8,7 @@ table.table(cg-busy='vm.busy')
     tr(ng-repeat='friend in vm.friends track by friend.id')
       td {{friend.name}}
       td
-        button.btn.btn-primary(type='button' title='Accept the invite' ng-click='vm.inviteSocialFriend(friend)' ng-show='vm.showInviteButton(friend)') Invite
-        span.fa.fa-hourglass-half(title='Waiting for confirm' ng-show='vm.showWaitingButton(friend)')
+        button.btn.btn-primary(type='button' title='Accept the invite' ng-click='vm.inviteSocialFriend(friend)' ng-show='friend.status() === "invite"') Invite
+        span.fa.fa-hourglass-half(title='Waiting for confirm' ng-show='friend.status() === "waiting"')
+        span.fa.fa-check(title='Accepted' ng-show='friend.status() === "accepted"')
 

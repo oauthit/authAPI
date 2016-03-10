@@ -13,7 +13,7 @@
               localField: 'owner',
               localKey: 'ownerId'
             },
-            inviter: {
+            socialFriend: {
               localField: 'inviter',
               localKey: 'inviterId'
             }
@@ -23,7 +23,7 @@
               localField: 'acceptor',
               localKey: 'acceptorId'
             },
-            invitee: {
+            socialFriend: {
               localField: 'invitee',
               localKey: 'inviteeId'
             }

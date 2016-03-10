@@ -6,7 +6,7 @@
     .controller('FriendsCtrl', function ($scope,
                                          $q,
                                          Invite,
-                                         Invitee,
+                                         SocialFriend,
                                          Auth,
                                          messageService,
                                          InitCtrlService,
@@ -17,14 +17,14 @@
 
       function init() {
         vm.busy = $q(function (resolve, reject) {
-          $q.all([Invitee.findAll(), vm.currentUserPromise]).then(function (res) {
+          $q.all([SocialFriend.findAll(), vm.currentUserPromise]).then(function (res) {
 
             vm.currentUser = res[1];
             vm.friends = [];
 
             var promises = [];
             _.each(res[0], function (r) {
-              promises.push(Invitee.loadRelations(r, ['invites']).then(function () {
+              promises.push(SocialFriend.loadRelations(r, ['invites']).then(function () {
                 vm.friends.push(r);
               }));
             });
@@ -52,15 +52,8 @@
           }, function (err) {
             ErrorsService.addError(err);
           });
-        },
-
-        showInviteButton: function (friend) {
-          return friend.invites && friend.invites.length === 0;
-        },
-
-        showWaitingButton: function (friend) {
-          return _.find(friend.invites, {'status': 'open'});
         }
+
       });
 
       InitCtrlService.init(vm, $scope);
