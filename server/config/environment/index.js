@@ -35,6 +35,11 @@ var all = {
     url: process.env.REDIS_URL
   },
 
+  redisTables: {
+    AUTH_TOKEN: 'AuthToken',
+    PROVIDER_TOKEN: 'ProviderToken'
+  },
+
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
