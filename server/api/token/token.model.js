@@ -28,7 +28,16 @@ function checkToken(token) {
       if (err) {
         reject(err);
       } else {
-        resolve(JSON.parse(reply));
+        try {
+          var parsed = JSON.parse(reply);
+          if (parsed.profileId && parsed.provider && parsed.id) {
+            resolve(parsed);
+          } else {
+            reject();
+          }
+        } catch (err) {
+          reject();
+        }
       }
     });
   });
