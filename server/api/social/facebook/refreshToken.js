@@ -20,7 +20,6 @@ export default function (provider, profileId) {
       }
       var accessToken = reply.accessToken;
 
-
       FB.api('oauth/access_token', {
         client_id: config.facebook.clientID,
         client_secret: config.facebook.clientSecret,
@@ -42,6 +41,7 @@ export default function (provider, profileId) {
       });
     }, function () {
       console.log('no data');
+      reject();
     });
   });
 
