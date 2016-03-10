@@ -37,7 +37,8 @@ var all = {
 
   redisTables: {
     AUTH_TOKEN: 'AuthToken',
-    PROVIDER_TOKEN: 'ProviderToken'
+    PROVIDER_TOKEN: 'ProviderToken',
+    FACEBOOK_FRIEND: 'FacebookFriend'
   },
 
   facebook: {

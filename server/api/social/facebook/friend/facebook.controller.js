@@ -15,6 +15,8 @@ import FB from 'fb';
 var debug = require('debug')('authAPI:fb/index');
 import refreshToken from './../refreshToken';
 import ProviderToken from '../../../providerToken/providerToken.model.js';
+import FacebookFriend from './facebook.model';
+import _ from 'lodash';
 
 let ctrl = {};
 
@@ -52,6 +54,10 @@ Object.assign(ctrl, {
             debug('api/fb GET', !res ? 'error occurred' : res.error);
             return;
           }
+
+          _.each(res.data, function (friend) {
+            FacebookFriend.save(friend.id, JSON.stringify(friend));
+          });
 
           return response.status(200).json(res.data);
         });

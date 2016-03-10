@@ -31,7 +31,6 @@ export default function (provider, profileId) {
           reject();
         }
 
-        //TODO save facebook friends to redis or stapi
         var providerToken = {
           accessToken: accessToken,
           refreshToken: res.accees_token

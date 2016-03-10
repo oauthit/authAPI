@@ -89,7 +89,7 @@
             _.each(invites, function (invite) {
               Invite.loadRelations(invite, ['facebookFriend']).then(function (i) {
                 vm.invitesWaitingForAccept.push(i);
-              },function (res) {console.log (res)});
+              },function (res) {console.log (res);});
             });
             resolve();
           }, function () {
