@@ -5,6 +5,7 @@
   angular.module('authApiApp')
     .controller('ContactAddCtrl', function ($state,
                                             $scope,
+                                            $q,
                                             Invite,
                                             Auth,
                                             SettingsService,
@@ -82,12 +83,17 @@
 
       });
 
-      Auth.getCurrentUser(function (acc) {
-        Invite.findAll({inviteeId: acc.profileId}, {bypassCache: true}).then(function (invites) {
-          _.each(invites, function (invite) {
-            Invite.loadRelations(invite, ['facebookFriend']).then(function (i) {
-              vm.invitesWaitingForAccept.push(i);
-            },function (res) {console.log (res)});
+      vm.busySocialFriends = $q(function (resolve, reject) {
+        Auth.getCurrentUser(function (acc) {
+          Invite.findAll({inviteeId: acc.profileId}, {bypassCache: true}).then(function (invites) {
+            _.each(invites, function (invite) {
+              Invite.loadRelations(invite, ['facebookFriend']).then(function (i) {
+                vm.invitesWaitingForAccept.push(i);
+              },function (res) {console.log (res)});
+            });
+            resolve();
+          }, function () {
+            reject();
           });
         });
       });

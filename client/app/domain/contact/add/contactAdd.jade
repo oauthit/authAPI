@@ -17,8 +17,13 @@ section.clear-both(ng-if='vm.inviteByCode')
       .buttons.pull-right
         button.btn.btn-success(ng-show='vm.inviteByCode && vm.inviteByCode.status === "open"' ng-click='vm.acceptInvite()') Accept invite
 
-section.clear-both(ng-show='vm.invitesWaitingForAccept')
-  ul
-    li(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
-      span {{invite.ownerName.name}} ({{ invite.facebookFriend.name }})
-      button.btn.btn-warning(ng-click='vm.acceptInvite(invite)') Accept
+section.clear-both(ng-show='vm.invitesWaitingForAccept' cg-busy='vm.busySocialFriends')
+  h3 Invites from social network friends
+  table.table
+    thead
+      th Name
+    tbody
+      tr(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
+        td {{invite.ownerName.name}} ({{ invite.facebookFriend.name }})
+        td
+          button.btn.btn-warning(ng-click='vm.acceptInvite(invite)') Accept
