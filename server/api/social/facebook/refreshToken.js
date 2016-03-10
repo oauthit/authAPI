@@ -11,16 +11,15 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 var redisClient = redis.createClient(config.redisConfig);
 
 export default function (provider, profileId) {
-  const HASH_KEY = provider+':'+profileId;
-
   return new Promise ((resolve, reject) => {
-    redisClient.hgetallAsync(HASH_KEY).then(function (reply) {
+    redisClient.hgetAsync(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId).then(function (reply) {
       debug('accessToken/redis', reply);
       if (!reply) {
         debug('refreshToken', 'No such accessToken');
         return reject();
       }
       var accessToken = reply.accessToken;
+
 
       FB.api('oauth/access_token', {
         client_id: config.facebook.clientID,
@@ -32,7 +31,12 @@ export default function (provider, profileId) {
           reject();
         }
 
-        ProviderToken.save(HASH_KEY, accessToken, res.access_token).then(function () {
+        //TODO save facebook friends to redis or stapi
+        var providerToken = {
+          accessToken: accessToken,
+          refreshToken: res.accees_token
+        };
+        ProviderToken.save(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, JSON.stringify(providerToken)).then(function () {
           resolve(res);
         });
 

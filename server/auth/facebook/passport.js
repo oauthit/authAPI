@@ -32,8 +32,7 @@ export function setup (Account, config) {
         refreshToken: refToken && JSON.stringify(refToken) || null,
         appId: config.facebook.clientID
       }).then ((data) => {
-
-        ProviderToken.save(provider+':'+profile.id, accessToken, refToken).then(function () {
+        ProviderToken.save(provider, profile.id, accessToken, refToken).then(function () {
 
           Token.save (data)
             .then (token => {

@@ -4,19 +4,23 @@ import config from '../../config/environment';
 
 var redisClient = redis.createClient(config.redisConfig);
 
-function createToken(profileId, accessToken, refreshToken) {
+function createToken(provider, profileId, accessToken, refreshToken) {
   //generate token
+  var providerToken = {
+    accessToken: accessToken,
+    refreshToken: refreshToken
+  };
 
   return new Promise(function (resolve) {
-    redisClient.hmset(profileId, 'accessToken', accessToken, 'refreshToken', refreshToken, (reply) => {
+    redisClient.hmset(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, JSON.stringify(providerToken), (reply) => {
       resolve(reply);
     });
   });
 }
 
-function checkToken(profileId) {
+function checkToken(provider, profileId) {
   return new Promise(function (resolve, reject) {
-    redisClient.hgetall(profileId, (err, reply) => {
+    redisClient.hget(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, (err, reply) => {
       if (err) {
         reject();
       }

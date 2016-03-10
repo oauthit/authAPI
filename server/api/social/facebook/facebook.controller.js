@@ -38,22 +38,26 @@ Object.assign(ctrl, {
       return onReject (response,401) ('Unauthorized');
     }
 
-    const PROFILE = req.user.provider+':'+req.user.profileId;
-    ProviderToken.findByProfileId(PROFILE).then(function (res) {
+    ProviderToken.findByProfileId(req.user.provider, req.user.profileId).then(function (res) {
 
       if (!res) {
         return onReject (response,401) ('No redis data');
       }
 
-      FB.setAccessToken(res.accessToken);
-      FB.api('me/friends?limit=10', function (res) {
-        if(!res || res.error) {
-          debug('api/fb GET', !res ? 'error occurred' : res.error);
-          return;
-        }
+      try {
+        var parsed = JSON.parse(res);
+        FB.setAccessToken(parsed.accessToken);
+        FB.api('me/friends?limit=10', function (res) {
+          if(!res || res.error) {
+            debug('api/fb GET', !res ? 'error occurred' : res.error);
+            return;
+          }
 
-        return response.status(200).json(res.data);
-      });
+          return response.status(200).json(res.data);
+        });
+      } catch (err) {
+        return onReject (response) (err);
+      }
 
     },onReject (response));
 
@@ -78,17 +82,21 @@ Object.assign(ctrl, {
       return response.end('Unauthorized!');
     }
 
-    const PROFILE = req.user.provider+':'+req.user.profileId;
-    ProviderToken.findByProfileId(PROFILE).then(function (res) {
+    ProviderToken.findByProfileId(req.user.provider, req.user.profileId).then(function (res) {
 
-      FB.setAccessToken(res.accessToken);
-      FB.api(req.params.id, function (res) {
-        if (!res || res.error) {
-          return response.status(400).end('Bad request');
-        }
+      try {
+        var parsed = JSON.parse(res);
+        FB.setAccessToken(parsed.accessToken);
+        FB.api(req.params.id, function (res) {
+          if (!res || res.error) {
+            return response.status(400).end('Bad request');
+          }
 
-        return response.status(200).json(res);
-      })
+          return response.status(200).json(res);
+        })
+      } catch (err) {
+        return onReject (response) (err);
+      }
 
     },onReject (response));
 
