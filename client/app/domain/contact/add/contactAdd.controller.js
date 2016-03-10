@@ -88,9 +88,9 @@
           Invite.findAll({inviteeId: acc.profileId}, {bypassCache: true}).then(function (invites) {
             var promises = [];
             _.each(invites, function (invite) {
-              Invite.loadRelations(invite, ['inviter']).then(function (i) {
+              promises.push(Invite.loadRelations(invite, ['inviter']).then(function (i) {
                 vm.invitesWaitingForAccept.push(i);
-              },function (res) {console.log (res);});
+              },function (res) {console.log (res);}));
             });
             $q.all(promises).then(function () {
               resolve();
