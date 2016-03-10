@@ -24,6 +24,6 @@ section.clear-both(ng-show='vm.invitesWaitingForAccept' cg-busy='vm.busySocialFr
       th Name
     tbody
       tr(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
-        td {{invite.ownerName.name}} ({{ invite.facebookFriend.name }})
+        td {{invite.ownerName.name}} ({{ invite.inviter.name }})
         td
           button.btn.btn-warning(ng-click='vm.acceptInvite(invite)') Accept

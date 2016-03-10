@@ -3,24 +3,24 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('FacebookFriend', function (DS, appConfig) {
+    .factory('Inviter', function (DS, appConfig) {
       return DS.defineResource({
-        name: 'facebookFriend',
+        name: 'inviter',
         endpoint: 'facebook/friend',
         basePath: appConfig.apiUrl,
         relations: {
-          hasMany: {
+          hasOne: {
             invite: {
-              localField: 'invites',
-              foreignKey: 'inviteeId'
+              localField: 'inviter',
+              foreignKey: 'inviterId'
             }
           }
         }
       });
     })
 
-    .run(function (FacebookFriend) {
-      console.log(FacebookFriend);
+    .run(function (Inviter) {
+      console.log(Inviter);
     })
   ;
 

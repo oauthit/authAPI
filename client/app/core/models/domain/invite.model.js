@@ -12,6 +12,10 @@
             agent: {
               localField: 'owner',
               localKey: 'ownerId'
+            },
+            inviter: {
+              localField: 'inviter',
+              localKey: 'inviterId'
             }
           },
           hasOne: {
@@ -19,8 +23,8 @@
               localField: 'acceptor',
               localKey: 'acceptorId'
             },
-            facebookFriend: {
-              localField: 'facebookFriend',
+            invitee: {
+              localField: 'invitee',
               localKey: 'inviteeId'
             }
           }

@@ -6,20 +6,24 @@
     .controller('FriendsCtrl', function ($scope,
                                          $q,
                                          Invite,
-                                         FacebookFriend,
+                                         Invitee,
+                                         Auth,
                                          messageService,
                                          InitCtrlService,
                                          ErrorsService) {
 
       var vm = this;
+      vm.currentUserPromise = Auth.getCurrentUser();
 
       function init() {
-        vm.busy = FacebookFriend.findAll().then(function (res) {
+        vm.busy = $q.all([Invitee.findAll(), vm.currentUserPromise]).then(function (res) {
 
+          vm.currentUser = res[1];
+          console.log(vm.currentUser);
           vm.friends = [];
 
-          _.each(res, function (r) {
-            FacebookFriend.loadRelations(r, ['invites']).then (function (){
+          _.each(res[0], function (r) {
+            Invitee.loadRelations(r, ['invites']).then (function (){
               vm.friends.push (r);
             });
           });
@@ -32,7 +36,8 @@
         inviteSocialFriend: function (friend) {
           var data = {
             ownerId: vm.agent.id,
-            inviteeId: friend.id
+            inviteeId: friend.id,
+            inviterId: vm.currentUser
           };
 
           Invite.create(data).then(function () {

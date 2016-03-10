@@ -87,7 +87,7 @@
         Auth.getCurrentUser(function (acc) {
           Invite.findAll({inviteeId: acc.profileId}, {bypassCache: true}).then(function (invites) {
             _.each(invites, function (invite) {
-              Invite.loadRelations(invite, ['facebookFriend']).then(function (i) {
+              Invite.loadRelations(invite, ['inviter']).then(function (i) {
                 vm.invitesWaitingForAccept.push(i);
               },function (res) {console.log (res);});
             });
