@@ -10,16 +10,13 @@
         basePath: appConfig.apiUrl,
         relations: {
           hasMany: {
-            invite: {
+            invite: [{
               localField: 'invites',
-              foreignKey: 'inviteeId'
-            }
-          },
-          hasOne: {
-            invite: {
-              localField: 'inviter',
               foreignKey: 'inviterId'
-            }
+            },{
+              localField: 'invitations',
+              foreignKey: 'inviteeId'
+            }]
           }
         },
         methods: {
