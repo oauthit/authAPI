@@ -100,7 +100,6 @@
     "proxyquire": "^1.0.1",
     "requirejs": "~2.1.11",
     "run-sequence": "^1.1.0",
-    "sinon": "^1.16.1",
     "sinon": "~1.8.*",
     "sinon-chai": "^2.8.0",
     "sinon-stub-promise": "^1.1.0",
