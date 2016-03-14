@@ -35,6 +35,8 @@ function onReject(response, status) {
 function getFacebookProfileFromFbApi(req, response, providerToken, profileId) {
   try {
     var parsed = JSON.parse(providerToken);
+
+    // TODO do not set access access token globally
     FB.setAccessToken(parsed.accessToken);
     FB.api(req.params.id, function (res) {
       if (!res || res.error) {
