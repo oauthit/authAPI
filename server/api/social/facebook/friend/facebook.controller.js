@@ -32,7 +32,7 @@ function onReject(response, status) {
   }
 }
 
-function getFacebookProfileFromFbApi(req, response, providerToken) {
+function getFacebookProfileFromFbApi(req, response, providerToken, profileId) {
   try {
     var parsed = JSON.parse(providerToken);
     FB.setAccessToken(parsed.accessToken);
@@ -81,6 +81,9 @@ Object.assign(ctrl, {
 
             //if fb not returning data get it from redis
             FacebookFriend.getAll(profileId).then(function (reply) {
+              if (!reply) {
+                return response.status(404).end('No data');
+              }
 
               try {
                 return response.status(200).json(JSON.parse(reply));
@@ -130,7 +133,7 @@ Object.assign(ctrl, {
 
       FacebookProfile.get(profileId).then(function (reply) {
         if (!reply) {
-          getFacebookProfileFromFbApi(req, response, providerToken);
+          return getFacebookProfileFromFbApi(req, response, providerToken, profileId);
         }
 
         try {
@@ -139,7 +142,7 @@ Object.assign(ctrl, {
           return onReject(response)(err);
         }
       }, function () {
-        getFacebookProfileFromFbApi(req, response, providerToken);
+        getFacebookProfileFromFbApi(req, response, providerToken, profileId);
       });
 
     }, onReject(response));
