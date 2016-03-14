@@ -26,7 +26,7 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
           });
         }
 
-        save(res.id, JSON.stringify(res));
+        saveProfile(res.id, JSON.stringify(res));
         resolve(res);
       });
     } catch (err) {
@@ -35,12 +35,6 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
   });
 }
 
-function onReject(response, status) {
-  return function (err) {
-    debug('onReject:', err);
-    response.status(status || 500).end(err);
-  }
-}
 
 export default {
   save: saveProfile,

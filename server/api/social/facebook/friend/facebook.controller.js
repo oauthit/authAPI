@@ -32,7 +32,7 @@ function onReject(response, status) {
   }
 }
 
-function getFromFbApi(id, providerToken, profileId) {
+function getFromFbApi(id, response, providerToken, profileId) {
   FacebookProfile.getFromFbApi(id, providerToken, profileId).then(function (res) {
     return response.status(200).json(res);
   }, function (err) {
@@ -61,8 +61,6 @@ Object.assign(ctrl, {
         var parsed = JSON.parse(res);
         FB.api('me/friends', {access_token: parsed.accessToken, limit: 10}, function (res) {
           if (!res || res.error) {
-            debug('api/fb GET', !res ? 'error occurred' : res.error);
-
             //if fb not returning data get it from redis
             FacebookFriend.getAll(profileId).then(function (reply) {
               if (!reply) {
@@ -133,7 +131,7 @@ Object.assign(ctrl, {
        */
       FacebookProfile.getFromRedis(id).then(function (reply) {
         if (!reply) {
-          return getFromFbApi(id, providerToken, profileId);
+          return getFromFbApi(id, response, providerToken, profileId);
         }
 
         try {
@@ -142,7 +140,7 @@ Object.assign(ctrl, {
           return onReject(response)(err);
         }
       }, function () {
-        return getFromFbApi(id, providerToken, profileId);
+        return getFromFbApi(id, response, providerToken, profileId);
       });
 
     }, onReject(response));
