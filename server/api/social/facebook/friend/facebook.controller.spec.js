@@ -2,10 +2,12 @@
 import request from 'supertest';
 import app from '../../../../app';
 import sinon from 'sinon';
+import sinonStubPromise from 'sinon-stub-promise';
 import ProviderToken from '../../../providerToken/providerToken.model';
 import FB from 'fb';
 import FacebookFriend from './facebookFriend.model';
 import FacebookProfile from './facebookProfile.model';
+sinonStubPromise(sinon);
 
 //TODO setup test token
 const token = 'fb1d3fce-70a0-4b13-99a9-351b49b42607';
@@ -47,18 +49,21 @@ describe('facebook controller', function () {
 
   describe('/api/facebook/friend/:id', function () {
 
-    var ProviderTokenSpy, FacebookProfileSpy;
+    var ProviderTokenSpy, FacebookProfileStub;
     beforeEach(function () {
       ProviderTokenSpy = sinon.spy(ProviderToken, 'findByProfileId');
-      FacebookProfileSpy = sinon.spy(FacebookProfile, 'get');
+      FacebookProfileStub = sinon.stub(FacebookProfile, 'getFromRedis');
     });
 
     afterEach(function () {
       ProviderTokenSpy.restore();
-      FacebookProfileSpy.restore();
+      FacebookProfileStub.restore();
     });
 
     it('should get facebook friend by profile id when GET /api/facebook/friend/:id', function (done) {
+
+      var promise = FacebookProfileStub.returnsPromise();
+      promise.resolves('{"name": "Александр Лёвин","id": "941538315899640"}');
 
       request(app)
         .get('/api/facebook/friend/1')
@@ -69,7 +74,7 @@ describe('facebook controller', function () {
           if (err) done(err);
           res.body.should.be.instanceOf(Object);
           expect(ProviderTokenSpy.callCount).to.be.eq(1, 'ProviderToken.findByProfileId(id) should be called once');
-          expect(FacebookProfileSpy.callCount).to.be.eq(1, 'FacebookProfile.get(id) should be called once');
+          expect(FacebookProfileStub.callCount).to.be.eq(1, 'FacebookProfile.get(id) should be called once');
           done();
         });
 
