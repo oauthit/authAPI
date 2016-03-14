@@ -1,19 +1,13 @@
 'use strict';
-import redis from 'redis';
+import redisWrapper from '../../../../config/redis';
 import config from '../../../../config/environment';
-import bluebird from 'bluebird';
-bluebird.promisifyAll(redis.RedisClient.prototype);
-
-var redisClient = redis.createClient(config.redisConfig);
 
 function saveProfile(profileId, data) {
-
-  return redisClient.hsetAsync(config.redisTables.FACEBOOK_PROFILE, profileId, data);
-
+  return redisWrapper.hsetAsync(config.redisTables.FACEBOOK_PROFILE, profileId, data);
 }
 
 function getProfile(profileId) {
-  return redisClient.hgetAsync(config.redisTables.FACEBOOK_PROFILE, profileId);
+  return redisWrapper.hgetAsync(config.redisTables.FACEBOOK_PROFILE, profileId);
 }
 
 export default {

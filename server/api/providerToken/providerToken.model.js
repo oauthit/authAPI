@@ -1,8 +1,8 @@
 'use strict';
-import redis from 'redis';
+import redisWrapper from '../../config/redis';
 import config from '../../config/environment';
 
-var redisClient = redis.createClient(config.redisConfig);
+var redisClient = redisWrapper.redisClient;
 
 function createToken(provider, profileId, accessToken, refreshToken) {
   //generate token

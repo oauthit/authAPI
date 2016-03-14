@@ -1,8 +1,8 @@
 'use strict';
-import redis from 'redis';
+import redisWrapper from '../../config/redis';
 import config from '../../config/environment';
+var redisClient = redisWrapper.redisClient;
 
-var redisClient = redis.createClient(config.redisConfig);
 import uuid from 'node-uuid';
 var debug = require('debug') ('authAPI:token.model');
 

@@ -1,14 +1,11 @@
 'use strict';
 
 import config from '../../../config/environment';
-import redis from 'redis';
+import redisWrapper from '../../../config/redis';
 var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
 import ProviderToken from '../../providerToken/providerToken.model.js';
-import bluebird from 'bluebird';
-bluebird.promisifyAll(redis.RedisClient.prototype);
-
-var redisClient = redis.createClient(config.redisConfig);
+var redisClient = redisWrapper.redisClient;
 
 export default function (provider, profileId) {
   return new Promise ((resolve, reject) => {
