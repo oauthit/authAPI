@@ -47,7 +47,7 @@ function getFacebookProfileFromFbApi(req, response, providerToken, profileId) {
         });
       }
 
-      FacebookProfile.save(profileId, JSON.stringify(res));
+      FacebookProfile.save(res.id, JSON.stringify(res));
       return response.status(200).json(res);
     });
   } catch (err) {
