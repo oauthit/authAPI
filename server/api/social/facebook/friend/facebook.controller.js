@@ -35,8 +35,7 @@ function onReject(response, status) {
 function getFacebookProfileFromFbApi(req, response, providerToken, profileId) {
   try {
     var parsed = JSON.parse(providerToken);
-    FB.setAccessToken(parsed.accessToken);
-    FB.api(req.params.id, function (res) {
+    FB.api(req.params.id, {access_token: parsed.accessToken}, function (res) {
       if (!res || res.error) {
         FacebookProfile.get(profileId).then(function (reply) {
           try {
@@ -74,8 +73,7 @@ Object.assign(ctrl, {
 
       try {
         var parsed = JSON.parse(res);
-        FB.setAccessToken(parsed.accessToken);
-        FB.api('me/friends?limit=10', function (res) {
+        FB.api('me/friends', {access_token: parsed.accessToken, limit: 10}, function (res) {
           if (!res || res.error) {
             debug('api/fb GET', !res ? 'error occurred' : res.error);
 
@@ -142,7 +140,7 @@ Object.assign(ctrl, {
           return onReject(response)(err);
         }
       }, function () {
-        getFacebookProfileFromFbApi(req, response, providerToken, profileId);
+        return getFacebookProfileFromFbApi(req, response, providerToken, profileId);
       });
 
     }, onReject(response));
