@@ -36,6 +36,10 @@ function getFacebookProfileFromFbApi(req, response, providerToken, profileId) {
   try {
     var parsed = JSON.parse(providerToken);
     FB.api(req.params.id, {access_token: parsed.accessToken}, function (res) {
+
+    // TODO do not set access access token globally
+    FB.setAccessToken(parsed.accessToken);
+    FB.api(req.params.id, function (res) {
       if (!res || res.error) {
         FacebookProfile.get(profileId).then(function (reply) {
           try {
