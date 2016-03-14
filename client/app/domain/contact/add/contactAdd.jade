@@ -20,8 +20,6 @@ section.clear-both(ng-if='vm.inviteByCode')
 section.clear-both(ng-show='vm.invitesWaitingForAccept' cg-busy='vm.busySocialFriends')
   h3 Invites from social network friends
   table.table
-    thead
-      th Name
     tbody
       tr(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
         td {{invite.ownerName.name}} ({{ invite.inviter.name }})
