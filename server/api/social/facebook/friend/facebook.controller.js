@@ -32,26 +32,12 @@ function onReject(response, status) {
   }
 }
 
-function getFacebookProfileFromFbApi(req, response, providerToken, profileId) {
-  try {
-    var parsed = JSON.parse(providerToken);
-    FB.api(req.params.id, {access_token: parsed.accessToken}, function (res) {
-      if (!res || res.error) {
-        FacebookProfile.get(profileId).then(function (reply) {
-          try {
-            return response.status(200).json(JSON.parse(reply));
-          } catch (err) {
-            return onReject(response)(err);
-          }
-        });
-      }
-
-      FacebookProfile.save(res.id, JSON.stringify(res));
-      return response.status(200).json(res);
-    });
-  } catch (err) {
-    return onReject(response)(err);
-  }
+function getFromFbApi(id, providerToken, profileId) {
+  FacebookProfile.getFromFbApi(id, providerToken, profileId).then(function (res) {
+    return response.status(200).json(res);
+  }, function (err) {
+    return onReject(response, 500) (err);
+  });
 }
 
 Object.assign(ctrl, {
@@ -107,6 +93,14 @@ Object.assign(ctrl, {
 
   },
 
+
+  /**
+   * Refreshes user token
+   *
+   * @param req
+   * @param response
+   * @returns {*}
+   */
   refreshToken: (req, response) => {
 
     if (!req.user) {
@@ -127,11 +121,19 @@ Object.assign(ctrl, {
     }
 
     let profileId = req.user.profileId;
-    ProviderToken.findByProfileId(req.user.provider, profileId).then(function (providerToken) {
+    let id = req.params.id;
 
-      FacebookProfile.get(profileId).then(function (reply) {
+    /**
+     * Looks for provider token in redis, returns promise, if resolved, returns provider token
+     */
+    ProviderToken.findByProfileId(id, profileId).then(function (providerToken) {
+
+      /**
+       * Looks for facebook profile in redis, returns promise, if resolved, returns facebook profile
+       */
+      FacebookProfile.getFromRedis(id).then(function (reply) {
         if (!reply) {
-          return getFacebookProfileFromFbApi(req, response, providerToken, profileId);
+          return getFromFbApi(id, providerToken, profileId);
         }
 
         try {
@@ -140,7 +142,7 @@ Object.assign(ctrl, {
           return onReject(response)(err);
         }
       }, function () {
-        return getFacebookProfileFromFbApi(req, response, providerToken, profileId);
+        return getFromFbApi(id, providerToken, profileId);
       });
 
     }, onReject(response));
