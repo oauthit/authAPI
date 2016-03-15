@@ -4,14 +4,11 @@ import config from '../../../../config/environment';
 import FB from 'fb';
 
 function saveProfile(profileId, data) {
-  return redisWrapper.hsetAsync(config.redisTables.FACEBOOK_PROFILE, profileId, JSON.stringify(data));
+  return redisWrapper.hsetAsync(config.redisTables.FACEBOOK_PROFILE, profileId, data);
 }
 
 function getProfile(profileId) {
-  return redisWrapper.hgetAsync(config.redisTables.FACEBOOK_PROFILE, profileId)
-    .then((res) => {
-      return JSON.parse(res);
-    });
+  return redisWrapper.hgetAsync(config.redisTables.FACEBOOK_PROFILE, profileId);
 }
 
 function getFacebookProfileFromFbApi(id, providerToken, profileId) {
@@ -22,14 +19,14 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
         if (!res || res.error) {
           getProfile(profileId).then(function (reply) {
             try {
-              return resolve(JSON.parse(reply));
+              return resolve(reply);
             } catch (err) {
               return reject(err);
             }
           });
         }
 
-        saveProfile(res.id, JSON.stringify(res));
+        saveProfile(res.id, res);
         resolve(res);
       });
     } catch (err) {

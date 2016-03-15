@@ -13,10 +13,12 @@ Object.assign(redisWrapper, {
 
   redisClient: redisClient,
   hsetAsync: function (hashName, key, value) {
-    return redisClient.hsetAsync(hashName, key, value)
+    return redisClient.hsetAsync(hashName, key, JSON.stringify(value));
   },
   hgetAsync: function (hashName, key) {
-    return redisClient.hgetAsync(hashName, key);
+    return redisClient.hgetAsync(hashName, key).then((res) => {
+      return JSON.parse(res);
+    });
   }
 
 });
