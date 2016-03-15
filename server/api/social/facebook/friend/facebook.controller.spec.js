@@ -45,6 +45,30 @@ describe('facebook controller', function () {
         });
 
     });
+
+    it('should get facebook friends list when FB.api not returns anything', function (done) {
+
+      var FbApiStub;
+      FbApiSpy.restore();
+      FbApiStub = sinon.stub(FB, 'api');
+      FbApiStub.onFirstCall().callsArgWith(2, null);
+      FacebookFriendSpy = sinon.spy(FacebookFriend, 'getAll');
+
+      request(app)
+        .get('/api/facebook/friend')
+        .set('authorization', token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(FbApiStub.callCount).to.be.eq(1);
+          FbApiStub.restore();
+          expect(FacebookFriendSpy.callCount).to.be.eq(1);
+          res.body.should.be.instanceOf(Array);
+          done();
+        });
+
+    });
+
   });
 
   describe('/api/facebook/friend/:id', function () {
