@@ -97,6 +97,32 @@ describe('facebook controller', function () {
         });
     });
 
+    it('should call FacebookProfile.getFromRedis when FacebookFriend.getAll returns', function (done) {
+
+      var friends = '["1234"]';
+
+      var FacebookProfileSpy;
+      FacebookProfileSpy = sinon.spy(FacebookProfile, 'getFromRedis');
+      var promise = FacebookFriendStub.returnsPromise();
+      promise.resolves(friends);
+
+      request(app)
+        .get('/api/facebook/friend')
+        .set('authorization', token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(FbApiStub.callCount).to.be.eq(1);
+          expect(FacebookFriendStub.callCount).to.be.eq(1);
+          expect(FacebookProfileSpy.callCount).to.be.eq(1);
+          FacebookProfileSpy.restore();
+          res.body.length.should.be.eq(1);
+
+          done();
+        });
+
+    });
+
   });
 
   describe('/api/facebook/friend/:id', function () {
