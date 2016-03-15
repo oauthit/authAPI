@@ -27,7 +27,6 @@ function model(modelName, FriendModel, ProfileModel) {
             }
 
             var friendsProfiles = [];
-            debug(reply);
             async.map(reply, (profileId, cb) => {
               ProfileModel.getFromRedis(profileId).then((profile) => {
 
@@ -37,7 +36,6 @@ function model(modelName, FriendModel, ProfileModel) {
               });
             }, (err, results) => {
               if (err) return reject(err);
-              debug(results);
               friendsProfiles = results;
             });
 
