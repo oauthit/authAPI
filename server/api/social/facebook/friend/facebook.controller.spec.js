@@ -99,12 +99,15 @@ describe('facebook controller', function () {
 
     it('should call FacebookProfile.getFromRedis when FacebookFriend.getAll returns', function (done) {
 
-      var friends = '["1234"]';
+      var friends = ['1234'];
 
-      var FacebookProfileSpy;
-      FacebookProfileSpy = sinon.spy(FacebookProfile, 'getFromRedis');
-      var promise = FacebookFriendStub.returnsPromise();
-      promise.resolves(friends);
+      var FacebookProfileStub;
+      FacebookProfileStub = sinon.stub(FacebookProfile, 'getFromRedis');
+      var profilePromise = FacebookProfileStub.returnsPromise();
+      profilePromise.resolves({id:1, name: "some name"});
+      var friendsPromise = FacebookFriendStub.returnsPromise();
+      friendsPromise.resolves(friends);
+
 
       request(app)
         .get('/api/facebook/friend')
@@ -114,8 +117,8 @@ describe('facebook controller', function () {
           if (err) done(err);
           expect(FbApiStub.callCount).to.be.eq(1);
           expect(FacebookFriendStub.callCount).to.be.eq(1);
-          expect(FacebookProfileSpy.callCount).to.be.eq(1);
-          FacebookProfileSpy.restore();
+          expect(FacebookProfileStub.callCount).to.be.eq(1);
+          FacebookProfileStub.restore();
           res.body.length.should.be.eq(1);
 
           done();
@@ -141,7 +144,7 @@ describe('facebook controller', function () {
     it('should get facebook friend by profile id when GET /api/facebook/friend/:id', function (done) {
 
       var promise = FacebookProfileStub.returnsPromise();
-      promise.resolves('{"name": "Александр Лёвин","id": "941538315899640"}');
+      promise.resolves({"name": "Александр Лёвин","id": "941538315899640"});
 
       request(app)
         .get('/api/facebook/friend/1')
