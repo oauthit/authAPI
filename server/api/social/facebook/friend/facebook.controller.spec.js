@@ -46,13 +46,25 @@ describe('facebook controller', function () {
 
     });
 
-    it('should get facebook friends list when FB.api not returns anything', function (done) {
+  });
 
-      var FbApiStub;
-      FbApiSpy.restore();
+  describe('FB.api not returns anything', function () {
+
+    var FbApiStub, FacebookFriendStub;
+    beforeEach(function () {
       FbApiStub = sinon.stub(FB, 'api');
       FbApiStub.onFirstCall().callsArgWith(2, null);
-      FacebookFriendSpy = sinon.spy(FacebookFriend, 'getAll');
+      FacebookFriendStub = sinon.stub(FacebookFriend, 'getAll')
+    });
+
+    afterEach(function () {
+      FbApiStub.restore();
+      FacebookFriendStub.restore();
+    });
+
+    it('should get facebook friends list when FB.api not returns anything', function (done) {
+      FacebookFriendStub.restore();
+      FacebookFriendStub = sinon.spy(FacebookFriend, 'getAll');
 
       request(app)
         .get('/api/facebook/friend')
@@ -61,12 +73,28 @@ describe('facebook controller', function () {
         .end((err, res) => {
           if (err) done(err);
           expect(FbApiStub.callCount).to.be.eq(1);
-          FbApiStub.restore();
-          expect(FacebookFriendSpy.callCount).to.be.eq(1);
+          expect(FacebookFriendStub.callCount).to.be.eq(1);
           res.body.should.be.instanceOf(Array);
           done();
         });
 
+    });
+
+    it('should return 404 when FB.api not returns anything and redis empty', function (done) {
+
+      var promise = FacebookFriendStub.returnsPromise();
+      promise.resolves(null);
+
+      request(app)
+        .get('/api/facebook/friend')
+        .set('authorization', token)
+        .expect(404)
+        .end((err) => {
+          if (err) done(err);
+          expect(FbApiStub.callCount).to.be.eq(1);
+          expect(FacebookFriendStub.callCount).to.be.eq(1);
+          done();
+        });
     });
 
   });
