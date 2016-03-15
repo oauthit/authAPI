@@ -27,16 +27,17 @@ function model(modelName, FriendModel, ProfileModel) {
             }
 
             var friendsProfiles = [];
+            debug(reply);
             async.map(reply, (profileId, cb) => {
               ProfileModel.getFromRedis(profileId).then((profile) => {
 
-                debug(profileId, profile);
                 if (profile) {
                   cb(null, profile)
                 }
               });
             }, (err, results) => {
               if (err) return reject(err);
+              debug(results);
               friendsProfiles = results;
             });
 

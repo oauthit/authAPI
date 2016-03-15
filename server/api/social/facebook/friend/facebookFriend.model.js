@@ -10,7 +10,6 @@ function saveFriends(profileId, data) {
 function getFriends(profileId) {
   return redisWrapper.hgetAsync(config.redisTables.FACEBOOK_FRIEND, profileId)
     .then((res) => {
-      console.log('getFriends',res);
       return JSON.parse(res);
     });
 }

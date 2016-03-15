@@ -10,7 +10,6 @@ function saveProfile(profileId, data) {
 function getProfile(profileId) {
   return redisWrapper.hgetAsync(config.redisTables.FACEBOOK_PROFILE, profileId)
     .then((res) => {
-      console.log('getProfile', res);
       return JSON.parse(res);
     });
 }
