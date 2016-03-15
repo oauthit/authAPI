@@ -29,11 +29,14 @@ function model(modelName, FriendModel, ProfileModel) {
             var friendsProfiles = [];
             async.map(reply, (profileId, cb) => {
               ProfileModel.getFromRedis(profileId).then((profile) => {
+
+                debug(profileId, profile);
                 if (profile) {
                   cb(null, profile)
                 }
               });
             }, (err, results) => {
+              if (err) return reject(err);
               friendsProfiles = results;
             });
 
@@ -42,9 +45,9 @@ function model(modelName, FriendModel, ProfileModel) {
           });
         } else {
           let profileIds = _.map(res.data, 'id');
-          FriendModel.saveAll(profileId, JSON.stringify(profileIds));
+          FriendModel.saveAll(profileId, profileIds);
           _.each(res.data, function (profile) {
-            ProfileModel.save(profile.id, JSON.stringify(profile));
+            ProfileModel.save(profile.id, profile);
           });
           return resolve(res.data);
         }
@@ -90,7 +93,7 @@ function model(modelName, FriendModel, ProfileModel) {
           }
 
           try {
-            return resolve(JSON.parse(reply));
+            return resolve(reply);
           } catch (err) {
             return reject(err);
           }
