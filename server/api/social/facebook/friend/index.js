@@ -5,7 +5,7 @@ import setProviderToken from '../../../../middleware/setProviderToken.middleware
 var express = require('express');
 var router = express.Router();
 
-router.get('/', setProviderToken(), controller.get);
-router.get('/:id', setProviderToken(), controller.getById);
+router.get('/', setProviderToken(), controller.index);
+router.get('/:id', setProviderToken(), controller.show);
 
 module.exports = router;
