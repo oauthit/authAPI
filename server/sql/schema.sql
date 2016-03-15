@@ -10,9 +10,9 @@ meta.defineType 'aa.accessToken';
 meta.defineType 'aa.refreshToken:STRING,,nullable';
 meta.defineType 'aa.appId';
 
-meta.defineEntity 'aa.Account', 'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId';
+meta.defineEntity 'aa.ProviderAccount', 'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId';
 
-meta.defineEntity 'aa.ProviderAccount', 'name';
+meta.defineEntity 'aa.Account', 'name';
 
 meta.createTable 'aa.Account',0,1;
 meta.createTable 'aa.ProviderAccount',0,1;
