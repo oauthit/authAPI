@@ -39,5 +39,5 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
 export default {
   save: saveProfile,
   getFromRedis: getProfile,
-  getFromFbApi: getFacebookProfileFromFbApi
+  getFromApi: getFacebookProfileFromFbApi
 }
