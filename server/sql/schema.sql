@@ -12,7 +12,7 @@ meta.defineType 'aa.appId';
 
 meta.defineEntity 'aa.ProviderAccount',
   'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId',
-  'Account,account,nullable';
+  'Account,accountId,nullable';
 
 meta.defineEntity 'aa.Account', 'name';
 
