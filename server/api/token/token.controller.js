@@ -1,12 +1,3 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/token              ->  index
- * POST    /api/token              ->  create
- * GET     /api/token/:id          ->  show
- * PUT     /api/token/:id          ->  update
- * DELETE  /api/token/:id          ->  destroy
- */
-
 'use strict';
 
 import Token from './token.model';
