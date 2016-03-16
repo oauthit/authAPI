@@ -3,13 +3,39 @@
 (function () {
 
   angular.module('authApiApp')
-    .service('Account', function (DS, appConfig) {
+    .factory('ProviderAccount', function (DS, appConfig) {
       return DS.defineResource({
         name: 'providerAccount',
-        basePath: appConfig.apiUrl
+        basePath: appConfig.apiUrl,
+        relations: {
+          belongsTo: {
+            account: {
+              localField: 'account',
+              localKey: 'accountId'
+            }
+          }
+        }
+      });
+    })
+    .run(function (ProviderAccount) {
+      console.log(ProviderAccount);
+    })
+    .factory('Account', function (DS, appConfig) {
+      return DS.defineResource({
+        name: 'account',
+        basePath: appConfig.apiUrl,
+        relations: {
+          hasMany: {
+            providerAccount: {
+              localField: 'providers',
+              foreignKey: 'accountId'
+            }
+          }
+        }
       });
     })
     .run(function (Account, FormlyConfigService) {
+
       var accountFields = [
         {
           key: 'name',
