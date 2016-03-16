@@ -5,7 +5,7 @@
   angular.module('authApiApp')
     .service('Account', function (DS, appConfig) {
       return DS.defineResource({
-        name: 'account',
+        name: 'providerAccount',
         basePath: appConfig.apiUrl
       });
     })

@@ -9,7 +9,7 @@ import ProviderToken from '../../api/providerToken/providerToken.model';
 import refresh_token from '../../api/social/facebook/refreshToken';
 import FB from 'fb';
 
-export function setup (Account, config) {
+export function setup (ProviderAccount, config) {
   var strategy = new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
@@ -21,7 +21,7 @@ export function setup (Account, config) {
       debug('refreshToken:', refToken);
 
       var provider = 'facebook';
-      Account.getOrCreate({
+      ProviderAccount.getOrCreate({
         provider: provider,
         profileId: profile.id
       },{

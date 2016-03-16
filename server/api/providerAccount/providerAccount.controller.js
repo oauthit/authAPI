@@ -1,9 +1,9 @@
 'use strict';
 
-import Account from './account.model.js';
+import ProviderAccount from './providerAccount.model.js';
 import abstractController from '../abstract/abstract.controller';
 
-let ctrl = abstractController(Account);
+let ctrl = abstractController(ProviderAccount);
 
 function setReq(req) {
   if (!req.params) {
