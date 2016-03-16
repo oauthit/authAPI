@@ -10,7 +10,6 @@ function createToken(body) {
   //generate token
   return new Promise(function (resolve, reject) {
     let token = uuid.v4();
-    debug ('createToken', token);
     redisClient.hmset(config.redisTables.AUTH_TOKEN, token, JSON.stringify(body), (err) => {
       if (err) {
         reject(err);
@@ -29,7 +28,7 @@ function checkToken(token) {
       } else {
         try {
           var parsed = JSON.parse(reply);
-          if (parsed.profileId && parsed.provider && parsed.id) {
+          if (parsed.id) {
             resolve(parsed);
           } else {
             reject();
