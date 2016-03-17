@@ -16,6 +16,7 @@ export function setup(ProviderAccount, config) {
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL
+    //passReqToCallback: true
   }, (accessToken, refreshToken, profile, done) => {
 
     function processToken(refToken) {
@@ -35,7 +36,6 @@ export function setup(ProviderAccount, config) {
         appId: config.facebook.clientID
       }).then((data) => {
         ProviderToken.save(provider, profile.id, accessToken, refToken).then(function () {
-
 
           if (data.accountId) {
             Account.findById(data.accountId)
@@ -61,8 +61,6 @@ export function setup(ProviderAccount, config) {
     refresh_token('facebook', profile.profileId).then(processToken, function () {
       processToken();
     });
-
-
   });
 
   passport.use(strategy);
