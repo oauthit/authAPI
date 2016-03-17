@@ -71,14 +71,23 @@ export function hasRole(roleRequired) {
  */
 export function setAuthorized(req, res) {
   //debug ('User:', req.user);
+  debug(req.query);
   if (_.isEmpty(req.authInfo)) {
     //TODO think of how to create
-    if (req.accountId) {
-      Account.findById(req.accountId)
+    let accountId = req.query.state;
+    if (accountId) {
+      Account.findById(accountId)
         .then((data) => {
-          Token.save(data)
-            .then(token => {
-              return res.redirect('/#/?access-token=' + token);
+          req.user.accountId = accountId;
+          ProviderAccount.save(req.user)
+            .then(function () {
+              Token.save(data)
+                .then(token => {
+                  return res.redirect('/#/?access-token=' + token);
+                }, function () {
+                  return res.redirect('/#/setupAccount');
+                })
+              ;
             }, function () {
               return res.redirect('/#/setupAccount');
             })
@@ -88,7 +97,8 @@ export function setAuthorized(req, res) {
         })
         .catch(function () {
           return res.redirect('/#/setupAccount');
-        });
+        })
+      ;
     } else {
       //TODO for now create account here
       var account = {
