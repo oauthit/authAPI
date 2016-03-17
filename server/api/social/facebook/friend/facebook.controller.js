@@ -1,6 +1,6 @@
 'use strict';
 
-import refreshToken from './../refreshToken';
+import refreshToken from './../refreshToken.service';
 import FacebookFriend from './facebookFriend.model';
 import FacebookProfile from './facebookProfile.model';
 import socialFriendAbstractModel from '../../socialAbstract.model';
