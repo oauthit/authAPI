@@ -1,5 +1,7 @@
 'use strict';
 import ProviderToken from '../api/providerToken/providerToken.model';
+import providerAccount from '../api/providerAccount/providerAccount.model';
+let ProviderAccount = providerAccount();
 
 function onReject(response, status) {
   return function (err) {
@@ -9,15 +11,19 @@ function onReject(response, status) {
 
 export default function () {
   return function (req, res, next) {
-    let profileId = req.user.profileId;
-    let provider = req.user.provider;
-    ProviderToken.findByProfileId(provider, profileId).then(function (providerToken) {
-      if (!res) {
-        return onReject(res, 401) ('Unauthorized!');
-      }
+    let id = req.user.id;
 
-      req.providerToken = providerToken;
-      next();
-    }, onReject(res, 500));
+    ProviderAccount.findOne({accountId: id}).then(function (data) {
+      req.user.profileId = data.profileId;
+      ProviderToken.findByProfileId(data.provider, data.profileId).then(function (providerToken) {
+        if (!res) {
+          return onReject(res, 401)('Unauthorized!');
+        }
+
+        req.providerToken = providerToken;
+        next();
+      }, onReject(res, 500));
+
+    });
   }
 }
