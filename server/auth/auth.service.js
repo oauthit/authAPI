@@ -71,19 +71,20 @@ export function hasRole(roleRequired) {
  */
 export function setAuthorized(req, res) {
   //debug ('User:', req.user);
-  debug(req.query);
   if (_.isEmpty(req.authInfo)) {
     //TODO think of how to create
     let accountId = req.query.state;
+    debug('setAuthorized', req.query);
     if (accountId) {
+
       Account.findById(accountId)
         .then((data) => {
           req.user.accountId = accountId;
           ProviderAccount.save(req.user)
             .then(function () {
               Token.save(data)
-                .then(token => {
-                  return res.redirect('/#/?access-token=' + token);
+                .then(() => {
+                  return res.redirect('/#/account');
                 }, function () {
                   return res.redirect('/#/setupAccount');
                 })

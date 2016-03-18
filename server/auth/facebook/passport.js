@@ -15,9 +15,9 @@ export function setup(ProviderAccount, config) {
   var strategy = new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
-    callbackURL: config.facebook.callbackURL
-    //passReqToCallback: true
-  }, (accessToken, refreshToken, profile, done) => {
+    callbackURL: config.facebook.callbackURL,
+    passReqToCallback: true
+  }, (req, accessToken, refreshToken, profile, done) => {
 
     function processToken(refToken) {
 

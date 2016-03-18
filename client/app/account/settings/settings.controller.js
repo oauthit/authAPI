@@ -2,13 +2,34 @@
 
 // TODO show and edit account data
 
-function SettingsController(Auth, FormlyConfigService, Account, messageService, ErrorsService) {
+function SettingsController($window, $q, Auth, FormlyConfigService, Account, messageService, ErrorsService) {
 
   var vm = this;
 
   Auth.getCurrentUser(function (account) {
     vm.originalModel = angular.copy(account);
     vm.model = account;
+  });
+
+  /**
+   * Get current account and his providerAccounts
+   */
+  vm.busy = $q(function (resolve, reject) {
+    Account.find('me').then(function (acc) {
+      Account.loadRelations(acc, ['providerAccount']).then(function () {
+          vm.providers = _.map(acc.providers, provider => {
+            return provider.provider;
+          });
+          resolve();
+        })
+        .catch(function (err) {
+          console.log(err);
+          reject();
+        });
+    }).catch(err => {
+      console.log(err);
+      reject();
+    });
   });
 
   angular.extend(vm, {
@@ -25,6 +46,10 @@ function SettingsController(Auth, FormlyConfigService, Account, messageService, 
       form.$setPristine();
     },
 
+    hasProviderLinked: function (provider) {
+      return _.indexOf(vm.providers, provider) > -1;
+    },
+
     onSubmit: function () {
       var data = {
         name: vm.model.name
@@ -34,6 +59,10 @@ function SettingsController(Auth, FormlyConfigService, Account, messageService, 
       }, function (err) {
         ErrorsService.addError(err);
       });
+    },
+
+    link: function (provider) {
+      $window.location.href = '/auth/' + provider + '?accountId=' + vm.originalModel.id;
     }
 
   });

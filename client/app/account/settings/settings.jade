@@ -1,19 +1,40 @@
 .container
-  div(d-buttons buttons='vm.buttons')
-  h1 My account
-  form(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit()')
-    formly-form(model='vm.model' fields='vm.fields')
-      .buttons.pull-right
-        button.btn.btn-primary(
-        type='submit'
-        ng-disabled='vm.accountForm.$invalid'
-        ng-if='vm.accountForm.$dirty'
-        )
-          | Save
-        = ' '
-        button.btn.btn-warning(
-        type='button'
-        ng-click='vm.onCancel(vm.accountForm)'
-        ng-if='vm.accountForm.$dirty'
-        )
-          | Cancel changes
+  .row
+    .col-sm-12
+      div(d-buttons buttons='vm.buttons')
+      h1 My account
+    .col-sm-12
+      form(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit()' cg-busy='vm.busy')
+        formly-form(model='vm.model' fields='vm.fields')
+          .buttons.pull-right
+            button.btn.btn-primary(
+            type='submit'
+            ng-disabled='vm.accountForm.$invalid'
+            ng-if='vm.accountForm.$dirty'
+            )
+              | Save
+            = ' '
+            button.btn.btn-warning(
+            type='button'
+            ng-click='vm.onCancel(vm.accountForm)'
+            ng-if='vm.accountForm.$dirty'
+            )
+              | Cancel changes
+
+      //TODO do with components
+      .row
+        .col-sm-4.col-md-3
+          a.btn.btn-social.btn-facebook(ng-class='classes' ng-hide='vm.hasProviderLinked("facebook")'
+          ng-click='vm.link("facebook")')
+            i.fa.fa-facebook
+            |  Link your Facebook
+
+          a.btn.btn-social.btn-google(ng-class='classes'
+          ng-click='vm.link("google")' ng-hide='vm.hasProviderLinked("google")')
+            i.fa.fa-google-plus
+            |  Link your Google+
+
+          a.btn.btn-social.btn-twitter(ng-class='classes'
+          ng-click='vm.link("twitter")' ng-hide='vm.hasProviderLinked("twitter")')
+            i.fa.fa-twitter
+            |  Link your Twitter
