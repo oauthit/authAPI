@@ -1,15 +1,7 @@
 'use strict';
-import redisWrapper from '../../../../config/redis';
 import config from '../../../../config/environment';
 import FB from 'fb';
-
-function saveProfile(profileId, data) {
-  return redisWrapper.hsetAsync(config.redisTables.FACEBOOK_PROFILE, profileId, data);
-}
-
-function getProfile(profileId) {
-  return redisWrapper.hgetAsync(config.redisTables.FACEBOOK_PROFILE, profileId);
-}
+import socialProfile from '../../socialProfile.model';
 
 function getFacebookProfileFromFbApi(id, providerToken, profileId) {
   return new Promise(function (resolve, reject) {
@@ -17,7 +9,7 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
       var parsed = JSON.parse(providerToken);
       FB.api(id, {access_token: parsed.accessToken}, function (res) {
         if (!res || res.error) {
-          getProfile(profileId).then(function (reply) {
+          socialProfile(config.redisTables.FACEBOOK_PROFILE).getFromRedis(profileId).then(function (reply) {
             try {
               return resolve(reply);
             } catch (err) {
@@ -26,7 +18,7 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
           });
         }
 
-        saveProfile(res.id, res);
+        socialProfile(config.redisTables.FACEBOOK_PROFILE).save(res.id, res);
         resolve(res);
       });
     } catch (err) {
@@ -36,8 +28,4 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
 }
 
 
-export default {
-  save: saveProfile,
-  getFromRedis: getProfile,
-  getFromApi: getFacebookProfileFromFbApi
-}
+export default socialProfile(config.redisTables.FACEBOOK_PROFILE, getFacebookProfileFromFbApi)

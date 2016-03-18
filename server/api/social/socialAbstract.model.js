@@ -63,6 +63,7 @@ function model(modelName, FriendModel, ProfileModel) {
             throw new Error('No such model name');
           }
         } catch (err) {
+          debug('find catch', err);
           return reject(err);
         }
       });
