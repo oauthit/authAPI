@@ -74,7 +74,6 @@ export function setAuthorized(req, res) {
   if (_.isEmpty(req.authInfo)) {
     //TODO think of how to create
     let accountId = req.query.state;
-    debug('setAuthorized', req.query);
     if (accountId) {
 
       Account.findById(accountId)
