@@ -104,7 +104,8 @@ export function setAuthorized(req, res) {
       var account = {
         id: uuid.v4(),
         name: req.user.name,
-        roles: req.user.roles
+        roles: req.user.roles,
+        currentProviderAccountId: req.user.id
       };
       Account.save(account)
         .then(function (account) {
