@@ -14,7 +14,9 @@ meta.defineEntity 'aa.ProviderAccount',
   'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId',
   'Account,accountId,nullable';
 
-meta.defineEntity 'aa.Account', 'name;roles';
+meta.defineEntity 'aa.Account',
+  'name;roles;',
+  'ProviderAccount,currentProviderAccountId,nullable';
 
 meta.createTable 'aa.Account',0,1;
 meta.createTable 'aa.ProviderAccount',0,1;
