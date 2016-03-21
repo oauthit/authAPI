@@ -62,7 +62,7 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, mes
     },
 
     link: function (provider) {
-      $window.location.href = '/auth/' + provider + '?accountId=' + vm.originalModel.id;
+      $window.location.href = '/auth/' + provider + '?account=' + vm.originalModel.id;
     }
 
   });

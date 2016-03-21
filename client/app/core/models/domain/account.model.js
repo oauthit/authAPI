@@ -10,8 +10,8 @@
         relations: {
           belongsTo: {
             account: {
-              localField: 'account',
-              localKey: 'accountId'
+              localField: 'accountEntity',
+              localKey: 'account'
             }
           }
         }
@@ -28,7 +28,7 @@
           hasMany: {
             providerAccount: {
               localField: 'providers',
-              foreignKey: 'accountId'
+              foreignKey: 'account'
             }
           }
         }

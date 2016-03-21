@@ -9,13 +9,13 @@
         relations: {
           belongsTo: {
             agent: {
-              localField: 'owner',
-              localKey: 'ownerId',
+              localField: 'ownerEntity',
+              localKey: 'ownerAgent',
               parent: true
             },
             counterAgent: {
-              localField: 'counterAgent',
-              localKey: 'counterAgentId'
+              localField: 'counterAgentEntity',
+              localKey: 'counterAgent'
             }
           }
         }
@@ -24,7 +24,7 @@
     .run(function (Contact, FormlyConfigService) {
       var fields = [
         {
-          key: 'counterAgent.name',
+          key: 'counterAgentEntity.name',
           type: 'input',
           templateOptions: {
             type: 'text',

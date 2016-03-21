@@ -42,9 +42,9 @@
 
         inviteSocialFriend: function (friend) {
           var data = {
-            ownerId: vm.agent.id,
+            ownerAgent: vm.agent.id,
             inviteeId: friend.id,
-            inviterId: vm.currentUser.profileId
+            inviterId: vm.currentUser.currentProviderAccountId
           };
 
           Invite.create(data).then(function () {

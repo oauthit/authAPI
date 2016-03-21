@@ -53,7 +53,7 @@
           invite = vm.inviteByCode;
         }
 
-        invite.acceptorId = SettingsService.getCurrentAgent().id;
+        invite.acceptorAgent = SettingsService.getCurrentAgent().id;
 
         Invite.save(invite).then(function () {
           $state.go('debt.contact.list');

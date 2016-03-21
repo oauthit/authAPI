@@ -17,7 +17,7 @@
 
         vm.invites = [];
         //Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
-        vm.busy = Invite.findAll({ownerId: agent.id},{bypassCache:true}).then(function (res) {
+        vm.busy = Invite.findAll({ownerAgent: agent.id},{bypassCache:true}).then(function (res) {
 
           var qs = res.map(function(i){
             return Invite.loadRelations(i).then(function(){

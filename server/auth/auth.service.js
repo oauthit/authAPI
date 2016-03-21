@@ -73,12 +73,12 @@ export function setAuthorized(req, res) {
   //debug ('User:', req.user);
   if (_.isEmpty(req.authInfo)) {
     //TODO think of how to create
-    let accountId = req.query.state;
-    if (accountId) {
+    let account = req.query.state;
+    if (account) {
 
-      Account.findById(accountId)
+      Account.findById(account)
         .then((data) => {
-          req.user.accountId = accountId;
+          req.user.accountId = account;
           ProviderAccount.save(req.user)
             .then(function () {
               Token.save(data)
@@ -105,11 +105,11 @@ export function setAuthorized(req, res) {
         id: uuid.v4(),
         name: req.user.name,
         roles: req.user.roles,
-        currentProviderAccountId: req.user.id
+        currentProviderAccount: req.user.id
       };
       Account.save(account)
         .then(function (account) {
-          req.user.accountId = account.id;
+          req.user.account = account.id;
           ProviderAccount.save(req.user)
             .then(function () {
               Token.save(account)

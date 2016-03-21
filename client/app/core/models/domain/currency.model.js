@@ -10,11 +10,11 @@
           hasMany: {
             operation: {
               localField: 'operations',
-              foreignKey: 'currencyId'
+              foreignKey: 'currency'
             },
             agent: {
               localField: 'agents',
-              foreignKey: 'currencyId'
+              foreignKey: 'currency'
             }
           }
         }
