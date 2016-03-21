@@ -19,9 +19,11 @@ function model(modelName, FriendModel, ProfileModel) {
       let profileId = req.user.profileId;
 
       function callback(resolve, reject, res) {
+        debug('callback res', res);
         if (!res || res.error) {
           //if fb not returning data get it from redis
           FriendModel.getAll(profileId).then(function (reply) {
+            debug('friendModel', reply);
             if (!reply) {
               return reject(404);
             }
@@ -55,16 +57,22 @@ function model(modelName, FriendModel, ProfileModel) {
       return new Promise(function (resolve, reject) {
         try {
           var parsed = JSON.parse(req.providerToken);
+          debug('parsed', parsed);
           if (modelName === 'facebook') {
             FB.api('me/friends', {access_token: parsed.accessToken, limit: 10}, (res) => {
+              if (!res || res.error) {
+                debug(JSON.stringify(res.error) || 'while trying to get from FB.api error occurred...');
+                return reject();
+              }
               return callback(resolve, reject, res);
             });
           } else {
-            throw new Error('No such model name');
+            debug('No such model name');
+            return reject();
           }
         } catch (err) {
           debug('find catch', err);
-          return reject(err);
+          return reject();
         }
       });
 
