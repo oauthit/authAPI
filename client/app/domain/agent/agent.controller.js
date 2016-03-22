@@ -79,7 +79,7 @@ angular.module('authApiApp')
       'templateOptions.focus': 'model.focus'
     };
 
-    vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currency');
+    vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
     //Agent.bindAll(false, $scope, 'vm.agents');
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');

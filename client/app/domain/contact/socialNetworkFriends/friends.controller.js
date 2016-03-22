@@ -42,7 +42,7 @@
 
         inviteSocialFriend: function (friend) {
           var data = {
-            ownerAgent: vm.agent.id,
+            ownerAgentId: vm.agent.id,
             inviteeId: friend.id,
             inviterId: vm.currentUser.currentProviderAccountId
           };

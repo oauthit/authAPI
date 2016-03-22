@@ -44,7 +44,7 @@
             required: true
           }
         },{
-          key: 'currency',
+          key: 'currencyId',
           type: 'select',
           templateOptions: {
             label: 'Default currency:',

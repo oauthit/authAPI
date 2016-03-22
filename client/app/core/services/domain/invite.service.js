@@ -7,7 +7,7 @@
 
       function create () {
         Invite.create({
-          ownerAgent: SettingsService.getCurrentAgent().id
+          ownerAgentId: SettingsService.getCurrentAgent().id
         }).then(function (response) {
           $state.go('debt.invite.info', {
             id: response.id
