@@ -10,13 +10,13 @@
         relations: {
           belongsTo: {
             agent: {
-              localField: 'owner',
+              localField: 'ownerAgent',
               localKey: 'ownerAgentId'
             }
           },
           hasOne: {
             counterAgent: {
-              localField: 'acceptor',
+              localField: 'acceptorAgent',
               localKey: 'acceptorAgentId'
             },
             socialFriend: [{
