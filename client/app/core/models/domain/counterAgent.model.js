@@ -10,7 +10,7 @@
           hasMany: {
             contact: {
               localField: 'contacts',
-              foreignKey: 'counterAgent'
+              foreignKey: 'counterAgentId'
             }
           }
         }

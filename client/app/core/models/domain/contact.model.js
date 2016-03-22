@@ -9,13 +9,13 @@
         relations: {
           belongsTo: {
             agent: {
-              localField: 'ownerEntity',
-              localKey: 'ownerAgent',
+              localField: 'owner',
+              localKey: 'ownerAgentId',
               parent: true
             },
             counterAgent: {
-              localField: 'counterAgentEntity',
-              localKey: 'counterAgent'
+              localField: 'counterAgent',
+              localKey: 'counterAgentId'
             }
           }
         }

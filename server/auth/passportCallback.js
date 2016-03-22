@@ -8,8 +8,8 @@ var debug = require('debug')('authAPI:passportCallback');
 export default (provider, profile, done) => {
   return (data) => {
     ProviderToken.save(provider, profile.id, data.accessToken, data.refreshToken).then(function () {
-      if (data.account) {
-        Account.findById(data.account)
+      if (data.accountId) {
+        Account.findById(data.accountId)
           .then((data) => {
             Token.save(data)
               .then(token => {

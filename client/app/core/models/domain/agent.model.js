@@ -10,23 +10,23 @@
           hasMany: {
             contact: {
               localField: 'contacts',
-              foreignKey: 'ownerAgent'
+              foreignKey: 'ownerAgentId'
             },
             invite: [
               {
                 localField: 'invites',
-                foreignKey: 'ownerAgent'
+                foreignKey: 'ownerAgentId'
               },
               {
                 localField: 'acceptedInvites',
-                foreignKey: 'acceptorAgent'
+                foreignKey: 'acceptorAgentId'
               }
             ]
           },
           hasOne: {
             currency: {
-              localField: 'currencyEntity',
-              localKey: 'currency'
+              localField: 'currency',
+              localKey: 'currencyId'
             }
           }
         }

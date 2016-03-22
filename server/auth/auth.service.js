@@ -105,11 +105,11 @@ export function setAuthorized(req, res) {
         id: uuid.v4(),
         name: req.user.name,
         roles: req.user.roles,
-        currentProviderAccount: req.user.id
+        currentProviderAccountId: req.user.id
       };
       Account.save(account)
         .then(function (account) {
-          req.user.account = account.id;
+          req.user.accountId = account.id;
           ProviderAccount.save(req.user)
             .then(function () {
               Token.save(account)

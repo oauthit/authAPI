@@ -11,18 +11,18 @@
             counterAgent: [
               {
                 localField: 'lender',
-                localKey: 'lenderAgent'
+                localKey: 'lenderAgentId'
               },
               {
                 localField: 'debtor',
-                localKey: 'debtorAgent'
+                localKey: 'debtorAgentId'
               }
             ]
           },
           hasOne: {
             currency: {
-              localField: 'currencyEntity',
-              localKey: 'currency'
+              localField: 'currency',
+              localKey: 'currencyId'
             }
           }
         }
