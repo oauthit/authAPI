@@ -2,6 +2,7 @@
 import config from '../../../../config/environment';
 import FB from 'fb';
 import socialProfile from '../../socialProfile.model';
+var debug = require('debug')('authAPI:facebookProfile.model.js');
 
 function getFacebookProfileFromFbApi(id, providerToken, profileId) {
   return new Promise(function (resolve, reject) {
@@ -16,6 +17,7 @@ function getFacebookProfileFromFbApi(id, providerToken, profileId) {
               return reject(err);
             }
           });
+          return;
         }
 
         socialProfile(config.redisTables.FACEBOOK_PROFILE).save(res.id, res);
