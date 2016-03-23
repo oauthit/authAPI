@@ -22,7 +22,7 @@
       function setCurrentAgentOnChange() {
         var agents = Agent.getAll();
 
-        if (!currentAgent || !_.findWhere(agents,{id:currentAgent.id})) {
+        if (!currentAgent || !_.find(agents,{id:currentAgent.id})) {
           var id = localStorageService.get('current-agent-id');
           setCurrentAgent (id && Agent.get(id) || _.head (agents));
         }
