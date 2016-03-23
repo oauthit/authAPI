@@ -11,4 +11,5 @@ router.use('/account', isAuthenticated(), require('./account'));
 router.use('/agent', isAuthenticated(), require('./agent'));
 router.use('/facebook/friend', isAuthenticated(), checkUser(), require('./social/facebook/friend'));
 router.use('/facebook', isAuthenticated(), require('./social/facebook'));
+router.use('/google/friend', isAuthenticated(), checkUser(), require('./social/google/friend'));
 export default router;

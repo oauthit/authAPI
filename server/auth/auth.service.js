@@ -101,7 +101,7 @@ export function setAuthorized(req, res) {
       ;
     } else {
       //TODO for now create account here
-      var account = {
+      account = {
         id: uuid.v4(),
         name: req.user.name,
         roles: req.user.roles,

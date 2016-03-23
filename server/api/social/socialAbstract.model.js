@@ -1,10 +1,15 @@
 'use strict';
 
 import FB from 'fb';
+import googleapis from 'googleapis';
 import config from '../../config/environment';
 import async from 'async';
 import _ from 'lodash';
 var debug = require('debug')('authAPI:socialAbstract.model');
+var plus = googleapis.plus('v1');
+var OAuth2 = googleapis.auth.OAuth2;
+var oauth2Client = new OAuth2(config.google.clientID, config.google.clientSecret, config.google.callbackURL);
+
 
 FB.options({
   appId: config.facebook.clientID,
@@ -62,6 +67,19 @@ function model(modelName, FriendModel, ProfileModel) {
             FB.api('me/friends', {access_token: parsed.accessToken, limit: 10}, (res) => {
               return callback(resolve, reject, res);
             });
+          } else if (modelName === 'google') {
+            //TODO google friends
+            oauth2Client.setCredentials({
+              access_token: parsed.accessToken,
+              refresh_token: parsed.refreshToken
+            });
+            plus.people.list({userId: 'me', collection: 'connected', auth: oauth2Client}, (err, response) => {
+              if (err) {
+                debug('error', err);
+              }
+
+              debug('response', response);
+            });
           } else {
             debug('No such model name');
             return reject();
@@ -76,7 +94,14 @@ function model(modelName, FriendModel, ProfileModel) {
 
     function getFromApi(resolve, reject) {
       return function (id, providerToken, profileId) {
-        ProfileModel.getFromApi(id, providerToken, profileId).then(function (res) {
+        try {
+          providerToken = JSON.parse(providerToken);
+        }
+        catch (err) {
+          debug('getFromApi', `Error occurred while parsing... Error message ${err}`);
+          reject(err);
+        }
+        ProfileModel.getFromApi(id, providerToken.accessToken, profileId).then(function (res) {
           return resolve(res);
         }, function (err) {
           return reject(err);

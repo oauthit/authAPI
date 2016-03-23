@@ -15,6 +15,7 @@ function onReject(response, status) {
 export default function () {
   return function (req, res, next) {
     let id = req.user.id;
+    debug(req.user);
 
     Account.findById(id).then(function (account) {
       ProviderAccount.findById(account.currentProviderAccountId).then(function (data) {
@@ -24,6 +25,7 @@ export default function () {
             return onReject(res, 401)('Unauthorized!');
           }
 
+          debug(providerToken);
           req.providerToken = providerToken;
           next();
         }, onReject(res, 500));

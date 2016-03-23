@@ -15,6 +15,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "fb": "^1.0.2",
+    "googleapis": "^3.1.0",
     "jade": "^1.11.0",
     "karma-ng-html2js-preprocessor": "^0.2.1",
     "lodash": "^3.10.1",

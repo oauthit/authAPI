@@ -39,7 +39,9 @@ var all = {
     AUTH_TOKEN: 'AuthToken',
     PROVIDER_TOKEN: 'ProviderToken',
     FACEBOOK_FRIEND: 'FacebookFriend',
-    FACEBOOK_PROFILE: 'FacebookProfile'
+    FACEBOOK_PROFILE: 'FacebookProfile',
+    GOOGLE_FRIEND: 'GoogleFriend',
+    GOOGLE_PROFILE: 'GoogleProfile'
   },
 
   facebook: {
