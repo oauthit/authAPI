@@ -8,6 +8,7 @@
                                          Invite,
                                          SocialFriend,
                                          Auth,
+                                         ProviderAccount,
                                          messageService,
                                          InitCtrlService,
                                          ErrorsService) {
@@ -24,7 +25,7 @@
 
             var promises = [];
             _.each(res[0], function (r) {
-              promises.push(SocialFriend.loadRelations(r, ['invites']).then(function () {
+              promises.push(SocialFriend.loadRelations(r).then(function () {
                 vm.friends.push(r);
               }));
             });
@@ -41,10 +42,12 @@
       angular.extend(vm, {
 
         inviteSocialFriend: function (friend) {
+          let inviterId = ProviderAccount.get(vm.currentUser.currentProviderAccountId).profileId;
+
           var data = {
             ownerAgentId: vm.agent.id,
             inviteeId: friend.id,
-            inviterId: vm.currentUser.currentProviderAccountId
+            inviterId: inviterId
           };
 
           Invite.create(data).then(function () {
