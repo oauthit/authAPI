@@ -21,11 +21,11 @@
         },
         methods: {
           status: function () {
-            if (this.invites && this.invites.length === 0) {
+            if (this.invites && this.invites.length === 0 && this.invitations && this.invitations.length === 0) {
               return 'invite';
-            } else if (_.find(this.invites, {'status': 'open'})) {
+            } else if (_.find(this.invites, {'status': 'open'}) || _.find(this.invitations, {'status': 'open'})) {
               return 'waiting';
-            } else if (_.find(this.invites, {'status': 'accepted'})) {
+            } else if (_.find(this.invites, {'status': 'accepted'}) || _.find(this.invitations, {'status': 'accepted'})) {
               return 'accepted';
             }
           }
