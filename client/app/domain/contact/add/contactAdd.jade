@@ -22,7 +22,7 @@ section.clear-both(ng-show='vm.invitesWaitingForAccept' cg-busy='vm.busySocialFr
   table.table
     tbody
       tr(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
-        td {{invite.ownerName.name}} ({{ invite.inviter.name }})
+        td {{invite.ownerAgent.name}}
         td
           button.btn.btn-warning(ng-click='vm.acceptInvite(invite)' ng-show='invite.status === "open"') Accept
           span.fa.fa-check.green(ng-show='invite.status === "accepted"' title='Invite accepted')

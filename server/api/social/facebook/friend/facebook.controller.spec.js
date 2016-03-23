@@ -10,7 +10,7 @@ import FacebookProfile from './facebookProfile.model';
 sinonStubPromise(sinon);
 
 //TODO setup test token
-const token = 'fb1d3fce-70a0-4b13-99a9-351b49b42607';
+const token = 'b5d198d5-e0b1-4002-a1d4-5f62aaf457ff';
 
 describe('facebook controller', function () {
 

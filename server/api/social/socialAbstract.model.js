@@ -60,10 +60,6 @@ function model(modelName, FriendModel, ProfileModel) {
           debug('parsed', parsed);
           if (modelName === 'facebook') {
             FB.api('me/friends', {access_token: parsed.accessToken, limit: 10}, (res) => {
-              if (!res || res.error) {
-                debug(JSON.stringify(res.error) || 'while trying to get from FB.api error occurred...');
-                return reject();
-              }
               return callback(resolve, reject, res);
             });
           } else {

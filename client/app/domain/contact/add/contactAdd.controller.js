@@ -53,7 +53,7 @@
           invite = vm.inviteByCode;
         }
 
-        invite.acceptorAgent = SettingsService.getCurrentAgent().id;
+        invite.acceptorAgentId = SettingsService.getCurrentAgent().id;
 
         Invite.save(invite).then(function () {
           $state.go('debt.contact.list');
@@ -85,7 +85,7 @@
 
       vm.busySocialFriends = $q(function (resolve, reject) {
         Auth.getCurrentUser(function (acc) {
-          Invite.findAll({inviteeId: acc.profileId}, {bypassCache: true}).then(function (invites) {
+          Invite.findAll({inviteeId: acc.currentProviderAcccountId}, {bypassCache: true}).then(function (invites) {
             var promises = [];
             _.each(invites, function (invite) {
               promises.push(Invite.loadRelations(invite, ['inviter']).then(function (i) {
