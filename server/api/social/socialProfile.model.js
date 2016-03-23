@@ -13,7 +13,7 @@ function getProfile(tableName) {
   }
 }
 
-function getFacebookProfileFromFbApi(cb) {
+function getProfileFromApi(cb) {
   return cb;
 }
 
@@ -21,6 +21,6 @@ export default (tableName, callback) => {
   return {
     save: saveProfile(tableName),
     getFromRedis: getProfile(tableName),
-    getFromApi: getFacebookProfileFromFbApi(callback)
+    getFromApi: getProfileFromApi(callback)
   };
 }
