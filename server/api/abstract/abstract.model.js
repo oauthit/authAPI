@@ -2,7 +2,7 @@
 import request from 'request';
 var _ = require('lodash');
 var debug = require('debug')('authAPI:abstract.model');
-var uuid = require ('node-uuid');
+var uuid = require('node-uuid');
 
 function model(name) {
 
@@ -67,10 +67,13 @@ function model(name) {
 
         request.post({
           url: collectionUrl,
+          headers: {
+            authorization: req && req.headers.authorization
+          },
           json: body
         }, function (err, res, json) {
           let e = err || res.statusCode !== 200 && json;
-          debug ('save', e);
+          debug('save', e);
           e && reject(e) || resolve(body);
         });
 
@@ -97,12 +100,31 @@ function model(name) {
       return findOne(id);
     }
 
+    function deleteById(id) {
+      return new Promise(function (resolve, reject) {
+
+        let url = collectionUrl + '/' + id;
+
+        request.del({
+          url: url
+        }, function (err, res, body) {
+          if (err) {
+            reject(err);
+          }
+
+          resolve(body);
+        })
+
+      });
+    }
+
     return {
       find: find,
       findOne: findOne,
       findById: findById,
       save: save,
-      getOrCreate: getOrCreate
+      getOrCreate: getOrCreate,
+      deleteById: deleteById
     };
   }
 

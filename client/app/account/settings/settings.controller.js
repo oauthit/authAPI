@@ -2,7 +2,7 @@
 
 // TODO show and edit account data
 
-function SettingsController($window, $q, Auth, FormlyConfigService, Account, messageService, ErrorsService) {
+function SettingsController($window, $q, Auth, FormlyConfigService, Account, ProviderAccount, messageService, ErrorsService) {
 
   var vm = this;
 
@@ -20,6 +20,7 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, mes
           vm.providers = _.map(acc.providers, provider => {
             return provider.provider;
           });
+
           resolve();
         })
         .catch(function (err) {
@@ -63,9 +64,15 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, mes
 
     link: function (provider) {
       $window.location.href = '/auth/' + provider + '?accountId=' + vm.originalModel.id;
+    },
+
+    unlink: function (provider) {
+      let providerAccountId = _.find(ProviderAccount.getAll(), {provider: provider}).id;
+      $window.location.href = '/auth/' + provider + '/unlink?providerAccountId=' + providerAccountId;
     }
 
   });
+
 
 }
 

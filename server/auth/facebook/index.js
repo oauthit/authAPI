@@ -3,6 +3,8 @@
 import express from 'express';
 import passport from 'passport';
 import {setAuthorized} from '../auth.service';
+import providerAccount from '../../api/providerAccount/providerAccount.model';
+let ProviderAccount = providerAccount();
 
 var router = express.Router();
 
@@ -19,6 +21,16 @@ router
   .get('/callback', passport.authenticate('facebook', {
     failureRedirect: '/#/login',
     session: false
-  }), setAuthorized);
+  }), setAuthorized)
+  .get('/unlink', function (req, res) {
+    let providerAccountId = req.query.providerAccountId;
+    if (providerAccountId) {
+      ProviderAccount.deleteById(providerAccountId).then(() => {
+        return res.redirect('/#account');
+      }).catch((err) => {
+        return res.status(400).end(err);
+      });
+    }
+  });
 
 export default router;
