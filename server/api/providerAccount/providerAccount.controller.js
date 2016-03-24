@@ -27,15 +27,10 @@ ctrl.updateMe = function (req, res) {
 ctrl.unlink = function (req, res) {
   let providerAccountId = req.params.id;
   if (providerAccountId) {
-    ProviderAccount.findById(providerAccountId).then((providerAccount) => {
-      //unlink
-      providerAccount.accountId = null;
-      ProviderAccount.update(providerAccountId, providerAccount).then(() => {
-        return res.status(200).end();
-      }).catch((err) => {
-        return res.status(400).end(err);
-      });
-
+    ProviderAccount.patch(providerAccountId, {accountId: null}).then(() => {
+      return res.status(200).end();
+    }).catch((err) => {
+      return res.status(400).end(err);
     });
   }
 };

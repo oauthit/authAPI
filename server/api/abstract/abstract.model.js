@@ -112,7 +112,7 @@ function model(name) {
           }
         }, function (err, res, body) {
           if (err) {
-            reject(err);
+            return reject(err);
           }
 
           resolve(body);
@@ -134,7 +134,7 @@ function model(name) {
           }
         }, function (err, res, body) {
           if (err) {
-            reject (err);
+            return reject (err);
           }
 
           resolve(body);
@@ -143,12 +143,35 @@ function model(name) {
       });
     }
 
+    function patch (id, body) {
+
+      return new Promise (function (resolve, reject) {
+        let url = collectionUrl + '/' + id;
+
+        request.patch({
+          url: url,
+          json: body,
+          headers: {
+            authorization: req && req.headers.authorization
+          }
+        }, (err, res, body) => {
+          if (err) {
+            return reject (err);
+          }
+
+          resolve(body);
+        });
+      });
+
+    }
+
     return {
       find: find,
       findOne: findOne,
       findById: findById,
       save: save,
       update: update,
+      patch: patch,
       getOrCreate: getOrCreate,
       deleteById: deleteById
     };
