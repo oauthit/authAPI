@@ -2,16 +2,17 @@
 
 (function() {
 
-function AuthService ($location, $http, $q, Token, appConfig, Util, User, $rootScope) {
+function AuthService ($location, $http, $q, Token, appConfig, Util, Account, $rootScope) {
 
   var safeCb = Util.safeCb;
   var currentUser = {};
   var userRoles = appConfig.userRoles || [];
 
   if (Token.get() && $location.path() !== '/logout') {
-    currentUser = User.get();
-    currentUser.$promise.then(function(){
-      console.log ('logged-in');
+    currentUser = Account.find('me');
+    currentUser.then(function(res){
+      currentUser = res;
+      console.log ('logged-in', res);
       $rootScope.$broadcast('logged-in');
     });
   }
@@ -81,16 +82,16 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User, $rootS
      * @return {Promise}
      */
     createUser(user, callback) {
-      return User.save(user,
+      return Account.create(user).then(
         function(data) {
           Token.save(data.token);
-          currentUser = User.get();
+          currentUser = Account.find('me');
           return safeCb(callback)(null, user);
         },
         function(err) {
           Auth.logout();
           return safeCb(callback)(err);
-        }).$promise;
+        });
     },
 
     /**
@@ -106,8 +107,8 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, User, $rootS
         return currentUser;
       }
 
-      var value = (currentUser.hasOwnProperty('$promise')) ?
-        currentUser.$promise : currentUser;
+      var value = (currentUser.hasOwnProperty('$$state')) ?
+        currentUser : currentUser;
       return $q.when(value)
         .then(user => {
           safeCb(callback)(user);
