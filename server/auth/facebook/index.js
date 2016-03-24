@@ -21,16 +21,6 @@ router
   .get('/callback', passport.authenticate('facebook', {
     failureRedirect: '/#/login',
     session: false
-  }), setAuthorized)
-  .get('/unlink', function (req, res) {
-    let providerAccountId = req.query.providerAccountId;
-    if (providerAccountId) {
-      ProviderAccount.deleteById(providerAccountId).then(() => {
-        return res.redirect('/#account');
-      }).catch((err) => {
-        return res.status(400).end(err);
-      });
-    }
-  });
+  }), setAuthorized);
 
 export default router;

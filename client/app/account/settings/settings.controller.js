@@ -14,24 +14,26 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, Pro
   /**
    * Get current account and his providerAccounts
    */
-  vm.busy = $q(function (resolve, reject) {
-    Account.find('me').then(function (acc) {
-      Account.loadRelations(acc, ['providerAccount']).then(function () {
-          vm.providers = _.map(acc.providers, provider => {
-            return provider.provider;
-          });
+  function init() {
+    vm.busy = $q(function (resolve, reject) {
+      Account.find('me').then(function (acc) {
+        Account.loadRelations(acc, ['providerAccount']).then(function () {
+            vm.providers = _.map(acc.providers, provider => {
+              return provider.provider;
+            });
 
-          resolve();
-        })
-        .catch(function (err) {
-          console.log(err);
-          reject();
-        });
-    }).catch(err => {
-      console.log(err);
-      reject();
+            resolve();
+          })
+          .catch(function (err) {
+            console.log(err);
+            reject();
+          });
+      }).catch(err => {
+        console.log(err);
+        reject();
+      });
     });
-  });
+  }
 
   angular.extend(vm, {
 
@@ -68,12 +70,14 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, Pro
 
     unlink: function (provider) {
       let providerAccountId = _.find(ProviderAccount.getAll(), {provider: provider}).id;
-      $window.location.href = '/auth/' + provider + '/unlink?providerAccountId=' + providerAccountId;
+      ProviderAccount.destroy(providerAccountId).then( _ => {
+        init();
+      });
     }
 
   });
 
-
+  init();
 }
 
 angular.module('authApiApp')

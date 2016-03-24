@@ -1,9 +1,11 @@
 'use strict';
 
-import ProviderAccount from './providerAccount.model.js';
+import providerAccount from './providerAccount.model.js';
+let ProviderAccount = providerAccount();
 import abstractController from '../abstract/abstract.controller';
+var debug = require('debug')('authAPI:providerAccount.controller');
 
-let ctrl = abstractController(ProviderAccount);
+let ctrl = abstractController(providerAccount);
 
 function setReq(req) {
   if (!req.params) {
@@ -20,6 +22,22 @@ ctrl.showMe = function (req, res) {
 ctrl.updateMe = function (req, res) {
   ctrl.update(setReq(req), res);
 
+};
+
+ctrl.unlink = function (req, res) {
+  let providerAccountId = req.params.id;
+  if (providerAccountId) {
+    ProviderAccount.findById(providerAccountId).then((providerAccount) => {
+      //unlink
+      providerAccount.accountId = null;
+      ProviderAccount.update(providerAccountId, providerAccount).then(() => {
+        return res.status(200).end();
+      }).catch((err) => {
+        return res.status(400).end(err);
+      });
+
+    });
+  }
 };
 
 export default ctrl;

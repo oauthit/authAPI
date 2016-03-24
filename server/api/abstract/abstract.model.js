@@ -106,7 +106,10 @@ function model(name) {
         let url = collectionUrl + '/' + id;
 
         request.del({
-          url: url
+          url: url,
+          headers: {
+            authorization: req && req.headers.authorization
+          }
         }, function (err, res, body) {
           if (err) {
             reject(err);
@@ -118,11 +121,34 @@ function model(name) {
       });
     }
 
+    function update(id, body) {
+      return new Promise(function (resolve, reject) {
+
+        let url = collectionUrl + '/' + id;
+
+        request.put({
+          url: url,
+          json: body,
+          headers: {
+            authorization: req && req.headers.authorization
+          }
+        }, function (err, res, body) {
+          if (err) {
+            reject (err);
+          }
+
+          resolve(body);
+        });
+
+      });
+    }
+
     return {
       find: find,
       findOne: findOne,
       findById: findById,
       save: save,
+      update: update,
       getOrCreate: getOrCreate,
       deleteById: deleteById
     };
