@@ -1,7 +1,6 @@
 'use strict';
 
-import providerAccount from './providerAccount.model.js';
-let ProviderAccount = providerAccount();
+import providerAccount from './oprProviderAccount.model';
 import abstractController from '../abstract/abstract.controller';
 var debug = require('debug')('authAPI:providerAccount.controller');
 
@@ -26,7 +25,9 @@ ctrl.updateMe = function (req, res) {
 
 ctrl.unlink = function (req, res) {
   let providerAccountId = req.params.id;
+  let ProviderAccount = providerAccount(req);
   if (providerAccountId) {
+    debug('unlink', providerAccountId);
     ProviderAccount.patch(providerAccountId, {accountId: null}).then(() => {
       return res.status(200).end();
     }).catch((err) => {
