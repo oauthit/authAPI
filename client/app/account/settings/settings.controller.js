@@ -18,9 +18,7 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, Pro
     vm.busy = $q(function (resolve, reject) {
       Account.find('me').then(function (acc) {
         Account.loadRelations(acc, ['providerAccount']).then(function () {
-            vm.providers = _.map(acc.providers, provider => {
-              return provider.provider;
-            });
+            vm.providers = acc.providers;
 
             resolve();
           })
@@ -44,13 +42,19 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, Pro
         sref: 'debt.agent.manage'
       }
     ],
+
+    socialProviders: [
+      'facebook',
+      'google',
+      'twitter'
+    ],
     onCancel: function (form) {
       vm.model = angular.copy(vm.originalModel);
       form.$setPristine();
     },
 
     hasProviderLinked: function (provider) {
-      return _.indexOf(vm.providers, provider) > -1;
+      return _.find(vm.providers, {provider: provider});
     },
 
     onSubmit: function () {
