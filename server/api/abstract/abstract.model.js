@@ -73,7 +73,10 @@ function model(name) {
           json: body
         }, function (err, res, json) {
           debug(res.statusCode, json);
-          let e = err || res.statusCode !== 201;
+          let e = err || res.statusCode !== 200 && json;
+          if (e) {
+            e = res.statusCode !== 201 && json;
+          }
           debug('save', e);
           e && reject(e) || resolve(body);
         });
