@@ -1,17 +1,22 @@
 'use strict';
 import redisWrapper from '../../config/redis';
 import socialAccount from './socialAccount.model';
-var SocialAccount = socialAccount();
 import q from 'Q';
+var debug = require('debug')('authAPI:socialProfile.model');
 
-function saveProfile(tableName) {
-  return (profileId, data) => {
+function saveProfile(req, tableName) {
+  return (profileId, provider, data) => {
+
     let acc = {
-      provider: data.provider,
+      provider: provider,
       profileId: profileId,
       name: data.name
     };
-    return q.all([SocialAccount.save(acc), redisWrapper.hsetAsync(tableName, profileId, data)]);
+    return redisWrapper.hsetAsync(tableName, profileId, data).then((reply) => {
+      if (reply === 1) {
+        socialAccount(req).save(acc);
+      }
+    });
   }
 }
 
@@ -26,9 +31,11 @@ function getProfileFromApi(cb) {
 }
 
 export default (tableName, callback) => {
-  return {
-    save: saveProfile(tableName),
-    getFromRedis: getProfile(tableName),
-    getFromApi: getProfileFromApi(callback)
-  };
+  return function (req) {
+    return {
+      save: saveProfile(req, tableName),
+      getFromRedis: getProfile(tableName),
+      getFromApi: getProfileFromApi(callback)
+    };
+  }
 }

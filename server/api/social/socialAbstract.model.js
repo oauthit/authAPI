@@ -9,14 +9,14 @@ var debug = require('debug')('authAPI:socialAbstract.model');
 var plus = googleapis.plus('v1');
 var OAuth2 = googleapis.auth.OAuth2;
 var oauth2Client = new OAuth2(config.google.clientID, config.google.clientSecret, config.google.callbackURL);
-
+import q from 'Q';
 
 FB.options({
   appId: config.facebook.clientID,
   appSecret: config.facebook.clientSecret
 });
 
-function model(modelName, FriendModel, ProfileModel) {
+function model(modelName, friendModel, profileModel) {
 
   return function (req) {
 
@@ -27,7 +27,7 @@ function model(modelName, FriendModel, ProfileModel) {
         debug('callback res', res);
         if (!res || res.error) {
           //if fb not returning data get it from redis
-          FriendModel.getAll(profileId).then(function (reply) {
+          friendModel.getAll(profileId).then(function (reply) {
             debug('friendModel', reply);
             if (!reply) {
               return reject(404);
@@ -35,7 +35,7 @@ function model(modelName, FriendModel, ProfileModel) {
 
             var friendsProfiles = [];
             async.map(reply, (profileId, cb) => {
-              ProfileModel.getFromRedis(profileId).then((profile) => {
+              profileModel().getFromRedis(profileId).then((profile) => {
 
                 if (profile) {
                   cb(null, profile)
@@ -51,11 +51,15 @@ function model(modelName, FriendModel, ProfileModel) {
           });
         } else {
           let profileIds = _.map(res.data, 'id');
-          FriendModel.saveAll(profileId, profileIds);
+          friendModel.saveAll(profileId, profileIds);
+          let promiseQueue = [];
           _.each(res.data, function (profile) {
-            ProfileModel.save(profile.id, profile);
+            promiseQueue.push(profileModel(req).save(profile.id, modelName, profile));
           });
-          return resolve(res.data);
+
+          q.all(promiseQueue).then(() => {
+            return resolve(res.data);
+          });
         }
       }
 
@@ -101,7 +105,7 @@ function model(modelName, FriendModel, ProfileModel) {
           debug('getFromApi', `Error occurred while parsing... Error message ${err}`);
           reject(err);
         }
-        ProfileModel.getFromApi(id, providerToken.accessToken, profileId).then(function (res) {
+        profileModel().getFromApi(id, providerToken.accessToken, profileId).then(function (res) {
           return resolve(res);
         }, function (err) {
           return reject(err);
@@ -116,7 +120,7 @@ function model(modelName, FriendModel, ProfileModel) {
         let providerToken = req.providerToken;
         let getDataFromApi = getFromApi(resolve, reject);
 
-        ProfileModel.getFromRedis(id).then(function (reply) {
+        profileModel().getFromRedis(id).then(function (reply) {
           if (!reply) {
             return getDataFromApi(id, providerToken, profileId);
           }
