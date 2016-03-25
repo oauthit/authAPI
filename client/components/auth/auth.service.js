@@ -11,7 +11,9 @@ function AuthService ($location, $http, $q, Token, appConfig, Util, Account, $ro
   if (Token.get() && $location.path() !== '/logout') {
     currentUser = Account.find('me');
     currentUser.then(function(res){
-      currentUser = res;
+      Account.loadRelations(res, ['providerAccount']).then(() => {
+        currentUser = res;
+      });
       console.log ('logged-in', res);
       $rootScope.$broadcast('logged-in');
     });
