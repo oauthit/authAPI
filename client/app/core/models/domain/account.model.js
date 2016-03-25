@@ -20,6 +20,24 @@
     .run(function (ProviderAccount) {
       console.log(ProviderAccount);
     })
+    .factory('SocialAccount', function (DS) {
+      return DS.defineResource({
+        name: 'socialAccount',
+        relations: {
+          hasMany: {
+            invite: [
+              {
+                localField: 'invitees',
+                foreignKey: 'inviteeSocialAccountId'
+              }, {
+                localField: 'inviters',
+                foreignKey: 'inviterSocialAccountId'
+              }
+            ]
+          }
+        }
+      });
+    })
     .factory('Account', function (DS, appConfig) {
       return DS.defineResource({
         name: 'account',
