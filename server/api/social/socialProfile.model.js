@@ -1,9 +1,17 @@
 'use strict';
 import redisWrapper from '../../config/redis';
+import socialAccount from './socialAccount.model';
+var SocialAccount = socialAccount();
+import q from 'Q';
 
 function saveProfile(tableName) {
   return (profileId, data) => {
-    return redisWrapper.hsetAsync(tableName, profileId, data);
+    let acc = {
+      provider: data.provider,
+      profileId: profileId,
+      name: data.name
+    };
+    return q.all([SocialAccount.save(acc), redisWrapper.hsetAsync(tableName, profileId, data)]);
   }
 }
 
