@@ -72,7 +72,8 @@ function model(name) {
           },
           json: body
         }, function (err, res, json) {
-          let e = err || res.statusCode !== 200 && json;
+          debug(res.statusCode, json);
+          let e = err || res.statusCode !== 201;
           debug('save', e);
           e && reject(e) || resolve(body);
         });
@@ -147,6 +148,8 @@ function model(name) {
 
       return new Promise (function (resolve, reject) {
         let url = collectionUrl + '/' + id;
+
+        //debug ('patch authorization:',req.headers);
 
         request.patch({
           url: url,
