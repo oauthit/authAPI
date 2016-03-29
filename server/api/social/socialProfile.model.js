@@ -1,6 +1,6 @@
 'use strict';
 import redisWrapper from '../../config/redis';
-import socialAccount from './socialAccount.model';
+import socialAccount from './socialAccountSTAPI/socialAccountSTAPI.model';
 import q from 'Q';
 var debug = require('debug')('authAPI:socialProfile.model');
 
@@ -12,10 +12,18 @@ function saveProfile(req, tableName) {
       profileId: profileId,
       name: data.name
     };
-    return redisWrapper.hsetAsync(tableName, profileId, data).then((reply) => {
-      if (reply === 1) {
-        socialAccount(req).save(acc);
-      }
+    return new Promise(function (resolve, reject) {
+      return redisWrapper.hsetAsync(tableName, profileId, data).then((reply) => {
+        if (reply === 1) {
+          socialAccount(req).save(acc).then(() => {
+            resolve();
+          }).catch((err) => {
+            reject(err);
+          });
+        }
+      }).catch((err) => {
+        reject(err);
+      });
     });
   }
 }
