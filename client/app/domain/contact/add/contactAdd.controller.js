@@ -86,22 +86,23 @@
 
       vm.busySocialFriends = $q(function (resolve, reject) {
         Auth.getCurrentUser(function (acc) {
-          ProviderAccount.find(acc.currentProviderAccountId).then(profile => {
-            Invite.findAll({inviteeId: profile.profileId}, {bypassCache: true}).then(function (invites) {
-              var promises = [];
-              _.each(invites, function (invite) {
-                promises.push(Invite.loadRelations(invite, ['inviter']).then(function (i) {
-                  vm.invitesWaitingForAccept.push(i);
-                },function (res) {console.log (res);}));
-              });
-              $q.all(promises).then(function () {
-                resolve();
-              }, function () {
-                reject();
-              });
+
+          Invite.findAll({}, {bypassCache: true}).then(function (invites) {
+            var promises = [];
+            _.each(invites, function (invite) {
+              promises.push(Invite.loadRelations(invite).then(function (i) {
+                vm.invitesWaitingForAccept.push(i);
+              }, function (res) {
+                console.log(res);
+              }));
+            });
+            $q.all(promises).then(function () {
+              resolve();
             }, function () {
               reject();
             });
+          }, function () {
+            reject();
           });
         });
       });

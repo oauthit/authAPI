@@ -20,9 +20,10 @@
     .run(function (ProviderAccount) {
       console.log(ProviderAccount);
     })
-    .factory('SocialAccount', function (DS) {
+    .factory('SocialAccount', function (DS, appConfig) {
       return DS.defineResource({
         name: 'socialAccount',
+        basePath: appConfig.apiUrl,
         relations: {
           hasMany: {
             invite: [
@@ -37,6 +38,9 @@
           }
         }
       });
+    })
+    .run(function (SocialAccount) {
+      console.log(SocialAccount);
     })
     .factory('Account', function (DS, appConfig) {
       return DS.defineResource({

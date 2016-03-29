@@ -12,10 +12,10 @@
           hasMany: {
             invite: [{
               localField: 'invites',
-              foreignKey: 'inviterId'
+              foreignKey: 'inviterSocialAccountId'
             },{
               localField: 'invitations',
-              foreignKey: 'inviteeId'
+              foreignKey: 'inviteeSocialAccountId'
             }]
           }
         },
