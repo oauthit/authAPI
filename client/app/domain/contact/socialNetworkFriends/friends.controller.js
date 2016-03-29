@@ -9,6 +9,7 @@
                                          SocialFriend,
                                          Auth,
                                          ProviderAccount,
+                                         SocialAccount,
                                          messageService,
                                          InitCtrlService,
                                          ErrorsService) {
@@ -42,19 +43,28 @@
       angular.extend(vm, {
 
         inviteSocialFriend: function (friend) {
-          let inviterId = ProviderAccount.get(vm.currentUser.currentProviderAccountId).profileId;
+          //TODO make it possible to choose provider with which to invite
+          let providerAccount = _.first(ProviderAccount.getAll());
+          let inviterId = providerAccount.profileId;
+          let provider = providerAccount.provider;
 
-          var data = {
-            ownerAgentId: vm.agent.id,
-            inviteeId: friend.id,
-            inviterId: inviterId
-          };
+          SocialAccount.findAll({profileId: friend.id, provider: provider}).then((inviteeSocialAccount) => {
+            SocialAccount.findAll({profileId: inviterId, provider: provider}).then((inviterSocialAccount) => {
+              let data = {
+                ownerAgentId: vm.agent.id,
+                inviteeSocialAccountId: inviteeSocialAccount[0].id,
+                inviterSocialAccountId: inviterSocialAccount[0].id
+              };
 
-          Invite.create(data).then(function () {
-            messageService.success('Invite was sent to ' + friend.name, 'Invite sent');
-          }, function (err) {
-            ErrorsService.addError(err);
+              Invite.create(data).then(function () {
+                messageService.success('Invite was sent to ' + friend.name, 'Invite sent');
+              }, function (err) {
+                ErrorsService.addError(err);
+              });
+            });
+
           });
+
         }
 
       });
