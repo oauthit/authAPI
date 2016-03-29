@@ -97,17 +97,17 @@ describe('facebook controller', function () {
         });
     });
 
-    it('should call FacebookProfile.getFromRedis when FacebookFriend.getAll returns', function (done) {
+    it.only('should call FacebookProfile.getFromRedis when FacebookFriend.getAll returns', function (done) {
 
       var friends = ['1234'];
 
       var FacebookProfileStub;
-      FacebookProfileStub = sinon.stub(FacebookProfile, 'getFromRedis');
+      FacebookProfileStub = sinon.stub(FacebookProfile(), 'getFromRedis');
+      console.log(FacebookProfileStub);
       var profilePromise = FacebookProfileStub.returnsPromise();
       profilePromise.resolves({id:1, name: "some name"});
       var friendsPromise = FacebookFriendStub.returnsPromise();
       friendsPromise.resolves(friends);
-
 
       request(app)
         .get('/api/facebook/friend')
@@ -117,7 +117,7 @@ describe('facebook controller', function () {
           if (err) done(err);
           expect(FbApiStub.callCount).to.be.eq(1);
           expect(FacebookFriendStub.callCount).to.be.eq(1);
-          expect(FacebookProfileStub.callCount).to.be.eq(1);
+          expect(FacebookProfileStub.callCount).to.be.eq(1, 'FacebookProfileStub');
           FacebookProfileStub.restore();
           res.body.length.should.be.eq(1);
 
@@ -133,7 +133,7 @@ describe('facebook controller', function () {
     var ProviderTokenSpy, FacebookProfileStub;
     beforeEach(function () {
       ProviderTokenSpy = sinon.spy(ProviderToken, 'findByProfileId');
-      FacebookProfileStub = sinon.stub(FacebookProfile, 'getFromRedis');
+      FacebookProfileStub = sinon.stub(FacebookProfile(), 'getFromRedis');
     });
 
     afterEach(function () {

@@ -10,6 +10,7 @@ var plus = googleapis.plus('v1');
 var OAuth2 = googleapis.auth.OAuth2;
 var oauth2Client = new OAuth2(config.google.clientID, config.google.clientSecret, config.google.callbackURL);
 import q from 'Q';
+import socialFriendSTAPI from './socialFriendSTAPI/socialFriendSTAPI.model';
 
 FB.options({
   appId: config.facebook.clientID,
@@ -40,6 +41,9 @@ function model(modelName, friendModel, profileModel) {
                 if (profile) {
                   cb(null, profile)
                 }
+              }).catch((err) => {
+                debug(err);
+                reject(err);
               });
             }, (err, results) => {
               if (err) return reject(err);
@@ -48,17 +52,44 @@ function model(modelName, friendModel, profileModel) {
 
             return resolve(friendsProfiles);
 
+          }).catch((err) => {
+            debug(err);
+            reject(err);
           });
         } else {
           let profileIds = _.map(res.data, 'id');
-          friendModel.saveAll(profileId, profileIds);
           let promiseQueue = [];
-          _.each(res.data, function (profile) {
-            promiseQueue.push(profileModel(req).save(profile.id, modelName, profile));
+          friendModel.saveAll(profileId, profileIds).then(() => {
+            _.each(res.data, function (profile) {
+              promiseQueue.push(profileModel(req).save(profile.id, modelName, profile));
+            });
+          }).catch((err) => {
+            debug('friendModel.saveAll error', err);
+            reject();
           });
 
           q.all(promiseQueue).then(() => {
-            return resolve(res.data);
+            //saving social friend into STAPI
+            let socialFriendPromiseQueue = [];
+            _.each(res.data, (profile) => {
+              let socialFriend = {
+                provider: profile.provider,
+                ownerProfileId: profileId,
+                friendProfileId: profile.id
+              };
+              socialFriendPromiseQueue.push(socialFriendSTAPI().save(socialFriend))
+            });
+
+            q.all(socialFriendPromiseQueue).then(() => {
+              return resolve(res.data);
+            }).catch((err) => {
+              debug(err);
+              reject(err);
+            }) ;
+
+          }).catch((err) => {
+            debug(err);
+            reject(err);
           });
         }
       }
