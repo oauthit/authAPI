@@ -23,7 +23,7 @@ function saveProfile(req, tableName) {
             .getOrCreate({provider: acc.provider, profileId: acc.profileId}, acc)
             .then(resolve,reject);
         } else {
-          resolve();
+          resolve(data);
         }
       },reject);
 
