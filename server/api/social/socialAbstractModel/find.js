@@ -52,40 +52,45 @@ export default function find(req, modelName, friendModel, profileModel) {
         reject(err);
       });
     } else {
+
       let profileIds = _.map(res.data, 'id');
-      let promiseQueue = [];
+
       friendModel.saveAll(profileId, profileIds).then(() => {
-        _.each(res.data, function (profile) {
-          promiseQueue.push(profileModel(req).save(profile.id, modelName, profile));
+
+        let promiseQueue = _.map(res.data, function (profile) {
+          return profileModel(req).save(profile.id, modelName, profile);
         });
+
+        return q.all(promiseQueue).then(() => {
+          //saving social friend into STAPI
+          let socialFriendPromiseQueue = _.map(res.data, (profile) => {
+            let socialFriend = {
+              provider: modelName,
+              ownerProfileId: profileId,
+              friendProfileId: profile.id
+            };
+            debug('socialFriend', socialFriend);
+            return socialFriendSTAPI(req).save(socialFriend);
+          });
+
+          return q.all(socialFriendPromiseQueue).then(() => {
+            debug('before resolve');
+            return resolve(res.data);
+          }).catch((err) => {
+            debug(err);
+            reject(err);
+          });
+
+        }).catch((err) => {
+          debug(err);
+          reject(err);
+        });
+
       }).catch((err) => {
         debug('friendModel.saveAll error', err);
         reject();
       });
 
-      q.all(promiseQueue).then(() => {
-        //saving social friend into STAPI
-        let socialFriendPromiseQueue = [];
-        _.each(res.data, (profile) => {
-          let socialFriend = {
-            provider: profile.provider,
-            ownerProfileId: profileId,
-            friendProfileId: profile.id
-          };
-          socialFriendPromiseQueue.push(socialFriendSTAPI().save(socialFriend))
-        });
-
-        q.all(socialFriendPromiseQueue).then(() => {
-          return resolve(res.data);
-        }).catch((err) => {
-          debug(err);
-          reject(err);
-        }) ;
-
-      }).catch((err) => {
-        debug(err);
-        reject(err);
-      });
     }
   }
 

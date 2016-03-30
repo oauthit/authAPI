@@ -101,21 +101,24 @@ export function setAuthorized(req, res) {
       ;
     } else {
       //TODO for now create account here
+      let user = req.user;
       account = {
         id: uuid.v4(),
-        name: req.user.name,
-        roles: req.user.roles
+        name: user.name,
+        roles: user.roles
       };
       Account.save(account)
         .then(function (account) {
-          req.user.accountId = account.id;
-          ProviderAccount.save(req.user)
+          user.accountId = account.id;
+          ProviderAccount.save(user)
             .then(function () {
               Token.save(account)
                 .then(token => {
-                  debug(token);
-                  return res.redirect('/#/?access-token=' + token)
-                });
+                    debug(token);
+                    return res.redirect('/#/?access-token=' + token)
+                  }
+                )
+              ;
             });
         });
     }

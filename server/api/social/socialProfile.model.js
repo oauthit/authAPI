@@ -12,19 +12,15 @@ function saveProfile(req, tableName) {
       profileId: profileId,
       name: data.name
     };
-    return new Promise(function (resolve, reject) {
-      return redisWrapper.hsetAsync(tableName, profileId, data).then((reply) => {
-        if (reply === 1) {
-          socialAccount(req).save(acc).then(() => {
-            resolve();
-          }).catch((err) => {
-            reject(err);
-          });
-        }
-      }).catch((err) => {
-        reject(err);
-      });
+    let p = redisWrapper.hsetAsync(tableName, profileId, data);
+
+    p.then((reply) => {
+      if (reply === 1) {
+        return socialAccount(req).getOrCreate({provider: acc.provider, profileId: acc.profileId}, acc);
+      }
     });
+
+    return p;
   }
 }
 
