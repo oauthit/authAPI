@@ -6,6 +6,7 @@
     .controller('FriendsCtrl', function ($scope,
                                          $q,
                                          Invite,
+                                         FacebookFriend,
                                          SocialFriend,
                                          Auth,
                                          ProviderAccount,
@@ -17,18 +18,22 @@
       var vm = this;
       vm.currentUserPromise = Auth.getCurrentUser();
 
+      SocialFriend.findAll({}).then((res) => {
+        console.log(res);
+      });
+
       function init() {
         vm.busy = $q(function (resolve, reject) {
-          $q.all([SocialFriend.findAll(), vm.currentUserPromise]).then(function (res) {
+          $q.all([FacebookFriend.findAll(), vm.currentUserPromise]).then(function (res) {
 
             vm.currentUser = res[1];
             vm.friends = [];
 
             var promises = [];
             _.each(res[0], function (r) {
-              promises.push(SocialFriend.loadRelations(r).then(function () {
+              //promises.push(FacebookFriend.loadRelations(r).then(function () {
                 vm.friends.push(r);
-              }));
+              //}));
             });
             $q.all(promises).then(function () {
               resolve();
@@ -42,7 +47,7 @@
 
       angular.extend(vm, {
 
-        inviteSocialFriend: function (friend) {
+        inviteFacebookFriend: function (friend) {
           //TODO make it possible to choose provider with which to invite
           let providerAccount = _.first(ProviderAccount.getAll());
           let inviterId = providerAccount.profileId;

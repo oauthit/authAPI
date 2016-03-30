@@ -21,10 +21,10 @@
             },
             socialFriend: [{
               localField: 'inviter',
-              localKey: 'inviterId'
+              localKey: 'inviterSocialAccountId'
             },{
               localField: 'invitee',
-              localKey: 'inviteeId'
+              localKey: 'inviteeSocialAccountId'
             }]
           }
         }

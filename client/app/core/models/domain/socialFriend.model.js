@@ -3,11 +3,11 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('SocialFriend', function (DS, appConfig) {
+    .factory('FacebookFriend', function (DS, appConfig) {
       return DS.defineResource({
-        name: 'socialFriend',
         endpoint: 'facebook/friend',
         basePath: appConfig.apiUrl,
+        name: 'facebookFriend',
         relations: {
           hasMany: {
             invite: [{
@@ -32,9 +32,23 @@
         }
       });
     })
+    .factory('SocialFriend', function (DS) {
+      return DS.defineResource({
+        name: 'socialFriend',
+        relations: {
+          belongsTo: {
+            socialAccount: [{
+              localField: 'ownerSocialAccount',
+              localKey: 'ownerSocialAccountId'
+            }]
+          }
+        }
+      })
+    })
 
-    .run(function (SocialFriend) {
+    .run(function (SocialFriend, FacebookFriend) {
       console.log(SocialFriend);
+      console.log(FacebookFriend);
     })
   ;
 

@@ -34,6 +34,12 @@
                 localField: 'inviters',
                 foreignKey: 'inviterSocialAccountId'
               }
+            ],
+            socialFriend: [
+              {
+                localField: 'friends',
+                foreignKey: 'friendSocialAccountId'
+              }
             ]
           }
         }
