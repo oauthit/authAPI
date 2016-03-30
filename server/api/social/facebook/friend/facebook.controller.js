@@ -3,7 +3,7 @@
 import refreshToken from './../refreshToken.service';
 import FacebookFriend from './facebookFriend.model';
 import FacebookProfile from './facebookProfile.model';
-import socialFriendAbstractModel from '../../socialAbstract.model';
+import socialFriendAbstractModel from '../../socialAbstractModel/socialAbstract.model.js';
 import abstractCtrl from '../../../abstract/abstract.controller';
 
 let FacebookModel = socialFriendAbstractModel('facebook', FacebookFriend, FacebookProfile);
