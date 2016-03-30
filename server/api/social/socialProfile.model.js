@@ -12,15 +12,23 @@ function saveProfile(req, tableName) {
       profileId: profileId,
       name: data.name
     };
-    let p = redisWrapper.hsetAsync(tableName, profileId, data);
 
-    p.then((reply) => {
-      if (reply === 1) {
-        return socialAccount(req).getOrCreate({provider: acc.provider, profileId: acc.profileId}, acc);
-      }
+    return new Promise ((resolve,reject)=>{
+
+      let p = redisWrapper.hsetAsync(tableName, profileId, data);
+
+      p.then((reply) => {
+        if (reply === 1) {
+          socialAccount(req)
+            .getOrCreate({provider: acc.provider, profileId: acc.profileId}, acc)
+            .then(resolve,reject);
+        } else {
+          resolve();
+        }
+      },reject);
+
     });
 
-    return p;
   }
 }
 
