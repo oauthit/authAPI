@@ -45,15 +45,21 @@ export default function find(req, modelName, friendModel, profileModel) {
           access_token: providerAccount.accessToken,
           refresh_token: providerAccount.refreshToken
         });
-        plus.people.list({userId: 'me', collection: 'visible', auth: oauth2Client}, (err, response) => {
+        oauth2Client.refreshAccessToken(function (err) {
           if (err) {
-            debug('error', err);
-            return reject(err);
+            reject(err);
           }
+          plus.people.list({userId: 'me', collection: 'visible', auth: oauth2Client}, (err, response) => {
+            if (err) {
+              debug('error', err);
+              return reject(err);
+            }
 
-          saveSocialAccounts(req, modelName, friendModel, profileModel)(resolve, reject, response, providerAccount.profileId);
-          return resolve(response.items);
+            saveSocialAccounts(req, modelName, friendModel, profileModel)(resolve, reject, response, providerAccount.profileId);
+            return resolve(response.items);
+          });
         });
+
       } else {
         debug('No such model name');
         return reject();
