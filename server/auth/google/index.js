@@ -11,6 +11,8 @@ router
     passport.authenticate('google', {
       failureRedirect: '/#/login',
       scope: [ 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read' ],
+      accessType: 'offline',
+      approvalPrompt: 'force',
       state: req.query.accountId
     })(req, res)
   })

@@ -1,7 +1,7 @@
 import passport from 'passport';
 import config from '../../config/environment';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
-var debug = require('debug')('authAPI:facebook/passport');
+var debug = require('debug')('authAPI:google/passport');
 import passportCb from '../passportCallback';
 
 export function setup(ProviderAccount, config) {

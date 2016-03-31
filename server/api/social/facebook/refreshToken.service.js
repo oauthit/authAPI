@@ -17,25 +17,29 @@ export default function (provider, profileId) {
       }
       var accessToken = reply.accessToken;
 
-      FB.api('oauth/access_token', {
-        client_id: config.facebook.clientID,
-        client_secret: config.facebook.clientSecret,
-        grant_type: 'fb_exchange_token',
-        fb_exchange_token: accessToken
-      }, function (res) {
-        if(!res || res.error) {
-          reject();
-        }
+      if (provider === 'facebook') {
+        FB.api('oauth/access_token', {
+          client_id: config.facebook.clientID,
+          client_secret: config.facebook.clientSecret,
+          grant_type: 'fb_exchange_token',
+          fb_exchange_token: accessToken
+        }, function (res) {
+          if(!res || res.error) {
+            reject();
+          }
 
-        var providerToken = {
-          accessToken: accessToken,
-          refreshToken: res.accees_token
-        };
-        ProviderToken.save(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, JSON.stringify(providerToken)).then(function () {
-          resolve(res);
+          var providerToken = {
+            accessToken: accessToken,
+            refreshToken: res.accees_token
+          };
+          ProviderToken.save(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, JSON.stringify(providerToken)).then(function () {
+            resolve(res);
+          });
         });
+      } else {
+        throw new Error('Invalid provider');
+      }
 
-      });
     }, function () {
       console.log('no data');
       reject();

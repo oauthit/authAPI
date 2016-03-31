@@ -18,7 +18,7 @@ FB.options({
 export default function find(req, modelName, friendModel, profileModel) {
 
   //TODO for multiple social network account also need to pass profile id
-  function getUserProviderAccountCredentials(provider) {
+  function getUserProviderAccount(provider) {
     return _.find(req.userProviderAccounts, {'provider': provider});
   }
 
@@ -26,29 +26,33 @@ export default function find(req, modelName, friendModel, profileModel) {
     try {
       let providerAccount;
       if (modelName === 'facebook') {
-        providerAccount = getUserProviderAccountCredentials(modelName);
+        providerAccount = getUserProviderAccount(modelName);
+        if (!providerAccount) {
+          return resolve([]);
+        }
         FB.api('me/friends', {access_token: providerAccount.accessToken, limit: 10}, (res) => {
           return saveSocialAccounts(req, modelName, friendModel, profileModel)(resolve, reject, res, providerAccount.profileId);
         });
       } else if (modelName === 'google') {
         //TODO google friends
-        providerAccount = getUserProviderAccountCredentials(modelName);
+        providerAccount = getUserProviderAccount(modelName);
         //if no provider account supplied resolve with empty array
         if (!providerAccount) {
-          resolve([]);
+          return resolve([]);
         }
+        debug('providerAccount', providerAccount);
         oauth2Client.setCredentials({
           access_token: providerAccount.accessToken,
           refresh_token: providerAccount.refreshToken
         });
-        plus.people.list({userId: 'me', collection: 'connected', auth: oauth2Client}, (err, response) => {
+        plus.people.list({userId: 'me', collection: 'visible', auth: oauth2Client}, (err, response) => {
           if (err) {
             debug('error', err);
-            reject(err);
+            return reject(err);
           }
 
           debug('response', response);
-          resolve(response.items);
+          return resolve(response.items);
         });
       } else {
         debug('No such model name');
