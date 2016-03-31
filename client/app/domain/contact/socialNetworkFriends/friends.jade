@@ -5,7 +5,7 @@ table.table(cg-busy='vm.busy')
     th Name
     th Status
   tbody
-    tr(ng-repeat='friend in vm.friends track by friend.id')
+    tr(ng-repeat='friend in vm.facebookFriends track by friend.id')
       td {{friend.name}}
       td
         button.btn.btn-primary(type='button' title='Accept the invite' ng-click='vm.inviteSocialFriend(friend)' ng-show='friend.status() === "invite"') Invite

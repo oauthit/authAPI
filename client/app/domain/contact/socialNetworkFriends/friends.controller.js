@@ -7,6 +7,7 @@
                                          $q,
                                          Invite,
                                          FacebookFriend,
+                                         GoogleFriend,
                                          SocialFriend,
                                          Auth,
                                          ProviderAccount,
@@ -24,16 +25,21 @@
 
       function init() {
         vm.busy = $q(function (resolve, reject) {
-          $q.all([FacebookFriend.findAll(), vm.currentUserPromise]).then(function (res) {
+          $q.all([FacebookFriend.findAll(), GoogleFriend.findAll(), vm.currentUserPromise]).then(function (res) {
 
-            vm.currentUser = res[1];
-            vm.friends = [];
+            vm.currentUser = res[2];
+            vm.facebookFriends = [];
+            vm.googleFriends = [];
 
             var promises = [];
             _.each(res[0], function (r) {
               //promises.push(FacebookFriend.loadRelations(r).then(function () {
-                vm.friends.push(r);
+                vm.facebookFriends.push(r);
               //}));
+            });
+
+            _.each(res[1], function (r) {
+              vm.googleFriends.push(r);
             });
             $q.all(promises).then(function () {
               resolve();

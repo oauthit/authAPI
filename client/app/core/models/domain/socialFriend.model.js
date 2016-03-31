@@ -32,6 +32,13 @@
         }
       });
     })
+    .factory('GoogleFriend', function (DS, appConfig) {
+      return DS.defineResource({
+        endpoint: 'google/friend',
+        basePath: appConfig.apiUrl,
+        name: 'googleFriend'
+      });
+    })
     .factory('SocialFriend', function (DS) {
       return DS.defineResource({
         name: 'socialFriend',
@@ -46,9 +53,10 @@
       })
     })
 
-    .run(function (SocialFriend, FacebookFriend) {
+    .run(function (SocialFriend, FacebookFriend, GoogleFriend) {
       console.log(SocialFriend);
       console.log(FacebookFriend);
+      console.log(GoogleFriend);
     })
   ;
 
