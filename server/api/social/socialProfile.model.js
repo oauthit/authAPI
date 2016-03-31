@@ -10,7 +10,7 @@ function saveProfile(req, tableName) {
     let acc = {
       provider: provider,
       profileId: profileId,
-      name: data.name
+      name: data.name || data.displayName
     };
 
     return new Promise ((resolve,reject)=>{

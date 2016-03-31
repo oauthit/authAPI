@@ -40,18 +40,23 @@ export default function saveSocialAccounts(req, modelName, friendModel, profileM
         reject(err);
       });
     } else {
-
-      let profileIds = _.map(res.data, 'id');
+      let dataFromApi;
+      if (modelName === 'google') {
+        dataFromApi = res.items;
+      } else if (modelName === 'facebook') {
+        dataFromApi = res.data;
+      }
+      let profileIds = _.map(dataFromApi, 'id');
 
       friendModel.saveAll(profileId, profileIds).then(() => {
 
-        let promiseQueue = _.map(res.data, function (profile) {
+        let promiseQueue = _.map(dataFromApi, function (profile) {
           return profileModel(req).save(profile.id, modelName, profile);
         });
 
         return q.all(promiseQueue).then(() => {
           //saving social friend into STAPI
-          let socialFriendPromiseQueue = _.map(res.data, (profile) => {
+          let socialFriendPromiseQueue = _.map(dataFromApi, (profile) => {
             let socialFriend = {
               provider: modelName,
               ownerProfileId: profileId,

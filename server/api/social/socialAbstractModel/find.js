@@ -51,7 +51,7 @@ export default function find(req, modelName, friendModel, profileModel) {
             return reject(err);
           }
 
-          debug('response', response);
+          saveSocialAccounts(req, modelName, friendModel, profileModel)(resolve, reject, response, providerAccount.profileId);
           return resolve(response.items);
         });
       } else {
