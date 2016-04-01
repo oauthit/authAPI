@@ -53,11 +53,10 @@
 
       angular.extend(vm, {
 
-        inviteFacebookFriend: function (friend) {
+        inviteSocialFriend: function (friend, provider) {
           //TODO make it possible to choose provider with which to invite
-          let providerAccount = _.first(ProviderAccount.getAll());
+          let providerAccount = _.find(ProviderAccount.getAll(), {'provider': provider});
           let inviterId = providerAccount.profileId;
-          let provider = providerAccount.provider;
 
           SocialAccount.findAll({profileId: friend.id, provider: provider}).then((inviteeSocialAccount) => {
             SocialAccount.findAll({profileId: inviterId, provider: provider}).then((inviterSocialAccount) => {

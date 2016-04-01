@@ -19,7 +19,7 @@
               localField: 'acceptorAgent',
               localKey: 'acceptorAgentId'
             },
-            socialFriend: [{
+            socialAccount: [{
               localField: 'inviter',
               localKey: 'inviterSocialAccountId'
             },{
