@@ -10,7 +10,8 @@ function saveProfile(req, tableName) {
     let acc = {
       provider: provider,
       profileId: profileId,
-      name: data.name || data.displayName
+      name: data.name || data.displayName,
+      avatarUrl: data.image && data.image.url
     };
 
     return new Promise ((resolve,reject)=>{
