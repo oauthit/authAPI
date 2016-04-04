@@ -6,5 +6,6 @@ var controller = require('./socialAccountSTAPI.controller.js');
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/:id', controller.show);
 
 module.exports = router;
