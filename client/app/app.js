@@ -16,7 +16,8 @@
     'angularMoment',
     'cgBusy',
     'ngTable',
-    'toastr'
+    'toastr',
+    'sistemium'
   ]);
 
   angular.module('authApiApp', [
