@@ -17,7 +17,8 @@
     'cgBusy',
     'ngTable',
     'toastr',
-    'sistemium'
+    'sistemium',
+    'sistemiumBootstrap'
   ]);
 
   angular.module('authApiApp', [
