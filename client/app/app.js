@@ -3,11 +3,9 @@
 (function () {
 
   angular.module('authApiApp.dependencies', [
-    'ngResource',
     'ngSanitize',
     'ui.router',
     'ui.router.stateHelper',
-    'ui.bootstrap',
     'validation.match',
     'LocalStorageModule',
     'formly',
@@ -15,8 +13,6 @@
     'ngclipboard',
     'angularMoment',
     'cgBusy',
-    'ngTable',
-    'toastr',
     'sistemium',
     'sistemiumBootstrap'
   ]);
