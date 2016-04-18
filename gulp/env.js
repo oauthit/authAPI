@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
+import conf from './conf';
 
 let plugins = gulpLoadPlugins();
 
@@ -10,7 +11,7 @@ let plugins = gulpLoadPlugins();
 gulp.task('env:all', () => {
   let localConfig;
   try {
-    localConfig = require(`./${serverPath}/config/local.env`);
+    localConfig = require(`../${conf.serverPath}/config/local.env`);
   } catch (e) {
     localConfig = {};
   }

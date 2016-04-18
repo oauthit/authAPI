@@ -4,6 +4,7 @@ import paths from './conf';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {Instrumenter} from 'isparta';
 import pipes from './reusablePipelines';
+import runSequence from 'run-sequence';
 
 let plugins = gulpLoadPlugins();
 
