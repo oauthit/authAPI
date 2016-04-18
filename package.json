@@ -109,7 +109,8 @@
     "sinon-stub-promise": "^1.1.0",
     "supertest": "^1.1.0",
     "utile": "~0.3.0",
-    "wiredep": "^2.2.2"
+    "wiredep": "^2.2.2",
+    "wrench": "^1.5.9"
   },
   "engines": {
     "node": "^4.2.3",
