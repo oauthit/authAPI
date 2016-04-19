@@ -10,19 +10,19 @@
                                                Operation,
                                                CounterAgent,
                                                Currency,
-                                               FormlyConfigService,
-                                               ErrorsService) {
+                                               saFormlyConfigService,
+                                               sabErrorsService) {
 
       var vm = InitCtrlService.setup(this);
       var operationId = $stateParams.id;
 
-      vm.busy = Operation.find(operationId).catch(ErrorsService.addError);
+      vm.busy = Operation.find(operationId).catch(sabErrorsService.addError);
 
       function deleteOperation() {
         Operation.destroy(operationId).then(function () {
           //go to operation list after delete
           $state.go('^.list');
-        }, ErrorsService.addError);
+        }, sabErrorsService.addError);
       }
 
       function changeStatus (status) {
@@ -32,7 +32,7 @@
             //TODO message after success
           }, function (err) {
             Operation.revert (vm.model.id);
-            ErrorsService.addError (err);
+            sabErrorsService.addError (err);
           });
         };
       }
@@ -45,7 +45,7 @@
 
       angular.extend(vm, {
 
-        fields: FormlyConfigService.getConfigFieldsByKey('operationInfo'),
+        fields: saFormlyConfigService.getConfigFieldsByKey('operationInfo'),
 
         onSetAgent: function (agent) {
           vm.currentAgent = agent;
@@ -75,9 +75,9 @@
 
       CounterAgent.findAll();
 
-      vm.debtorField = FormlyConfigService.getConfigKey(vm.fields, 'debtorId');
-      vm.lenderField = FormlyConfigService.getConfigKey(vm.fields, 'lenderId');
-      vm.totalWithAddonField = FormlyConfigService.getConfigKey(vm.fields, 'total');
+      vm.debtorField = saFormlyConfigService.getConfigKey(vm.fields, 'debtorId');
+      vm.lenderField = saFormlyConfigService.getConfigKey(vm.fields, 'lenderId');
+      vm.totalWithAddonField = saFormlyConfigService.getConfigKey(vm.fields, 'total');
 
       Currency.bindAll(false, $scope, 'vm.totalWithAddonField.templateOptions.options');
       CounterAgent.bindAll(false, $scope, 'vm.debtorField.templateOptions.options');

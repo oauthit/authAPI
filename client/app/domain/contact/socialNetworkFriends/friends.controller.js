@@ -14,7 +14,7 @@
                                          SocialAccount,
                                          messageService,
                                          InitCtrlService,
-                                         ErrorsService) {
+                                         sabErrorsService) {
 
       var vm = this;
       vm.currentUserPromise = Auth.getCurrentUser();
@@ -69,7 +69,7 @@
               Invite.create(data).then(function () {
                 messageService.success('Invite was sent to ' + friend.name, 'Invite sent');
               }, function (err) {
-                ErrorsService.addError(err);
+                sabErrorsService.addError(err);
               });
             });
 

@@ -10,7 +10,6 @@
       Agent,
       CounterAgent,
       Invite,
-      ErrorsService,
       InitCtrlService
     ) {
 

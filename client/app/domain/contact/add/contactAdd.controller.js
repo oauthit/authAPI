@@ -11,7 +11,7 @@
                                             SettingsService,
                                             ErrorsService,
                                             ProviderAccount,
-                                            FormlyConfigService,
+                                            saFormlyConfigService,
                                             InviteService,
                                             messageService,
                                             InitCtrlService) {
@@ -68,7 +68,7 @@
 
         invitesWaitingForAccept: [],
         model: {},
-        fields: FormlyConfigService.getConfigFieldsByKey('contactAdd'),
+        fields: saFormlyConfigService.getConfigFieldsByKey('contactAdd'),
 
         getInviteByCode: getInviteByCode,
 

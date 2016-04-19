@@ -3,7 +3,7 @@
 (function () {
 
   angular.module('authApiApp.core.services')
-    .factory('InitCtrlService', function ($filter, SettingsService, v4NgTable) {
+    .factory('InitCtrlService', function ($filter, SettingsService, saNgTable) {
 
       // var deb = debug('debtee:InitCtrlService');
 
@@ -11,7 +11,7 @@
 
         return angular.extend(ctrl, {
           setupNgTable: function (model) {
-            return v4NgTable.setup (ctrl, model);
+            return saNgTable.setup (ctrl, model);
           }
         });
 

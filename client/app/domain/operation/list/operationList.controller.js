@@ -4,7 +4,7 @@
 
   function OperationListController (
     $scope, Operation, CounterAgent, InitCtrlService
-    //, ErrorsService
+    //, sabErrorsService
   ){
     var vm = InitCtrlService.setup(this);
 

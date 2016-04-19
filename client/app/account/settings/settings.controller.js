@@ -2,7 +2,14 @@
 
 // TODO show and edit account data
 
-function SettingsController($window, $q, Auth, FormlyConfigService, Account, ProviderAccount, messageService, ErrorsService) {
+function SettingsController($window,
+                            $q,
+                            Auth,
+                            saFormlyConfigService,
+                            Account,
+                            ProviderAccount,
+                            messageService,
+                            sabErrorsService) {
 
   var vm = this;
 
@@ -35,7 +42,7 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, Pro
 
   angular.extend(vm, {
 
-    fields: FormlyConfigService.getConfigFieldsByKey('accountInfo'),
+    fields: saFormlyConfigService.getConfigFieldsByKey('accountInfo'),
     buttons: [
       {
         name: 'Manage agents',
@@ -64,7 +71,7 @@ function SettingsController($window, $q, Auth, FormlyConfigService, Account, Pro
       Account.create(data).then(function () {
         messageService.success('Account have been updated', 'Success!');
       }, function (err) {
-        ErrorsService.addError(err);
+        sabErrorsService.addError(err);
       });
     },
 

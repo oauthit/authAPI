@@ -21,7 +21,7 @@
         }
       });
     })
-    .run(function (Contact, FormlyConfigService) {
+    .run(function (Contact, saFormlyConfigService) {
       var fields = [
         {
           key: 'counterAgentEntity.name',
@@ -63,8 +63,8 @@
         }
       }];
 
-      FormlyConfigService.setConfig('contact', fields);
-      FormlyConfigService.setConfig('contactAdd', contactAdd);
+      saFormlyConfigService.setConfig('contact', fields);
+      saFormlyConfigService.setConfig('contactAdd', contactAdd);
     });
 
 }());

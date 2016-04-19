@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('authApiApp.auth', [
+  'sistemiumBootstrap',
   'authApiApp.constants',
   'authApiApp.util',
   'ui.router',

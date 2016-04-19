@@ -10,8 +10,8 @@
     CounterAgent,
     Currency,
     InitCtrlService,
-    FormlyConfigService,
-    ErrorsService
+    saFormlyConfigService,
+    sabErrorsService
   ) {
 
     var vm = InitCtrlService.setup (this);
@@ -19,7 +19,7 @@
     angular.extend(vm, {
 
       contacts: [],
-      fields: FormlyConfigService.getConfigFieldsByKey('operationCreate'),
+      fields: saFormlyConfigService.getConfigFieldsByKey('operationCreate'),
       operation: {},
       options: {},
 
@@ -60,7 +60,7 @@
           lenderId: vm.data.lenderId
         });
 
-        ErrorsService.clear();
+        sabErrorsService.clear();
 
         Operation.create(vm.operation).then(function (res) {
           vm.operation = res;
@@ -68,12 +68,12 @@
           console.log(res);
           vm.dataPristine = angular.copy (vm.data);
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
       },
 
       isSaved: function () {
-        return !ErrorsService.errors.length && vm.operation.id;
+        return !sabErrorsService.errors.length && vm.operation.id;
       },
 
       onSetAgent: function(agent) {
@@ -88,7 +88,7 @@
 
     vm.originalFields = angular.copy(vm.fields);
     vm.dataPristine = angular.copy (vm.data);
-    vm.counterAgentField = FormlyConfigService.getConfigKey(vm.fields, 'contact');
+    vm.counterAgentField = saFormlyConfigService.getConfigKey(vm.fields, 'contact');
     vm.counterAgentField.templateOptions.liveSearch = function (viewValue) {
       return _.filter(vm.agent.contacts, function (c) {
         return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase()) || viewValue === ' ' ;
@@ -97,7 +97,7 @@
     vm.counterAgentField.templateOptions.onSelect = function (item) {
       vm.data.contact = item;
     };
-    vm.totalField = FormlyConfigService.getConfigKey(vm.fields, 'total');
+    vm.totalField = saFormlyConfigService.getConfigKey(vm.fields, 'total');
 
     Currency.bindAll(false, $scope, 'vm.totalField.templateOptions.options');
 

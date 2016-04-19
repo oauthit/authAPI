@@ -2,6 +2,8 @@
 
 (function () {
 
-  angular.module('authApiApp.core.directives', []);
+  angular.module('authApiApp.core.directives', [
+    'sistemiumBootstrap'
+  ]);
 
 }());

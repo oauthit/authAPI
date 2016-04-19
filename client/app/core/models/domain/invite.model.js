@@ -31,7 +31,7 @@
       });
     })
 
-    .run(function (Invite, FormlyConfigService) {
+    .run(function (Invite, saFormlyConfigService) {
       var fields = [
         {
           key: 'owner.name',
@@ -64,7 +64,7 @@
         }
       ];
 
-      FormlyConfigService.setConfig('invite', fields);
+      saFormlyConfigService.setConfig('invite', fields);
     })
   ;
 

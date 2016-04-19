@@ -3,7 +3,7 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('InviteService', function (SettingsService, Invite, $state, ErrorsService) {
+    .factory('InviteService', function (SettingsService, Invite, $state, sabErrorsService) {
 
       function create () {
         Invite.create({
@@ -13,7 +13,7 @@
             id: response.id
           });
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
       }
 

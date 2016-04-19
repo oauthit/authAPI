@@ -3,10 +3,10 @@
 (function() {
 
 angular.module('authApiApp.auth')
-  .run(function($rootScope, $state, Auth, ErrorsService) {
+  .run(function($rootScope, $state, Auth, sabErrorsService) {
     // Redirect to login if route requires auth and the user is not logged in, or doesn't have required role
     $rootScope.$on('$stateChangeStart', function(event, next) {
-      ErrorsService.clear();
+      sabErrorsService.clear();
       if (!next.authenticate) {
         return;
       }

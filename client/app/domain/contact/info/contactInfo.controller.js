@@ -7,8 +7,8 @@
                                              $state,
                                              Modal,
                                              Contact,
-                                             FormlyConfigService,
-                                             ErrorsService) {
+                                             saFormlyConfigService,
+                                             sabErrorsService) {
 
       var vm = this;
 
@@ -23,7 +23,7 @@
               vm.busy = Contact.destroy(contactId).then(function () {
                 $state.go('^.list');
               }, function (err) {
-                ErrorsService.addError(err);
+                sabErrorsService.addError(err);
               });
             })(vm.contact.counterAgent.name);
           }
@@ -34,13 +34,13 @@
 
         Contact.loadRelations(c).then(function (r) {
           vm.contact = r;
-          vm.fields = FormlyConfigService.getConfigFieldsByKey('contact');
+          vm.fields = saFormlyConfigService.getConfigFieldsByKey('contact');
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
 
       }, function (err) {
-        ErrorsService.addError(err);
+        sabErrorsService.addError(err);
       });
 
     })

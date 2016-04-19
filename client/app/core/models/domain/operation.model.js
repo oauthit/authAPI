@@ -28,7 +28,7 @@
         }
       });
     })
-    .run(function (Operation, FormlyConfigService) {
+    .run(function (Operation, saFormlyConfigService) {
 
       // TODO: need comments functionality on an operation
       // TODO: need operation tagging and searching by tags in operation.list
@@ -123,8 +123,8 @@
         }
       ];
 
-      FormlyConfigService.setConfig('operationInfo', operationInfo);
-      FormlyConfigService.setConfig('operationCreate', operationCreate);
+      saFormlyConfigService.setConfig('operationInfo', operationInfo);
+      saFormlyConfigService.setConfig('operationCreate', operationCreate);
     });
 
 

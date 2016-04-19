@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="bower_components/bootstrap-social/bootstrap-social.css" />
   <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
   <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+  <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css({.tmp,client}) app/app.css -->
@@ -90,6 +91,7 @@
 <script src="bower_components/sistemium-angular/dist/sistemium-angular.js"></script>
 <script src="bower_components/sistemium-angular/dist/socket-io.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/ng-table/dist/ng-table.min.js"></script>
 <script src="bower_components/sistemium-angular-bootstrap/dist/sistemium-angular-bootstrap.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
@@ -102,7 +104,7 @@
 <script src="app/core/filters/filters.module.js"></script>
 <script src="app/core/interceptors/interceptors.module.js"></script>
 <script src="app/core/models/models.module.js"></script>
-<script src="app/core/services/common/services.module.js"></script>
+<script src="app/core/services/services.module.js"></script>
 <script src="components/auth/auth.module.js"></script>
 <script src="components/util/util.module.js"></script>
 <script src="app/account/account.js"></script>
@@ -116,7 +118,6 @@
 <script src="app/core/decorators/$exceptionHandler.decorator.js"></script>
 <script src="app/core/directives/dButtons/dButtons.directive.js"></script>
 <script src="app/core/directives/dInputWithAddon/dInputWithAddon.directive.js"></script>
-<script src="app/core/directives/errorWidget/errorWidget.directive.js"></script>
 <script src="app/core/directives/typeaheadClickOpen.directive.js"></script>
 <script src="app/core/filters/reverse.filter.js"></script>
 <script src="app/core/interceptors/auth.interceptor.js"></script>
@@ -129,16 +130,11 @@
 <script src="app/core/models/domain/invite.model.js"></script>
 <script src="app/core/models/domain/operation.model.js"></script>
 <script src="app/core/models/domain/socialFriend.model.js"></script>
-<script src="app/core/services/common/errors.service.js"></script>
-<script src="app/core/services/common/formlyConfig.service.js"></script>
-<script src="app/core/services/common/httpStatus.service.js"></script>
-<script src="app/core/services/common/initCtrl.service.js"></script>
-<script src="app/core/services/common/initialization.service.js"></script>
-<script src="app/core/services/common/message.service.js"></script>
-<script src="app/core/services/common/settings.service.js"></script>
-<script src="app/core/services/common/v4NgTable.js"></script>
+<script src="app/core/services/domain/initCtrl.service.js"></script>
+<script src="app/core/services/domain/initialization.service.js"></script>
 <script src="app/core/services/domain/invite.service.js"></script>
 <script src="app/core/services/domain/model.service.js"></script>
+<script src="app/core/services/domain/settings.service.js"></script>
 <script src="app/domain/agent/agent.controller.js"></script>
 <script src="app/domain/agent/agent.router.js"></script>
 <script src="app/domain/contact/add/contactAdd.controller.js"></script>

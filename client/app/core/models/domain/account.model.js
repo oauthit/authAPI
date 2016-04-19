@@ -56,7 +56,7 @@
         }
       });
     })
-    .run(function (Account, FormlyConfigService) {
+    .run(function (Account, saFormlyConfigService) {
 
       var accountFields = [
         {
@@ -71,7 +71,7 @@
         }
       ];
 
-      FormlyConfigService.setConfig('accountInfo', accountFields);
+      saFormlyConfigService.setConfig('accountInfo', accountFields);
     });
 
 }());
