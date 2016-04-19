@@ -2,35 +2,29 @@
 
 (function () {
 
+  function Schema(saSchema) {
+    //pass object to saSchema to override methods
+    return saSchema();
+  }
+
   angular.module('authApiApp.core.models', [
-      'js-data',
+      'sistemium',
       'authApiApp.constants'
     ])
-    .config(function (DSProvider, DSHttpAdapterProvider, appConfig) {
-      angular.extend(DSProvider.defaults, {
-        beforeCreate: function (resource, data, cb) {
-          data.id = uuid.v4();
-          cb(null, data);
-        },
-        //afterCreateInstance: function (resource, instance) {
-        //  if (!instance.id) {
-        //    instance.id = uuid.v4();
-        //  }
-        //}
-      });
+    .config(function (DSHttpAdapterProvider, appConfig) {
       angular.extend(DSHttpAdapterProvider.defaults, {
-        basePath: appConfig.jsDataBasePath,
-        httpConfig: {
-          headers: {
-            'X-Return-Post': 'true'
-          }
-        }
+        basePath: appConfig.jsDataBasePath
       });
+    })
+    .service('Schema', Schema)
+    .service('models', function (Schema) {
+      return Schema.models();
     })
     .run(function(DS,$rootScope){
       $rootScope.$on('logged-off',function(){
         DS.clear();
       });
     });
+
 
 }());
