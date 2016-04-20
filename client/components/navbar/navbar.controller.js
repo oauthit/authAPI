@@ -1,8 +1,15 @@
 'use strict';
 
-function NavbarController($rootScope, $scope, $state, Modal, Agent, Auth, SettingsService) {
+function NavbarController($rootScope,
+                          $scope,
+                          $state,
+                          Modal,
+                          models,
+                          Auth,
+                          SettingsService) {
 
   var vm = this;
+  var Agent = models.agent;
 
   var setCurrentAgent = function (agent) {
     SettingsService.setCurrentAgent(agent);

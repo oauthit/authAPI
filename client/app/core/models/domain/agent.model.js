@@ -3,8 +3,37 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('Agent', function (DS) {
-      return DS.defineResource({
+    //.factory('Agent', function (DS) {
+    //  return DS.defineResource({
+    //    name: 'agent',
+    //    relations: {
+    //      hasMany: {
+    //        contact: {
+    //          localField: 'contacts',
+    //          foreignKey: 'ownerAgentId'
+    //        },
+    //        invite: [
+    //          {
+    //            localField: 'invites',
+    //            foreignKey: 'ownerAgentId'
+    //          },
+    //          {
+    //            localField: 'acceptedInvites',
+    //            foreignKey: 'acceptorAgentId'
+    //          }
+    //        ]
+    //      },
+    //      hasOne: {
+    //        currency: {
+    //          localField: 'currency',
+    //          localKey: 'currencyId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    .run(function (Schema, saFormlyConfigService) {
+      Schema.register({
         name: 'agent',
         relations: {
           hasMany: {
@@ -31,8 +60,7 @@
           }
         }
       });
-    })
-    .run(function (Agent, saFormlyConfigService) {
+
       var fields = [
         {
           key: 'name',

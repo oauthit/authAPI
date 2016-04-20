@@ -2,9 +2,26 @@
 
 (function () {
 
-  function Schema(saSchema) {
+  function Schema(saSchema, $http, appConfig) {
     //pass object to saSchema to override methods
-    return saSchema();
+    return saSchema({
+      getCount: function (params) {
+
+        return $http
+          .get(
+            appConfig.jsDataBasePath + '/' + this.endpoint,
+            {
+              params: angular.extend({
+                'agg:': 'count'
+              }, params || {})
+            }
+          )
+
+          .then(function (res) {
+            return parseInt(res.headers('x-aggregate-count'));
+          });
+      }
+    });
   }
 
   angular.module('authApiApp.core.models', [
@@ -20,8 +37,8 @@
     .service('models', function (Schema) {
       return Schema.models();
     })
-    .run(function(DS,$rootScope){
-      $rootScope.$on('logged-off',function(){
+    .run(function (DS, $rootScope) {
+      $rootScope.$on('logged-off', function () {
         DS.clear();
       });
     });

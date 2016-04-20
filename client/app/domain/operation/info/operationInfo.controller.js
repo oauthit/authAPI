@@ -7,14 +7,15 @@
                                                $state,
                                                $scope,
                                                InitCtrlService,
-                                               Operation,
-                                               CounterAgent,
-                                               Currency,
+                                               models,
                                                saFormlyConfigService,
                                                sabErrorsService) {
 
       var vm = InitCtrlService.setup(this);
       var operationId = $stateParams.id;
+      var Operation = models.operation;
+      var CounterAgent = models.counterAgent;
+      var Currency = models.currency;
 
       vm.busy = Operation.find(operationId).catch(sabErrorsService.addError);
 

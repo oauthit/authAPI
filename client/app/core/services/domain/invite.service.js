@@ -3,7 +3,12 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('InviteService', function (SettingsService, Invite, $state, sabErrorsService) {
+    .factory('InviteService', function (SettingsService,
+                                        models,
+                                        $state,
+                                        sabErrorsService) {
+
+      var Invite = models.invite;
 
       function create () {
         Invite.create({

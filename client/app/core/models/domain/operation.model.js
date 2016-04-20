@@ -3,8 +3,34 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('Operation', function (ModelService) {
-      return ModelService.define({
+    //.factory('Operation', function (ModelService) {
+    //  return ModelService.define({
+    //    name: 'operation',
+    //    relations: {
+    //      belongsTo: {
+    //        counterAgent: [
+    //          {
+    //            localField: 'lender',
+    //            localKey: 'lenderAgentId'
+    //          },
+    //          {
+    //            localField: 'debtor',
+    //            localKey: 'debtorAgentId'
+    //          }
+    //        ]
+    //      },
+    //      hasOne: {
+    //        currency: {
+    //          localField: 'currency',
+    //          localKey: 'currencyId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    .run(function (saFormlyConfigService, Schema) {
+
+      Schema.register({
         name: 'operation',
         relations: {
           belongsTo: {
@@ -27,9 +53,6 @@
           }
         }
       });
-    })
-    .run(function (Operation, saFormlyConfigService) {
-
       // TODO: need comments functionality on an operation
       // TODO: need operation tagging and searching by tags in operation.list
 

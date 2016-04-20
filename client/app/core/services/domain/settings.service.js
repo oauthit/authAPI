@@ -3,9 +3,10 @@
 (function () {
 
   angular.module('authApiApp.core.services')
-    .factory('SettingsService', function ($timeout, Agent, $rootScope, localStorageService) {
+    .factory('SettingsService', function ($timeout, models, $rootScope, localStorageService) {
 
       var currentAgent;
+      var Agent = models.agent;
 
       function setCurrentAgent(agent) {
         if (!agent) {

@@ -3,11 +3,11 @@
 (function () {
 
   angular.module('authApiApp.core.services')
-    .factory('InitService', function (Currency, Agent) {
+    .factory('InitService', function (models) {
 
       function init () {
-        Currency.findAll();
-        Agent.findAll();
+        models.currency.findAll();
+        models.agent.findAll();
       }
 
       return {

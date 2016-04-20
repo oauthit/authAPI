@@ -2,11 +2,13 @@
 
 (function () {
 
-  function OperationListController (
-    $scope, Operation, CounterAgent, InitCtrlService
-    //, sabErrorsService
-  ){
+  function OperationListController($scope,
+                                   models,
+                                   InitCtrlService) {
+
     var vm = InitCtrlService.setup(this);
+    var Operation = models.operation;
+    var CounterAgent = models.counterAgent;
 
     angular.extend(vm, {
 
@@ -18,16 +20,15 @@
         vm.currentAgent = agent;
         vm.setupNgTable({
 
-          getCount: function(params,o){
-            return Operation.getCount(angular.extend({
-              agentId: vm.currentAgent.id
-            },params),o);
+          getCount: function (params, o) {
+            let p = angular.extend({agentId: vm.currentAgent.id}, params);
+            return Operation.getCount([p, o]);
           },
 
-          findAll: function(params,o){
+          findAll: function (params, o) {
             return Operation.findAll(angular.extend({
               agentId: vm.currentAgent.id
-            },params),o);
+            }, params), o);
           }
 
         });

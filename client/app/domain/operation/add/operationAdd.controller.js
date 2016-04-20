@@ -2,19 +2,18 @@
 
 (function () {
 
-  function OperationAddController(
-    $scope,
-    $q,
-    Agent,
-    Operation,
-    CounterAgent,
-    Currency,
-    InitCtrlService,
-    saFormlyConfigService,
-    sabErrorsService
-  ) {
+  function OperationAddController($scope,
+                                  $q,
+                                  models,
+                                  InitCtrlService,
+                                  saFormlyConfigService,
+                                  sabErrorsService) {
 
-    var vm = InitCtrlService.setup (this);
+    var vm = InitCtrlService.setup(this);
+    var Operation = models.operation;
+    var CounterAgent = models.counterAgent;
+    var Currency = models.currency;
+    var Agent = models.agent;
 
     angular.extend(vm, {
 
@@ -31,7 +30,7 @@
         if (vm.operation.id) {
           Operation.revert(vm.operation.id);
         }
-        vm.data = angular.copy (vm.dataPristine);
+        vm.data = angular.copy(vm.dataPristine);
         if (!vm.data.currencyId) {
           vm.data.currencyId = vm.agent.currencyId;
         }
@@ -53,7 +52,7 @@
 
         //TODO set default value in STAPI
 
-        angular.extend (vm.operation,{
+        angular.extend(vm.operation, {
           total: vm.data.total,
           currencyId: vm.data.currency && vm.data.currency.id || vm.data.currencyId,
           debtorId: vm.data.debtorId,
@@ -66,7 +65,7 @@
           vm.operation = res;
           form.$setPristine();
           console.log(res);
-          vm.dataPristine = angular.copy (vm.data);
+          vm.dataPristine = angular.copy(vm.data);
         }, function (err) {
           sabErrorsService.addError(err);
         });
@@ -76,7 +75,7 @@
         return !sabErrorsService.errors.length && vm.operation.id;
       },
 
-      onSetAgent: function(agent) {
+      onSetAgent: function (agent) {
         vm.busy = Agent.loadRelations(agent).then(function () {
           vm.agent = agent;
           vm.data.currencyId = agent.currencyId;
@@ -87,11 +86,11 @@
     });
 
     vm.originalFields = angular.copy(vm.fields);
-    vm.dataPristine = angular.copy (vm.data);
+    vm.dataPristine = angular.copy(vm.data);
     vm.counterAgentField = saFormlyConfigService.getConfigKey(vm.fields, 'contact');
     vm.counterAgentField.templateOptions.liveSearch = function (viewValue) {
       return _.filter(vm.agent.contacts, function (c) {
-        return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase()) || viewValue === ' ' ;
+        return _.includes(c.counterAgent.name.toLowerCase(), viewValue.toLowerCase()) || viewValue === ' ';
       });
     };
     vm.counterAgentField.templateOptions.onSelect = function (item) {
@@ -101,12 +100,12 @@
 
     Currency.bindAll(false, $scope, 'vm.totalField.templateOptions.options');
 
-    vm.busy = $q.all ([
+    vm.busy = $q.all([
       CounterAgent.findAll(),
       Currency.findAll()
     ]);
 
-    InitCtrlService.init (vm, $scope);
+    InitCtrlService.init(vm, $scope);
 
   }
 

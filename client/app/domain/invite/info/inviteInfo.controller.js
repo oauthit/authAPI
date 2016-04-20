@@ -5,12 +5,13 @@
   angular.module('authApiApp')
     .controller('InviteInfoCtrl', function ($scope,
                                             $stateParams,
-                                            Invite,
+                                            models,
                                             $state,
                                             saFormlyConfigService,
                                             sabErrorsService) {
 
       var vm = this;
+      var Invite = models.invite;
 
       vm.busy = Invite.find($stateParams.id).then(function (invite) {
         console.log(invite);

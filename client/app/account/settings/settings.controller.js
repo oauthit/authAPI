@@ -6,12 +6,13 @@ function SettingsController($window,
                             $q,
                             Auth,
                             saFormlyConfigService,
+                            models,
                             Account,
-                            ProviderAccount,
-                            messageService,
+                            saMessageService,
                             sabErrorsService) {
 
   var vm = this;
+  var ProviderAccount = models.providerAccount;
 
   Auth.getCurrentUser(function (account) {
     vm.originalModel = angular.copy(account);
@@ -69,7 +70,7 @@ function SettingsController($window,
         name: vm.model.name
       };
       Account.create(data).then(function () {
-        messageService.success('Account have been updated', 'Success!');
+        saMessageService.success('Account have been updated', 'Success!');
       }, function (err) {
         sabErrorsService.addError(err);
       });

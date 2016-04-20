@@ -2,12 +2,13 @@
 
 angular.module('authApiApp')
   .controller('AgentCtrl', function ($scope,
-                                     Agent,
-                                     Currency,
+                                     models,
                                      $uiViewScroll,
                                      saFormlyConfigService,
                                      $timeout) {
     var vm = this;
+    var Currency = models.currency;
+    var Agent = models.agent;
 
     Currency.findAll();
 

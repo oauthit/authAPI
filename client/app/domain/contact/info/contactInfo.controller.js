@@ -6,11 +6,12 @@
     .controller('ContactInfoCtrl', function ($stateParams,
                                              $state,
                                              Modal,
-                                             Contact,
+                                             models,
                                              saFormlyConfigService,
                                              sabErrorsService) {
 
       var vm = this;
+      var Contact = models.contact;
 
       var contactId = $stateParams.id;
 

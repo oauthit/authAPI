@@ -3,8 +3,56 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('ProviderAccount', function (DS, appConfig) {
+    //.factory('ProviderAccount', function (DS, appConfig) {
+    //  return DS.defineResource({
+    //    name: 'providerAccount',
+    //    basePath: appConfig.apiUrl,
+    //    relations: {
+    //      belongsTo: {
+    //        account: {
+    //          localField: 'account',
+    //          localKey: 'accountId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    //.factory('SocialAccount', function (DS, appConfig) {
+    //  return DS.defineResource({
+    //    name: 'socialAccount',
+    //    basePath: appConfig.apiUrl,
+    //    relations: {
+    //      hasMany: {
+    //        invite: [
+    //          {
+    //            localField: 'invitees',
+    //            foreignKey: 'inviteeSocialAccountId'
+    //          }, {
+    //            localField: 'inviters',
+    //            foreignKey: 'inviterSocialAccountId'
+    //          }
+    //        ]
+    //      }
+    //    }
+    //  });
+    //})
+    .factory('Account', function (DS, appConfig) {
       return DS.defineResource({
+        name: 'account',
+        basePath: appConfig.apiUrl,
+        relations: {
+          hasMany: {
+            providerAccount: {
+              localField: 'providers',
+              foreignKey: 'accountId'
+            }
+          }
+        }
+      });
+    })
+    .run(function (Schema, Account, appConfig, saFormlyConfigService) {
+
+      Schema.register({
         name: 'providerAccount',
         basePath: appConfig.apiUrl,
         relations: {
@@ -16,12 +64,8 @@
           }
         }
       });
-    })
-    .run(function (ProviderAccount) {
-      console.log(ProviderAccount);
-    })
-    .factory('SocialAccount', function (DS, appConfig) {
-      return DS.defineResource({
+
+      Schema.register({
         name: 'socialAccount',
         basePath: appConfig.apiUrl,
         relations: {
@@ -38,25 +82,6 @@
           }
         }
       });
-    })
-    .run(function (SocialAccount) {
-      console.log(SocialAccount);
-    })
-    .factory('Account', function (DS, appConfig) {
-      return DS.defineResource({
-        name: 'account',
-        basePath: appConfig.apiUrl,
-        relations: {
-          hasMany: {
-            providerAccount: {
-              localField: 'providers',
-              foreignKey: 'accountId'
-            }
-          }
-        }
-      });
-    })
-    .run(function (Account, saFormlyConfigService) {
 
       var accountFields = [
         {

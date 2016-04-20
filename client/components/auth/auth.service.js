@@ -2,7 +2,14 @@
 
 (function() {
 
-function AuthService ($location, $http, $q, Token, appConfig, Util, Account, $rootScope) {
+function AuthService ($location,
+                      $http,
+                      $q,
+                      Token,
+                      appConfig,
+                      Util,
+                      Account,
+                      $rootScope) {
 
   var safeCb = Util.safeCb;
   var currentUser = {};

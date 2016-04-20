@@ -6,17 +6,17 @@
     .controller('ContactAddCtrl', function ($state,
                                             $scope,
                                             $q,
-                                            Invite,
+                                            models,
                                             Auth,
                                             SettingsService,
-                                            ErrorsService,
-                                            ProviderAccount,
+                                            sabErrorsService,
                                             saFormlyConfigService,
                                             InviteService,
-                                            messageService,
+                                            saMessageService,
                                             InitCtrlService) {
 
       var vm = this;
+      var Invite = models.invite;
 
       function getInviteByCode() {
 
@@ -24,12 +24,12 @@
           code: vm.model.inviteCode
         };
 
-        ErrorsService.clear();
+        sabErrorsService.clear();
 
         vm.busy = Invite.findAll(query, {bypassCache: true}).then(function (response) {
 
           if (!response.length) {
-            return ErrorsService.addError('No invite with code "' + query.code + '"');
+            return sabErrorsService.addError('No invite with code "' + query.code + '"');
           }
 
           vm.inviteByCode = response[0];
@@ -43,7 +43,7 @@
             }
           }];
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
 
       }
@@ -59,7 +59,7 @@
         Invite.save(invite).then(function () {
           $state.go('debt.contact.list');
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
 
       }

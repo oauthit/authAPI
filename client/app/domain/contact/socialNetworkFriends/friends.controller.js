@@ -5,18 +5,19 @@
   angular.module('authApiApp')
     .controller('FriendsCtrl', function ($scope,
                                          $q,
-                                         Invite,
-                                         FacebookFriend,
-                                         GoogleFriend,
-                                         SocialFriend,
+                                         models,
                                          Auth,
-                                         ProviderAccount,
-                                         SocialAccount,
-                                         messageService,
+                                         saMessageService,
                                          InitCtrlService,
                                          sabErrorsService) {
 
       var vm = this;
+      var Invite = models.invite;
+      var FacebookFriend = models.facebookFriend;
+      var GoogleFriend = models.googleFriend;
+      var SocialFriend = models.socialFriend;
+      var SocialAccount = models.socialAccount;
+      var ProviderAccount = models.providerAccount;
       vm.currentUserPromise = Auth.getCurrentUser();
 
       SocialFriend.findAll({}).then((res) => {
@@ -67,7 +68,7 @@
               };
 
               Invite.create(data).then(function () {
-                messageService.success('Invite was sent to ' + friend.name, 'Invite sent');
+                saMessageService.success('Invite was sent to ' + friend.name, 'Invite sent');
               }, function (err) {
                 sabErrorsService.addError(err);
               });
