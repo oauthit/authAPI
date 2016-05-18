@@ -1,6 +1,6 @@
 'use strict';
 
-import providerAccount from './oprProviderAccount.model';
+import providerAccount from './../../models/providerAccount/oprProviderAccount.model.js';
 import abstractController from '../abstract/abstract.controller';
 var debug = require('debug')('authAPI:providerAccount.controller');
 

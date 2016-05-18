@@ -1,4 +1,4 @@
 'use strict';
-import STAPI from '../../abstract/abstract.model.js';
+import STAPI from '../../../models/abstract.model.js';
 
 export default STAPI ('/aa/socialFriend');

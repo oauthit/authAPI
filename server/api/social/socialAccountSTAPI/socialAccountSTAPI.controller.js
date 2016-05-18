@@ -1,7 +1,7 @@
 'use strict';
 
 import socialAccount from './socialAccountSTAPI.model.js';
-import providerAccount from '../../providerAccount/oprProviderAccount.model';
+import providerAccount from '../../../models/providerAccount/oprProviderAccount.model.js';
 import abstractController from '../../abstract/abstract.controller';
 var debug = require('debug')('authAPI:socialAccount.controller');
 import uuid from 'node-uuid';

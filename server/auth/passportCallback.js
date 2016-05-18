@@ -1,7 +1,7 @@
 'use strict';
 import Token from '../api/token/token.model';
-import ProviderToken from '../api/providerToken/providerToken.model';
-import account from '../api/account/account.model';
+import ProviderToken from '../models/providerToken.model.js';
+import account from '../models/account.model.js';
 var Account = account();
 var debug = require('debug')('authAPI:passportCallback');
 

@@ -1,6 +1,6 @@
 'use strict';
-import ProviderToken from '../api/providerToken/providerToken.model';
-import providerAccount from '../api/providerAccount/providerAccount.model';
+import ProviderToken from '../models/providerToken.model.js';
+import providerAccount from '../models/providerAccount/providerAccount.model.js';
 let ProviderAccount = providerAccount();
 var debug = require('debug')('authAPI:setProviderToken.middleware');
 

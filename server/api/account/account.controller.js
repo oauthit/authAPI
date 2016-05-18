@@ -1,6 +1,6 @@
 'use strict';
 
-import Account from './account.model.js';
+import Account from './../../models/account.model.js';
 import abstractController from '../abstract/abstract.controller';
 
 let ctrl = abstractController(Account);

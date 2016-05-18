@@ -3,7 +3,7 @@
 import express from 'express';
 import passport from 'passport';
 import {setAuthorized} from '../auth.service';
-import providerAccount from '../../api/providerAccount/providerAccount.model';
+import providerAccount from '../../models/providerAccount/providerAccount.model.js';
 let ProviderAccount = providerAccount();
 
 var router = express.Router();

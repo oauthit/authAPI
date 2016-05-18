@@ -2,7 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
-import STAPI from '../abstract/abstract.model';
+import STAPI from '../../models/abstract.model.js';
 
 router.get('/:tableName', (req, res) => {
   STAPI('/opr/' + req.params.tableName)().find().then((socialAccounts) => {

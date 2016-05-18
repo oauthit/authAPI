@@ -1,5 +1,5 @@
 'use strict';
 
-import STAPI from '../abstract/abstract.model.js';
+import STAPI from './abstract.model.js';
 
 export default STAPI ('/opr/agent');

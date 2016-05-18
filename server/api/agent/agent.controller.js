@@ -9,7 +9,7 @@
 
 'use strict';
 
-import Agent from './agent.model';
+import Agent from './../../models/agent.model.js';
 import abstractController from '../abstract/abstract.controller';
 
 export default abstractController(Agent);

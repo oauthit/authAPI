@@ -3,7 +3,7 @@ import request from 'supertest';
 import app from '../../../../app';
 import sinon from 'sinon';
 import sinonStubPromise from 'sinon-stub-promise';
-import ProviderToken from '../../../providerToken/providerToken.model';
+import ProviderToken from '../../../../models/providerToken.model.js';
 import FB from 'fb';
 import FacebookFriend from './facebookFriend.model';
 import FacebookProfile from './facebookProfile.model';

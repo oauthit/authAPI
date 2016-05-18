@@ -1,6 +1,6 @@
 'use strict';
-import redisWrapper from '../../config/redis';
-import config from '../../config/environment';
+import redisWrapper from '../config/redis';
+import config from '../config/environment';
 
 var redisClient = redisWrapper.redisClient;
 

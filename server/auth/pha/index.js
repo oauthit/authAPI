@@ -10,7 +10,7 @@ const phaUrl = 'https://api.sistemium.com/pha/auth';
 const rolesUrl = 'https://api.sistemium.com/pha/roles';
 
 import Token from '../../api/token/token.model';
-import account from '../../api/account/account.model.js';
+import account from '../../models/account.model.js';
 
 
 var err401 = function (res) {

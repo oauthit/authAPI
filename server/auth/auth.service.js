@@ -4,9 +4,9 @@ import config from '../config/environment';
 import compose from 'composable-middleware';
 import Token from '../api/token/token.model';
 var debug = require('debug')('authAPI:auth.service');
-import account from '../api/account/account.model';
+import account from '../models/account.model.js';
 var Account = account();
-import providerAccount from '../api/providerAccount/providerAccount.model';
+import providerAccount from '../models/providerAccount/providerAccount.model.js';
 var ProviderAccount = providerAccount();
 import _ from 'lodash';
 import winston from 'winston';
@@ -41,6 +41,7 @@ var validateAuth = (req, res, next) => {
     next();
   }, (err) => {
     winston.log('info', `Error occured while trying to find token by id(Token.findById(${token})).`);
+    winston.log('debug', `Error message: ${err}`);
     return res.sendStatus(401);
   })
 };
@@ -69,7 +70,7 @@ export function isAuthenticated() {
  */
 export function hasRole(roleRequired) {
   if (!roleRequired) {
-    winston.info(``);
+    winston.warn(`roleRequired parameter missing...`);
     throw new Error('Required role needs to be set');
   }
 
@@ -77,6 +78,7 @@ export function hasRole(roleRequired) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       if (req.user.roles[roleRequired] || req.user.roles.indexOf(roleRequired) > -1) {
+        winston.info(`User have role '${roleRequired}'`);
         next();
       } else {
         res.status(403).end('Forbidden');
@@ -86,6 +88,9 @@ export function hasRole(roleRequired) {
 
 /**
  * Set token cookie directly for oAuth strategies
+ *
+ * @params {Request} req - Express Request object
+ * @params {Response} res - Express Response object
  */
 export function setAuthorized(req, res) {
   //debug ('User:', req.user);

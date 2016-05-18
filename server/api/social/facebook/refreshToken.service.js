@@ -4,7 +4,7 @@ import config from '../../../config/environment';
 import redisWrapper from '../../../config/redis';
 var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
-import ProviderToken from '../../providerToken/providerToken.model.js';
+import ProviderToken from '../../../models/providerToken.model.js';
 var redisClient = redisWrapper.redisClient;
 
 export default function (provider, profileId) {
