@@ -9,8 +9,19 @@ var Account = account();
 import providerAccount from '../api/providerAccount/providerAccount.model';
 var ProviderAccount = providerAccount();
 import _ from 'lodash';
+import winston from 'winston';
 import uuid from 'node-uuid';
 
+
+/**
+ *
+ * @params {Request} req - The express Request object
+ * @params {Response} res - The express Response object
+ * @params {function} next
+ *
+ * @return {}
+ *
+ * */
 var validateAuth = (req, res, next) => {
 
   let token = req.headers.authorization;
@@ -18,21 +29,25 @@ var validateAuth = (req, res, next) => {
   //debug ('validateAuth','token:',token);
 
   if (!token) {
-    return res.status(401).end('Unauthorized');
+    winston.log('info', 'Token is not defined, sending unauthorized status.');
+    return res.sendStatus(401);
   }
 
   Token.findById(token).then((user) => {
     //debug ('validateAuth', 'user:', user);
+    winston.log('info', `Successfully found token for user: ${user}`);
     req.user = user;
+    winston.log('debug', `req.user = ${user}`);
     next();
   }, (err) => {
-    return res.status(401).end(err);
+    winston.log('info', `Error occured while trying to find token by id(Token.findById(${token})).`);
+    return res.sendStatus(401);
   })
 };
 
 /**
  * Attaches the user object to the request if authenticated
- * Otherwise returns 403
+ * Otherwise returns 401
  */
 export function isAuthenticated() {
   return compose()
@@ -49,9 +64,12 @@ export function isAuthenticated() {
 
 /**
  * Checks if the user role meets the minimum requirements of the route
+ *
+ * @params {String} roleRequired - Parameter for role name
  */
 export function hasRole(roleRequired) {
   if (!roleRequired) {
+    winston.info(``);
     throw new Error('Required role needs to be set');
   }
 
