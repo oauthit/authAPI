@@ -16,10 +16,20 @@ meta.defineType 'avatarUrl:STRING,,nullable';
 
 meta.defineEntity 'Account', 'name;roles;isDeleted;';
 
-meta.defineEntity 'Provider', '';
-meta.defineEntity 'Org', '';
-meta.defineEnitty 'OrgProvider', '';
-meta.defineEntity 'OrgProviderAccount', '';
+meta.defineEntity 'Provider',
+  'name;credentials;appId'
+;
+meta.defineEntity 'Org',
+  'isDeleted;name'
+;
+meta.defineEnitty 'OrgProvider',
+  'isDeleted',
+  'Org,orgId;Provider,providerId'
+;
+meta.defineEntity 'OrgProviderAccount',
+  'isDeleted',
+  'Org,orgId;ProviderAccount,providerAccountId'
+;
 
 meta.defineEntity 'SocialAccount',
   'isDeleted;provider;profileId;name;avatarUrl'
@@ -32,10 +42,14 @@ meta.defineEntity 'SocialFriend',
 
 meta.defineEntity 'ProviderAccount',
   'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId;isDeleted;',
-  'Account,accountId,nullable;SocialAccount,socialAccountId'
+  'Account,accountId,nullable;SocialAccount,socialAccountId;Provider,providerId'
 ;
 
 meta.createTable 'SocialAccount',0,1;
 meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
+meta.createTable 'Org',0,1;
+meta.createTable 'Provider',0,1;
+meta.createTable 'OrgProvider',0,1;
+meta.createTable 'OrgProviderAccount',0,1;
 meta.createTable 'ProviderAccount',0,1;
