@@ -3,13 +3,86 @@
 (function () {
 
   angular.module('authApiApp')
-    .service('Account', function (DS, appConfig) {
+    //.factory('ProviderAccount', function (DS, appConfig) {
+    //  return DS.defineResource({
+    //    name: 'providerAccount',
+    //    basePath: appConfig.apiUrl,
+    //    relations: {
+    //      belongsTo: {
+    //        account: {
+    //          localField: 'account',
+    //          localKey: 'accountId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    //.factory('SocialAccount', function (DS, appConfig) {
+    //  return DS.defineResource({
+    //    name: 'socialAccount',
+    //    basePath: appConfig.apiUrl,
+    //    relations: {
+    //      hasMany: {
+    //        invite: [
+    //          {
+    //            localField: 'invitees',
+    //            foreignKey: 'inviteeSocialAccountId'
+    //          }, {
+    //            localField: 'inviters',
+    //            foreignKey: 'inviterSocialAccountId'
+    //          }
+    //        ]
+    //      }
+    //    }
+    //  });
+    //})
+    .factory('Account', function (DS, appConfig) {
       return DS.defineResource({
         name: 'account',
-        basePath: appConfig.apiUrl
+        basePath: appConfig.apiUrl,
+        relations: {
+          hasMany: {
+            providerAccount: {
+              localField: 'providers',
+              foreignKey: 'accountId'
+            }
+          }
+        }
       });
     })
-    .run(function (Account, FormlyConfigService) {
+    .run(function (Schema, Account, appConfig, saFormlyConfigService) {
+
+      Schema.register({
+        name: 'providerAccount',
+        basePath: appConfig.apiUrl,
+        relations: {
+          belongsTo: {
+            account: {
+              localField: 'account',
+              localKey: 'accountId'
+            }
+          }
+        }
+      });
+
+      Schema.register({
+        name: 'socialAccount',
+        basePath: appConfig.apiUrl,
+        relations: {
+          hasMany: {
+            invite: [
+              {
+                localField: 'invitees',
+                foreignKey: 'inviteeSocialAccountId'
+              }, {
+                localField: 'inviters',
+                foreignKey: 'inviterSocialAccountId'
+              }
+            ]
+          }
+        }
+      });
+
       var accountFields = [
         {
           key: 'name',
@@ -23,7 +96,7 @@
         }
       ];
 
-      FormlyConfigService.setConfig('accountInfo', accountFields);
+      saFormlyConfigService.setConfig('accountInfo', accountFields);
     });
 
 }());

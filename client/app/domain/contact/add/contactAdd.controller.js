@@ -4,13 +4,19 @@
 
   angular.module('authApiApp')
     .controller('ContactAddCtrl', function ($state,
-                                            Invite,
+                                            $scope,
+                                            $q,
+                                            models,
+                                            Auth,
                                             SettingsService,
-                                            ErrorsService,
-                                            FormlyConfigService,
-                                            InviteService) {
+                                            sabErrorsService,
+                                            saFormlyConfigService,
+                                            InviteService,
+                                            saMessageService,
+                                            InitCtrlService) {
 
       var vm = this;
+      var Invite = models.invite;
 
       function getInviteByCode() {
 
@@ -18,12 +24,12 @@
           code: vm.model.inviteCode
         };
 
-        ErrorsService.clear();
+        sabErrorsService.clear();
 
         vm.busy = Invite.findAll(query, {bypassCache: true}).then(function (response) {
 
           if (!response.length) {
-            return ErrorsService.addError('No invite with code "' + query.code + '"');
+            return sabErrorsService.addError('No invite with code "' + query.code + '"');
           }
 
           vm.inviteByCode = response[0];
@@ -37,26 +43,32 @@
             }
           }];
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
 
       }
 
-      function acceptInvite() {
+      function acceptInvite(invite) {
 
-        vm.inviteByCode.acceptorId = SettingsService.getCurrentAgent().id;
-        Invite.save(vm.inviteByCode).then(function () {
+        if (!invite) {
+          invite = vm.inviteByCode;
+        }
+
+        invite.acceptorAgentId = SettingsService.getCurrentAgent().id;
+
+        Invite.save(invite).then(function () {
           $state.go('debt.contact.list');
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
 
       }
 
       angular.extend(vm, {
 
+        invitesWaitingForAccept: [],
         model: {},
-        fields: FormlyConfigService.getConfigFieldsByKey('contactAdd'),
+        fields: saFormlyConfigService.getConfigFieldsByKey('contactAdd'),
 
         getInviteByCode: getInviteByCode,
 
@@ -65,9 +77,36 @@
         buttons: [{
           name: 'Issue an invite',
           fn: InviteService.create
+        }, {
+          name: 'Add friends',
+          sref: 'debt.contact.socialFriends'
         }]
 
       });
 
+      vm.busySocialFriends = $q(function (resolve, reject) {
+        Auth.getCurrentUser(function (acc) {
+
+          Invite.findAll({}, {bypassCache: true}).then(function (invites) {
+            var promises = [];
+            _.each(invites, function (invite) {
+              promises.push(Invite.loadRelations(invite).then(function (i) {
+                vm.invitesWaitingForAccept.push(i);
+              }, function (res) {
+                console.log(res);
+              }));
+            });
+            $q.all(promises).then(function () {
+              resolve();
+            }, function () {
+              reject();
+            });
+          }, function () {
+            reject();
+          });
+        });
+      });
+
+      InitCtrlService.init(vm, $scope);
     });
 }());

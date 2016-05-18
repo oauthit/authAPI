@@ -7,14 +7,22 @@ h1 Add or invite a contact
 
 form(name='vm.getInviteByCodeForm' cg-busy='vm.busy' novalidate='')
   formly-form(model='vm.model' fields='vm.fields')
-    .buttons.pull-right
+    .buttons.pull-right.clearfix
       button.btn.btn-default(ng-click='vm.getInviteByCode()' ng-disabled='vm.getInviteByCodeForm.$invalid')
         | Get invite
 
-// TODO: show social friends list
-
-section.clear-both(ng-show='vm.inviteByCode')
+section.clear-both(ng-if='vm.inviteByCode')
   form(name='vm.acceptInviteForm' novalidate='')
     formly-form(model='vm.inviteByCode' fields='vm.inviteFields')
       .buttons.pull-right
         button.btn.btn-success(ng-show='vm.inviteByCode && vm.inviteByCode.status === "open"' ng-click='vm.acceptInvite()') Accept invite
+
+section.clear-both(ng-show='vm.invitesWaitingForAccept' cg-busy='vm.busySocialFriends')
+  h3 Invites from social network friends
+  table.table
+    tbody
+      tr(ng-repeat='invite in vm.invitesWaitingForAccept track by invite.id')
+        td {{invite.ownerAgent.name}}
+        td
+          button.btn.btn-warning(ng-click='vm.acceptInvite(invite)' ng-show='invite.status === "open"') Accept
+          span.fa.fa-check.green(ng-show='invite.status === "accepted"' title='Invite accepted')

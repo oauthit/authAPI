@@ -3,14 +3,32 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('Contact', function (DS) {
-      return DS.defineResource({
+    //.factory('Contact', function (DS) {
+    //  return DS.defineResource({
+    //    name: 'contact',
+    //    relations: {
+    //      belongsTo: {
+    //        agent: {
+    //          localField: 'owner',
+    //          localKey: 'ownerAgentId',
+    //          parent: true
+    //        },
+    //        counterAgent: {
+    //          localField: 'counterAgent',
+    //          localKey: 'counterAgentId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    .run(function (Schema, saFormlyConfigService) {
+      Schema.register({
         name: 'contact',
         relations: {
           belongsTo: {
             agent: {
               localField: 'owner',
-              localKey: 'ownerId',
+              localKey: 'ownerAgentId',
               parent: true
             },
             counterAgent: {
@@ -20,11 +38,10 @@
           }
         }
       });
-    })
-    .run(function (Contact, FormlyConfigService) {
+
       var fields = [
         {
-          key: 'counterAgent.name',
+          key: 'counterAgentEntity.name',
           type: 'input',
           templateOptions: {
             type: 'text',
@@ -63,8 +80,8 @@
         }
       }];
 
-      FormlyConfigService.setConfig('contact', fields);
-      FormlyConfigService.setConfig('contactAdd', contactAdd);
+      saFormlyConfigService.setConfig('contact', fields);
+      saFormlyConfigService.setConfig('contactAdd', contactAdd);
     });
 
 }());

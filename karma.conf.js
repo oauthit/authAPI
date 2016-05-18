@@ -44,6 +44,7 @@ module.exports = function(config) {
       'client/bower_components/visionmedia-debug/dist/debug.js',
       'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'client/bower_components/angular-toastr/dist/angular-toastr.tpls.js',
+      'client/bower_components/angular-ui-router.stateHelper/statehelper.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       'client/bower_components/js-data-angular-mocks/dist/js-data-angular-mocks.js',
       // endbower

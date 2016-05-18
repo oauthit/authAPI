@@ -4,27 +4,59 @@
 
   angular.module('authApiApp')
 
-    .factory('Invite', function (DS) {
-      return DS.defineResource({
+    //.factory('Invite', function (DS) {
+    //  return DS.defineResource({
+    //    name: 'invite',
+    //    relations: {
+    //      belongsTo: {
+    //        agent: {
+    //          localField: 'ownerAgent',
+    //          localKey: 'ownerAgentId'
+    //        }
+    //      },
+    //      hasOne: {
+    //        counterAgent: {
+    //          localField: 'acceptorAgent',
+    //          localKey: 'acceptorAgentId'
+    //        },
+    //        socialAccount: [{
+    //          localField: 'inviter',
+    //          localKey: 'inviterSocialAccountId'
+    //        },{
+    //          localField: 'invitee',
+    //          localKey: 'inviteeSocialAccountId'
+    //        }]
+    //      }
+    //    }
+    //  });
+    //})
+
+    .run(function (Schema, saFormlyConfigService) {
+      Schema.register({
         name: 'invite',
         relations: {
           belongsTo: {
             agent: {
-              localField: 'owner',
-              localKey: 'ownerId'
+              localField: 'ownerAgent',
+              localKey: 'ownerAgentId'
             }
           },
           hasOne: {
             counterAgent: {
-              localField: 'acceptor',
-              localKey: 'acceptorId'
-            }
+              localField: 'acceptorAgent',
+              localKey: 'acceptorAgentId'
+            },
+            socialAccount: [{
+              localField: 'inviter',
+              localKey: 'inviterSocialAccountId'
+            },{
+              localField: 'invitee',
+              localKey: 'inviteeSocialAccountId'
+            }]
           }
         }
       });
-    })
 
-    .run(function (Invite, FormlyConfigService) {
       var fields = [
         {
           key: 'owner.name',
@@ -57,7 +89,7 @@
         }
       ];
 
-      FormlyConfigService.setConfig('invite', fields);
+      saFormlyConfigService.setConfig('invite', fields);
     })
   ;
 

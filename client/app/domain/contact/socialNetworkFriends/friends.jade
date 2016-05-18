@@ -1,0 +1,31 @@
+h1 Social network friends
+
+div(cg-busy='vm.busy')
+  h3 Facebook friends
+  table.table
+    thead
+      th Name
+      th Status
+    tbody
+      tr(ng-repeat='friend in vm.facebookFriends track by friend.id')
+        td {{friend.name}}
+        td
+          button.btn.btn-primary(type='button' title='Accept the invite' ng-click='vm.inviteSocialFriend(friend, "facebook")' ng-show='friend.status() === "invite"') Invite
+          span.fa.fa-hourglass-half(title='Waiting for confirm' ng-show='friend.status() === "waiting"')
+          span.fa.fa-check.green(title='Accepted' ng-show='friend.status() === "accepted"')
+
+  h3 Google friends
+  table.table
+    thead
+      th
+      th Name
+      th Status
+    tbody
+      tr(ng-repeat='friend in vm.googleFriends track by friend.id')
+        td
+          img(ng-src='{{friend.image.url}}')
+        td {{friend.displayName}}
+        td
+          button.btn.btn-primary(type='button' title='Accept the invite' ng-click='vm.inviteSocialFriend(friend, "google")' ng-show='friend.status() === "invite"') Invite
+          span.fa.fa-hourglass-half(title='Waiting for confirm' ng-show='friend.status() === "waiting"')
+          span.fa.fa-check.green(title='Accepted' ng-show='friend.status() === "accepted"')

@@ -1,23 +1,16 @@
 'use strict';
-import redis from 'redis';
+import redisWrapper from '../../config/redis';
+import config from '../../config/environment';
+var redisClient = redisWrapper.redisClient;
 
-var redisConfig = {
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  url: process.env.REDIS_URL
-};
-
-var redisClient = redis.createClient(redisConfig);
 import uuid from 'node-uuid';
 var debug = require('debug') ('authAPI:token.model');
-const AUTH_HASH = 'authHash';
 
 function createToken(body) {
   //generate token
   return new Promise(function (resolve, reject) {
     let token = uuid.v4();
-    debug ('createToken', token);
-    redisClient.hset(AUTH_HASH, token, JSON.stringify(body), (err) => {
+    redisClient.hmset(config.redisTables.AUTH_TOKEN, token, JSON.stringify(body), (err) => {
       if (err) {
         reject(err);
       } else {
@@ -29,11 +22,20 @@ function createToken(body) {
 
 function checkToken(token) {
   return new Promise(function (resolve, reject) {
-    redisClient.hget(AUTH_HASH, token, (err, reply) => {
+    redisClient.hget(config.redisTables.AUTH_TOKEN, token, (err, reply) => {
       if (err) {
         reject(err);
       } else {
-        resolve(JSON.parse(reply));
+        try {
+          var parsed = JSON.parse(reply);
+          if (parsed.id) {
+            resolve(parsed);
+          } else {
+            reject();
+          }
+        } catch (err) {
+          reject();
+        }
       }
     });
   });

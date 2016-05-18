@@ -3,17 +3,22 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('InviteService', function (SettingsService, Invite, $state, ErrorsService) {
+    .factory('InviteService', function (SettingsService,
+                                        models,
+                                        $state,
+                                        sabErrorsService) {
+
+      var Invite = models.invite;
 
       function create () {
         Invite.create({
-          ownerId: SettingsService.getCurrentAgent().id
+          ownerAgentId: SettingsService.getCurrentAgent().id
         }).then(function (response) {
           $state.go('debt.invite.info', {
             id: response.id
           });
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
       }
 

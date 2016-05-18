@@ -2,35 +2,46 @@
 
 (function () {
 
+  function Schema(saSchema, $http, appConfig) {
+    //pass object to saSchema to override methods
+    return saSchema({
+      getCount: function (params) {
+
+        return $http
+          .get(
+            appConfig.jsDataBasePath + '/' + this.endpoint,
+            {
+              params: angular.extend({
+                'agg:': 'count'
+              }, params || {})
+            }
+          )
+
+          .then(function (res) {
+            return parseInt(res.headers('x-aggregate-count'));
+          });
+      }
+    });
+  }
+
   angular.module('authApiApp.core.models', [
-      'js-data',
+      'sistemium',
       'authApiApp.constants'
     ])
-    .config(function (DSProvider, DSHttpAdapterProvider, appConfig) {
-      angular.extend(DSProvider.defaults, {
-        beforeCreate: function (resource, data, cb) {
-          data.id = uuid.v4();
-          cb(null, data);
-        },
-        //afterCreateInstance: function (resource, instance) {
-        //  if (!instance.id) {
-        //    instance.id = uuid.v4();
-        //  }
-        //}
-      });
+    .config(function (DSHttpAdapterProvider, appConfig) {
       angular.extend(DSHttpAdapterProvider.defaults, {
-        basePath: appConfig.jsDataBasePath,
-        httpConfig: {
-          headers: {
-            'X-Return-Post': 'true'
-          }
-        }
+        basePath: appConfig.jsDataBasePath
       });
     })
-    .run(function(DS,$rootScope){
-      $rootScope.$on('logged-off',function(){
+    .service('Schema', Schema)
+    .service('models', function (Schema) {
+      return Schema.models();
+    })
+    .run(function (DS, $rootScope) {
+      $rootScope.$on('logged-off', function () {
         DS.clear();
       });
     });
+
 
 }());

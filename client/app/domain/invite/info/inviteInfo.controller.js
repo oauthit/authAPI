@@ -5,12 +5,13 @@
   angular.module('authApiApp')
     .controller('InviteInfoCtrl', function ($scope,
                                             $stateParams,
-                                            Invite,
+                                            models,
                                             $state,
-                                            FormlyConfigService,
-                                            ErrorsService) {
+                                            saFormlyConfigService,
+                                            sabErrorsService) {
 
       var vm = this;
+      var Invite = models.invite;
 
       vm.busy = Invite.find($stateParams.id).then(function (invite) {
         console.log(invite);
@@ -31,7 +32,7 @@
       angular.extend(vm, {
 
         copyTarget: '#inviteCode',
-        fields: FormlyConfigService.getConfigFieldsByKey('invite'),
+        fields: saFormlyConfigService.getConfigFieldsByKey('invite'),
         buttons: [
           {
             name: 'Delete invite',
@@ -43,11 +44,11 @@
 
         // TODO implement sms and email invite
         sms: function () {
-          ErrorsService.addError('Not implemented');
+          sabErrorsService.addError('Not implemented');
         },
 
         emailInvite: function () {
-          ErrorsService.addError('Not implemented');
+          sabErrorsService.addError('Not implemented');
         }
 
       });

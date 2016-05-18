@@ -3,23 +3,52 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('Agent', function (DS) {
-      return DS.defineResource({
+    //.factory('Agent', function (DS) {
+    //  return DS.defineResource({
+    //    name: 'agent',
+    //    relations: {
+    //      hasMany: {
+    //        contact: {
+    //          localField: 'contacts',
+    //          foreignKey: 'ownerAgentId'
+    //        },
+    //        invite: [
+    //          {
+    //            localField: 'invites',
+    //            foreignKey: 'ownerAgentId'
+    //          },
+    //          {
+    //            localField: 'acceptedInvites',
+    //            foreignKey: 'acceptorAgentId'
+    //          }
+    //        ]
+    //      },
+    //      hasOne: {
+    //        currency: {
+    //          localField: 'currency',
+    //          localKey: 'currencyId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    .run(function (Schema, saFormlyConfigService) {
+      Schema.register({
         name: 'agent',
         relations: {
           hasMany: {
             contact: {
               localField: 'contacts',
-              foreignKey: 'ownerId'
+              foreignKey: 'ownerAgentId'
             },
             invite: [
               {
                 localField: 'invites',
-                foreignKey: 'ownerId'
+                foreignKey: 'ownerAgentId'
               },
               {
                 localField: 'acceptedInvites',
-                foreignKey: 'acceptorId'
+                foreignKey: 'acceptorAgentId'
               }
             ]
           },
@@ -31,8 +60,7 @@
           }
         }
       });
-    })
-    .run(function (Agent, FormlyConfigService) {
+
       var fields = [
         {
           key: 'name',
@@ -55,7 +83,7 @@
         }
       ];
 
-      FormlyConfigService.setConfig('agent', fields);
+      saFormlyConfigService.setConfig('agent', fields);
     });
 
 }());

@@ -2,12 +2,13 @@
 
 angular.module('authApiApp')
   .controller('AgentCtrl', function ($scope,
-                                     Agent,
-                                     Currency,
+                                     models,
                                      $uiViewScroll,
-                                     FormlyConfigService,
+                                     saFormlyConfigService,
                                      $timeout) {
     var vm = this;
+    var Currency = models.currency;
+    var Agent = models.agent;
 
     Currency.findAll();
 
@@ -20,7 +21,7 @@ angular.module('authApiApp')
 
     angular.extend(vm, {
 
-      fields: FormlyConfigService.getConfigFieldsByKey('agent'),
+      fields: saFormlyConfigService.getConfigFieldsByKey('agent'),
       agents: [],
 
       onCancel: function (agent, form) {
@@ -73,13 +74,13 @@ angular.module('authApiApp')
 
     });
 
-    vm.nameField = FormlyConfigService.getConfigKey(vm.fields, 'name');
+    vm.nameField = saFormlyConfigService.getConfigKey(vm.fields, 'name');
 
     vm.nameField.expressionProperties = {
       'templateOptions.focus': 'model.focus'
     };
 
-    vm.currencyField = FormlyConfigService.getConfigKey(vm.fields, 'currencyId');
+    vm.currencyField = saFormlyConfigService.getConfigKey(vm.fields, 'currencyId');
 
     //Agent.bindAll(false, $scope, 'vm.agents');
     Currency.bindAll(false, $scope, 'vm.currencyField.templateOptions.options');

@@ -3,11 +3,11 @@
 import express from 'express';
 import passport from 'passport';
 import config from '../config/environment';
-import account from '../api/account/account.model.js';
+import providerAccount from '../api/providerAccount/providerAccount.model';
 
 // Passport Configuration
-require('./facebook/passport').setup(account(), config);
-require('./google/passport').setup(account(), config);
+require('./facebook/passport').setup(providerAccount(), config);
+require('./google/passport').setup(providerAccount(), config);
 
 var router = express.Router();
 

@@ -6,11 +6,12 @@
     .controller('ContactInfoCtrl', function ($stateParams,
                                              $state,
                                              Modal,
-                                             Contact,
-                                             FormlyConfigService,
-                                             ErrorsService) {
+                                             models,
+                                             saFormlyConfigService,
+                                             sabErrorsService) {
 
       var vm = this;
+      var Contact = models.contact;
 
       var contactId = $stateParams.id;
 
@@ -23,7 +24,7 @@
               vm.busy = Contact.destroy(contactId).then(function () {
                 $state.go('^.list');
               }, function (err) {
-                ErrorsService.addError(err);
+                sabErrorsService.addError(err);
               });
             })(vm.contact.counterAgent.name);
           }
@@ -34,13 +35,13 @@
 
         Contact.loadRelations(c).then(function (r) {
           vm.contact = r;
-          vm.fields = FormlyConfigService.getConfigFieldsByKey('contact');
+          vm.fields = saFormlyConfigService.getConfigFieldsByKey('contact');
         }, function (err) {
-          ErrorsService.addError(err);
+          sabErrorsService.addError(err);
         });
 
       }, function (err) {
-        ErrorsService.addError(err);
+        sabErrorsService.addError(err);
       });
 
     })

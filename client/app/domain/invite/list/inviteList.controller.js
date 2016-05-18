@@ -3,24 +3,23 @@
 (function () {
 
   angular.module('authApiApp')
-    .controller('InviteListCtrl', function (
-      $scope,
-      $state,
-      $q,
-      Invite,
-      InitCtrlService
-    ) {
+    .controller('InviteListCtrl', function ($scope,
+                                            $state,
+                                            $q,
+                                            models,
+                                            InitCtrlService) {
 
-      var vm = InitCtrlService.setup (this);
+      var Invite = models.invite;
+      var vm = InitCtrlService.setup(this);
 
-      function onSetAgent (agent) {
+      function onSetAgent(agent) {
 
         vm.invites = [];
         //Invite.bindAll({ownerId: agent.id}, $scope, 'vm.invites');
-        vm.busy = Invite.findAll({ownerId: agent.id},{bypassCache:true}).then(function (res) {
+        vm.busy = Invite.findAll({ownerAgent: agent.id}, {bypassCache: true}).then(function (res) {
 
-          var qs = res.map(function(i){
-            return Invite.loadRelations(i).then(function(){
+          var qs = res.map(function (i) {
+            return Invite.loadRelations(i).then(function () {
               vm.invites.push(i);
             });
           });
@@ -40,14 +39,14 @@
         onSetAgent: onSetAgent,
 
         deleteInvite: function () {
-          Invite.destroy(vm.data.id).then(function(){
+          Invite.destroy(vm.data.id).then(function () {
             $state.go('debt.main');
           });
         }
 
       });
 
-      InitCtrlService.init (vm,$scope);
+      InitCtrlService.init(vm, $scope);
 
     })
   ;

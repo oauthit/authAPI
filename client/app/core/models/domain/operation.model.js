@@ -3,19 +3,45 @@
 (function () {
 
   angular.module('authApiApp')
-    .factory('Operation', function (ModelService) {
-      return ModelService.define({
+    //.factory('Operation', function (ModelService) {
+    //  return ModelService.define({
+    //    name: 'operation',
+    //    relations: {
+    //      belongsTo: {
+    //        counterAgent: [
+    //          {
+    //            localField: 'lender',
+    //            localKey: 'lenderAgentId'
+    //          },
+    //          {
+    //            localField: 'debtor',
+    //            localKey: 'debtorAgentId'
+    //          }
+    //        ]
+    //      },
+    //      hasOne: {
+    //        currency: {
+    //          localField: 'currency',
+    //          localKey: 'currencyId'
+    //        }
+    //      }
+    //    }
+    //  });
+    //})
+    .run(function (saFormlyConfigService, Schema) {
+
+      Schema.register({
         name: 'operation',
         relations: {
           belongsTo: {
             counterAgent: [
               {
                 localField: 'lender',
-                localKey: 'lenderId'
+                localKey: 'lenderAgentId'
               },
               {
                 localField: 'debtor',
-                localKey: 'debtorId'
+                localKey: 'debtorAgentId'
               }
             ]
           },
@@ -27,9 +53,6 @@
           }
         }
       });
-    })
-    .run(function (Operation, FormlyConfigService) {
-
       // TODO: need comments functionality on an operation
       // TODO: need operation tagging and searching by tags in operation.list
 
@@ -123,8 +146,8 @@
         }
       ];
 
-      FormlyConfigService.setConfig('operationInfo', operationInfo);
-      FormlyConfigService.setConfig('operationCreate', operationCreate);
+      saFormlyConfigService.setConfig('operationInfo', operationInfo);
+      saFormlyConfigService.setConfig('operationCreate', operationCreate);
     });
 
 

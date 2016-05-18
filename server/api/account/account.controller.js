@@ -1,12 +1,3 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/account              ->  index
- * POST    /api/account              ->  create
- * GET     /api/account/:id          ->  show
- * PUT     /api/account/:id          ->  update
- * DELETE  /api/account/:id          ->  destroy
- */
-
 'use strict';
 
 import Account from './account.model.js';

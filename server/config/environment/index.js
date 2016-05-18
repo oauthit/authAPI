@@ -29,6 +29,21 @@ var all = {
     session: 'auth-api-secret'
   },
 
+  redisConfig: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    url: process.env.REDIS_URL
+  },
+
+  redisTables: {
+    AUTH_TOKEN: 'AuthToken',
+    PROVIDER_TOKEN: 'ProviderToken',
+    FACEBOOK_FRIEND: 'FacebookFriend',
+    FACEBOOK_PROFILE: 'FacebookProfile',
+    GOOGLE_FRIEND: 'GoogleFriend',
+    GOOGLE_PROFILE: 'GoogleProfile'
+  },
+
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
@@ -50,7 +65,7 @@ var all = {
 
 // Export the config object based on the NODE_ENV
 // ==============================================
-module.exports = _.merge(
+export default _.merge(
   all,
   require('./shared'),
   require('./' + process.env.NODE_ENV + '.js') || {});

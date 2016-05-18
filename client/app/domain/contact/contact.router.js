@@ -24,5 +24,11 @@ angular.module('authApiApp')
         templateUrl: 'app/domain/contact/info/contactInfo.html',
         controller: 'ContactInfoCtrl',
         controllerAs: 'vm'
+      })
+      .state('debt.contact.socialFriends', {
+        url: '/socialFriends',
+        templateUrl: 'app/domain/contact/socialNetworkFriends/friends.html',
+        controller: 'FriendsCtrl',
+        controllerAs: 'vm'
       });
   });

@@ -1,37 +1,32 @@
 import passport from 'passport';
 import config from '../../config/environment';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
-var debug = require('debug')('authAPI:facebook/passport');
-import Token from '../../api/token/token.model';
+var debug = require('debug')('authAPI:google/passport');
+import passportCb from '../passportCallback';
 
-export function setup(Account, config) {
+export function setup(ProviderAccount, config) {
   passport.use(new GoogleStrategy({
     clientID: config.google.clientID,
     clientSecret: config.google.clientSecret,
-    callbackURL: config.google.callbackURL
+    callbackURL: config.google.callbackURL,
+    passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => {
 
-    Account.getOrCreate({
-      provider: 'google',
+    let provider = 'google';
+
+    ProviderAccount.getOrCreate({
+      provider: provider,
       profileId: profile.id
     }, {
       profileData: profile,
       name: profile.displayName,
-      roles: ['user'],
-      accessToken: refreshToken.access_token,
-      refreshToken: refreshToken.id_token,
+      //TODO change this
+      roles: ['admin'],
+      accessToken: accessToken,
+      refreshToken: refreshToken,
       appId: config.google.clientID
-    }).then(data => {
+    }).then(passportCb(provider, profile, done), done);
 
-      Token.save(data)
-        .then(token => {
-          done(null, data, token);
-        }, done)
-      ;
-
-    }, (err) => {
-      done(err.text || 'Something went wrong...');
-    });
 
   }));
 }

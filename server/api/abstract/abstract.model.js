@@ -2,7 +2,7 @@
 import request from 'request';
 var _ = require('lodash');
 var debug = require('debug')('authAPI:abstract.model');
-var uuid = require ('node-uuid');
+var uuid = require('node-uuid');
 
 function model(name) {
 
@@ -67,10 +67,17 @@ function model(name) {
 
         request.post({
           url: collectionUrl,
+          headers: {
+            authorization: req && req.headers.authorization
+          },
           json: body
         }, function (err, res, json) {
+          debug(res.statusCode, json);
           let e = err || res.statusCode !== 200 && json;
-          debug ('save', e);
+          if (e) {
+            e = res.statusCode !== 201 && json;
+          }
+          debug('save', e);
           e && reject(e) || resolve(body);
         });
 
@@ -83,7 +90,7 @@ function model(name) {
         findOne(params).then(body => {
 
           if (body) {
-            resolve(body);
+            resolve(body, 'get');
           } else {
             save(_.defaults(data, params, {id: uuid.v4()})).then(resolve, reject);
           }
@@ -97,12 +104,82 @@ function model(name) {
       return findOne(id);
     }
 
+    function deleteById(id) {
+      return new Promise(function (resolve, reject) {
+
+        let url = collectionUrl + '/' + id;
+
+        request.del({
+          url: url,
+          headers: {
+            authorization: req && req.headers.authorization
+          }
+        }, function (err, res, body) {
+          if (err) {
+            return reject(err);
+          }
+
+          resolve(body);
+        })
+
+      });
+    }
+
+    function update(id, body) {
+      return new Promise(function (resolve, reject) {
+
+        let url = collectionUrl + '/' + id;
+
+        request.put({
+          url: url,
+          json: body,
+          headers: {
+            authorization: req && req.headers.authorization
+          }
+        }, function (err, res, body) {
+          if (err) {
+            return reject (err);
+          }
+
+          resolve(body);
+        });
+
+      });
+    }
+
+    function patch (id, body) {
+
+      return new Promise (function (resolve, reject) {
+        let url = collectionUrl + '/' + id;
+
+        //debug ('patch authorization:',req.headers);
+
+        request.patch({
+          url: url,
+          json: body,
+          headers: {
+            authorization: req && req.headers.authorization
+          }
+        }, (err, res, body) => {
+          if (err) {
+            return reject (err);
+          }
+
+          resolve(body);
+        });
+      });
+
+    }
+
     return {
       find: find,
       findOne: findOne,
       findById: findById,
       save: save,
-      getOrCreate: getOrCreate
+      update: update,
+      patch: patch,
+      getOrCreate: getOrCreate,
+      deleteById: deleteById
     };
   }
 
