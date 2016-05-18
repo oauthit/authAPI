@@ -131,7 +131,7 @@ var smsProcessor = function(req, res, next) {
 
 };
 
-var success = function (req,res,next) {
+var success = function (req,res) {
 
   if (req.authInfo) {
     res.set('X-Access-Token',req.authInfo);

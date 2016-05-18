@@ -1,7 +1,12 @@
 'use strict';
 
-var _ = require ('lodash');
+import _ from 'lodash';
 
+/**
+ *
+ * @param {Object} model
+ * @returns {Object} - Controller object
+ */
 function controller(model) {
 
   function respondWithResult(res, statusCode) {
@@ -23,7 +28,7 @@ function controller(model) {
   }
 
   function saveUpdates(updates) {
-    return function(entity) {
+    return function (entity) {
       var updated = _.merge(entity, updates);
       return updated.save()
         .spread(updated => {
@@ -33,7 +38,7 @@ function controller(model) {
   }
 
   function handleEntityNotFound(res) {
-    return function(entity) {
+    return function (entity) {
       if (!entity) {
         res.status(404).end();
         return null;
@@ -43,7 +48,7 @@ function controller(model) {
   }
 
   function removeEntity(res) {
-    return function(entity) {
+    return function (entity) {
       if (entity) {
         return entity.remove()
           .then(() => {
@@ -55,26 +60,26 @@ function controller(model) {
 
   // Gets a list of ProviderAccounts
   function index(req, res) {
-    model(req).find()
+    (req.model || model)(req).find()
       .then(respondWithResult(res))
       .catch(handleError(res));
   }
 
   function show(req, res) {
-    model(req).findById(req.params.id)
+    (req.model || model)(req).findById(req.params.id)
       .then(respondWithResult(res))
       .catch(handleError(res))
     ;
   }
 
   function create(req, res) {
-    model(req).create(req.body)
+    (req.model || model)(req).create(req.body)
       .then(respondWithResult(res, 201))
       .catch(handleError(res));
   }
 
   function destroy(req, res) {
-    model(req).findById(req.params.id)
+    (req.model || model)(req).findById(req.params.id)
       .then(handleEntityNotFound(res))
       .then(removeEntity(res))
       .catch(handleError(res));
@@ -84,7 +89,7 @@ function controller(model) {
     if (req.body.id) {
       delete req.body.id;
     }
-    model(req).findById(req.params.id)
+    (req.model || model)(req).findById(req.params.id)
       .then(handleEntityNotFound(res))
       .then(saveUpdates(req.body))
       .then(respondWithResult(res))
