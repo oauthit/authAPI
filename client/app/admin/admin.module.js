@@ -2,5 +2,6 @@
 
 angular.module('authApiApp.admin', [
   'sistemium.auth',
-  'ui.router'
+  'ui.router',
+  'authApiApp.admin.models'
 ]);
