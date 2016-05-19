@@ -4,7 +4,7 @@
 
 function SettingsController($window,
                             $q,
-                            Auth,
+                            saAuth,
                             saFormlyConfigService,
                             models,
                             Account,
@@ -14,7 +14,7 @@ function SettingsController($window,
   var vm = this;
   var ProviderAccount = models.providerAccount;
 
-  Auth.getCurrentUser(function (account) {
+  saAuth.getCurrentUser(function (account) {
     vm.originalModel = angular.copy(account);
     vm.model = account;
   });

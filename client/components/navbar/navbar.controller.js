@@ -5,7 +5,7 @@ function NavbarController($rootScope,
                           $state,
                           Modal,
                           models,
-                          Auth,
+                          saAuth,
                           SettingsService) {
 
   var vm = this;
@@ -30,9 +30,9 @@ function NavbarController($rootScope,
 
     isCollapsed: true,
 
-    isLoggedIn: Auth.isLoggedIn,
-    isAdmin: Auth.isAdmin,
-    getCurrentUser: Auth.getCurrentUser,
+    isLoggedIn: saAuth.isLoggedIn,
+    isAdmin: saAuth.isAdmin,
+    getCurrentUser: saAuth.getCurrentUser,
     setCurrentAgent: setCurrentAgent,
     logout: logout
   });

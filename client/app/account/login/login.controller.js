@@ -1,13 +1,13 @@
 'use strict';
 
-var LoginController = function (Auth, $state) {
+var LoginController = function (saAuth, $state) {
 
   var me = this;
 
   me.user = {};
   me.errors = {};
   me.submitted = false;
-  me.Auth = Auth;
+  me.saAuth = saAuth;
   me.$state = $state;
 
   var catchFn = function (text404) {
@@ -29,7 +29,7 @@ var LoginController = function (Auth, $state) {
 
     if (me.user.mobileNumber && !me.smsId) {
 
-      q = me.Auth.loginWithMobileNumber(me.user.mobileNumber)
+      q = me.saAuth.loginWithMobileNumber(me.user.mobileNumber)
 
         .then(res => {
           console.log (res);
@@ -41,7 +41,7 @@ var LoginController = function (Auth, $state) {
 
     } else if (me.smsId && me.smsCode) {
 
-      q = me.Auth.authWithSmsCode (me.smsId, me.smsCode)
+      q = me.saAuth.authWithSmsCode (me.smsId, me.smsCode)
 
         .then(function(res){
           if (res.token) {

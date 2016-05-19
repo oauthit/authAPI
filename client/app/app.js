@@ -20,7 +20,6 @@
   angular.module('authApiApp', [
       'authApiApp.dependencies',
       'authApiApp.core',
-      'authApiApp.auth',
       'authApiApp.admin',
       'authApiApp.constants'
     ])

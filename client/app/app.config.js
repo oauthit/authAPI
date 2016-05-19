@@ -5,7 +5,6 @@
   angular.module('authApiApp')
     .config(function ($httpProvider, $urlRouterProvider, localStorageServiceProvider, toastrConfig) {
 
-      $httpProvider.interceptors.push('authInterceptor');
       $httpProvider.interceptors.push('errorInterceptor');
 
       // Extend default toastr configuration with application specified configuration

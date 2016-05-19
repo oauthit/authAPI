@@ -2,14 +2,14 @@
 
 (function () {
 
-  function MainController($state, Auth) {
+  function MainController($state, saAuth) {
 
     var vm = this;
 
     let accessToken = $state.params ['access-token'];
 
     if (accessToken) {
-      Auth.login(accessToken, function (err) {
+      saAuth.login(accessToken, function (err) {
         if (!err) {
           $state.go('debt.main', false, {inherit: false});
         }
