@@ -6,7 +6,7 @@ import config from '../config/environment';
 import providerAccount from '../models/providerAccount/providerAccount.model.js';
 
 // Passport Configuration
-require('./local/passport').setup()
+//require('./email/passport').setup();
 require('./facebook/passport').setup(providerAccount(), config);
 require('./google/passport').setup(providerAccount(), config);
 
