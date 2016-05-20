@@ -15,8 +15,9 @@ meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
 meta.defineType 'credentials:STRING';
 
+
 meta.defineEntity 'Account',
-  'name;roles;isDeleted;'
+  'name;roles;isDeleted;email;password;salt'
 ;
 
 meta.defineEntity 'Provider',

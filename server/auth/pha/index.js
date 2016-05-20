@@ -6,6 +6,8 @@ import {post,get} from 'request';
 var debug = require ('debug') ('authAPI:pha');
 var router = express.Router();
 
+
+//todo extract to config
 const phaUrl = 'https://api.sistemium.com/pha/auth';
 const rolesUrl = 'https://api.sistemium.com/pha/roles';
 

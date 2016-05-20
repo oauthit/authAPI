@@ -150,3 +150,4 @@ export function setAuthorized(req, res) {
     res.redirect('/#/?access-token=' + req.authInfo);
   }
 }
+
