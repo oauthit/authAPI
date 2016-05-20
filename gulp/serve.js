@@ -68,6 +68,13 @@ gulp.task('start:server', () => {
     .on('log', onServerLog);
 });
 
+gulp.task('start:server:debug', () => {
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  conf.config = require(`../${conf.serverPath}/config/environment`);
+  nodemon(`-w ${conf.serverPath} ${conf.serverPath}`)
+    .on('log', onServerLog);
+});
+
 gulp.task('gulp-reload', function () {
   spawn('gulp', ['watch'], {stdio: 'inherit'});
   process.exit();
@@ -90,4 +97,27 @@ gulp.task('serve:dist', cb => {
     'env:prod',
     ['start:server:prod', 'start:client'],
     cb);
+});
+
+gulp.task('serve:debug', cb => {
+  runSequence(['clean:tmp', 'constant'],
+    ['lint:scripts', 'inject', 'jade'],
+    ['wiredep:client'],
+    ['transpile:client', 'styles'],
+    'start:inspector',
+    ['start:server:debug', 'start:client'],
+    'watch',
+    cb);
+});
+
+gulp.task('start:inspector', () => {
+  gulp.src([])
+    .pipe(plugins.nodeInspector());
+});
+
+gulp.task('start:server:debug', () => {
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  conf.config = require(`../${conf.serverPath}/config/environment`);
+  nodemon(`-w ${conf.serverPath} --debug-brk ${conf.serverPath}`)
+    .on('log', onServerLog);
 });
