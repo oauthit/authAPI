@@ -5,10 +5,7 @@ import {HttpAdapter} from 'js-data-http-node';
 
 var adapter = new HttpAdapter({
   basePath: '',
-  httpConfig: {
-    address: 'http:/localhost:9000',
-    port: 9000
-  }
+  url: 'http:/localhost:9000'
 
 });
 const store = new Container();
@@ -24,8 +21,6 @@ store.defineMapper('account', {
   }
 });
 
-console.log(store.getMapper('account').schema);
-
 const ProviderSchema = new Schema({
   properties: {
     name: {type: 'string'}
@@ -34,12 +29,10 @@ const ProviderSchema = new Schema({
 
 store.defineMapper('provider', {
   endpoint: '/provider',
+  basePath: 'http:/localhost:9000/aa',
   schema: ProviderSchema
 });
 
 store.getMapper('provider').schema === ProviderSchema;
 
-store.findAll('account', {}).then(accounts => console.log(accounts))
-  .catch(err => {
-    console.log(err);
-  });
+export default store;
