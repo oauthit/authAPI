@@ -97,7 +97,7 @@ describe('facebook controller', function () {
         });
     });
 
-    it.only('should call FacebookProfile.getFromRedis when FacebookFriend.getAll returns', function (done) {
+    it('should call FacebookProfile.getFromRedis when FacebookFriend.getAll returns', function (done) {
 
       var friends = ['1234'];
 

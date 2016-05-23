@@ -2,10 +2,9 @@
 
 //import Account from './../../models/account.model.js';
 import abstractController from '../abstract/abstract.controller';
-import {getStore, Account} from '../../models/js-data/store';
+import store from '../../models/js-data/store';
 
-let acc = Account();
-let ctrl = abstractController(Account);
+let ctrl = abstractController(store.getMapper('account'));
 
 function setReq(req) {
   if (!req.params) {
@@ -17,7 +16,7 @@ function setReq(req) {
 
 //TODO create acccount model variable
 ctrl.index = function (req, res) {
-  getStore().getMapper('account').find().then(data => {
+  store.findAll('account').then(data => {
     console.log(data);
     return res.json(data);
   }).catch(err => {
