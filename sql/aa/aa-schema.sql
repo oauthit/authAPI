@@ -14,7 +14,9 @@ meta.defineType 'appId';
 meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
 meta.defineType 'credentials:STRING';
-
+meta.defineType 'email:STRING,,nullable';
+meta.defineType 'password:STRING,,nullable';
+meta.defineType 'salt:STRING,,nullable';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;email;password;salt'
