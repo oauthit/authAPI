@@ -23,7 +23,7 @@ meta.defineEntity 'Account',
 ;
 
 meta.defineEntity 'Provider',
-  'name;credentials;appId'
+  'name;'
 ;
 meta.defineEntity 'Org',
   'isDeleted;name'
@@ -31,6 +31,14 @@ meta.defineEntity 'Org',
 meta.defineEntity 'OrgProvider',
   'isDeleted',
   'Org,orgId;Provider,providerId'
+;
+
+meta.defineType 'ProviderApp',
+  'isDeleted;credentials;appId'
+;
+
+meta.defineType 'OrgProviderApp',
+  'isDeleted;'
 ;
 
 meta.defineEntity 'ProviderAccount',

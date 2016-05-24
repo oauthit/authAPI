@@ -6,7 +6,7 @@
     .controller('FriendsCtrl', function ($scope,
                                          $q,
                                          models,
-                                         saAuth,
+                                         Auth,
                                          saMessageService,
                                          InitCtrlService,
                                          sabErrorsService) {
@@ -18,7 +18,7 @@
       var SocialFriend = models.socialFriend;
       var SocialAccount = models.socialAccount;
       var ProviderAccount = models.providerAccount;
-      vm.currentUserPromise = saAuth.getCurrentUser();
+      vm.currentUserPromise = Auth.getCurrentUser();
 
       SocialFriend.findAll({}).then((res) => {
         console.log(res);

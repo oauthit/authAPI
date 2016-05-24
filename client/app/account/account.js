@@ -13,11 +13,11 @@ angular.module('authApiApp')
         url: '/logout?referrer',
         referrer: 'debt.main',
         template: '',
-        controller: function($state, saAuth) {
+        controller: function($state, Auth) {
           var referrer = $state.params.referrer ||
                           $state.current.referrer ||
                           'debt.main';
-          saAuth.logout();
+          Auth.logout();
           $state.go(referrer);
         }
       })

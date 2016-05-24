@@ -7,7 +7,7 @@
                                             $scope,
                                             $q,
                                             models,
-                                            saAuth,
+                                            Auth,
                                             SettingsService,
                                             sabErrorsService,
                                             saFormlyConfigService,
@@ -85,7 +85,7 @@
       });
 
       vm.busySocialFriends = $q(function (resolve, reject) {
-        saAuth.getCurrentUser(function (acc) {
+        Auth.getCurrentUser(function (acc) {
 
           Invite.findAll({}, {bypassCache: true}).then(function (invites) {
             var promises = [];

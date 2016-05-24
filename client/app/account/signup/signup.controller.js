@@ -7,8 +7,8 @@ class SignupController {
   submitted = false;
   //end-non-standard
 
-  constructor(saAuth, $state) {
-    this.saAuth = saAuth;
+  constructor(Auth, $state) {
+    this.Auth = Auth;
     this.$state = $state;
   }
 
@@ -16,7 +16,7 @@ class SignupController {
     this.submitted = true;
 
     if (form.$valid) {
-      this.saAuth.createUser({
+      this.Auth.createUser({
         name: this.user.name,
         email: this.user.email,
         password: this.user.password
