@@ -15,7 +15,7 @@ import errorHandler from 'errorhandler';
 import path from 'path';
 import config from './environment';
 import passport from 'passport';
-import session from 'express-session';
+import cors from 'cors';
 
 export default function(app) {
   var env = app.get('env');
@@ -23,6 +23,10 @@ export default function(app) {
   app.set('views', config.root + '/server/views');
   app.set('view engine', 'jade');
   app.use(compression());
+  app.use(cors({
+    allowedHeaders: ['X-Page-Size', 'X-Start-Page', 'Authorization', 'Content-Type', 'X-Return-Post'],
+    exposedHeaders: ['X-Aggregate-Count']
+  }));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(methodOverride());
