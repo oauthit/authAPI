@@ -4,8 +4,6 @@
 
   function MainController($state, Auth) {
 
-    var vm = this;
-
     let accessToken = $state.params ['access-token'];
 
     if (accessToken) {

@@ -7,5 +7,6 @@
        };
        return saAuth(config);
      })
+  ;
 
 })(angular);

@@ -3,8 +3,8 @@
   ng.module('authApiApp.admin')
     .service('OrgService', function (Schema) {
 
-      debugger;
       let org = Schema().models().org;
+      console.log(org);
 
     })
   ;

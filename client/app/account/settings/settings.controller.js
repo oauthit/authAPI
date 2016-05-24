@@ -82,7 +82,7 @@ function SettingsController($window,
 
     unlink: function (provider) {
       let providerAccountId = _.find(ProviderAccount.getAll(), {provider: provider}).id;
-      ProviderAccount.destroy(providerAccountId).then( _ => {
+      ProviderAccount.destroy(providerAccountId).then(() => {
         init();
       });
     }

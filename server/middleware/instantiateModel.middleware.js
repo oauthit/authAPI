@@ -1,6 +1,7 @@
 'use strict';
 
 import stapi from '../models/abstract.model';
+import winston from 'winston';
 
 export default function (req, res, next) {
   if (req && req.params) {
