@@ -19,7 +19,7 @@ meta.defineType 'password:STRING,,nullable';
 meta.defineType 'salt:STRING,,nullable';
 
 meta.defineEntity 'Account',
-  'name;roles;isDeleted;email;password;salt'
+  'name;roles;isDeleted;email;password;salt;provider'
 ;
 
 meta.defineEntity 'Provider',
