@@ -1,11 +1,10 @@
 'use strict';
 
-//import Account from './../../models/account.model.js';
+import stapiAccount from './../../models/account.model.js';
 import abstractController from '../abstract/abstract.controller';
-import store from '../../models/js-data/store';
 import Account from '../../models/js-data/account.model';
 
-let ctrl = abstractController(Account);
+let ctrl = abstractController(stapiAccount);
 
 function setReq(req) {
   if (!req.params) {
@@ -16,8 +15,6 @@ function setReq(req) {
 }
 
 ctrl.index = function (req, res) {
-
-  console.log(Account.methods.authenticate());
 
   Account.findAll().then(data => {
     //console.log(data);
