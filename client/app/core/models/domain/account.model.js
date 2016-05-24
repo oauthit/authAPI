@@ -3,39 +3,7 @@
 (function () {
 
   angular.module('authApiApp')
-    //.factory('ProviderAccount', function (DS, appConfig) {
-    //  return DS.defineResource({
-    //    name: 'providerAccount',
-    //    basePath: appConfig.apiUrl,
-    //    relations: {
-    //      belongsTo: {
-    //        account: {
-    //          localField: 'account',
-    //          localKey: 'accountId'
-    //        }
-    //      }
-    //    }
-    //  });
-    //})
-    //.factory('SocialAccount', function (DS, appConfig) {
-    //  return DS.defineResource({
-    //    name: 'socialAccount',
-    //    basePath: appConfig.apiUrl,
-    //    relations: {
-    //      hasMany: {
-    //        invite: [
-    //          {
-    //            localField: 'invitees',
-    //            foreignKey: 'inviteeSocialAccountId'
-    //          }, {
-    //            localField: 'inviters',
-    //            foreignKey: 'inviterSocialAccountId'
-    //          }
-    //        ]
-    //      }
-    //    }
-    //  });
-    //})
+
     .factory('Account', function (DS, appConfig) {
       return DS.defineResource({
         name: 'account',

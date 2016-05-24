@@ -1,20 +1,10 @@
 'use strict';
 
-function NavbarController($rootScope,
-                          $scope,
-                          $state,
+function NavbarController($state,
                           Modal,
-                          models,
-                          Auth,
-                          SettingsService) {
+                          Auth) {
 
   var vm = this;
-  var Agent = models.agent;
-
-  var setCurrentAgent = function (agent) {
-    SettingsService.setCurrentAgent(agent);
-    vm.currentAgent = agent;
-  };
 
   var logout = function () {
     Modal.confirm.confirm(function () {
@@ -33,17 +23,9 @@ function NavbarController($rootScope,
     isLoggedIn: Auth.isLoggedIn,
     isAdmin: Auth.isAdmin,
     getCurrentUser: Auth.getCurrentUser,
-    setCurrentAgent: setCurrentAgent,
     logout: logout
   });
 
-  $rootScope.$on('logged-in', function () {
-    Agent.bindAll({}, $scope, 'nav.agents');
-  });
-
-  $rootScope.$on('current-agent', function (ev,agent) {
-    vm.currentAgent = agent;
-  });
 
 }
 

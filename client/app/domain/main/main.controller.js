@@ -15,23 +15,6 @@
         }
       });
     }
-
-    vm.data = [
-      {
-        sref: 'debt.operation.list',
-        name: 'Operations',
-        addSref: 'debt.operation.add'
-      },{
-        sref: 'debt.contact.list',
-        name: 'Contacts',
-        addSref: 'debt.contact.add'
-      },{
-        sref: 'debt.invite.list',
-        name: 'Invites',
-        addSref: 'debt.invite.add'
-      }
-    ];
-
   }
 
   angular.module('authApiApp')
