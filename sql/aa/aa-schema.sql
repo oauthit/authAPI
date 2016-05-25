@@ -13,38 +13,36 @@ meta.defineType 'refreshToken:STRING,,nullable';
 meta.defineType 'appId';
 meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
-meta.defineType 'credentials:STRING';
+meta.defineType 'clientId:CODE';
+meta.defineType 'clientSecret:CODE';
+meta.defineType 'callbackUrl:STRING';
+meta.defineType 'passReqToCallback:BOOL';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
 ;
 
-meta.defineEntity 'Provider',
-  'name;'
-;
 meta.defineEntity 'Org',
   'isDeleted;name'
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name'
+  'isDeleted;name;clientId;clientSecret;provider;'
+;
 
 meta.defineEntity 'OrgProvider',
   'isDeleted',
-  'Org,orgId;Provider,providerId'
+  'Org,orgId;ProviderApp,providerAppId'
 ;
 
-meta.defineType 'ProviderApp',
-  'isDeleted;credentials;appId'
-;
-
-meta.defineType 'OrgProviderApp',
-  'isDeleted;'
+meta.defineEntity 'OrgProviderApp',
+  'isDeleted',
+  'Org,orgId;ProviderApp,providerAppId'
 ;
 
 meta.defineEntity 'ProviderAccount',
-  'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId;isDeleted;',
-  'Account,accountId,nullable;SocialAccount,socialAccountId;Provider,providerId'
+  'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId;isDeleted',
+  'Account,accountId,nullable;SocialAccount,socialAccountId;'
 ;
 
 meta.defineEntity 'OrgProviderAccount',
@@ -57,15 +55,14 @@ meta.defineEntity 'SocialAccount',
 ;
 
 meta.defineEntity 'SocialFriend',
-  'isDeleted;provider;ownerProfileId,profileId;friendProfileId,profileId;',
-  'SocialAccount,ownerSocialAccountId;SocialAccount,friendSocialAccountId;'
+  'isDeleted;provider;ownerProfileId,profileId;friendProfileId,profileId',
+  'SocialAccount,ownerSocialAccountId;SocialAccount,friendSocialAccountId'
 ;
 
 meta.createTable 'SocialAccount',0,1;
 meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
-meta.createTable 'Provider',0,1;
 meta.createTable 'ProviderApp',0,1;
 meta.createTable 'OrgProvider',0,1;
 meta.createTable 'OrgProviderApp',0,1;
