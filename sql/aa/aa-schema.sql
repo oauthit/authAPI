@@ -17,6 +17,7 @@ meta.defineType 'clientId:CODE';
 meta.defineType 'clientSecret:CODE';
 meta.defineType 'callbackUrl:STRING';
 meta.defineType 'passReqToCallback:BOOL';
+meta.defineType 'code:CODE';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -27,7 +28,7 @@ meta.defineEntity 'Org',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;provider;'
+  'isDeleted;name;clientId;clientSecret;provider;code'
 ;
 
 meta.defineEntity 'OrgProvider',
