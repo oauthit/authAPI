@@ -9,9 +9,9 @@ import passportCb from '../passportCallback';
 
 export function setup(ProviderAccount, config) {
   var strategy = new FacebookStrategy({
-    clientID: config.facebook.clientID,
-    clientSecret: config.facebook.clientSecret,
-    callbackURL: config.facebook.callbackURL,
+    clientID: config.clientId,
+    clientSecret: config.clientSecret,
+    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.id + '/callback',
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
 
@@ -29,7 +29,7 @@ export function setup(ProviderAccount, config) {
           roles: ['admin'],
           accessToken: accessToken,
           refreshToken: refToken && JSON.stringify(refToken) || null,
-          appId: config.facebook.clientID
+          appId: config.clientID
         })
         .then(passportCb(provider, profile, done), done);
     }
@@ -39,5 +39,6 @@ export function setup(ProviderAccount, config) {
     });
   });
 
+  strategy.name = 'facebook' + config.id;
   passport.use(strategy);
 }
