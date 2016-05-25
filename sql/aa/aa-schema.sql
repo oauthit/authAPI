@@ -14,9 +14,6 @@ meta.defineType 'appId';
 meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
 meta.defineType 'credentials:STRING';
-meta.defineType 'email:STRING,,nullable';
-meta.defineType 'password:STRING,,nullable';
-meta.defineType 'salt:STRING,,nullable';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -28,6 +25,10 @@ meta.defineEntity 'Provider',
 meta.defineEntity 'Org',
   'isDeleted;name'
 ;
+
+meta.defineEntity 'ProviderApp',
+  'isDeleted;name'
+
 meta.defineEntity 'OrgProvider',
   'isDeleted',
   'Org,orgId;Provider,providerId'
@@ -65,6 +66,8 @@ meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
 meta.createTable 'Provider',0,1;
+meta.createTable 'ProviderApp',0,1;
 meta.createTable 'OrgProvider',0,1;
+meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
