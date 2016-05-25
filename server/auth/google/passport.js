@@ -5,11 +5,11 @@ var debug = require('debug')('authAPI:google/passport');
 import passportCb from '../passportCallback';
 
 export function setup(ProviderAccount, config) {
-  passport.use(new GoogleStrategy({
-    clientID: config.google.clientID,
-    clientSecret: config.google.clientSecret,
-    callbackURL: config.google.callbackURL,
-    passReqToCallback: true
+  var strategy = new GoogleStrategy({
+    clientID: config.clientID,
+    clientSecret: config.clientSecret,
+    callbackURL: config.callbackURL,
+    passReqToCallback: config.passReqToCallback
   }, (request, accessToken, refreshToken, profile, done) => {
 
     let provider = 'google';
@@ -24,9 +24,10 @@ export function setup(ProviderAccount, config) {
       roles: ['admin'],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      appId: config.google.clientID
+      appId: config.clientID
     }).then(passportCb(provider, profile, done), done);
+  });
 
-
-  }));
+  strategy.name = 'google' + config.id;
+  passport.use(strategy);
 }
