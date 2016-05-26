@@ -42,7 +42,7 @@ meta.defineEntity 'OrgProviderApp',
 ;
 
 meta.defineEntity 'ProviderAccount',
-  'provider;profileId;profileData;name;roles;accessToken;refreshToken;appId;isDeleted',
+  'profileId;profileData;name;roles;accessToken;refreshToken;isDeleted',
   'Account,accountId,nullable;SocialAccount,socialAccountId;'
 ;
 
@@ -52,11 +52,11 @@ meta.defineEntity 'OrgProviderAccount',
 ;
 
 meta.defineEntity 'SocialAccount',
-  'isDeleted;provider;profileId;name;avatarUrl'
+  'isDeleted;profileId;name;avatarUrl'
 ;
 
 meta.defineEntity 'SocialFriend',
-  'isDeleted;provider;ownerProfileId,profileId;friendProfileId,profileId',
+  'isDeleted;ownerProfileId,profileId;friendProfileId,profileId',
   'SocialAccount,ownerSocialAccountId;SocialAccount,friendSocialAccountId'
 ;
 

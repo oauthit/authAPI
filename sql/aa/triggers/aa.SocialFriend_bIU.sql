@@ -8,13 +8,11 @@ begin
   set inserted.friendSocialAccountId = (
     select id from aa.SocialAccount
     where profileId = inserted.friendProfileId
-      and provider = inserted.provider
   );
 
   set inserted.ownerSocialAccountId = (
     select id from aa.SocialAccount
     where profileId = inserted.ownerProfileId
-      and provider = inserted.provider
   );
 
   if inserting then

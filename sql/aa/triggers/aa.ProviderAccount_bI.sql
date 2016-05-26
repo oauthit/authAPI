@@ -8,22 +8,19 @@ begin
   merge into aa.SocialAccount as t using with auto name (
     select
       inserted.profileId as profileId,
-      inserted.provider as provider,
       inserted.name as name
-  ) as m on t.profileId = m.profileId and t.provider = m.provider
+  ) as m on t.profileId = m.profileId
   when not matched then insert;
 
   set inserted.socialAccountId = (
     select id from aa.SocialAccount
     where profileId = inserted.profileId
-      and provider = inserted.provider
   );
 
   merge into aa.SocialFriend as t using with auto name (
     select
       inserted.socialAccountId as ownerSocialAccountId,
       inserted.socialAccountId as friendSocialAccountId,
-      inserted.provider as provider,
       inserted.profileId as ownerProfileId,
       inserted.profileId as friendProfileId
   ) as m on t.ownerSocialAccountId = m.ownerSocialAccountId
