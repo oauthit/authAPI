@@ -7,6 +7,7 @@
 import express from 'express';
 import config from './config/environment';
 import http from 'http';
+require('./models/js-data/registerModels.service');
 
 // Setup server
 var app = express();
