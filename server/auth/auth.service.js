@@ -11,6 +11,7 @@ var ProviderAccount = providerAccount();
 import _ from 'lodash';
 import winston from 'winston';
 import uuid from 'node-uuid';
+import {models} from '../models/js-data/modelsSchema.service';
 
 
 /**
@@ -93,61 +94,107 @@ export function hasRole(roleRequired) {
  * @params {Response} res - Express Response object
  */
 export function setAuthorized(req, res) {
-  //debug ('User:', req.user);
-  if (_.isEmpty(req.authInfo)) {
-    //TODO think of how to create
-    let account = req.query.state;
-    if (account) {
+  debug('User:', req.user);
 
-      Account.findById(account)
-        .then((data) => {
-          req.user.accountId = account;
-          ProviderAccount.save(req.user)
-            .then(function () {
-              Token.save(data)
-                .then(() => {
-                  return res.redirect('/#/account');
-                }, function () {
-                  return res.redirect('/#/setupAccount');
-                })
-              ;
-            }, function () {
-              return res.redirect('/#/setupAccount');
-            })
-          ;
-        }, function () {
-          return res.redirect('/#/setupAccount');
-        })
-        .catch(function () {
-          return res.redirect('/#/setupAccount');
-        })
-      ;
-    } else {
-      //TODO for now create account here
-      let user = req.user;
-      account = {
-        id: uuid.v4(),
-        name: user.name,
-        roles: user.roles
-      };
-      Account.save(account)
-        .then(function (account) {
-          user.accountId = account.id;
-          ProviderAccount.save(user)
-            .then(function () {
-              Token.save(account)
-                .then(token => {
-                    debug(token);
-                    return res.redirect('/#/?access-token=' + token)
-                  }
-                )
-              ;
-            });
-        });
-    }
-  } else {
-    debug('AuthInfo:', req.authInfo);
-    res.redirect('/#/?access-token=' + req.authInfo);
-  }
+  models.socialAccount.find(req.user.id)
+    .then((socialAccount) => {
+
+      if (socialAccount) {
+        debug('found SocialAccount:', socialAccount);
+        return socialAccount;
+      }
+      else {
+        debug('creating SocialAccount:', req.user);
+        return models.socialAccount.create(req.user);
+      }
+    }, () => {
+      debug('creating SocialAccount:', req.user);
+      return models.socialAccount.create(req.user);
+    })
+    .then((socialAccount) => {
+      debug('SocialAccount:', socialAccount);
+      if (socialAccount)
+        return models.providerAccount.find({socialAccountId: socialAccount.id});
+
+      else return models.providerAccount.create(socialAccount);
+    })
+    .then((providerAccount) => {
+      if (providerAccount)
+        return models.account.find(providerAccount.accountId);
+      else return models.account.create(providerAccount);
+    })
+    .then(account => {
+      return Token.save(account);
+    })
+    .then(token => {
+      debug('token:', token);
+      return res.redirect('http://localhost:9090/#/?access-token=' + token);
+    })
+    .catch(err => {
+      debug('error occurred:', err);
+    })
+  ;
+
+  //if (_.isEmpty(req.authInfo)) {
+  //  //TODO think of how to create
+  //  let account = req.query.state;
+  //  if (account) {
+  //
+  //    Account.findById(account)
+  //      .then((data) => {
+  //        req.user.accountId = account;
+  //        ProviderAccount.save(req.user)
+  //          .then(function () {
+  //            Token.save(data)
+  //              .then(() => {
+  //                return res.redirect('/#/account');
+  //              }, function () {
+  //                return res.redirect('/#/setupAccount');
+  //              })
+  //            ;
+  //          }, function () {
+  //            return res.redirect('/#/setupAccount');
+  //          })
+  //        ;
+  //      }, function () {
+  //        return res.redirect('/#/setupAccount');
+  //      })
+  //      .catch(function () {
+  //        return res.redirect('/#/setupAccount');
+  //      })
+  //    ;
+  //  } else {
+  //    //TODO for now create account here
+  //    let user = req.user;
+  //    account = {
+  //      id: uuid.v4(),
+  //      name: user.name,
+  //      roles: user.roles
+  //    };
+  //    Account.save(account)
+  //      .then(function (account) {
+  //        user.accountId = account.id;
+  //        ProviderAccount.save(user)
+  //          .then(function () {
+  //            Token.save(account)
+  //              .then(token => {
+  //                  debug(token);
+  //                  return res.redirect('/#/?access-token=' + token)
+  //                }
+  //              )
+  //            ;
+  //          });
+  //      });
+  //  }
+  //} else {
+  //  debug('AuthInfo:', req.authInfo);
+  //  debug('req.user:', req.user);
+  //
+  //  //get organization by code and provider
+  //
+  //
+  //  //todo pass url somehow
+  //  res.redirect('http://localhost:9090/#/?access-token=' + req.authInfo);
+  //}
 }
 
