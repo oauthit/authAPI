@@ -18,12 +18,12 @@ providerApp().find()
       switch (providerApp.provider) {
         case 'facebook': {
           require('./facebook/passport').setup(providerAccount(), providerApp);
-          router.use('/'+providerApp.id, require('./facebook')(providerApp.id));
+          router.use('/'+providerApp.code, require('./facebook')(providerApp.code));
           break;
         }
         case 'google': {
           require('./google/passport').setup(providerAccount(), providerApp);
-          router.use('/'+providerApp.id, require('./google')(providerApp.id))
+          router.use('/'+providerApp.code, require('./google')(providerApp.code))
         }
       }
     });

@@ -28,6 +28,6 @@ export function setup(ProviderAccount, config) {
     }).then(passportCb(provider, profile, done), done);
   });
 
-  strategy.name = 'google' + config.id;
+  strategy.name = 'google' + config.code;
   passport.use(strategy);
 }

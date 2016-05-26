@@ -11,7 +11,7 @@ export function setup(ProviderAccount, config) {
   var strategy = new FacebookStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.id + '/callback',
+    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
 
@@ -39,6 +39,6 @@ export function setup(ProviderAccount, config) {
     });
   });
 
-  strategy.name = 'facebook' + config.id;
+  strategy.name = 'facebook' + config.code;
   passport.use(strategy);
 }

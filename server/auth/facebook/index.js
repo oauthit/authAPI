@@ -7,10 +7,10 @@ import providerAccount from '../../models/providerAccount/providerAccount.model.
 
 var router = express.Router();
 
-export default function (providerAppId) {
+export default function (providerAppCode) {
   router
     .get('/', function (req, res) {
-      passport.authenticate('facebook' + providerAppId, {
+      passport.authenticate('facebook' + providerAppCode, {
         scope: ['email', 'user_about_me', 'public_profile', 'user_friends'],
         failureRedirect: '/#/login',
         auth_type: 'reauthenticate',
@@ -18,7 +18,7 @@ export default function (providerAppId) {
         state: req.query.accountId
       })(req, res)
     })
-    .get('/callback', passport.authenticate('facebook' + providerAppId, {
+    .get('/callback', passport.authenticate('facebook' + providerAppCode, {
       failureRedirect: '/#/login',
       session: false
     }), setAuthorized);
