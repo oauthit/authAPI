@@ -11,13 +11,19 @@ const accountSchema = new Schema({
       uniqueItems: true
     }
   },
-  beforeFindAll() {
-    console.log('beforeFindAll');
-  }
+
 });
 
 store.defineMapper('account', {
-  schema: accountSchema
+  schema: accountSchema,
+  relations: {
+    belongsTo: {
+      providerAccount: {
+        foreignKey: 'accountId',
+        localField: 'providerAccount'
+      }
+    }
+  }
 });
 
 export default store.getMapper('account');
