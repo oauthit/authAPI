@@ -4,15 +4,15 @@ import config from '../config/environment';
 import compose from 'composable-middleware';
 import Token from '../api/token/token.model';
 var debug = require('debug')('authAPI:auth.service');
-import account from '../models/account.model.js';
-var Account = account();
-import providerAccount from '../models/providerAccount/providerAccount.model.js';
-var ProviderAccount = providerAccount();
 import _ from 'lodash';
 import winston from 'winston';
 import uuid from 'node-uuid';
-import {models} from '../models/js-data/modelsSchema.service';
+import {model} from '../models/js-data/modelsSchema.service';
+import co from 'co';
 
+const Account = model('account');
+const ProviderAccount = model('providerAccount');
+const SocialAccount = model('socialAccount');
 
 /**
  *
@@ -96,44 +96,48 @@ export function hasRole(roleRequired) {
 export function setAuthorized(req, res) {
   debug('User:', req.user);
 
-  models.socialAccount.find(req.user.id)
-    .then((socialAccount) => {
+  co(function *() {
+    let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
+    debug('socialAccount:', socialAccount);
+    let providerAccount = yield new Promise((fulfil, reject) => {
+      ProviderAccount.findAll({socialAccountId: socialAccount.id})
+        .then(providerAccounts => {
+          if (providerAccounts.length === 0) {
+            let socialAccountId = socialAccount.id;
+            delete socialAccount.id;
+            let providerAccount = Object.assign({}, socialAccount, {
+              socialAccountId: socialAccountId,
+              accessToken: req.user.accessToken,
+              profileData: req.user.profileData,
+              roles: req.user.roles
+            });
+            ProviderAccount.create(providerAccount)
+              .then(providerAccount => {
+                debug('providerAccount:', providerAccount);
+                return fulfil(providerAccount);
+              }, err => {
+                debug('providerAccount could not be created, err:', err);
+                return reject(err);
+              })
+            ;
+          } else {
+            return fulfil(providerAccounts[0]);
+          }
+        }, err => {
+          debug('error occurred while getting provider accounts:', err);
+          reject(err);
+        })
+    });
 
-      if (socialAccount) {
-        debug('found SocialAccount:', socialAccount);
-        return socialAccount;
-      }
-      else {
-        debug('creating SocialAccount:', req.user);
-        return models.socialAccount.create(req.user);
-      }
-    }, () => {
-      debug('creating SocialAccount:', req.user);
-      return models.socialAccount.create(req.user);
-    })
-    .then((socialAccount) => {
-      debug('SocialAccount:', socialAccount);
-      if (socialAccount)
-        return models.providerAccount.find({socialAccountId: socialAccount.id});
+    debug('providerAccount:', providerAccount);
+    let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
+    let token = yield Token.save(account);
 
-      else return models.providerAccount.create(socialAccount);
-    })
-    .then((providerAccount) => {
-      if (providerAccount)
-        return models.account.find(providerAccount.accountId);
-      else return models.account.create(providerAccount);
-    })
-    .then(account => {
-      return Token.save(account);
-    })
-    .then(token => {
-      debug('token:', token);
-      return res.redirect('http://localhost:9090/#/?access-token=' + token);
-    })
-    .catch(err => {
-      debug('error occurred:', err);
-    })
-  ;
+    return res.redirect('/#/?access-token=' + token);
+  }).catch((err) => {
+    debug('error occurred:', err);
+  });
+
 
   //if (_.isEmpty(req.authInfo)) {
   //  //TODO think of how to create
