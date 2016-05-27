@@ -2,7 +2,6 @@
 
 import config from '../config/environment';
 import compose from 'composable-middleware';
-import Token from '../api/token/token.model';
 var debug = require('debug')('authAPI:auth.service');
 import _ from 'lodash';
 import winston from 'winston';
@@ -13,6 +12,7 @@ import co from 'co';
 const Account = model('account');
 const ProviderAccount = model('providerAccount');
 const SocialAccount = model('socialAccount');
+const Token = model('token');
 
 /**
  *
@@ -34,7 +34,7 @@ var validateAuth = (req, res, next) => {
     return res.sendStatus(401);
   }
 
-  Token.findById(token).then((user) => {
+  Token.find(token).then((user) => {
     //debug ('validateAuth', 'user:', user);
     winston.log('info', `Successfully found token for user: ${user}`);
     req.user = user;
@@ -100,9 +100,10 @@ export function setAuthorized(req, res) {
     let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
     debug('socialAccount:', socialAccount);
     let providerAccount = yield new Promise((fulfil, reject) => {
-      ProviderAccount.findAll({socialAccountId: socialAccount.id})
-        .then(providerAccounts => {
-          if (providerAccounts.length === 0) {
+      SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
+        .then(socialAccount => {
+          debug('providerAccounts:', socialAccount.providerAccounts);
+          if (socialAccount.providerAccount.length === 0) {
             let socialAccountId = socialAccount.id;
             delete socialAccount.id;
             let providerAccount = Object.assign({}, socialAccount, {
@@ -121,84 +122,24 @@ export function setAuthorized(req, res) {
               })
             ;
           } else {
-            return fulfil(providerAccounts[0]);
+            return fulfil(socialAccount.providerAccount[0]);
           }
         }, err => {
           debug('error occurred while getting provider accounts:', err);
           reject(err);
-        })
+        });
     });
 
     debug('providerAccount:', providerAccount);
     let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
-    let token = yield Token.save(account);
+    let token = yield Token.create({tokenInfo: account}).then(token => {
+      return token.id;
+    });
 
     return res.redirect('/#/?access-token=' + token);
   }).catch((err) => {
     debug('error occurred:', err);
   });
 
-
-  //if (_.isEmpty(req.authInfo)) {
-  //  //TODO think of how to create
-  //  let account = req.query.state;
-  //  if (account) {
-  //
-  //    Account.findById(account)
-  //      .then((data) => {
-  //        req.user.accountId = account;
-  //        ProviderAccount.save(req.user)
-  //          .then(function () {
-  //            Token.save(data)
-  //              .then(() => {
-  //                return res.redirect('/#/account');
-  //              }, function () {
-  //                return res.redirect('/#/setupAccount');
-  //              })
-  //            ;
-  //          }, function () {
-  //            return res.redirect('/#/setupAccount');
-  //          })
-  //        ;
-  //      }, function () {
-  //        return res.redirect('/#/setupAccount');
-  //      })
-  //      .catch(function () {
-  //        return res.redirect('/#/setupAccount');
-  //      })
-  //    ;
-  //  } else {
-  //    //TODO for now create account here
-  //    let user = req.user;
-  //    account = {
-  //      id: uuid.v4(),
-  //      name: user.name,
-  //      roles: user.roles
-  //    };
-  //    Account.save(account)
-  //      .then(function (account) {
-  //        user.accountId = account.id;
-  //        ProviderAccount.save(user)
-  //          .then(function () {
-  //            Token.save(account)
-  //              .then(token => {
-  //                  debug(token);
-  //                  return res.redirect('/#/?access-token=' + token)
-  //                }
-  //              )
-  //            ;
-  //          });
-  //      });
-  //  }
-  //} else {
-  //  debug('AuthInfo:', req.authInfo);
-  //  debug('req.user:', req.user);
-  //
-  //  //get organization by code and provider
-  //
-  //
-  //  //todo pass url somehow
-  //  res.redirect('http://localhost:9090/#/?access-token=' + req.authInfo);
-  //}
 }
 
