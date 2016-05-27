@@ -8,5 +8,7 @@ function registerModel(modelName) {
 
 export default {
   registerModel,
-  models
+  model: function (name) {
+    return models[name];
+  }
 }
