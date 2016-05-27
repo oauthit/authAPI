@@ -2,7 +2,7 @@
 
 import socialAccount from './socialAccountSTAPI.model.js';
 import providerAccount from '../../../models/providerAccount/oprProviderAccount.model.js';
-import abstractController from '../../abstract/abstract.controller';
+import abstractController from '../../abstract/abstract.stapi.controller';
 var debug = require('debug')('authAPI:socialAccount.controller');
 import uuid from 'node-uuid';
 
