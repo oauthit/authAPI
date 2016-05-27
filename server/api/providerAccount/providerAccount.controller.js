@@ -1,7 +1,7 @@
 'use strict';
 
 import providerAccount from './../../models/providerAccount/oprProviderAccount.model.js';
-import abstractController from '../abstract/abstract.controller';
+import abstractController from '../abstract/abstract.stapi.controller';
 var debug = require('debug')('authAPI:providerAccount.controller');
 
 let ctrl = abstractController(providerAccount);

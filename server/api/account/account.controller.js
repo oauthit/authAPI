@@ -1,7 +1,7 @@
 'use strict';
 
 import stapiAccount from './../../models/account.model.js';
-import abstractController from '../abstract/abstract.controller';
+import abstractController from '../abstract/abstract.stapi.controller';
 import Account from '../../models/js-data/account.model';
 
 let ctrl = abstractController(stapiAccount);

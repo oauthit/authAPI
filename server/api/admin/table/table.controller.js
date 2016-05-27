@@ -1,6 +1,6 @@
 'use strict';
 
-import abstractController from '../../abstract/abstract.controller';
+import abstractController from '../../abstract/abstract.stapi.controller';
 
 /**
  *

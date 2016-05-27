@@ -3,7 +3,7 @@
    ng.module('authApiApp.core.services')
      .factory('Auth', function (saAuth) {
        var config = {
-         url: 'someUrl'
+         url: ''
        };
        return saAuth(config);
      })

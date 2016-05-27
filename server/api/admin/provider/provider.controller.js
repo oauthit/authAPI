@@ -10,6 +10,6 @@
 'use strict';
 
 import Org from '../../../models/org.model.js';
-import abstractController from '../../abstract/abstract.controller';
+import abstractController from '../../abstract/abstract.stapi.controller';
 
 export default abstractController(Org);
