@@ -62,7 +62,7 @@ meta.defineEntity 'SocialFriend',
 ;
 
 meta.defineEntity 'Token',
-  'tokenInfo'
+  'tokenInfo;isDeleted'
 ;
 
 meta.createTable 'SocialAccount',0,1;
@@ -74,3 +74,4 @@ meta.createTable 'OrgProvider',0,1;
 meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
+meta.createTable 'Token',0,1;
