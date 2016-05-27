@@ -2,17 +2,18 @@
 
 import store from './store';
 import {Schema} from 'js-data';
-
-const socialAccountSchema = new Schema({
-  properties: {
-    name: {type: 'string'},
-    email: {
-      type: 'string',
-      uniqueItems: true
-    }
-  }
-
-});
+import {findOrCreate} from './findOrCreate';
+//
+//const socialAccountSchema = new Schema({
+//  properties: {
+//    name: {type: 'string'},
+//    email: {
+//      type: 'string',
+//      uniqueItems: true
+//    }
+//  }
+//
+//});
 
 store.defineMapper('socialAccount', {
   relations: {
@@ -25,4 +26,7 @@ store.defineMapper('socialAccount', {
   }
 });
 
-export default store.getMapper('socialAccount');
+const socialAccount = store.getMapper('socialAccount');
+socialAccount.findOrCreate = findOrCreate;
+
+export default socialAccount;

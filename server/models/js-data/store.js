@@ -13,16 +13,4 @@ const adapter = new HttpAdapter({
 const store = new Container();
 store.registerAdapter('http', adapter, {default: true});
 
-const ProviderSchema = new Schema({
-  properties: {
-    name: {type: 'string'}
-  }
-});
-
-store.defineMapper('provider', {
-  endpoint: '/provider',
-  basePath: 'http:/localhost:9000/aa',
-  schema: ProviderSchema
-});
-
 export default store;

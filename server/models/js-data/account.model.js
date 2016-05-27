@@ -2,6 +2,7 @@
 
 import store from './store';
 import {Schema} from 'js-data';
+import {findOrCreate} from './findOrCreate';
 
 const accountSchema = new Schema({
   properties: {
@@ -26,4 +27,7 @@ store.defineMapper('account', {
   }
 });
 
-export default store.getMapper('account');
+const account = store.getMapper('account');
+account.findOrCreate = findOrCreate;
+
+export default account;
