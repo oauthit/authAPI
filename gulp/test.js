@@ -31,13 +31,15 @@ gulp.task('test', cb => {
   return runSequence('test:server', 'test:client', cb);
 });
 
+//TODO add watcher for tests
+//TODO uncomment if wanna coverage ya
 gulp.task('test:server', cb => {
   runSequence(
     'env:all',
     'env:test',
     'mocha:unit',
     //'mocha:integration',
-    'mocha:coverage',
+    //'mocha:coverage',
     cb);
 });
 
