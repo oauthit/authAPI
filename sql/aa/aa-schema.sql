@@ -18,6 +18,7 @@ meta.defineType 'clientSecret:CODE';
 meta.defineType 'callbackUrl:STRING';
 meta.defineType 'passReqToCallback:BOOL';
 meta.defineType 'code:CODE';
+meta.defineType 'tokenInfo:STRING';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -58,6 +59,10 @@ meta.defineEntity 'SocialAccount',
 meta.defineEntity 'SocialFriend',
   'isDeleted;ownerProfileId,profileId;friendProfileId,profileId',
   'SocialAccount,ownerSocialAccountId;SocialAccount,friendSocialAccountId'
+;
+
+meta.defineEntity 'Token',
+  'tokenInfo'
 ;
 
 meta.createTable 'SocialAccount',0,1;
