@@ -25,7 +25,7 @@ describe("Account controller", function () {
         response.json() :
         Promise.reject(new Error('cannot list accounts')));
 
-  it.only('lists accounts', () => {
+  it('lists accounts', () => {
     index()
       .then(accounts => expect(accounts).to.equal([]))
   });
