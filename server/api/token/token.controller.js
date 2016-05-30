@@ -3,7 +3,7 @@
 import Token from '../../models/js-data/token.model';
 import abstractController from '../abstract/abstract.jsdata.controller';
 
-let ctrl = abstractController();
+let ctrl = abstractController(Token);
 let showOriginal = ctrl.show;
 
 function checkToken() {
