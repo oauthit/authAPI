@@ -1,2 +1,12 @@
 .container
   h1 Providers
+
+  table.table.table-striped.table-hover.table-responsive(
+  ng-table='vm.tableParams'
+  )
+    tr.clickable(
+    ng-repeat='row in $data track by row.id'
+    ng-click='ctrl.click(row,$event)'
+    )
+      td(title="'Data'")
+        | {{row}}

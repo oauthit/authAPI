@@ -5,9 +5,9 @@
       $stateProvider
         .state('auth.providers', {
           url: '/providers',
-          templateUrl: 'app/account/domain/providerApps/providerApps.html'
-          //controller: 'MainController',
-          //controllerAs: 'vm'
+          templateUrl: 'app/account/domain/providerApps/providerApps.html',
+          controller: 'ProviderAppController',
+          controllerAs: 'vm'
         });
     });
 
