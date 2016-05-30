@@ -4,3 +4,4 @@ registerModel('account');
 registerModel('providerAccount');
 registerModel('socialAccount');
 registerModel('token');
+registerModel('providerApp');
