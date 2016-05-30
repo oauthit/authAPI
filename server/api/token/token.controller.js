@@ -1,10 +1,14 @@
 'use strict';
 
-import Token from './token.model';
-import abstractController from '../abstract/abstract.controller';
+import Token from '../../models/js-data/token.model';
+import abstractController from '../abstract/abstract.jsdata.controller';
 
-let ctrl = abstractController(function () { return Token; });
+let ctrl = abstractController();
 let showOriginal = ctrl.show;
+
+function checkToken() {
+
+}
 
 // Gets a single Token from the DB
 ctrl.show = function show(req,res) {
