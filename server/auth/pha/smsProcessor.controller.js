@@ -1,6 +1,6 @@
 import {post, get} from 'request';
 import account from '../../models/account.model.js';
-import Token from '../../api/token/token.model';
+import Token from '../../models/js-data/token.model';
 
 var debug = require ('debug') ('authAPI:pha:smsProcessor');
 

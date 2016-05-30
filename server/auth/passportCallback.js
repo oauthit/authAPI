@@ -1,5 +1,5 @@
 'use strict';
-import Token from '../api/token/token.model';
+import Token from '../models/js-data/token.model';
 import ProviderToken from '../models/providerToken.model.js';
 import account from '../models/account.model.js';
 var Account = account();
@@ -11,7 +11,7 @@ export default (provider, profile, done) => {
       if (data.accountId) {
         Account.findById(data.accountId)
           .then((data) => {
-            Token.save(data)
+            Token.create(data)
               .then(token => {
                 done(null, data, token);
               }, done)

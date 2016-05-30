@@ -6,6 +6,6 @@ import {findOrCreate} from './findOrCreate';
 store.defineMapper('token');
 
 const token = store.getMapper('token');
-token.findOrCreate = findOrCreate
+token.findOrCreate = findOrCreate;
 
 export default token;

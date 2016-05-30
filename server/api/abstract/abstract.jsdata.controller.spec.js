@@ -127,7 +127,7 @@ describe("Abstract JSData controller spec", () => {
     expect(AccountStub.calledOnce).to.be.truthy;
   });
 
-  it.only('should check destroy method', () => {
+  it('should check destroy method', () => {
 
     //arrange
     let destroy = ctrl.destroy;
