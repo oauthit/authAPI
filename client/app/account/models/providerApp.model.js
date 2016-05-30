@@ -3,7 +3,7 @@
   ng.module('authApiApp.admin.models')
     .run(function (Schema) {
       Schema.register({
-        name: 'provider'
+        name: 'providerApp'
       });
     })
   ;

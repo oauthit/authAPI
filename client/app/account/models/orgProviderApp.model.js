@@ -3,7 +3,7 @@
   ng.module('authApiApp.admin.models')
     .run(function (Schema) {
       Schema.register({
-        name: 'orgProvider',
+        name: 'orgProviderApp',
         relations: {
           belongsTo: {
             org: {
@@ -11,8 +11,8 @@
               localKey: 'orgId'
             },
             provider: {
-              localField: 'provider',
-              localKey: 'providerId'
+              localField: 'providerApp',
+              localKey: 'providerAppId'
             }
           }
         }
