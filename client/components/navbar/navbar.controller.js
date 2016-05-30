@@ -15,7 +15,7 @@ function NavbarController($state,
   angular.extend(vm, {
     menu: [{
       'title': 'Home',
-      'state': 'debt.main'
+      'state': 'auth.main'
     }],
 
     isCollapsed: true,

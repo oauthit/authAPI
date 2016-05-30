@@ -47,7 +47,7 @@ function SettingsController($window,
     buttons: [
       {
         name: 'Manage agents',
-        sref: 'debt.agent.manage'
+        sref: 'auth.agent.manage'
       }
     ],
 

@@ -38,7 +38,7 @@ describe('Controller: MainController', function () {
   }));
 
   it('should have data', function () {
-    state.expectTransitionTo('debt.main');
+    state.expectTransitionTo('auth.main');
     $httpBackend.flush();
     DS.flush();
 
