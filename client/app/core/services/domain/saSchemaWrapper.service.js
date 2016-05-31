@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('authApiApp.core.services')
-  .service('Schema', function (saSchema,$http) {
+  .service('schema', function (saSchema,$http) {
 
     return saSchema({
 

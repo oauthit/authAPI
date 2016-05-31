@@ -1,9 +1,9 @@
 (function (ng) {
   'use strict';
   ng.module('authApiApp.admin')
-    .service('OrgService', function (Schema) {
+    .service('OrgService', function (schema) {
 
-      let org = Schema().models().org;
+      let org = schema().models().org;
       console.log(org);
 
     })

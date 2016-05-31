@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('ProviderAppController', function (InitCtrlService, Schema) {
+    .controller('ProviderAppController', function (InitCtrlService, schema) {
 
       let vm = InitCtrlService.setup(this);
 
-      let Provider = Schema.model('providerApp');
+      let Provider = schema.model('providerApp');
 
       angular.extend(vm, {
         ngTable: {
