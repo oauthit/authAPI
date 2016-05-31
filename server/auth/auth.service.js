@@ -97,11 +97,9 @@ export function setAuthorized(req, res) {
   debug('User:', req.user);
 
   co(function *() {
-    let socialAccount = yield
-      SocialAccount.findOrCreate(req.user.id, req.user);
+    let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
     debug('socialAccount:', socialAccount);
-    let providerAccount = yield
-      new Promise((fulfil, reject) => {
+    let providerAccount = yield new Promise((fulfil, reject) => {
         SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
           .then(socialAccount => {
             debug('providerAccounts:', socialAccount.providerAccounts);
@@ -133,10 +131,8 @@ export function setAuthorized(req, res) {
       });
 
     debug('providerAccount:', providerAccount);
-    let account = yield
-      Account.findOrCreate(providerAccount.id, providerAccount);
-    let token = yield
-      Token.create({tokenInfo: account}).then(token => {
+    let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
+    let token = yield Token.create({tokenInfo: account}).then(token => {
         return token.id;
       });
 
