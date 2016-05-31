@@ -1,32 +1,26 @@
 "use strict";
 
 import store from './store';
-import {Schema} from 'js-data';
 
-//const accountSchema = new Schema({
-//  properties: {
-//    name: {type: 'string'},
-//    email: {
-//      type: 'string',
-//      uniqueItems: true
-//    }
-//  },
-//
-//});
-
-store.defineMapper('providerAccount', {
+store.defineMapper('ProviderAccount', {
   relations: {
     hasOne: {
-      account: {
-        foreignKey: 'providerAccountId',
-        localField: 'providerAccount'
+      Account: {
+        foreignKey: 'accountId',
+        localField: 'account'
       },
-      socialAccount: {
+      ProviderApp: {
+        foreignKey: 'providerAppId',
+        localField: 'providerApp'
+      }
+    },
+    hasMany: {
+      SocialAccount: {
         foreignKey: 'providerAccountId',
-        localField: 'socialAccount'
+        localField: 'socialAccounts'
       }
     }
   }
 });
 
-export default store.getMapper('providerAccount');
+export default store.getMapper('ProviderAccount');

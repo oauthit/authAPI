@@ -15,19 +15,19 @@ const accountSchema = new Schema({
 
 });
 
-store.defineMapper('account', {
+store.defineMapper('Account', {
   schema: accountSchema,
   relations: {
-    belongsTo: {
-      providerAccount: {
+    hasMany: {
+      ProviderAccount: {
         foreignKey: 'accountId',
-        localField: 'providerAccount'
+        localField: 'providerAccounts'
       }
     }
   }
 });
 
-const account = store.getMapper('account');
+const account = store.getMapper('Account');
 account.findOrCreate = findOrCreate;
 
 export default account;

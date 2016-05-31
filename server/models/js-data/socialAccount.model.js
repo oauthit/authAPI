@@ -15,18 +15,19 @@ import {findOrCreate} from './findOrCreate';
 //
 //});
 
-store.defineMapper('socialAccount', {
+
+store.defineMapper('SocialAccount', {
   relations: {
-    hasMany: {
-      providerAccount: {
-        foreignKey: 'socialAccountId',
+    hasOne: {
+      ProviderAccount: {
+        foreignKey: 'providerAccountId',
         localField: 'providerAccount'
       }
     }
   }
 });
 
-const socialAccount = store.getMapper('socialAccount');
+const socialAccount = store.getMapper('SocialAccount');
 socialAccount.findOrCreate = findOrCreate;
 
 export default socialAccount;
