@@ -79,7 +79,7 @@ angular.module('authApiApp')
               modal: {
                 dismissable: true,
                 title: 'Confirm logout',
-                html: '<p>Are you sure you want to logout?</p>',
+                html: 'Are you sure you want to logout?',
                 buttons: [{
                   classes: 'btn-primary',
                   text: 'Logout',

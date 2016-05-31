@@ -8,7 +8,7 @@ function NavbarController($state,
 
   var logout = function () {
     Modal.confirm.confirm(function () {
-      $state.go('debt.logout');
+      $state.go('auth.logout');
     })();
   };
 
