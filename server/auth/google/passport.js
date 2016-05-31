@@ -8,8 +8,8 @@ export function setup(ProviderAccount, config) {
   var strategy = new GoogleStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: config.callbackURL,
-    passReqToCallback: config.passReqToCallback
+    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
+    passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => {
 
     let provider = 'google';
@@ -21,7 +21,7 @@ export function setup(ProviderAccount, config) {
       profileData: profile,
       name: profile.displayName,
       //TODO change this
-      roles: ['admin'],
+      roles: [],
       accessToken: accessToken,
       refreshToken: refreshToken,
       appId: config.clientId
