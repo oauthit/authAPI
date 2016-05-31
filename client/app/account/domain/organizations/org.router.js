@@ -5,9 +5,9 @@
       $stateProvider
         .state('auth.org', {
           url: '/org',
-          templateUrl: 'app/account/domain/organizations/org.html'
-          //controller: 'MainController',
-          //controllerAs: 'vm'
+          templateUrl: 'app/account/domain/organizations/org.html',
+          controller: 'OrgController',
+          controllerAs: 'vm'
         });
     });
 

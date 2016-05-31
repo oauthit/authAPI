@@ -8,5 +8,13 @@
     ng-repeat='row in $data track by row.id'
     ng-click='ctrl.click(row,$event)'
     )
-      td(title="'Data'")
-        | {{row}}
+      td(title="'Name'")
+        | {{row.name}}
+      td(title="'Provider'")
+        | {{row.provider}}
+      td(title="'Code'")
+        | {{row.code}}
+      td(title="'Client ID'")
+        | {{row.clientId}}
+      td(title="'Client Secret'")
+        | {{row.clientSecret}}

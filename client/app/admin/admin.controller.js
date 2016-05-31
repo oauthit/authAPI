@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  function AdminController(OrgService, User) {
+  function AdminController(User) {
 
     let vm = this;
     vm.users = User.query();
@@ -10,8 +10,6 @@
       user.$remove();
       this.users.splice(this.users.indexOf(user), 1);
     };
-
-    OrgService();
   }
 
   angular.module('authApiApp.admin')

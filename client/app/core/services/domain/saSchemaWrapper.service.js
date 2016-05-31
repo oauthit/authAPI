@@ -8,12 +8,12 @@ angular.module('authApiApp.core.services')
       getCount: function (params) {
         var resource = this;
         var bp = resource.getAdapter('http').defaults.basePath;
-        return $http.get(
-          bp + '/' + resource.endpoint,
-          {
-            params: angular.extend ({'agg:': 'count'}, params || {})
-          }
-        ).then(function (res) {
+        var url = bp + '/' + resource.endpoint;
+        var options = {
+          params: angular.extend ({'agg:': 'count'}, params || {})
+        };
+
+        return $http.get(url, options).then(function (res) {
           return parseInt (res.headers('x-aggregate-count')) || res.data && res.data.count;
         });
       },
