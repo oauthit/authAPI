@@ -13,7 +13,7 @@ meta.defineType 'refreshToken:STRING,,nullable';
 meta.defineType 'appId';
 meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
-meta.defineType 'clientId:CODE';
+meta.defineType 'clientId:STRING';
 meta.defineType 'clientSecret:CODE';
 meta.defineType 'callbackUrl:STRING';
 meta.defineType 'passReqToCallback:BOOL';
