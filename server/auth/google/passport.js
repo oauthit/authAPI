@@ -6,7 +6,7 @@ import passportCb from '../passportCallback';
 
 export function setup(ProviderAccount, config) {
   var strategy = new GoogleStrategy({
-    clientID: config.clientID,
+    clientID: config.clientId,
     clientSecret: config.clientSecret,
     callbackURL: config.callbackURL,
     passReqToCallback: config.passReqToCallback
@@ -24,7 +24,7 @@ export function setup(ProviderAccount, config) {
       roles: ['admin'],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      appId: config.clientID
+      appId: config.clientId
     }).then(passportCb(provider, profile, done), done);
   });
 
