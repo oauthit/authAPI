@@ -39,7 +39,7 @@ gulp.task('watch', () => {
     .pipe(pipes.lintServerScripts())
     .pipe(plugins.livereload());
 
-  gulp.watch(_.union(paths.server.scripts, testFiles), ['test:server']);
+  gulp.watch(testFiles, ['test:server']);
   gulp.watch('bower.json', ['wiredep:client']);
   gulp.watch('gulpfile.js', ['gulp-reload']);
 });
