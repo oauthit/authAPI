@@ -7,6 +7,7 @@ var router = require('express').Router();
 
 router.use('/token', isAuthenticated(), require('./token'));
 router.use('/providerAccount', isAuthenticated(), require('./providerAccount'));
+router.use('/providerApp', isAuthenticated(), require('./providerApp'));
 router.use('/socialAccount', isAuthenticated(), require('./social/socialAccountSTAPI'));
 router.use('/account', /*isAuthenticated(),*/ require('./account'));
 router.use('/admin', require('./admin'));
