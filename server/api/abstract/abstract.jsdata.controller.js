@@ -197,7 +197,7 @@ function controller(model) {
 
     model.create(req.body, {
         headers: {
-          authorization: req & req.headers.authorization
+          authorization: req && req.headers.authorization
         }
       })
       .then(respondWithResult(res, 201))
