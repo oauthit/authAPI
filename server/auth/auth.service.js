@@ -97,44 +97,48 @@ export function setAuthorized(req, res) {
   debug('User:', req.user);
 
   co(function *() {
-    let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
+    let socialAccount = yield
+      SocialAccount.findOrCreate(req.user.id, req.user);
     debug('socialAccount:', socialAccount);
-    let providerAccount = yield new Promise((fulfil, reject) => {
-      SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
-        .then(socialAccount => {
-          debug('providerAccounts:', socialAccount.providerAccounts);
-          if (socialAccount.providerAccount.length === 0) {
-            let socialAccountId = socialAccount.id;
-            delete socialAccount.id;
-            let providerAccount = Object.assign({}, socialAccount, {
-              socialAccountId: socialAccountId,
-              accessToken: req.user.accessToken,
-              profileData: req.user.profileData,
-              roles: req.user.roles
-            });
-            ProviderAccount.create(providerAccount)
-              .then(providerAccount => {
-                debug('providerAccount:', providerAccount);
-                return fulfil(providerAccount);
-              }, err => {
-                debug('providerAccount could not be created, err:', err);
-                return reject(err);
-              })
-            ;
-          } else {
-            return fulfil(socialAccount.providerAccount[0]);
-          }
-        }, err => {
-          debug('error occurred while getting provider accounts:', err);
-          reject(err);
-        });
-    });
+    let providerAccount = yield
+      new Promise((fulfil, reject) => {
+        SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
+          .then(socialAccount => {
+            debug('providerAccounts:', socialAccount.providerAccounts);
+            if (socialAccount.providerAccount.length === 0) {
+              let socialAccountId = socialAccount.id;
+              delete socialAccount.id;
+              let providerAccount = Object.assign({}, socialAccount, {
+                socialAccountId: socialAccountId,
+                accessToken: req.user.accessToken,
+                profileData: req.user.profileData,
+                roles: req.user.roles
+              });
+              ProviderAccount.create(providerAccount)
+                .then(providerAccount => {
+                  debug('providerAccount:', providerAccount);
+                  return fulfil(providerAccount);
+                }, err => {
+                  debug('providerAccount could not be created, err:', err);
+                  return reject(err);
+                })
+              ;
+            } else {
+              return fulfil(socialAccount.providerAccount[0]);
+            }
+          }, err => {
+            debug('error occurred while getting provider accounts:', err);
+            reject(err);
+          });
+      });
 
     debug('providerAccount:', providerAccount);
-    let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
-    let token = yield Token.create({tokenInfo: account}).then(token => {
-      return token.id;
-    });
+    let account = yield
+      Account.findOrCreate(providerAccount.id, providerAccount);
+    let token = yield
+      Token.create({tokenInfo: account}).then(token => {
+        return token.id;
+      });
 
     return res.redirect('/#/?access-token=' + token);
   }).catch((err) => {
