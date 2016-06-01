@@ -9,9 +9,13 @@ import {createRequest, createResponse} from 'node-mocks-http';
 import sinonStubPromise from 'sinon-stub-promise';
 sinonStubPromise(sinon);
 
+const debug = require('debug')('authAPI:abstract.jsdata.controller.spec');
+
 const Account = store.defineMapper('Acccount');
 
 describe("Abstract JSData controller spec", () => {
+
+  let AccountStub;
 
   let ctrl;
   beforeEach(() => {
@@ -19,6 +23,8 @@ describe("Abstract JSData controller spec", () => {
   });
 
   afterEach(() => {
+    if (AccountStub)
+      AccountStub.restore();
     ctrl = null;
   });
 
@@ -44,8 +50,7 @@ describe("Abstract JSData controller spec", () => {
     let find = ctrl.find;
 
     //creates stub for Account.find
-    console.log(Account);
-    const AccountStub = sinon.stub(Account, 'find').returnsPromise();
+    AccountStub = sinon.stub(Account, 'find').returnsPromise();
 
     const request = createRequest({
       method: 'GET',
@@ -69,7 +74,7 @@ describe("Abstract JSData controller spec", () => {
     //arange
     let findAll = ctrl.findAll;
 
-    const AccountStub = sinon.stub(Account, 'findAll').returnsPromise();
+    AccountStub = sinon.stub(Account, 'findAll').returnsPromise();
 
     const request = createRequest({
       method: 'GET'
@@ -91,7 +96,7 @@ describe("Abstract JSData controller spec", () => {
     //arrange
     let create = ctrl.create;
 
-    const AccountStub = sinon.stub(Account, 'create').returnsPromise();
+    AccountStub = sinon.stub(Account, 'create').returnsPromise();
 
     const request = createRequest();
 
@@ -109,8 +114,9 @@ describe("Abstract JSData controller spec", () => {
     //arrange
     let update = ctrl.update;
 
+    debug('Account Stub in update', AccountStub);
     //update method finds by id and then updates found record
-    const AccountStub = sinon.stub(Account, 'find').returnsPromise();
+    AccountStub = sinon.stub(Account, 'find').returnsPromise();
 
     const request = createRequest({
       method: 'PUT',
@@ -132,7 +138,7 @@ describe("Abstract JSData controller spec", () => {
     //arrange
     let destroy = ctrl.destroy;
 
-    const AccountStub = sinon.stub(Account, 'find').returnsPromise();
+    AccountStub = sinon.stub(Account, 'find').returnsPromise();
 
     const request = createRequest({
       method: 'DELETE',
