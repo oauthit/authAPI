@@ -13,6 +13,7 @@ const Account = model('account');
 const ProviderAccount = model('providerAccount');
 const SocialAccount = model('socialAccount');
 const Token = model('token');
+const ProviderApp = model('providerApp');
 
 /**
  *
@@ -88,18 +89,26 @@ export function hasRole(roleRequired) {
 }
 
 /**
- * Set token cookie directly for oAuth strategies
  *
- * @params {Request} req - Express Request object
- * @params {Response} res - Express Response object
+ * @param providerCode {String} - Unique providerCode
+ * @returns {Function}
  */
-export function setAuthorized(req, res) {
-  debug('User:', req.user);
+export function setAuthorized(providerCode) {
+  /**
+   * Set token cookie directly for oAuth strategies
+   *
+   * @params {Request} req - Express Request object
+   * @params {Response} res - Express Response object
+   */
+  return function (req, res) {
+    debug('User:', req.user);
 
-  co(function *() {
-    let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
-    debug('socialAccount:', socialAccount);
-    let providerAccount = yield new Promise((fulfil, reject) => {
+    co(function *() {
+      let providerApp = yield ProviderApp.findAll({"providerCode": providerCode});
+      debug('providerApp:', providerApp);
+      let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
+      debug('socialAccount:', socialAccount);
+      let providerAccount = yield new Promise((fulfil, reject) => {
         SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
           .then(socialAccount => {
             debug('providerAccounts:', socialAccount.providerAccounts);
@@ -130,16 +139,17 @@ export function setAuthorized(req, res) {
           });
       });
 
-    debug('providerAccount:', providerAccount);
-    let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
-    let token = yield Token.create({tokenInfo: account}).then(token => {
+      debug('providerAccount:', providerAccount);
+      let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
+      let token = yield Token.create({tokenInfo: account}).then(token => {
         return token.id;
       });
 
-    return res.redirect('/#/?access-token=' + token);
-  }).catch((err) => {
-    debug('error occurred:', err);
-  });
+      return res.redirect('/#/?access-token=' + token);
+    }).catch((err) => {
+      debug('error occurred:', err);
+    });
 
+  }
 }
 
