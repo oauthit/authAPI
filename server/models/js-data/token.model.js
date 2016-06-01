@@ -3,9 +3,9 @@
 import store from './store';
 import {findOrCreate} from './findOrCreate';
 
-store.defineMapper('token');
+store.defineMapper('Token');
 
-const token = store.getMapper('token');
+const token = store.getMapper('Token');
 token.findOrCreate = findOrCreate;
 
 export default token;
