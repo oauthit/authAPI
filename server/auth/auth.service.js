@@ -35,6 +35,7 @@ var validateAuth = (req, res, next) => {
     return res.sendStatus(401);
   }
 
+  debug('token:', token);
   Token.find(token).then((user) => {
     //debug ('validateAuth', 'user:', user);
     winston.log('info', `Successfully found token for user: ${user}`);
@@ -42,7 +43,7 @@ var validateAuth = (req, res, next) => {
     winston.log('debug', `req.user = ${user}`);
     next();
   }, (err) => {
-    winston.log('info', `Error occured while trying to find token by id(Token.findById(${token})).`);
+    winston.log('info', `Error occured while trying to find token by id(Token.find(${token})).`);
     winston.log('debug', `Error message: ${err}`);
     return res.sendStatus(401);
   })
@@ -104,7 +105,13 @@ export function setAuthorized(providerCode) {
     debug('User:', req.user);
 
     co(function *() {
-      let providerApp = yield ProviderApp.findAll({"providerCode": providerCode});
+      let providerApp = yield ProviderApp.findAll({"providerCode": providerCode})
+        .then((providerApps) => {
+
+          if (providerApps.length === 1)
+            return providerApps[0];
+        });
+
       debug('providerApp:', providerApp);
       let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
       debug('socialAccount:', socialAccount);
@@ -119,7 +126,8 @@ export function setAuthorized(providerCode) {
                 socialAccountId: socialAccountId,
                 accessToken: req.user.accessToken,
                 profileData: req.user.profileData,
-                roles: req.user.roles
+                roles: req.user.roles,
+                providerAppId: providerApp.id
               });
               ProviderAccount.create(providerAccount)
                 .then(providerAccount => {
