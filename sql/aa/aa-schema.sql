@@ -32,9 +32,9 @@ meta.defineEntity 'ProviderApp',
   'isDeleted;name;clientId;clientSecret;provider;code'
 ;
 
-meta.defineEntity 'OrgProvider',
+meta.defineEntity 'OrgAccount',
   'isDeleted',
-  'Org,orgId;ProviderApp,providerAppId'
+  'Org,orgId;Account,accountId'
 ;
 
 meta.defineEntity 'OrgProviderApp',
@@ -70,10 +70,10 @@ meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
 meta.createTable 'ProviderApp',0,1;
-meta.createTable 'OrgProvider',0,1;
 meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
+meta.createTable 'OrgAccount',0,1;
 meta.createTable 'Token',0,1;
 
 alter table aa.ProviderApp add unique (code)
