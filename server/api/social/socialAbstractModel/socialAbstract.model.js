@@ -54,8 +54,8 @@ function model(modelName, friendModel, profileModel) {
     }
 
     return {
-      find: find,
-      findById: findById
+      findAll: find,
+      find: findById
     };
 
   }
