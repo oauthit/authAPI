@@ -6,7 +6,7 @@
 
       let vm = InitCtrlService.setup(this);
 
-      let Org = schema.model('org');
+      let Org = schema.model('Org');
 
       angular.extend(vm, {
         ngTable: {
