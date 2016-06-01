@@ -21,7 +21,7 @@ export default function (providerAppCode) {
     .get('/callback', passport.authenticate('google' + providerAppCode, {
       failureRedirect: '/#/login',
       session: false
-    }), setAuthorized);
+    }), setAuthorized(providerAppCode));
 
   return router;
 }
