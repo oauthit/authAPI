@@ -3,12 +3,12 @@
   ng.module('authApiApp.admin.models')
     .run(function (schema) {
       schema.register({
-        name: 'org',
+        name: 'Org',
         relations: {
           hasMany: {
-            orgProvider: {
-              localField: 'orgProvider',
-              foreignKey: 'orgProviderId'
+            OrgProviderApp: {
+              foreignKey: 'orgId',
+              localField: 'orgProviderApps'
             }
           }
         }
