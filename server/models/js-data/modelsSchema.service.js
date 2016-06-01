@@ -10,5 +10,6 @@ export default {
   registerModel,
   model: function (name) {
     return models[name];
-  }
+  },
+  models
 }
