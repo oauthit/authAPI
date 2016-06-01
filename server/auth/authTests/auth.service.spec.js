@@ -41,7 +41,7 @@ describe("Auth service tests", () => {
 
   describe('setAuthorized() function', () => {
 
-    it.only('should check auth service setAuthorized function', () => {
+    it('should check auth service setAuthorized function', () => {
 
       //arrange
       let req = createRequest({
