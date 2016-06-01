@@ -8,6 +8,9 @@ const adapter = new HttpAdapter({
   httpConfig: {
     address: 'http://localhost',
     port: 9000
+  },
+  error: function (err) {
+    console.log(err);
   }
 });
 const store = new Container();
