@@ -6,11 +6,18 @@
 
       let vm = InitCtrlService.setup(this);
 
-      let Provider = schema.model('providerApp');
+      let Provider = schema.model('ProviderApp');
 
       angular.extend(vm, {
         ngTable: {
           count: 12
+        },
+        click: function (row) {
+
+          Provider.loadRelations(row, [], {bypassCache: true})
+            .then(() => {
+              console.log(row);
+            })
         }
       });
 
