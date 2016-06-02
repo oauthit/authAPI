@@ -6,7 +6,7 @@ public
 client/bower_components
 dist
 /server/config/local.env.js
-/server/config/seed.js
+/server/config/seed/
 npm-debug.log
 coverage
 
