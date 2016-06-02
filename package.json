@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "server/app.js",
   "dependencies": {
+    "Q": "0.0.1",
     "async": "^1.5.2",
     "axios": "^0.11.1",
     "bluebird": "^3.3.4",
