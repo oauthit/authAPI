@@ -3,6 +3,8 @@ const debug = require('debug')('authAPI:registerModels.service');
 
 registerModel('account');
 debug('Account was defined');
+registerModel('orgAccount');
+debug('OrgAccount was defined');
 registerModel('providerAccount');
 debug('ProviderAccount was defined');
 registerModel('socialAccount');
