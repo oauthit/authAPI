@@ -105,21 +105,30 @@ export function setAuthorized(providerCode) {
     debug('User:', req.user);
 
     co(function *() {
-      let providerApp = yield ProviderApp.findAll({"providerCode": providerCode})
+      let providerApp = yield ProviderApp.findAll({"code": providerCode})
         .then((providerApps) => {
 
           if (providerApps.length === 1)
             return providerApps[0];
+
+          else {
+            debug('Error:', `No such provider app with code: ${providerCode}`);
+            throw new Error(`No such provider: ${providerCode}`);
+          }
         });
 
       debug('providerApp:', providerApp);
-      let socialAccount = yield SocialAccount.findOrCreate(req.user.id, req.user);
+
+      let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
       let providerAccount = yield new Promise((fulfil, reject) => {
-        SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
-          .then(socialAccount => {
-            debug('providerAccounts:', socialAccount.providerAccounts);
-            if (socialAccount.providerAccount.length === 0) {
+        //TODO teach stapi to take js-data query for relations
+        //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
+
+        ProviderAccount.findAll({socialAccountId: socialAccount.id})
+          .then(providerAccounts => {
+            debug('providerAccounts:', providerAccounts);
+            if (providerAccounts.length === 0) {
               let socialAccountId = socialAccount.id;
               delete socialAccount.id;
               let providerAccount = Object.assign({}, socialAccount, {
@@ -131,7 +140,6 @@ export function setAuthorized(providerCode) {
               });
               ProviderAccount.create(providerAccount)
                 .then(providerAccount => {
-                  debug('providerAccount:', providerAccount);
                   return fulfil(providerAccount);
                 }, err => {
                   debug('providerAccount could not be created, err:', err);
@@ -139,7 +147,7 @@ export function setAuthorized(providerCode) {
                 })
               ;
             } else {
-              return fulfil(socialAccount.providerAccount[0]);
+              return fulfil(providerAccounts[0]);
             }
           }, err => {
             debug('error occurred while getting provider accounts:', err);
@@ -148,14 +156,20 @@ export function setAuthorized(providerCode) {
       });
 
       debug('providerAccount:', providerAccount);
-      let account = yield Account.findOrCreate(providerAccount.id, providerAccount);
+      let account = yield Account.findOrCreate(providerAccount.accountId, providerAccount);
+
+      debug('account:', account);
+
+      yield ProviderAccount.update(providerAccount.id, Object.assign({}, {accountId: account.id}, providerAccount));
       let token = yield Token.create({tokenInfo: account}).then(token => {
         return token.id;
       });
+      debug('token:', token);
 
       return res.redirect('/#/?access-token=' + token);
     }).catch((err) => {
       debug('error occurred:', err);
+      return res.sendStatus(500);
     });
 
   }
