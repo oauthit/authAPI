@@ -4,9 +4,10 @@ var debug = require('debug')('authAPI:js-data:findOrCreate');
 function findOrCreate(id, body) {
   return new Promise((fulfil, reject) => {
 
-    if (!id) {
+    if (!id && body) {
       this.create(body)
         .then((res) => {
+
           debug('created:', res);
           return fulfil(res);
         })

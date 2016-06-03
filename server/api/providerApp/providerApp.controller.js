@@ -36,8 +36,8 @@ ctrl.index = function (req, res) {
 
       for(let i = 0; i < providerAccounts.length; i++) {
 
-        console.log(providerAccount);
-        let providerApp = yield ProviderApp.find(providerAccount.providerAppId);
+        console.log(providerAccounts[i]);
+        let providerApp = yield ProviderApp.find(providerAccounts[i].providerAppId);
         providerApps.push(providerApp);
       }
     }

@@ -1,17 +1,16 @@
 'use strict';
 
 import passport from 'passport';
-import config from '../../config/environment';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 var debug = require('debug')('authAPI:facebook/passport');
 import refresh_token from '../../api/social/facebook/refreshToken.service';
 import passportCb from '../passportCallback';
 
-export function setup(ProviderAccount, config) {
+export function setup(ProviderAccount, providerAppConfig) {
   var strategy = new FacebookStrategy({
-    clientID: config.clientId,
-    clientSecret: config.clientSecret,
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
+    clientID: providerAppConfig.clientId,
+    clientSecret: providerAppConfig.clientSecret,
+    callbackURL: (process.env.DOMAIN || '') + '/auth/' + providerAppConfig.code + '/callback',
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
 
@@ -20,25 +19,25 @@ export function setup(ProviderAccount, config) {
       debug('refreshToken:', refToken);
 
       var provider = 'facebook';
-      ProviderAccount.findOrCreate({
-          provider: provider,
-          profileId: profile.id
+      ProviderAccount.getOrCreate({
+        provider: provider,
+        profileId: profile.id
         }, {
           profileData: profile,
           name: profile.displayName,
           roles: ['admin'],
           accessToken: accessToken,
           refreshToken: refToken && JSON.stringify(refToken) || null,
-          appId: config.clientID
+          appId: providerAppConfig.clientID
         })
         .then(passportCb(provider, profile, done), done);
     }
 
-    refresh_token('facebook', profile.profileId).then(processToken, function () {
+    //refresh_token('facebook', profile.profileId).then(processToken, function () {
       processToken();
-    });
+    //});
   });
 
-  strategy.name = 'facebook' + config.code;
+  strategy.name = 'facebook' + providerAppConfig.code;
   passport.use(strategy);
 }

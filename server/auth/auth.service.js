@@ -159,6 +159,7 @@ export function setAuthorized(providerCode) {
       let account = yield Account.findOrCreate(providerAccount.accountId, providerAccount);
 
       debug('account:', account);
+      debug('providerAccount:', Object.assign({}, {accountId: account.id}, providerAccount));
 
       yield ProviderAccount.update(providerAccount.id, Object.assign({}, {accountId: account.id}, providerAccount));
       let token = yield Token.create({tokenInfo: account}).then(token => {
