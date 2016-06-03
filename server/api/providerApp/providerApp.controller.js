@@ -24,9 +24,9 @@ ctrl.index = function (req, res) {
 
   const account = req && req.user && req.user.tokenInfo;
   const accountId = account.id;
-  let providerApps = [];
 
   co(function *() {
+    let providerApps = [];
     let providerAccounts = yield ProviderAccount.findAll({accountId: accountId});
     //providerAccounts should contain olny one record ProviderAccount have only one Account
 
@@ -34,7 +34,7 @@ ctrl.index = function (req, res) {
 
     if (providerAccounts) {
 
-      for(let i = 0; i < providerAccounts.length; i++) {
+      for (let i = 0; i < providerAccounts.length; i++) {
 
         console.log(providerAccounts[i]);
         let providerApp = yield ProviderApp.find(providerAccounts[i].providerAppId);
