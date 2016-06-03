@@ -20,7 +20,13 @@ describe("Auth service tests", () => {
     ProviderAccountStub,
     SocialAccountStub,
     TokenStub,
-    ProviderAppStub;
+    ProviderAppStub,
+    PAppFindAllPromise,
+    SAccFindOrCreatePromise,
+    SAccFindPromise,
+    PAccCreatePromise,
+    AccFindOrCreatePromise,
+    TokenCreatePromise;
 
   beforeEach(() => {
     AccountStub = sinon.stub(Account);
@@ -31,12 +37,17 @@ describe("Auth service tests", () => {
   });
 
   afterEach(() => {
-    AccountStub = null;
-    ProviderAccountStub = null;
-    SocialAccountStub = null;
-    TokenStub = null;
-    ProviderAppStub = null;
-
+    AccFindOrCreatePromise && AccFindOrCreatePromise.restore();
+    //AccountStub.restore();
+    //ProviderAccountStub.restore();
+    //SocialAccountStub.restore();
+    //TokenStub.restore();
+    //ProviderAppStub.restore();
+    PAppFindAllPromise && PAppFindAllPromise.restore();
+    SAccFindOrCreatePromise && SAccFindOrCreatePromise.restore();
+    SAccFindPromise && SAccFindPromise.restore();
+    PAccCreatePromise && PAccCreatePromise.restore();
+    TokenCreatePromise && TokenCreatePromise.restore();
   });
 
   describe('setAuthorized() function', () => {
@@ -52,14 +63,14 @@ describe("Auth service tests", () => {
 
       let res = createResponse();
 
-      let PAppFindAllPromise = sinon.stub(ProviderAppStub, 'findAll').returnsPromise();
+      PAppFindAllPromise = sinon.stub(ProviderAppStub, 'findAll').returnsPromise();
       SocialAccountStub.findOrCreate.restore();
-      let SAccFindOrCreatePromise = sinon.stub(SocialAccountStub, 'findOrCreate').returnsPromise();
-      let SAccFindPromise = sinon.stub(SocialAccountStub, 'find').returnsPromise();
-      let PAccCreatePromise = sinon.stub(ProviderAccountStub, 'create').returnsPromise();
+      SAccFindOrCreatePromise = sinon.stub(SocialAccountStub, 'findOrCreate').returnsPromise();
+      SAccFindPromise = sinon.stub(SocialAccountStub, 'find').returnsPromise();
+      PAccCreatePromise = sinon.stub(ProviderAccountStub, 'create').returnsPromise();
       AccountStub.findOrCreate.restore();
-      let AccFindOrCreatePromise = sinon.stub(AccountStub, 'findOrCreate').returnsPromise();
-      let TokenCreatePromise = sinon.stub(TokenStub, 'create').returnsPromise();
+      AccFindOrCreatePromise = sinon.stub(AccountStub, 'findOrCreate').returnsPromise();
+      TokenCreatePromise = sinon.stub(TokenStub, 'create').returnsPromise();
 
       PAppFindAllPromise.resolves([
         {
