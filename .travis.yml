@@ -9,3 +9,5 @@ before_script:
   - npm install -g bower gulp
   - gem install sass
   - bower install
+services:
+  - redis-server
