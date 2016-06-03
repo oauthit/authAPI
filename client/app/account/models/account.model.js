@@ -1,7 +1,7 @@
 (function (ng) {
   'use strict';
   ng.module('authApiApp.admin.models')
-    .run(function (schema) {
+    .run(function (schema, saFormlyConfigService) {
       schema.register({
         name: 'Account',
         relations: {
@@ -13,6 +13,21 @@
           }
         }
       });
+
+      var accountFields = [
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        }
+      ];
+
+      saFormlyConfigService.setConfig('accountInfo', accountFields);
     })
   ;
 

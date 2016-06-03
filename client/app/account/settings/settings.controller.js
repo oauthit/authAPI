@@ -6,13 +6,14 @@ function SettingsController($window,
                             $q,
                             Auth,
                             saFormlyConfigService,
-                            models,
-                            Account,
+                            schema,
                             saMessageService,
                             sabErrorsService) {
 
   var vm = this;
-  var ProviderAccount = models.providerAccount;
+
+  const Account = schema.model('Account');
+  const ProviderAccount = schema.model('ProviderAccount');
 
   Auth.getCurrentUser(function (account) {
     vm.originalModel = angular.copy(account);
@@ -25,8 +26,11 @@ function SettingsController($window,
   function init() {
     vm.busy = $q(function (resolve, reject) {
       Account.find('me').then(function (acc) {
-        Account.loadRelations(acc, ['providerAccount']).then(function () {
-            vm.providers = acc.providers;
+
+        vm.acc = acc;
+
+        Account.loadRelations(acc, ['ProviderAccount']).then(function () {
+            vm.providerAccounts = acc.providerAccounts;
 
             resolve();
           })

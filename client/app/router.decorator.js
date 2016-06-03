@@ -3,7 +3,7 @@
 (function() {
 
   angular.module('authApiApp')
-    .run(function($rootScope, $state, saAuth, sabErrorsService) {
+    .run(function($rootScope, $state, Auth, sabErrorsService) {
       // Redirect to login if route requires auth and the user is not logged in, or doesn't have required role
       $rootScope.$on('$stateChangeStart', function(event, next) {
         sabErrorsService.clear();
@@ -18,12 +18,12 @@
             }
 
             event.preventDefault();
-            return saAuth.isLoggedIn(_.noop).then(function (is) {
+            return Auth.isLoggedIn(_.noop).then(function (is) {
               $state.go(is ? 'main' : 'login');
             });
           });
         } else {
-          saAuth.isLoggedIn(_.noop).then(function (is) {
+          Auth.isLoggedIn(_.noop).then(function (is) {
             if (is) {
               return;
             }

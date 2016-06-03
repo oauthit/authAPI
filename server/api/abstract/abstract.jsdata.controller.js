@@ -99,7 +99,7 @@ function controller(model) {
      */
 
 
-    model.findAll(req && req.options || null, {
+    model.findAll(req && req.options || req.query || null, {
         headers: {
           authorization: req && req.headers.authorization
         }
@@ -155,7 +155,7 @@ function controller(model) {
       })
       .then(respondWithResult(res))
       .catch(handleError(res))
-    ;
+      ;
   }
 
   function create(req, res) {
