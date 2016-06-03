@@ -33,9 +33,9 @@ export function setup(ProviderAccount, providerAppConfig) {
         .then(passportCb(provider, profile, done), done);
     }
 
-    //refresh_token('facebook', profile.profileId).then(processToken, function () {
+    refresh_token('facebook', profile.profileId).then(processToken, function () {
       processToken();
-    //});
+    });
   });
 
   strategy.name = 'facebook' + providerAppConfig.code;
