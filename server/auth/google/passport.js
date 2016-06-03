@@ -14,7 +14,7 @@ export function setup(ProviderAccount, config) {
 
     let provider = 'google';
 
-    ProviderAccount.getOrCreate({
+    ProviderAccount.findOrCreate({
       provider: provider,
       profileId: profile.id
     }, {

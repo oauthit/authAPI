@@ -20,7 +20,7 @@ export function setup(ProviderAccount, config) {
       debug('refreshToken:', refToken);
 
       var provider = 'facebook';
-      ProviderAccount.getOrCreate({
+      ProviderAccount.findOrCreate({
           provider: provider,
           profileId: profile.id
         }, {
