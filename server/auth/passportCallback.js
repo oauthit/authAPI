@@ -10,8 +10,10 @@ export default (provider, profile, done) => {
     ProviderToken.save(provider, profile.id, data.accessToken, data.refreshToken).then(function () {
       if (data.accountId) {
         Account.findById(data.accountId)
-          .then((data) => {
-            Token.create(data)
+          .then((account) => {
+
+            debug('account data:', account);
+            Token.create({tokenInfo: account})
               .then(token => {
                 done(null, data, token);
               }, done)
