@@ -1,6 +1,7 @@
 "use strict";
 
 import store from './store';
+import findOrCreate from './findOrCreate';
 
 store.defineMapper('ProviderAccount', {
   relations: {
@@ -23,4 +24,7 @@ store.defineMapper('ProviderAccount', {
   }
 });
 
-export default store.getMapper('ProviderAccount');
+const ProviderAccount = store.getMapper('ProviderAccount');
+ProviderAccount.findOrCreate = findOrCreate;
+
+export default ProviderAccount;
