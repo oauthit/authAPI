@@ -17,7 +17,7 @@
           Provider.loadRelations(row, [], {bypassCache: true})
             .then(() => {
               console.log(row);
-            })
+            });
         }
       });
 
