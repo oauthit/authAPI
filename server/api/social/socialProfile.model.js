@@ -1,7 +1,7 @@
 'use strict';
 import redisWrapper from '../../config/redis';
 import socialAccount from './socialAccountSTAPI/socialAccountSTAPI.model';
-import q from 'Q';
+import q from 'q';
 var debug = require('debug')('authAPI:socialProfile.model');
 
 function saveProfile(req, tableName) {

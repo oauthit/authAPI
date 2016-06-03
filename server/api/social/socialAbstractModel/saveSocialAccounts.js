@@ -3,7 +3,7 @@
 import async from 'async';
 import _ from 'lodash';
 var debug = require('debug')('authAPI:socialAbstractModel/find');
-import q from 'Q';
+import q from 'q';
 import socialFriendSTAPI from './../socialFriendSTAPI/socialFriendSTAPI.model.js';
 
 export default function saveSocialAccounts(req, modelName, friendModel, profileModel) {
