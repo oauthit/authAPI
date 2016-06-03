@@ -3,26 +3,25 @@
 import express from 'express';
 import passport from 'passport';
 import config from '../config/environment';
-import providerAccount from '../models/providerAccount/providerAccount.model.js';
-import stapi from '../models/abstract.model';
-const providerApp = stapi('/aa/providerApp');
+import providerAccount from '../models/js-data/providerAccount.model.js';
+import providerApp from '../models/js-data/providerApp.model';
 import winston from 'winston';
 
 var router = express.Router();
 
 // Passport Configuration
 
-providerApp().find()
+providerApp.find()
   .then((providerApps) => {
     providerApps.forEach((providerApp) => {
       switch (providerApp.provider) {
         case 'facebook': {
-          require('./facebook/passport').setup(providerAccount(), providerApp);
+          require('./facebook/passport').setup(providerAccount, providerApp);
           router.use('/'+providerApp.code, require('./facebook')(providerApp.code));
           break;
         }
         case 'google': {
-          require('./google/passport').setup(providerAccount(), providerApp);
+          require('./google/passport').setup(providerAccount, providerApp);
           router.use('/'+providerApp.code, require('./google')(providerApp.code))
         }
       }
