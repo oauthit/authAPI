@@ -44,12 +44,12 @@ ctrl.index = function (req, res) {
 
     console.log('providerApp', providerApps);
 
+    return res.json(providerApps);
+
   }).catch((err) => {
     debug('err:', err);
     return res.sendStatus(err);
   });
-
-  return res.json(providerApps);
 
 };
 
