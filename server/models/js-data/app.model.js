@@ -8,7 +8,7 @@ store.defineMapper('App', {
   schema: accountSchema,
   relations: {
     hasMany: {
-      Org: {
+      OrgApp: {
         foreignKey: 'appId',
         localField: 'orgs'
       }

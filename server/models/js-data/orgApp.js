@@ -3,15 +3,15 @@
 import store from './store';
 import {findOrCreate} from './findOrCreate';
 
-store.defineMapper('Org', {
+store.defineMapper('OrgApp', {
   relations: {
     hasMany: {
-      OrgProviderApp: {
+      Org: {
         foreignKey: 'orgId',
         localField: 'orgProviderApps'
       },
-      OrgApp: {
-        foreignKey: 'orgId',
+      App: {
+        foreignKey: 'appId',
         localField: 'apps'
       }
     }
