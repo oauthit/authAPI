@@ -8,7 +8,7 @@ store.defineMapper('OrgApp', {
     hasOne: {
       Org: {
         foreignKey: 'orgId',
-        localField: 'orgProviderApp'
+        localField: 'org'
       },
       App: {
         foreignKey: 'appId',
@@ -18,7 +18,7 @@ store.defineMapper('OrgApp', {
   }
 });
 
-const org = store.getMapper('Org');
+const orgApp = store.getMapper('OrgApp');
 org.findOrCreate = findOrCreate;
 
-export default org;
+export default orgApp;
