@@ -17,5 +17,7 @@ registerModel('orgProviderApp');
 debug('OrgProviderApp was defined');
 registerModel('providerApp');
 debug('ProviderApp was defined');
+registerModel('app');
+debug('App was defined');
 registerModel('orgApp');
 debug('OrgApp was defined');
