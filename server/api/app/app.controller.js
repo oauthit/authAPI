@@ -26,7 +26,6 @@ ctrl.findAll = (req, res) => {
     }
 
     let apps = [];
-    let orgAppsArray = [];
     if (orgs) {
       for (let i = 0; i < orgs.length; i++) {
         let orgApps = yield OrgApp.findAll({orgId: orgs[i].orgId});
