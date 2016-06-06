@@ -10,7 +10,8 @@
     'formlyBootstrap',
     'cgBusy',
     'sistemium',
-    'sistemiumBootstrap'
+    'sistemiumBootstrap',
+    'ngSanitize'
   ]);
 
   angular.module('authApiApp', [
