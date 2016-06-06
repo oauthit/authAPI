@@ -20,6 +20,39 @@
             )
               | Cancel changes
 
+      h3 Organization list
+
+      table.table.table-striped.table-hover.table-responsive(
+      ng-table='vm.orgNgTableParams'
+      )
+        tr.clickable(
+        ng-repeat='row in $data track by row.id'
+        )
+          td(title="'Name'")
+            | {{row}}
+
+      h3 Provider account list
+
+      table.table.table-striped.table-hover.table-responsive(
+      ng-table='vm.providerAccNgTableParams'
+      )
+        tr.clickable(
+        ng-repeat='row in $data track by row.id'
+        )
+          td(title="'Name'")
+            | {{row}}
+
+      h3 App list
+
+      table.table.table-striped.table-hover.table-responsive(
+      ng-table='vm.appNgTableParams'
+      )
+        tr.clickable(
+        ng-repeat='row in $data track by row.id'
+        )
+          td(title="'Name'")
+            | {{row}}
+
       pre Account {{vm.acc}}
 
       pre ProviderAccounts {{vm.providerAccounts}}
