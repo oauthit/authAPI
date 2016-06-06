@@ -26,8 +26,7 @@ meta.defineEntity 'Account',
 ;
 
 meta.defineEntity 'Org',
-  'isDeleted;name',
-  'App,appId'
+  'isDeleted;name'
 ;
 
 meta.defineEntity 'ProviderApp',
@@ -68,8 +67,12 @@ meta.defineEntity 'Token',
 ;
 
 meta.defineEntity 'App',
-  'isDeleted;url',
-  'Org,orgId'
+  'isDeleted;url'
+;
+
+meta.defineEntity 'OrgApp',
+  'isDeleted',
+  'Org,orgId;App,appId'
 ;
 
 meta.createTable 'SocialAccount',0,1;
