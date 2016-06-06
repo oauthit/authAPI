@@ -19,13 +19,15 @@ meta.defineType 'callbackUrl:STRING';
 meta.defineType 'passReqToCallback:BOOL';
 meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
+meta.defineType 'url:STRING';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
 ;
 
 meta.defineEntity 'Org',
-  'isDeleted;name'
+  'isDeleted;name',
+  'App,appId'
 ;
 
 meta.defineEntity 'ProviderApp',
@@ -65,6 +67,11 @@ meta.defineEntity 'Token',
   'tokenInfo;isDeleted'
 ;
 
+meta.defineEntity 'App',
+  'isDeleted;url',
+  'Org,orgId'
+;
+
 meta.createTable 'SocialAccount',0,1;
 meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
@@ -75,5 +82,7 @@ meta.createTable 'ProviderAccount',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
 meta.createTable 'OrgAccount',0,1;
 meta.createTable 'Token',0,1;
+meta.createTable 'App',0,1;
 
 alter table aa.ProviderApp add unique (code)
+alter table aa.App add unique (url)
