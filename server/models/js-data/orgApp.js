@@ -5,14 +5,14 @@ import {findOrCreate} from './findOrCreate';
 
 store.defineMapper('OrgApp', {
   relations: {
-    hasMany: {
+    hasOne: {
       Org: {
         foreignKey: 'orgId',
-        localField: 'orgProviderApps'
+        localField: 'orgProviderApp'
       },
       App: {
         foreignKey: 'appId',
-        localField: 'apps'
+        localField: 'app'
       }
     }
   }

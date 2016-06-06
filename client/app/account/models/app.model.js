@@ -6,9 +6,9 @@
         name: 'App',
         relations: {
           hasMany: {
-            Org: {
+            OrgApp: {
               foreignKey: 'appId',
-              localField: 'orgs'
+              localField: 'orgApps'
             }
           }
         }
