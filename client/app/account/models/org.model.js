@@ -9,14 +9,13 @@
             OrgProviderApp: {
               foreignKey: 'orgId',
               localField: 'orgProviderApps'
-            },
-            OrgApp: {
-              foreignKey: 'orgId',
-              localField: 'orgApps'
             }
           },
           hasOne: {
-
+            OrgApp: {
+              foreignKey: 'orgId',
+              localField: 'orgApp'
+            }
           }
         }
       });

@@ -29,8 +29,9 @@ ctrl.findAll = (req, res) => {
     if (orgs) {
       for (let i = 0; i < orgs.length; i++) {
         let orgApps = yield OrgApp.findAll({orgId: orgs[i].orgId});
+        console.log(orgApps);
         for (let j = 0; j < orgApps.length; j++) {
-          let app = App.find(orgApps[i].appId);
+          let app = yield App.find(orgApps[j].appId);
           apps.push(app);
         }
       }
