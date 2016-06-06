@@ -2,12 +2,25 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('AccountController', function (saFormlyConfigService, saMessageService, sabErrorsService) {
+    .controller('AccountController', function ($q, Auth, InitCtrlService, saFormlyConfigService, saMessageService, sabErrorsService, schema) {
 
-      var vm = this;
+      let vm = InitCtrlService.setup(this);
+
+      angular.extend(vm, {
+        ngTable: {
+          count: 12
+        }
+      });
 
       const Account = schema.model('Account');
       const ProviderAccount = schema.model('ProviderAccount');
+      const Org = schema.model('Org');
+      const App = schema.model('App');
+
+      Auth.getCurrentUser(function (account) {
+        vm.originalModel = angular.copy(account);
+        vm.model = account;
+      });
 
       /**
        * Get current account and his providerAccounts
@@ -33,6 +46,44 @@
           });
         });
       }
+
+      vm.orgNgTableParams = vm.setupNgTable({
+        getCount: function (params, options) {
+          let p = params || {};
+          let o = options || {};
+          return Org.getCount([p, o]);
+        },
+
+        findAll: function (params, o) {
+          return Org.findAll(angular.extend({}, params), o);
+        }
+      });
+
+      vm.providerAccNgTableParams = vm.setupNgTable({
+        getCount: function (params, options) {
+          let p = params || {};
+          let o = options || {};
+          return ProviderAccount.getCount([p, o]);
+        },
+
+        findAll: function (params, o) {
+          return ProviderAccount.findAll(angular.extend({}, params), o);
+        }
+      });
+
+      vm.appNgTableParams = vm.setupNgTable({
+        getCount: function (params, options) {
+          let p = params || {};
+          let o = options || {};
+          return App.getCount([p, o]);
+        },
+
+        findAll: function (params, o) {
+          return App.findAll(angular.extend({}, params), o);
+        }
+      });
+
+      console.log(vm.params);
 
       angular.extend(vm, {
 
