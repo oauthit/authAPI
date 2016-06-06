@@ -86,6 +86,7 @@ meta.createTable 'OrgProviderAccount',0,1;
 meta.createTable 'OrgAccount',0,1;
 meta.createTable 'Token',0,1;
 meta.createTable 'App',0,1;
+meta.createTable 'OrgApp',0,1;
 
 alter table aa.ProviderApp add unique (code)
 alter table aa.App add unique (url)
