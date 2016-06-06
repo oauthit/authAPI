@@ -9,8 +9,6 @@ import co from 'co';
 
 let ctrl = abstractCtrl(Org);
 
-
-//TODO app controller
 ctrl.findAll = (req, res) => {
 
   co(function *() {
@@ -38,7 +36,6 @@ ctrl.findAll = (req, res) => {
         }
       }
     }
-
 
     return res.json(orgs);
 
