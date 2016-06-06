@@ -9,6 +9,10 @@ store.defineMapper('Org', {
       OrgProviderApp: {
         foreignKey: 'orgId',
         localField: 'orgProviderApps'
+      },
+      App: {
+        foreignKey: 'orgId',
+        localField: 'apps'
       }
     }
   }
