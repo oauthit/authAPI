@@ -83,8 +83,6 @@
         }
       });
 
-      console.log(vm.params);
-
       angular.extend(vm, {
 
         fields: saFormlyConfigService.getConfigFieldsByKey('accountInfo'),

@@ -29,7 +29,7 @@
         ng-repeat='row in $data track by row.id'
         )
           td(title="'Name'")
-            | {{row}}
+            | {{row.name}}
 
       h3 Provider account list
 
@@ -39,8 +39,15 @@
         tr.clickable(
         ng-repeat='row in $data track by row.id'
         )
-          td(title="'Name'")
-            | {{row}}
+          td(title="'Profile ID'")
+            | {{row.profileId}}
+          td(title="'Display Name'")
+            | {{row.profileData.displayName}}
+          td(title="'Provider'")
+            | {{row.profileData.provider}}
+          td(title="'Roles'")
+            | {{row.profileData.roles}}
+
 
       h3 App list
 

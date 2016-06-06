@@ -37,7 +37,7 @@ ctrl.findAll = (req, res) => {
       }
     }
 
-    return res.json(orgs);
+    return res.json(apps);
 
   }).catch((err) => {
     console.log(err);
