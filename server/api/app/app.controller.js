@@ -2,6 +2,7 @@
 
 import Org from './../../models/js-data/org.model';
 import OrgAccount from './../../models/js-data/orgAccount.model';
+import OrgApp from './../../models/js-data/orgApp.model';
 import App from './../../models/js-data/app.model';
 import abstractCtrl from '../abstract/abstract.jsdata.controller';
 import co from 'co';
@@ -27,12 +28,17 @@ ctrl.findAll = (req, res) => {
     }
 
     let apps = [];
+    let orgAppsArray = [];
     if (orgs) {
       for (let i = 0; i < orgs.length; i++) {
-        let app = yield App.find(orgs[i].orgId);
-        apps.push(app);
+        let orgApps = yield OrgApp.findAll({orgId: orgs[i].orgId});
+        for (let j = 0; j < orgApps.length; j++) {
+          let app = App.find(orgApps[i].appId);
+          apps.push(app);
+        }
       }
     }
+
 
     return res.json(orgs);
 
