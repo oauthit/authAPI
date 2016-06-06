@@ -1,11 +1,9 @@
 "use strict";
 
 import store from './store';
-import {Schema} from 'js-data';
 import {findOrCreate} from './findOrCreate';
 
 store.defineMapper('App', {
-  schema: accountSchema,
   relations: {
     hasMany: {
       OrgApp: {

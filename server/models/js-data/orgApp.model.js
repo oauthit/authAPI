@@ -19,6 +19,6 @@ store.defineMapper('OrgApp', {
 });
 
 const orgApp = store.getMapper('OrgApp');
-org.findOrCreate = findOrCreate;
+orgApp.findOrCreate = findOrCreate;
 
 export default orgApp;
