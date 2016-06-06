@@ -11,13 +11,6 @@
       angular.extend(vm, {
         ngTable: {
           count: 12
-        },
-        click: function (row) {
-
-          Provider.loadRelations(row, [], {bypassCache: true})
-            .then(() => {
-              console.log(row);
-            });
         }
       });
 

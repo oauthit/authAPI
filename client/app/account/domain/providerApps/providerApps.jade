@@ -6,7 +6,7 @@
   )
     tr.clickable(
     ng-repeat='row in $data track by row.id'
-    ng-click='vm.click(row,$event)'
+    ui-sref='auth.providerAccounts({providerId: row.id})'
     )
       td(title="'Name'")
         | {{row.name}}
@@ -14,7 +14,7 @@
         | {{row.provider}}
       td(title="'Code'")
         | {{row.code}}
-      td(title="'Client ID'")
+      td(title="'Client ID'" ng-if="true")
         | {{row.clientId}}
-      td(title="'Client Secret'")
+      td(title="'Client Secret'" ng-if="true")
         | {{row.clientSecret}}

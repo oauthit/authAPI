@@ -17,7 +17,7 @@ function setReq(req) {
   return req;
 }
 
-ctrl.index = function (req, res) {
+ctrl.privateFindAll = function (req, res) {
 
   debug('index:', 'req.user', req.user);
   console.log('req.user:', req.user);
@@ -50,6 +50,27 @@ ctrl.index = function (req, res) {
     debug('err:', err);
     return res.sendStatus(err);
   });
+
+};
+
+ctrl.publicFindAll = function (req, res) {
+
+  ProviderApp.findAll()
+    .then((providerApps) => {
+
+      return res.json(providerApps.map((pa) => {
+        return {
+          id: pa.id,
+          name: pa.name,
+          provider: pa.provider,
+          code: pa.code
+        }
+      }));
+    })
+    .catch(err => {
+      debug('err:', err);
+      return res.sendStatus(500);
+    });
 
 };
 

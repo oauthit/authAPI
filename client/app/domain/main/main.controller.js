@@ -30,6 +30,12 @@
           icon: 'mega-octicon octicon-gist-secret',
           description: 'Auth provider apps',
           state: 'auth.providers'
+        },
+        {
+          title: 'Account',
+          icon: 'fa fa-2x fa-user',
+          description: 'Account',
+          state: 'auth.account'
         }
       ]
 

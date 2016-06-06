@@ -1,0 +1,25 @@
+.container
+  .row
+    .col-sm-12
+      h1 My account
+    .col-sm-12
+      form(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit()')
+        formly-form(model='vm.model' fields='vm.fields')
+          .buttons.pull-right
+            button.btn.btn-primary(
+            type='submit'
+            ng-disabled='vm.accountForm.$invalid'
+            ng-if='vm.accountForm.$dirty'
+            )
+              | Save
+            = ' '
+            button.btn.btn-warning(
+            type='button'
+            ng-click='vm.onCancel(vm.accountForm)'
+            ng-if='vm.accountForm.$dirty'
+            )
+              | Cancel changes
+
+      pre Account {{vm.acc}}
+
+      pre ProviderAccounts {{vm.providerAccounts}}

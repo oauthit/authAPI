@@ -6,7 +6,9 @@
   )
     tr.clickable(
     ng-repeat='row in $data track by row.id'
-    ng-click='ctrl.click(row,$event)'
+    ui-sref='auth.orgInfo({orgId: row.id})'
     )
       td(title="'Name'")
         | {{row.name}}
+      td(title="'Logo'")
+        img(src="{{row.logo}}")

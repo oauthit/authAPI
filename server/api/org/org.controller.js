@@ -2,12 +2,12 @@
 
 import Org from './../../models/js-data/org.model';
 import OrgAccount from './../../models/js-data/orgAccount.model';
-import abstractCtrl from '../abstract/abstract.stapi.controller';
+import abstractCtrl from '../abstract/abstract.jsdata.controller';
 import co from 'co';
 
 let ctrl = abstractCtrl(Org);
 
-ctrl.index = (req, res) => {
+ctrl.findAll = (req, res) => {
 
   co(function *() {
 
