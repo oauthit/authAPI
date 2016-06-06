@@ -9,6 +9,8 @@ router.use('/token', isAuthenticated(), require('./token'));
 router.use('/providerAccount', /*isAuthenticated(),*/ require('./providerAccount'));
 router.use('/providerApp', /*isAuthenticated()*/ require('./providerApp'));
 router.use('/org', isAuthenticated(), require('./org'));
+router.use('/app', isAuthenticated(), require('./app'));
+router.use('/orgApp', isAuthenticated(), require('./orgApp'));
 router.use('/orgProviderApp', /*isAuthenticated()*/ require('./orgProviderApp'));
 router.use('/socialAccount', isAuthenticated(), require('./social/socialAccountSTAPI'));
 router.use('/account', /*isAuthenticated(),*/ require('./account'));
