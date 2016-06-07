@@ -1,6 +1,7 @@
 'use strict';
 
 import _ from 'lodash';
+const debug = require('debug')('AuthAPI:abstract.jsdata.controller');
 
 /**
  *
@@ -10,6 +11,8 @@ import _ from 'lodash';
 function controller(model) {
 
   function respondWithResult(res, statusCode) {
+
+    debug('res:', res);
     statusCode = statusCode || 200;
     return function (entity) {
       if (entity) {
