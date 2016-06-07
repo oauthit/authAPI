@@ -2,14 +2,21 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('AccountController', function ($q, Auth, InitCtrlService, saFormlyConfigService, saMessageService, sabErrorsService, schema) {
+    .controller('AccountController', function ($q,
+                                               Auth,
+                                               InitCtrlService,
+                                               saFormlyConfigService,
+                                               saMessageService,
+                                               sabErrorsService,
+                                               schema) {
 
       let vm = InitCtrlService.setup(this);
 
       angular.extend(vm, {
         ngTable: {
           count: 12
-        }
+        },
+        accessToken: window.localStorage.getItem('authAPI.access-token')
       });
 
       const Account = schema.model('Account');

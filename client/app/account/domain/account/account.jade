@@ -58,7 +58,7 @@
         ng-repeat='row in $data track by row.id'
         )
           td(title="'Url'")
-            | {{row.url}}
+            a(href="{{row.url + '?access-token=' + vm.accessToken}}" target='blank') {{row.url}}
 
       pre Account {{vm.acc}}
 

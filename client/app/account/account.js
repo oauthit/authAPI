@@ -28,7 +28,7 @@ angular.module('authApiApp')
         controllerAs: 'vm'
       })
       .state('auth.settings', {
-        url: '/account',
+        url: '/settings',
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsController',
         controllerAs: 'vm',
