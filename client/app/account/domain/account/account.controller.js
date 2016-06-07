@@ -4,6 +4,7 @@
   angular.module('authApiApp')
     .controller('AccountController', function ($q,
                                                Auth,
+                                               localStorageService,
                                                InitCtrlService,
                                                saFormlyConfigService,
                                                saMessageService,
@@ -16,7 +17,10 @@
         ngTable: {
           count: 12
         },
-        accessToken: window.localStorage.getItem('authAPI.access-token')
+        accessToken: localStorageService.get('access-token'),
+        getRedirectUrl: function (url) {
+          return `${url}?access-token=${vm.accessToken}`
+        }
       });
 
       const Account = schema.model('Account');

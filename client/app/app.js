@@ -11,7 +11,8 @@
     'cgBusy',
     'sistemium',
     'sistemiumBootstrap',
-    'ngSanitize'
+    'ngSanitize',
+    'LocalStorageModule'
   ]);
 
   angular.module('authApiApp', [

@@ -4,19 +4,20 @@ import Token from '../../models/js-data/token.model';
 import abstractController from '../abstract/abstract.jsdata.controller';
 
 let ctrl = abstractController(Token);
-let showOriginal = ctrl.show;
+let findOriginal = ctrl.find;
 
 function checkToken() {
 
 }
 
 // Gets a single Token from the DB
-ctrl.show = function show(req,res) {
+ctrl.find = function find(req,res) {
+
   let token = req.params.id || req.headers.authorization;
   if (token) {
     req.params.id = token;
   }
-  showOriginal(req,res);
+  findOriginal(req,res);
 };
 
 export default ctrl;
