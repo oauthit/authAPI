@@ -6,6 +6,7 @@ import config from '../config/environment';
 import providerAccount from '../models/providerAccount/providerAccount.model';
 import providerApp from '../models/js-data/providerApp.model';
 import winston from 'winston';
+const debug = require('debug')('AuthAPI:auth.index.js');
 
 var router = express.Router();
 
@@ -16,8 +17,7 @@ providerApp.find()
     providerApps.forEach((providerApp) => {
       switch (providerApp.provider) {
         case 'facebook': {
-          require('./facebook/passport').setup(providerAccount(), providerApp);
-          router.use('/'+providerApp.code, require('./facebook')(providerApp.code));
+          router.use('/'+providerApp.code, require('./facebook')(providerApp));
           break;
         }
         case 'google': {

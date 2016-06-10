@@ -39,5 +39,5 @@ export function setup(ProviderAccount, providerAppConfig) {
   });
 
   strategy.name = 'facebook' + providerAppConfig.code;
-  passport.use(strategy);
+  return strategy;
 }

@@ -101,6 +101,7 @@ export function setAuthorized(providerCode) {
    * @params {Request} req - Express Request object
    * @params {Response} res - Express Response object
    */
+
   return function (req, res) {
     debug('User:', req.user);
 

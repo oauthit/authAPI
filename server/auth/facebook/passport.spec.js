@@ -5,9 +5,13 @@ import ProviderAccount from '../../models/providerAccount/providerAccount.model'
 import passportCb from '../passportCallback';
 import sinon from 'sinon';
 import sinonStubPromise from 'sinon-stub-promise';
+import request from 'supertest';
+import express from 'express';
 sinonStubPromise(sinon);
 
-describe.skip('passport setup function', () => {
+import app from '../../index.js';
+
+describe('passport setup function', () => {
 
   it('should setup', () => {
 
@@ -25,5 +29,34 @@ describe.skip('passport setup function', () => {
     expect(PAccPromise.calledOnce).to.be.truthy;
 
   });
+
+});
+
+describe.only('GET /auth/{providerApp.code}', () => {
+
+  before((done) => {
+    setTimeout(function() {
+      done();
+    }, 3000);
+  });
+
+  it('should authorize', (done) => {
+
+    //arrange
+
+    request(app)
+      .get('/auth/debteeFacebook')
+      .expect(200, done)
+    ;
+
+
+  });
+
+  it('should authorize', (done) => {
+    request(app)
+      .get('/auth/vseramkiFacebook')
+      .expect(200, done)
+    ;
+  })
 
 });
