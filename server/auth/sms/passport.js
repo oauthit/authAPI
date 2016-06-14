@@ -7,7 +7,7 @@ import passportCb from '../passportCallback';
 export function setup(ProviderAccount, config) {
   var strategy = new OAuthStrategy({
     //TODO authorization url
-    authorizationURL: '',
+    authorizationURL: 'http://localhost:3000/#/login',
     tokenURL: 'https://api.sistemium.com/auth/pha/roles',
     clientID: config.clientId,
     clientSecret: config.clientSecret,
