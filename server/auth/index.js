@@ -22,7 +22,12 @@ providerApp.find()
         }
         case 'google': {
           require('./google/passport').setup(providerAccount(), providerApp);
-          router.use('/'+providerApp.code, require('./google')(providerApp.code))
+          router.use('/'+providerApp.code, require('./google')(providerApp.code));
+          break;
+        }
+        case 'sms': {
+          require('./sms/passport').setup(providerAccount(), providerApp);
+          router.use('/' + providerApp.code, require('./sms')(providerApp.code));
         }
       }
     });
