@@ -18,22 +18,22 @@ export function setup(ProviderAccount, providerAppConfig) {
 
       debug('refreshToken:', refToken);
 
-      var provider = 'facebook';
       ProviderAccount.getOrCreate({
-        provider: provider,
-        profileId: profile.id
+          profileId: profile.id
         }, {
           profileData: profile,
+          profileId: profile.id,
           name: profile.displayName,
-          roles: ['admin'],
+          roles: [],
           accessToken: accessToken,
           refreshToken: refToken && JSON.stringify(refToken) || null,
-          appId: providerAppConfig.clientID
+          providerAppId: providerAppConfig.id
         })
-        .then(passportCb(provider, profile, done), done);
+        .then(passportCb(providerAppConfig.provider, profile, done), done);
+
     }
 
-    refresh_token('facebook', profile.profileId).then(processToken, function () {
+    refresh_token('facebook', profile.id).then(processToken, function () {
       processToken();
     });
   });

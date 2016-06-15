@@ -5,19 +5,13 @@ var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
 import ProviderToken from '../../../models/providerToken.model.js';
 
-
 export default function (provider, profileId) {
   return new Promise((resolve, reject) => {
 
     ProviderToken.findByProfileId(provider, profileId)
-      .then((reply) => {
+      .then((providerToken) => {
 
-        debug('accessToken/redis', reply);
-        if (!reply) {
-          debug('refreshToken', 'No such accessToken');
-          return reject();
-        }
-        var accessToken = reply.accessToken;
+        var accessToken = providerToken.accessToken;
 
         if (provider === 'facebook') {
           FB.api('oauth/access_token', {
@@ -27,32 +21,20 @@ export default function (provider, profileId) {
             fb_exchange_token: accessToken
           }, function (res) {
             if (!res || res.error) {
-              reject();
+              reject(res.error);
             }
 
-            var providerToken = {
-              accessToken: accessToken,
-              refreshToken: res.accees_token
-            };
-            ProviderToken.createToken(provider, profileId, providerToken.accessToken, providerToken.refreshToken)
-              .then(() => {
-                resolve(res);
-              })
-              .catch((err) => {
-                reject(err);
-              });
+            ProviderToken.createToken(provider, profileId, accessToken, res.access_token).then(function () {
+              resolve(res);
+            });
           });
         } else {
           throw new Error('Invalid provider');
         }
 
-      }, () => {
-        console.log('no data');
-        reject();
       })
-      .catch(err => {
-        reject(err);
+      .catch((err) => {
+        return reject(err);
       });
   });
-
 }

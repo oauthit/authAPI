@@ -45,7 +45,7 @@ meta.defineEntity 'OrgProviderApp',
 
 meta.defineEntity 'ProviderAccount',
   'profileId;profileData;name;roles;accessToken;refreshToken;isDeleted',
-  'Account,accountId,nullable;SocialAccount,socialAccountId;ProviderApp,providerAppId'
+  'Account,accountId,nullable;SocialAccount,socialAccountId,nullable;ProviderApp,providerAppId'
 ;
 
 meta.defineEntity 'OrgProviderAccount',

@@ -12,22 +12,19 @@ export function setup(ProviderAccount, config) {
     passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => {
 
-    let provider = 'google';
-
     ProviderAccount.getOrCreate({
-      provider: provider,
       profileId: profile.id
     }, {
       profileData: profile,
+      profileId: profile.id,
       name: profile.displayName,
-      //TODO change this
       roles: [],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      appId: config.clientId
-    }).then(passportCb(provider, profile, done), done);
+      providerAppId: config.id
+    }).then(passportCb(config.provider, profile, done), done);
   });
 
-  strategy.name = 'google' + config.code;
+  strategy.name = config.code;
   passport.use(strategy);
 }

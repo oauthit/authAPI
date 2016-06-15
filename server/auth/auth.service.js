@@ -124,7 +124,7 @@ export function setAuthorized(providerCode) {
 
       let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
-      let promise = new Promise((fulfil, reject) => {
+      let providerAccount = yield new Promise((fulfil, reject) => {
         //TODO teach stapi to take js-data query for relations
         //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
 
@@ -141,7 +141,7 @@ export function setAuthorized(providerCode) {
                 roles: req.user.roles,
                 providerAppId: providerApp.id
               });
-              ProviderAccount.create(providerAccount)
+              ProviderAccount.update(req.user.id, providerAccount)
                 .then(providerAccount => {
                   return fulfil(providerAccount);
                 }, err => {
@@ -157,7 +157,6 @@ export function setAuthorized(providerCode) {
             reject(err);
           });
       });
-      let providerAccount = yield promise;
 
       debug('providerAccount:', providerAccount);
       let account = yield Account.findOrCreate(providerAccount.accountId, providerAccount);

@@ -27,11 +27,12 @@ export function setup(ProviderAccount, config) {
       profileId: profile.id
     }, {
       profileData: profile,
+      profileId: profile.id,
       //TODO change this
       roles: [],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      appId: config.clientId
+      providerAppId: config.id
     }).then(passportCb, done);
   });
 
