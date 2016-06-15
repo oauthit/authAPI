@@ -19,7 +19,7 @@
         },
         accessToken: localStorageService.get('access-token'),
         getRedirectUrl: function (url) {
-          return `${url}?access-token=${vm.accessToken}`
+          return `${url}?access-token=${vm.accessToken}`;
         }
       });
 
@@ -122,5 +122,5 @@
 
       init();
 
-    })
+    });
 })();

@@ -19,13 +19,11 @@
       function setupNgTable(providerAccounts) {
 
         vm.setupNgTable({
-          getCount: function (params, options) {
-            let p = params || {};
-            let o = options || {};
+          getCount: function () {
             return $q.resolve(providerAccounts.length);
           },
 
-          findAll: function (params, o) {
+          findAll: function () {
             return $q.resolve(providerAccounts);
           }
         });

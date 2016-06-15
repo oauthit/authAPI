@@ -15,6 +15,6 @@ export default function (req, res, next) {
     }
   } else {
     winston.warn(`Incorrect request object`);
-    return res.sendStatus(400)
+    return res.sendStatus(400);
   }
 }

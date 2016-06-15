@@ -87,6 +87,7 @@
     "gulp-watch": "^4.3.5",
     "isparta": "^3.5.3",
     "istanbul": "~0.4.1",
+    "jshint": "^2.9.2",
     "jshint-stylish": "~2.1.0",
     "karma": "~0.13.3",
     "karma-babel-preprocessor": "^5.2.1",

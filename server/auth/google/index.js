@@ -16,7 +16,7 @@ export default function (providerAppCode) {
         accessType: 'offline',
         approvalPrompt: 'force',
         state: req.query.accountId
-      })(req, res)
+      })(req, res);
     })
     .get('/callback', passport.authenticate('google' + providerAppCode, {
       failureRedirect: '/#/login',
@@ -25,3 +25,4 @@ export default function (providerAppCode) {
 
   return router;
 }
+

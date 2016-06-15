@@ -22,7 +22,7 @@ export default function saveSocialAccounts(req, modelName, friendModel, profileM
           profileModel().getFromRedis(profileId).then((profile) => {
 
             if (profile) {
-              cb(null, profile)
+              cb(null, profile);
             }
           }).catch((err) => {
             debug(err);

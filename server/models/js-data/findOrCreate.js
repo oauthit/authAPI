@@ -26,14 +26,14 @@ function findOrCreate(id, body) {
             .then(res => {
               debug('created:', res);
               return fulfil(res);
-            })
+            });
         })
         .catch(() => {
           this.create(body)
             .then(res => {
               debug('created:', body);
               return fulfil(res);
-            })
+            });
         })
       ;
     }
@@ -42,4 +42,4 @@ function findOrCreate(id, body) {
 
 export default {
   findOrCreate
-}
+};

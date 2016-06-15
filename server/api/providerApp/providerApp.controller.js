@@ -64,7 +64,7 @@ ctrl.publicFindAll = function (req, res) {
           name: pa.name,
           provider: pa.provider,
           code: pa.code
-        }
+        };
       }));
     })
     .catch(err => {

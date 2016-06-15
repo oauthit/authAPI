@@ -16,7 +16,7 @@ function setPassportUse (req, res, next) {
   fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
   console.log(fullUrl);
   let providerApp = _.find(providerApps, (o) => {
-    return o.code === fullUrl
+    return o.code === fullUrl;
   });
   console.log(providerApps);
   console.log(providerApp);
@@ -40,7 +40,7 @@ export default function (providerApp) {
         auth_type: 'reauthenticate',
         session: false,
         state: req.query.accountId
-      })(req, res)
+      })(req, res);
     })
     .get('/callback', setPassportUse, function (req, res, next) {
       passport.authenticate('facebook' + req.AUTHAPIproviderApp.code, {

@@ -120,7 +120,7 @@ function model(name) {
           }
 
           resolve(body);
-        })
+        });
 
       });
     }
@@ -181,7 +181,7 @@ function model(name) {
       getOrCreate: getOrCreate,
       deleteById: deleteById
     };
-  }
+  };
 
 
 }

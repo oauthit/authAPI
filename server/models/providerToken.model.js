@@ -30,6 +30,6 @@ function checkToken(provider, profileId) {
 }
 
 export default {
-  save: createToken,
+  createToken: createToken,
   findByProfileId: checkToken
-}
+};

@@ -46,7 +46,7 @@ var validateAuth = (req, res, next) => {
     winston.log('info', `Error occured while trying to find token by id(Token.find(${token})).`);
     winston.log('debug', `Error message: ${err}`);
     return res.sendStatus(401);
-  })
+  });
 };
 
 /**
@@ -63,7 +63,7 @@ export function isAuthenticated() {
         req.headers.authorization = req.query ['authorization:'];
       }
       validateAuth(req, res, next);
-    })
+    });
 }
 
 /**
@@ -105,8 +105,8 @@ export function setAuthorized(providerCode) {
   return function (req, res) {
     debug('User:', req.user);
 
-    co(function *() {
-      let providerApp = yield ProviderApp.findAll({"code": providerCode})
+    co(function* () {
+      let providerAppPromise = ProviderApp.findAll({"code": providerCode})
         .then((providerApps) => {
 
           if (providerApps.length === 1)
@@ -118,11 +118,13 @@ export function setAuthorized(providerCode) {
           }
         });
 
+      let providerApp = yield providerAppPromise;
+
       debug('providerApp:', providerApp);
 
       let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
-      let providerAccount = yield new Promise((fulfil, reject) => {
+      let promise = new Promise((fulfil, reject) => {
         //TODO teach stapi to take js-data query for relations
         //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
 
@@ -155,6 +157,7 @@ export function setAuthorized(providerCode) {
             reject(err);
           });
       });
+      let providerAccount = yield promise;
 
       debug('providerAccount:', providerAccount);
       let account = yield Account.findOrCreate(providerAccount.accountId, providerAccount);
@@ -175,6 +178,6 @@ export function setAuthorized(providerCode) {
       return res.sendStatus(500);
     });
 
-  }
+  };
 }
 

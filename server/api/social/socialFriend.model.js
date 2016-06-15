@@ -4,7 +4,7 @@ import redisWrapper from '../../config/redis';
 function saveFriends(tableName) {
   return function (profileId, data) {
     return redisWrapper.hsetAsync(tableName, profileId, data);
-  }
+  };
 }
 
 function getFriends(tableName) {
@@ -18,4 +18,4 @@ export default (tableName) => {
     saveAll: saveFriends(tableName),
     getAll: getFriends(tableName)
   };
-}
+};

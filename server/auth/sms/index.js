@@ -13,11 +13,10 @@ export default function (providerAppCode) {
       passport.authenticate('sms', {
         failureRedirect: '/#/login',
         state: req.query.accountId
-      })(req, res)
+      })(req, res);
     })
-    .get('/callback', passport.authenticate('sms', {
-      failureRedirect: '/#/login',
-      session: false
+    .get('/callback',  passport.authenticate('sms', {
+      failureRedirect: '/#/login'
     }), setAuthorized(providerAppCode));
 
   return router;

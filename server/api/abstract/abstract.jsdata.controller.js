@@ -238,7 +238,7 @@ function controller(model) {
      * @since 3.0.0
      * @tutorial ["http://www.js-data.io/v3.0/docs/saving-data","Saving data"]
      */
-    this.find(req, res)
+    find(req, res)
       .then(handleEntityNotFound(res))
       .then(removeEntity(res))
       .catch(handleError(res));
@@ -280,7 +280,7 @@ function controller(model) {
       delete req.body.id;
     }
 
-    this.find(req, res)
+    find(req, res)
       .then(handleEntityNotFound(res))
       .then(saveUpdates(req.body))
       .then(respondWithResult(res))

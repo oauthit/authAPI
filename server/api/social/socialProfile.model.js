@@ -30,13 +30,13 @@ function saveProfile(req, tableName) {
 
     });
 
-  }
+  };
 }
 
 function getProfile(tableName) {
   return (profileId) => {
     return redisWrapper.hgetAsync(tableName, profileId);
-  }
+  };
 }
 
 function getProfileFromApi(cb) {
@@ -50,5 +50,5 @@ export default (tableName, callback) => {
       getFromRedis: getProfile(tableName),
       getFromApi: getProfileFromApi(callback)
     };
-  }
-}
+  };
+};

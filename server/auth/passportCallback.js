@@ -26,5 +26,5 @@ export default (provider, profile, done) => {
       }
     });
 
-  }
-}
+  };
+};

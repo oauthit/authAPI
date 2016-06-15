@@ -10,7 +10,7 @@
   "noarg": true,
   "undef": true,
   "smarttabs": true,
-  "asi": true,
+  "asi": false,
   "debug": true,
   "noyield": true
 }

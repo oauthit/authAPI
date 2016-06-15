@@ -25,4 +25,4 @@ function getFacebookProfileFromFbApi(id, accessToken, profileId) {
 }
 
 
-export default socialProfile(config.redisTables.FACEBOOK_PROFILE, getFacebookProfileFromFbApi)
+export default socialProfile(config.redisTables.FACEBOOK_PROFILE, getFacebookProfileFromFbApi);

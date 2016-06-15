@@ -27,7 +27,7 @@ function model(modelName, friendModel, profileModel) {
         }, function (err) {
           return reject(err);
         });
-      }
+      };
     }
 
 
@@ -58,7 +58,7 @@ function model(modelName, friendModel, profileModel) {
       find: findById
     };
 
-  }
+  };
 
 }
 

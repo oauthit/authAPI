@@ -24,4 +24,4 @@ function getGoogleProfileFromApi(id, accessToken, profileId) {
   });
 }
 
-export default socialProfile(config.redisTables.GOOGLE_PROFILE, getGoogleProfileFromApi)
+export default socialProfile(config.redisTables.GOOGLE_PROFILE, getGoogleProfileFromApi);
