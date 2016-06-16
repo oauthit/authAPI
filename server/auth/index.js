@@ -25,8 +25,7 @@ providerApp.find()
           break;
         }
         case 'sms': {
-          require('./sms/passport').setup(providerAccount(), providerApp);
-          router.use('/' + providerApp.code, require('./sms')(providerApp.code));
+          router.use('/' + providerApp.code, require('./sms')(providerApp));
           break;
         }
       }

@@ -1,5 +1,4 @@
 import passport from 'passport';
-import config from '../../config/environment';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
 var debug = require('debug')('authAPI:google/passport');
 import passportCb from '../passportCallback';
@@ -25,6 +24,7 @@ export function setup(ProviderAccount, config) {
     }).then(passportCb(config.provider, profile, done), done);
   });
 
-  strategy.name = config.code;
-  passport.use(strategy);
+  strategy.name = 'google' + config.code;
+  console.log(strategy.name);
+  return strategy;
 }

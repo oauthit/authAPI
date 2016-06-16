@@ -12,13 +12,14 @@ var providerApps = [];
 
 function setPassportUse(req, res, next) {
   var fullUrl = req.originalUrl.split('/');
-  fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
+
+  //TODO learn to parse url
+  //fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
+  fullUrl = fullUrl[2];
   let providerApp = _.find(providerApps, (o) => {
     return o.code === fullUrl;
   });
-  console.log(providerApp);
   const strategy = require('./passport').setup(providerAccount(), providerApp);
-  console.log(strategy);
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;
   next();

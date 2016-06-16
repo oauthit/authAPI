@@ -23,7 +23,6 @@ export function setup(ProviderAccount, config) {
     debug('profile:', profile);
 
     ProviderAccount.getOrCreate({
-      provider: config.code,
       profileId: profile.id
     }, {
       profileData: profile,
@@ -37,5 +36,5 @@ export function setup(ProviderAccount, config) {
   });
 
   strategy.name = config.code;
-  passport.use(strategy);
+  return strategy;
 }
