@@ -2,22 +2,21 @@ import passport from 'passport';
 import {Strategy as OAuthStrategy} from 'passport-oauth2';
 var debug = require('debug')('authAPI:sms/passport');
 import passportCb from '../passportCallback';
-import request from 'request';
+import rp from 'request-promise';
 
 OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
-  request({
+  rp({
     method: 'GET',
-    url: 'https://api.sistemium.com/pha/roles',
+    url: 'http://localhost:9999/userProfile',
     headers: {
       'authorization': accessToken
     }
-  }, (error, response, body) => {
-    //debug('error:', error);
-    //debug('response:', response);
-    //debug('body:', body);
-
-    done(null, JSON.parse(body).account);
+  }).then(body => {
+    body = JSON.parse(body);
+    done(null, body);
+  }).catch(err => {
+    done(err);
   });
   //'https://api.sistemium.com/pha/roles', )
 
