@@ -6,7 +6,7 @@ import rp from 'request-promise';
 
 OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
-  rp({
+  return rp({
     method: 'GET',
     url: 'http://localhost:9999/userProfile',
     headers: {
@@ -38,6 +38,7 @@ export function setup(ProviderAccount, config) {
     //debug('profile:', profile);
 
     debug('done', done);
+    debug('profile', profile);
 
     profile.id = profile.authId;
 
