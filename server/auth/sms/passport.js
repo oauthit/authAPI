@@ -8,14 +8,15 @@ OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
   return rp({
     method: 'GET',
-    url: 'http://localhost:9999/userProfile',
+    url: 'http://localhost:3000/api/userinfo',
     headers: {
-      'authorization': accessToken
+      'authorization': 'Bearer ' + accessToken
     }
   }).then(body => {
     body = JSON.parse(body);
     done(null, body);
   }).catch(err => {
+    debug('error:', err);
     done(err);
   });
   //'https://api.sistemium.com/pha/roles', )
@@ -26,10 +27,11 @@ export function setup(ProviderAccount, config) {
   debug (config);
   var strategy = new OAuthStrategy({
     //TODO authorization url
-    authorizationURL: 'http://localhost:3000/#/login',
-    tokenURL: 'http://localhost:9999/auth/code',
+    authorizationURL: 'http://localhost:3000/dialog/authorize',
+    tokenURL: 'http://localhost:3000/oauth/token',
     clientID: config.clientId,
     clientSecret: config.clientSecret,
+    scope: 'offline_access',
     callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback'
   }, (accessToken, refreshToken, profile, done) => {
 
