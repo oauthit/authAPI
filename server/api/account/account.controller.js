@@ -3,6 +3,7 @@
 import stapiAccount from './../../models/account.model.js';
 import abstractController from '../abstract/abstract.stapi.controller';
 import Account from '../../models/js-data/account.model';
+var debug = require('debug')('authAPI:account.controller');
 
 let ctrl = abstractController(stapiAccount);
 
@@ -11,6 +12,7 @@ function setReq(req) {
     req.params = {};
   }
   req.params.id = req.user && req.user.id || 0;
+  debug('user:', req.user);
   return req;
 }
 
@@ -25,7 +27,9 @@ ctrl.index = function (req, res) {
 };
 
 ctrl.showMe = function (req, res) {
-  ctrl.show(setReq(req), res);
+  req = setReq(req);
+  req.params.id = req.user.tokenInfo.id;
+  ctrl.show(req, res);
 };
 
 ctrl.updateMe = function (req, res) {
