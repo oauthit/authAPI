@@ -17,6 +17,7 @@ function setPassportUse (req, res, next) {
   let providerApp = _.find(providerApps, (o) => {
     return o.code === fullUrl;
   });
+  debug('setPassportUse providerApp:', providerApp);
   const strategy = require('./passport').setup(providerAccount(), providerApp);
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;

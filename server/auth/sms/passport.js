@@ -25,6 +25,7 @@ OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
 export function setup(ProviderAccount, config) {
   debug (config);
+  debug (config.code);
   var strategy = new OAuthStrategy({
     //TODO authorization url
     authorizationURL: 'http://localhost:3000/dialog/authorize',

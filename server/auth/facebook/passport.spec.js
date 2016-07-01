@@ -13,17 +13,28 @@ import app from '../../index.js';
 
 describe('passport setup function', () => {
 
-  it('should setup', () => {
+  let PAccPromise;
+  beforeEach((done) => {
+    PAccPromise = sinon.stub(ProviderAccount());
+    done();
+  });
 
+  afterEach((done) => {
+    PAccPromise = null;
+    done();
+  });
+
+  it('should setup', () => {
     //arrange
-    //console.log(JSON.stringify(ProviderAccount()));
-    //let PAccPromise = sinon.stub(ProviderAccount());
+
     //let passportCbStub = sinon.stub(passportCb);
 
-    let providerAppConfig = {};
+    let providerAppConfig = {
+      clientId: 'some id'
+    };
 
     //act
-    setup(ProviderAccountStub, providerAppConfig);
+    setup(PAccPromise, providerAppConfig);
 
     //assert
     expect(PAccPromise.calledOnce).to.be.truthy;
@@ -32,10 +43,10 @@ describe('passport setup function', () => {
 
 });
 
-describe.only('GET /auth/{providerApp.code}', () => {
+describe('GET /auth/{providerApp.code}', () => {
 
   before((done) => {
-    setTimeout(function() {
+    setTimeout(function () {
       done();
     }, 3000);
   });
@@ -46,7 +57,7 @@ describe.only('GET /auth/{providerApp.code}', () => {
 
     request(app)
       .get('/auth/debteeFacebook')
-      .expect(200, done)
+      .expect(302, done)
     ;
 
 
@@ -55,7 +66,7 @@ describe.only('GET /auth/{providerApp.code}', () => {
   it('should authorize', (done) => {
     request(app)
       .get('/auth/vseramkiFacebook')
-      .expect(200, done)
+      .expect(302, done)
     ;
   })
 
