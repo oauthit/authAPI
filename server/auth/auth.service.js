@@ -38,7 +38,7 @@ var validateAuth = (req, res, next) => {
   debug('token:', token);
   Token.find(token).then((user) => {
     //debug ('validateAuth', 'user:', user);
-    winston.log('info', `Successfully found token for user: ${user}`);
+    winston.log('info', `Successfully found token for user: ${JSON.stringify(user)}`);
     req.user = user;
     winston.log('debug', `req.user = ${user}`);
     next();

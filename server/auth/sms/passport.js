@@ -29,8 +29,9 @@ export function setup(ProviderAccount, config) {
     //TODO authorization url
     authorizationURL: 'http://localhost:3000/dialog/authorize',
     tokenURL: 'http://localhost:3000/oauth/token',
-    clientID: config.clientId,
-    clientSecret: config.clientSecret,
+    //TODO change record for correct clientID and clientSecret
+    clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
+    clientSecret: 'someSecret' || config.clientSecret,
     scope: 'offline_access',
     callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback'
   }, (accessToken, refreshToken, profile, done) => {

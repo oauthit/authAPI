@@ -66,6 +66,7 @@ function controller(model) {
   }
 
   function show(req, res) {
+
     (req.model || model)(req).findById(req.params.id)
       .then(respondWithResult(res))
       .catch(handleError(res))

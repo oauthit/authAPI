@@ -55,7 +55,9 @@ function model(name) {
       //debug ('findOne',options);
       return new Promise((resolve, reject) => {
 
+        debug('options:', options);
         find(options).then(reply => {
+          debug('reply:', reply);
           reply && reply.length && resolve(reply[0]) || resolve(false);
         }, reject);
 
