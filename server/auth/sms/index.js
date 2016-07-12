@@ -18,6 +18,10 @@ function setPassportUse (req, res, next) {
     return o.code === fullUrl;
   });
   debug('setPassportUse providerApp:', providerApp);
+  console.log('setPassportUse providerApp:', providerApp);
+  if (!providerApp) {
+    return next();
+  }
   const strategy = require('./passport').setup(providerAccount(), providerApp);
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;

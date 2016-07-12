@@ -166,7 +166,7 @@ export function setAuthorized(providerCode) {
       let account = yield Account.findOrCreate(providerAccount.accountId, providerAccount);
 
       debug('account:', account);
-      providerAccount = Object.assign({},providerAccount, {accountId: account.id});
+      providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
       debug('providerAccount:', providerAccount);
 
       yield ProviderAccount.update(providerAccount.id, providerAccount);
@@ -188,29 +188,54 @@ export function setAuthorized(providerCode) {
         });
       }
 
-      let org = yield Org.find(orgAccounts[0].orgId);
-
-      debug('org:', org);
-
-      let orgApps = yield OrgApp.findAll({
-        orgId: org.id
+      let orgPromises = [];
+      orgAccounts.forEach((orgAccount) => {
+        let orgPromise = Org.find(orgAccount.orgId);
+        orgPromises.push(orgPromise);
       });
 
-      debug('orgApps:', orgApps);
+      Promise.all(orgPromises).then((orgs) => {
+        debug('orgs:', orgs);
 
-      if (orgApps.length === 0) {
-        return res.json({
-          error: "org don't have apps"
+        let orgAppPromises = [];
+        orgs.forEach((org) => {
+          let orgAppPromise = OrgApp.findAll({
+            orgId: org.id
+          });
+
+          orgAppPromises.push(orgAppPromise);
         });
-      }
 
-      let app = yield App.find(orgApps[0].appId);
+        Promise.all(orgAppPromises).then((orgApps) => {
+          debug('orgApps:', orgApps);
 
-      debug('app:', app);
+          if (orgApps.length === 0) {
+            return res.json({
+              error: "org don't have apps"
+            });
+          }
 
-      //TODO if more than one app redirect to the app list
+          else if (orgApps.length === 1) {
+            console.log(orgApps[0][0]);
+            let appPromise = App.find(orgApps[0][0].appId);
 
-      return res.redirect(app.url + '/#/?access-token=' + token);
+            appPromise.then((app) => {
+              debug('app:', app);
+
+              return res.redirect(app.url + '/#/?access-token=' + token);
+            });
+
+          } else {
+            return res.json(orgApps);
+          }
+        }).catch((err) => {
+          debug('err in orgAppPromises:', err);
+        });
+
+      }).catch((err) => {
+        debug('err in orgPromises:', err);
+      });
+
     }).catch((err) => {
       debug('error occurred:', err);
       return res.sendStatus(500);
