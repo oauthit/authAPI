@@ -7,6 +7,10 @@ import Account from '../../models/js-data/account.model';
 import ProviderAccount from '../../models/js-data/providerAccount.model';
 import SocialAccount from '../../models/js-data/socialAccount.model';
 import Token from '../../models/js-data/token.model';
+import OrgAccount from '../../models/js-data/orgAccount.model';
+import Org from '../../models/js-data/org.model';
+import OrgApp from '../../models/js-data/orgApp.model';
+import App from '../../models/js-data/app.model';
 import ProviderApp from '../../models/js-data/providerApp.model';
 import {createRequest, createResponse} from 'node-mocks-http';
 import sinonStubPromise from 'sinon-stub-promise';
@@ -26,7 +30,13 @@ describe("Auth service tests", () => {
     SAccFindPromise,
     PAccCreatePromise,
     AccFindOrCreatePromise,
-    TokenCreatePromise;
+    TokenCreatePromise,
+    OrgAccountStub,
+    OrgStub,
+    OrgAppStub,
+    AppStub,
+    OrgAccountFindAllPromise,
+    OrgFindPromise;
 
   beforeEach(() => {
     AccountStub = sinon.stub(Account);
@@ -34,6 +44,10 @@ describe("Auth service tests", () => {
     SocialAccountStub = sinon.stub(SocialAccount);
     TokenStub = sinon.stub(Token);
     ProviderAppStub = sinon.stub(ProviderApp);
+    OrgAccountStub = sinon.stub(OrgAccount);
+    OrgStub = sinon.stub(Org);
+    OrgAppStub = sinon.stub(OrgApp);
+    AppStub = sinon.stub(App);
   });
 
   afterEach(() => {

@@ -14,6 +14,10 @@ const ProviderAccount = model('providerAccount');
 const SocialAccount = model('socialAccount');
 const Token = model('token');
 const ProviderApp = model('providerApp');
+const OrgAccount = model('orgAccount');
+const Org = model('org');
+const OrgApp = model('orgApp');
+const App = model('app');
 
 /**
  *
@@ -171,7 +175,42 @@ export function setAuthorized(providerCode) {
       });
       debug('token:', token);
 
-      return res.redirect('/#/?access-token=' + token);
+      //TODO redirect to app, or show app list get account org, with org get apps
+      let orgAccounts = yield OrgAccount.findAll({
+        accountId: account.id
+      });
+
+      debug('orgAccounts:', orgAccounts);
+
+      if (orgAccounts.length === 0) {
+        return res.json({
+          error: "account don't have orgs"
+        });
+      }
+
+      let org = yield Org.find(orgAccounts[0].orgId);
+
+      debug('org:', org);
+
+      let orgApps = yield OrgApp.findAll({
+        orgId: org.id
+      });
+
+      debug('orgApps:', orgApps);
+
+      if (orgApps.length === 0) {
+        return res.json({
+          error: "org don't have apps"
+        });
+      }
+
+      let app = yield App.find(orgApps[0].appId);
+
+      debug('app:', app);
+
+      //TODO if more than one app redirect to the app list
+
+      return res.redirect(app.url + '/#/?access-token=' + token);
     }).catch((err) => {
       debug('error occurred:', err);
       return res.sendStatus(500);

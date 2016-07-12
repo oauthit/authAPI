@@ -34,8 +34,9 @@ export function setup(ProviderAccount, config) {
     clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
     clientSecret: 'someSecret' || config.clientSecret,
     scope: 'offline_access',
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback'
-  }, (accessToken, refreshToken, profile, done) => {
+    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
+    passReqToCallback: true
+  }, (req, accessToken, refreshToken, profile, done) => {
 
     //debug('accessToken:', accessToken);
     //debug('refreshToken:', refreshToken);
