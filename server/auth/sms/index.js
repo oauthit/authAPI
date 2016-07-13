@@ -20,7 +20,7 @@ function setPassportUse (req, res, next) {
   debug('setPassportUse providerApp:', providerApp);
   console.log('setPassportUse providerApp:', providerApp);
   if (!providerApp) {
-    return next();
+    return next('no providerApp...');
   }
   const strategy = require('./passport').setup(providerAccount(), providerApp);
   passport.use(strategy);
