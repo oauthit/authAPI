@@ -10,6 +10,7 @@
     'formlyBootstrap',
     'cgBusy',
     'sistemium',
+    'sistemiumAngularAuth',
     'sistemiumBootstrap',
     'ngSanitize'
   ]);
