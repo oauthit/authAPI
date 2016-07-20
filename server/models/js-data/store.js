@@ -5,7 +5,7 @@ import {HttpAdapter} from 'js-data-http-node';
 var config = require('../../config/environment');
 
 const adapter = new HttpAdapter({
-  basePath: config.apiUrl + 'aa',
+  basePath: config.STAPI + 'aa',
   httpConfig: {
     address: 'http://localhost',
     port: 9000
