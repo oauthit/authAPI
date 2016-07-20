@@ -2,9 +2,10 @@
 
 import {Container, Schema} from 'js-data';
 import {HttpAdapter} from 'js-data-http-node';
+var config = require('../../config/environment');
 
 const adapter = new HttpAdapter({
-  basePath: 'http://localhost:9000/api/aa',
+  basePath: config.apiUrl + 'aa',
   httpConfig: {
     address: 'http://localhost',
     port: 9000

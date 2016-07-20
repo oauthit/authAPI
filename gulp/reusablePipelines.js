@@ -32,14 +32,14 @@ export default {
   transpileClient: lazypipe()
     .pipe(plugins.sourcemaps.init)
     .pipe(plugins.babel, {
-      optional: ['es7.classProperties']
+      plugins: ["transform-class-properties"]
     })
     .pipe(plugins.sourcemaps.write, '.'),
 
   transpileServer: lazypipe()
     .pipe(plugins.sourcemaps.init)
     .pipe(plugins.babel, {
-      optional: ['runtime']
+      plugins: ['transform-runtime']
     })
     .pipe(plugins.sourcemaps.write, '.'),
 

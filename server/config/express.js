@@ -10,7 +10,6 @@ import morgan from 'morgan';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
-import cookieParser from 'cookie-parser';
 import errorHandler from 'errorhandler';
 import path from 'path';
 import config from './environment';
