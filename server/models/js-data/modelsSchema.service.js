@@ -1,9 +1,12 @@
 "use strict";
 
+const debug = require('debug')('authAPI:modelSchema');
+
 let models = {};
 
 function registerModel(modelName) {
   models[modelName] = require('./' + modelName + '.model');
+  debug(`${modelName} was defined`);
 }
 
 export default {

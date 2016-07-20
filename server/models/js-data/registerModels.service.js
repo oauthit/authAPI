@@ -1,23 +1,15 @@
-import {registerModel} from './modelsSchema.service';
+import Schema from './modelsSchema.service';
+
+var registerModel = Schema.registerModel;
 const debug = require('debug')('authAPI:registerModels.service');
 
 registerModel('account');
-debug('Account was defined');
 registerModel('orgAccount');
-debug('OrgAccount was defined');
 registerModel('providerAccount');
-debug('ProviderAccount was defined');
 registerModel('socialAccount');
-debug('SocialAccount was defined');
 registerModel('token');
-debug('Token was defined');
 registerModel('org');
-debug('Org was defined');
 registerModel('orgProviderApp');
-debug('OrgProviderApp was defined');
 registerModel('providerApp');
-debug('ProviderApp was defined');
 registerModel('app');
-debug('App was defined');
 registerModel('orgApp');
-debug('OrgApp was defined');
