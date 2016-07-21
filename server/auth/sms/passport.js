@@ -3,12 +3,15 @@ import {Strategy as OAuthStrategy} from 'passport-oauth2';
 var debug = require('debug')('authAPI:sms/passport');
 import passportCb from '../passportCallback';
 import rp from 'request-promise';
+import config from '../../config/environment';
+
+var smsAuthUrl = config.smsAuth.url;
 
 OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
   return rp({
     method: 'GET',
-    url: 'http://localhost:3000/api/userinfo',
+    url: smsAuthUrl + '/api/userinfo',
     headers: {
       'authorization': 'Bearer ' + accessToken
     }
@@ -28,8 +31,8 @@ export function setup(ProviderAccount, config) {
   debug (config.code);
   var strategy = new OAuthStrategy({
     //TODO authorization url
-    authorizationURL: 'http://localhost:3000/dialog/authorize',
-    tokenURL: 'http://localhost:3000/oauth/token',
+    authorizationURL: smsAuthUrl + '/dialog/authorize',
+    tokenURL: smsAuthUrl + '/oauth/token',
     //TODO change record for correct clientID and clientSecret
     clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
     clientSecret: 'someSecret' || config.clientSecret,
