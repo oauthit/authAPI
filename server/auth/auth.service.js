@@ -108,6 +108,7 @@ export function setAuthorized(providerCode) {
 
   return function (req, res) {
     debug('User:', req.user);
+    console.log('req.session:', req.session);
 
     co(function* () {
       let providerAppPromise = ProviderApp.findAll({"code": providerCode})

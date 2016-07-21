@@ -26,7 +26,7 @@ OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
 };
 
-export function setup(ProviderAccount, config) {
+export function setup(req, ProviderAccount, config) {
   debug (config);
   debug (config.code);
   var strategy = new OAuthStrategy({
@@ -37,6 +37,7 @@ export function setup(ProviderAccount, config) {
     clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
     clientSecret: 'someSecret' || config.clientSecret,
     scope: 'offline_access',
+    state: req.headers,
     callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
@@ -45,6 +46,7 @@ export function setup(ProviderAccount, config) {
     //debug('refreshToken:', refreshToken);
     //debug('profile:', profile);
 
+    console.log('req.state:', req.state);
     debug('done', done);
     debug('profile', profile);
 

@@ -22,19 +22,21 @@ function setPassportUse (req, res, next) {
   if (!providerApp) {
     return next('no providerApp...');
   }
-  const strategy = require('./passport').setup(providerAccount(), providerApp);
+  const strategy = require('./passport').setup(req, providerAccount(), providerApp);
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;
   next();
 }
 
 passport.serializeUser((user, done) => {
-  debug('serializeUser:', user);
+//  debug('serializeUser:', user);
+//  console.log('serializeUser:', user);
   done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
-  debug('deserialize:', user);
+//  debug('deserialize:', user);
+//  console.log('deserialize:', user);
   done(null, user);
 });
 
@@ -42,13 +44,19 @@ export default function (providerApp) {
   providerApps.push(providerApp);
   router
     .get('/', setPassportUse, function (req, res, next) {
+      console.log('req.headers.referer:', req.headers.referer);
+      req.session.returnTo = req.headers.referer;
+      console.log('req.session:', req.session);
       passport.authenticate('sms', {
         failureRedirect: '/#/login',
         state: req.query.accountId
       })(req, res, next);
     })
     .get('/callback', setPassportUse, function (req, res, next) {
+      console.log('req.session:', req.session);
+      console.log('req.headers.referer:', req.headers.referer);
       passport.authenticate('sms', {
+        successReturnToOrRedirect: '/',
         failureRedirect: '/#/login'
       })(req, res, next);
     }, function (req, res, next) {

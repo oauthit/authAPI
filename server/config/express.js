@@ -24,7 +24,7 @@ export default function(app) {
   if (config.session.type === 'RedisStore') {
 
     var RedisStore = require('connect-redis')(expressSession);
-    var redisConfig = config.redis;
+    var redisConfig = config.redisSessionConfig;
     console.log('Using RedisStore for the Session');
     sessionStorage = new RedisStore(redisConfig);
   }
@@ -41,16 +41,21 @@ export default function(app) {
   app.use(methodOverride());
 
 //Session Configuration
-  app.use(expressSession({
+  var sessionConfig = {
     saveUninitialized: true,
     resave: true,
     secret: config.secrets.session,
     store: sessionStorage,
-    key: 'authorization.sid',
-    cookie: {maxAge: config.session.maxAge}
-  }));
+    key: 'authAPI.sid',
+    cookie: {maxAge: config.session.maxAge * 1000}
+  };
+
+  console.log (sessionConfig);
+
+  app.use(expressSession(sessionConfig));
 
   app.use(passport.initialize());
+  //app.use(passport.session());
 
   app.set('appPath', path.join(config.root, 'client'));
 
