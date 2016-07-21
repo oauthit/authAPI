@@ -35,6 +35,12 @@ var all = {
     url: process.env.REDIS_URL
   },
 
+  redisSessionConfig: {
+    prefix: 'authApiSess:',
+    db: process.env.REDIS_DB || 7,
+    ttl: process.env.SESSION_TTL || 24 * 3600
+  },
+
   redisTables: {
     AUTH_TOKEN: 'AuthToken',
     PROVIDER_TOKEN: 'ProviderToken',
@@ -42,6 +48,10 @@ var all = {
     FACEBOOK_PROFILE: 'FacebookProfile',
     GOOGLE_FRIEND: 'GoogleFriend',
     GOOGLE_PROFILE: 'GoogleProfile'
+  },
+
+  session: {
+    type: 'RedisStore'
   }
 };
 

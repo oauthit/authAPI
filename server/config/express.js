@@ -15,9 +15,19 @@ import path from 'path';
 import config from './environment';
 import passport from 'passport';
 import cors from 'cors';
+import expressSession from 'express-session';
 
 export default function(app) {
   var env = app.get('env');
+  let sessionStorage;
+
+  if (config.session.type === 'RedisStore') {
+
+    var RedisStore = require('connect-redis')(expressSession);
+    var redisConfig = config.redis;
+    console.log('Using RedisStore for the Session');
+    sessionStorage = new RedisStore(redisConfig);
+  }
 
   app.set('views', config.root + '/server/views');
   app.set('view engine', 'jade');

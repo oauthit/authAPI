@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/refreshToken', controller.refreshToken);
+//TODO make refresh token controller
+// router.get('/refreshToken', controller.refreshToken);
 
 module.exports = router;
