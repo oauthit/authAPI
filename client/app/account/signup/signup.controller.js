@@ -2,7 +2,7 @@
 
 (function () {
 
-  function SignupController(Auth, $state) {
+  function SignupController(Auth) {
 
     var vm = this;
 
@@ -26,7 +26,7 @@
             this.$state.go('main');
           })
           .catch(function (err) {
-            var err = err.data;
+            err = err.data;
             vm.errors = {};
 
             // Update validity of form fields that match the mongoose errors
@@ -36,7 +36,7 @@
             });
           });
       }
-    }
+    };
   }
 
   angular.module('authApiApp')
