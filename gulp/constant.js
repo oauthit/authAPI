@@ -37,13 +37,17 @@ gulp.task('constant', function () {
   });
 
   appConfigConstants = _.merge({}, sharedConfig, appConfigConstants);
+  let saaAppConfigConstants = _.merge({}, appConfigConstants);
 
   return plugins.ngConstant({
       name: 'authApiApp.constants',
       deps: [],
       wrap: true,
       stream: true,
-      constants: {appConfig: appConfigConstants}
+      constants: {
+        appConfig: appConfigConstants,
+        saaAppConfig: saaAppConfigConstants
+      }
     })
     .pipe(plugins.rename({
       basename: 'app.constant'

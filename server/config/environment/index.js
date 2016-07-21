@@ -52,6 +52,11 @@ var all = {
 
   session: {
     type: 'RedisStore'
+  },
+
+  saaAppConfig: {
+    authUrl: process.env.AUTH_URL || 'http://localhost:9080',
+    authApiUrl: process.env.AUTH_API_URL || 'http://localhost:9080/api/'
   }
 };
 
