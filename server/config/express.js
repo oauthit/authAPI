@@ -39,6 +39,17 @@ export default function(app) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(methodOverride());
+
+//Session Configuration
+  app.use(expressSession({
+    saveUninitialized: true,
+    resave: true,
+    secret: config.secrets.session,
+    store: sessionStorage,
+    key: 'authorization.sid',
+    cookie: {maxAge: config.session.maxAge}
+  }));
+
   app.use(passport.initialize());
 
   app.set('appPath', path.join(config.root, 'client'));
