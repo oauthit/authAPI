@@ -185,66 +185,66 @@ export function setAuthorized(providerCode) {
         return res.redirect(redirectUrl + '#/?access-token=' + token);
       }
 
-      //TODO redirect to app, or show app list get account org, with org get apps
-      let orgAccounts = yield OrgAccount.findAll({
-        accountId: account.id
-      });
-
-      debug('orgAccounts:', orgAccounts);
-
-      if (orgAccounts.length === 0) {
-        return res.json({
-          error: "account don't have orgs"
-        });
-      }
-
-      let orgPromises = [];
-      orgAccounts.forEach((orgAccount) => {
-        let orgPromise = Org.find(orgAccount.orgId);
-        orgPromises.push(orgPromise);
-      });
-
-      Promise.all(orgPromises).then((orgs) => {
-        debug('orgs:', orgs);
-
-        let orgAppPromises = [];
-        orgs.forEach((org) => {
-          let orgAppPromise = OrgApp.findAll({
-            orgId: org.id
-          });
-
-          orgAppPromises.push(orgAppPromise);
-        });
-
-        Promise.all(orgAppPromises).then((orgApps) => {
-          debug('orgApps:', orgApps);
-
-          if (orgApps.length === 0) {
-            return res.json({
-              error: "org don't have apps"
-            });
-          }
-
-          else if (orgApps.length === 1) {
-            console.log(orgApps[0][0]);
-            let appPromise = App.find(orgApps[0][0].appId);
-
-            appPromise.then((app) => {
-              debug('app:', app);
-
-              return res.redirect(app.url + '/#/?access-token=' + token);
-            });
-
-          } else {
-            return res.json(orgApps);
-          }
-        }).catch((err) => {
-          debug('err in orgAppPromises:', err);
-        });
-
-      }).catch((err) => {
-        debug('err in orgPromises:', err);
-      });
+      // //TODO redirect to app, or show app list get account org, with org get apps
+      // let orgAccounts = yield OrgAccount.findAll({
+      //   accountId: account.id
+      // });
+      //
+      // debug('orgAccounts:', orgAccounts);
+      //
+      // if (orgAccounts.length === 0) {
+      //   return res.json({
+      //     error: "account don't have orgs"
+      //   });
+      // }
+      //
+      // let orgPromises = [];
+      // orgAccounts.forEach((orgAccount) => {
+      //   let orgPromise = Org.find(orgAccount.orgId);
+      //   orgPromises.push(orgPromise);
+      // });
+      //
+      // Promise.all(orgPromises).then((orgs) => {
+      //   debug('orgs:', orgs);
+      //
+      //   let orgAppPromises = [];
+      //   orgs.forEach((org) => {
+      //     let orgAppPromise = OrgApp.findAll({
+      //       orgId: org.id
+      //     });
+      //
+      //     orgAppPromises.push(orgAppPromise);
+      //   });
+      //
+      //   Promise.all(orgAppPromises).then((orgApps) => {
+      //     debug('orgApps:', orgApps);
+      //
+      //     if (orgApps.length === 0) {
+      //       return res.json({
+      //         error: "org don't have apps"
+      //       });
+      //     }
+      //
+      //     else if (orgApps.length === 1) {
+      //       console.log(orgApps[0][0]);
+      //       let appPromise = App.find(orgApps[0][0].appId);
+      //
+      //       appPromise.then((app) => {
+      //         debug('app:', app);
+      //
+      //         return res.redirect(app.url + '/#/?access-token=' + token);
+      //       });
+      //
+      //     } else {
+      //       return res.json(orgApps);
+      //     }
+      //   }).catch((err) => {
+      //     debug('err in orgAppPromises:', err);
+      //   });
+      //
+      // }).catch((err) => {
+      //   debug('err in orgPromises:', err);
+      // });
 
     }).catch((err) => {
       debug('error occurred:', err);
