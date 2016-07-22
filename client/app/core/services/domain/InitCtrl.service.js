@@ -3,12 +3,12 @@
   'use strict';
 
   angular.module('authApiApp.core.services')
-    .factory('InitCtrlService', function (saNgTable) {
+    .factory('InitCtrlService', function (sabNgTable) {
 
       function setup(ctrl) {
         return angular.extend(ctrl, {
           setupNgTable: function setupNgTable(model) {
-            return saNgTable.setup(ctrl, model);
+            return sabNgTable.setup(ctrl, model);
           }
         });
       }
