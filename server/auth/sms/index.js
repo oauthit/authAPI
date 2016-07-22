@@ -56,7 +56,6 @@ export default function (providerApp) {
       console.log('req.session:', req.session);
       console.log('req.headers.referer:', req.headers.referer);
       passport.authenticate('sms', {
-        successReturnToOrRedirect: '/',
         failureRedirect: '/#/login'
       })(req, res, next);
     }, function (req, res, next) {
