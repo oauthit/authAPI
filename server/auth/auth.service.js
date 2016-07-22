@@ -110,6 +110,7 @@ export function setAuthorized(providerCode) {
     debug('User:', req.user);
     console.log('req.session:', req.session);
 
+
     co(function* () {
       let providerAppPromise = ProviderApp.findAll({"code": providerCode})
         .then((providerApps) => {
@@ -175,6 +176,14 @@ export function setAuthorized(providerCode) {
         return token.id;
       });
       debug('token:', token);
+
+//req.session.returnTo
+      if (req.session && req.session.returnTo) {
+        console.log(req.session.returnTo);
+        let redirectUrl = req.session.returnTo;
+        delete req.session.returnTo;
+        return res.redirect(redirectUrl + '#/?access-token=' + token);
+      }
 
       //TODO redirect to app, or show app list get account org, with org get apps
       let orgAccounts = yield OrgAccount.findAll({
