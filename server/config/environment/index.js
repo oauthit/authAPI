@@ -52,7 +52,7 @@ var all = {
 
   session: {
     type: 'RedisStore',
-    maxAge: process.env.SESSION_MAX_AGE || 24 * 3600
+    maxAge: process.env.SESSION_MAX_AGE || 24 * 3600 * 1000
   },
 
   saaAppConfig: {
