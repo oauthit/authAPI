@@ -27,7 +27,9 @@ export default function (providerApp) {
   router
     .get('/', setPassportUse, function (req, res) {
       let providerApp = req.AUTHAPIproviderApp;
-      console.log(req.session);
+      console.log('req.headers.referer:', req.headers.referer);
+      req.session.returnTo = req.headers.referer;
+      console.log('req.session:', req.session);
       passport.authenticate('facebook' + providerApp.code, {
         scope: ['email', 'user_about_me', 'public_profile', 'user_friends'],
         failureRedirect: '/#/login',
@@ -37,7 +39,8 @@ export default function (providerApp) {
       })(req, res);
     })
     .get('/callback', setPassportUse, function (req, res, next) {
-      console.log(req.session);
+      console.log('req.session:', req.session);
+      console.log('req.headers.referer:', req.headers.referer);
       passport.authenticate('facebook' + req.AUTHAPIproviderApp.code, {
         failureRedirect: '/#/login',
         session: false
