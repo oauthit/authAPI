@@ -52,8 +52,6 @@ export default function(app) {
     cookie: {maxAge: config.session.maxAge * 1000}
   };
 
-  console.log (sessionConfig);
-
   app.use(expressSession(sessionConfig));
 
   app.use(passport.initialize());
