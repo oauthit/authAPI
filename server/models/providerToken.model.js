@@ -6,7 +6,7 @@ const debug = require('debug')('AuthAPI:models/providerToken.model');
 var redisClient = redisWrapper.redisClient;
 
 function createToken(provider, profileId, accessToken, refreshToken) {
-  //generate token
+
   var providerToken = {
     accessToken: accessToken,
     refreshToken: refreshToken
@@ -18,13 +18,14 @@ function createToken(provider, profileId, accessToken, refreshToken) {
       resolve(reply);
     });
   });
+
 }
 
 function findByProfileId(provider, profileId) {
   return new Promise(function (resolve, reject) {
     redisClient.hget(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, (err, reply) => {
       if (err) {
-        reject();
+        return reject();
       }
       resolve(reply);
     });
