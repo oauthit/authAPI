@@ -99,13 +99,13 @@ export function setAuthorized(providerCode) {
    */
 
   return function (req, res) {
-    debug('User:', req.user);
-    console.log('req.session:', req.session);
 
+    debug('setAuthorized user:', req.user);
+    debug('setAuthorized session:', req.session);
 
     co(function* () {
 
-      let providerAppPromise = ProviderApp.findAll({"code": providerCode})
+      let providerAppPromise = ProviderApp.findAll({'code': providerCode})
         .then((providerApps) => {
 
           if (providerApps.length === 1)
@@ -130,10 +130,14 @@ export function setAuthorized(providerCode) {
 
         ProviderAccount.findAll({socialAccountId: socialAccount.id})
           .then(providerAccounts => {
-            debug('providerAccounts:', providerAccounts);
+
+            debug('setAuthorized:providerAccounts:', providerAccounts);
+
             if (providerAccounts.length === 0) {
+
               let socialAccountId = socialAccount.id;
               delete socialAccount.id;
+
               let providerAccount = Object.assign({}, socialAccount, {
                 socialAccountId: socialAccountId,
                 accessToken: req.user.accessToken,
@@ -141,28 +145,32 @@ export function setAuthorized(providerCode) {
                 roles: req.user.roles,
                 providerAppId: providerApp.id
               });
+
               ProviderAccount.update(req.user.id, providerAccount)
                 .then(providerAccount => {
                   return fulfil(providerAccount);
                 }, err => {
-                  debug('providerAccount could not be created, err:', err);
+                  debug('setAuthorized:ProviderAccount.update error:', err);
                   return reject(err);
-                })
-              ;
+                });
+
             } else {
               return fulfil(providerAccounts[0]);
             }
+
           }, err => {
-            debug('error occurred while getting provider accounts:', err);
+
+            debug('setAuthorized:ProviderAccount.findAll error:', err);
             reject(err);
+
           });
       });
 
       let account = yield Account.findOrCreate(providerAccount.accountId);
-      debug('setAuthorized:account:', account);
+      debug('setAuthorized: account:', account);
 
       providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
-      debug('setAuthorized:providerAccount:', providerAccount);
+      debug('setAuthorized: providerAccount:', providerAccount);
 
       yield ProviderAccount.update(providerAccount.id, providerAccount);
       let token = yield Token.create({tokenInfo: account}).then(token => {
@@ -170,7 +178,7 @@ export function setAuthorized(providerCode) {
         return token.id;
       });
 
-      debug('token:', token);
+      debug('setAuthorized: token:', token);
 
       if (req.session && req.session.returnTo) {
         console.log(req.session.returnTo);
@@ -241,7 +249,7 @@ export function setAuthorized(providerCode) {
       // });
 
     }).catch((err) => {
-      debug('setAuthorized:catch:', err);
+      debug('setAuthorized:catch:', err.data || err);
       return res.sendStatus(500);
     });
 

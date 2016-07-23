@@ -3,7 +3,7 @@
 import stapiAccount from './../../models/account.model.js';
 import abstractController from '../abstract/abstract.stapi.controller';
 import Account from '../../models/js-data/account.model';
-var debug = require('debug')('authAPI:account.controller');
+var debug = require('debug')('authAPI:api:account:controller');
 
 let ctrl = abstractController(stapiAccount);
 
@@ -12,18 +12,18 @@ function setReq(req) {
     req.params = {};
   }
   req.params.id = req.user && req.user.id || 0;
-  debug('user:', req.user);
+  debug('setReq user:', req.user);
   return req;
 }
 
 ctrl.index = function (req, res) {
 
   Account.findAll().then(data => {
-    //console.log(data);
     return res.json(data);
   }).catch(err => {
-    console.log(err);
+    console.error(err);
   });
+
 };
 
 ctrl.showMe = function (req, res) {
@@ -34,18 +34,17 @@ ctrl.showMe = function (req, res) {
 
 ctrl.updateMe = function (req, res) {
   ctrl.update(setReq(req), res);
-
 };
 
 ctrl.create = function (req, res) {
   Account.create(req.body)
     .then(account => {
-      console.log('Account', account);
+      debug('create Account:', account);
       // return status 204 created
       return res.sendStatus(204).json(account);
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
       return res.sendStatus(500);
     })
   ;

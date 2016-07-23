@@ -1,7 +1,9 @@
 'use strict';
 
+let ns = 'AuthAPI:api:providerApp:controller';
+
 import abstractCtrl from '../abstract/abstract.jsdata.controller';
-const debug = require('debug')('AuthAPI:providerApp.controller');
+const debug = require('debug')(ns);
 import {model} from '../../models/js-data/modelsSchema.service';
 const ProviderAccount = model('providerAccount');
 const ProviderApp = model('providerApp');
@@ -19,8 +21,7 @@ function setReq(req) {
 
 ctrl.privateFindAll = function (req, res) {
 
-  debug('index:', 'req.user', req.user);
-  console.log('req.user:', req.user);
+  debug('privateFindAll user:', req.user);
 
   const account = req && req.user && req.user.tokenInfo;
   const accountId = account.id;
@@ -30,24 +31,19 @@ ctrl.privateFindAll = function (req, res) {
     let providerAccounts = yield ProviderAccount.findAll({accountId: accountId});
     //providerAccounts should contain olny one record ProviderAccount have only one Account
 
-    console.log('providerAccounts:', providerAccounts);
+    debug('privateFindAll providerAccounts:', providerAccounts);
 
     if (providerAccounts) {
-
       for (let i = 0; i < providerAccounts.length; i++) {
-
-        console.log(providerAccounts[i]);
         let providerApp = yield ProviderApp.find(providerAccounts[i].providerAppId);
         providerApps.push(providerApp);
       }
     }
 
-    console.log('providerApp', providerApps);
-
     return res.json(providerApps);
 
   }).catch((err) => {
-    debug('err:', err);
+    console.error(ns, err);
     return res.sendStatus(err);
   });
 
@@ -68,18 +64,15 @@ ctrl.publicFindAll = function (req, res) {
       }));
     })
     .catch(err => {
-      debug('err:', err);
+      console.error(ns, err);
       return res.sendStatus(500);
     });
 
 };
 
 ctrl.show = function (req, res) {
-  debug('show:', 'req.user', req.user);
-
+  debug('show: user:', req.user);
   return res.json();
 };
-
-debug('ctrl.index:', ctrl.index);
 
 export default ctrl;
