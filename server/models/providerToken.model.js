@@ -20,7 +20,7 @@ function createToken(provider, profileId, accessToken, refreshToken) {
   });
 }
 
-function checkToken(provider, profileId) {
+function findByProfileId(provider, profileId) {
   return new Promise(function (resolve, reject) {
     redisClient.hget(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, (err, reply) => {
       if (err) {
@@ -31,7 +31,4 @@ function checkToken(provider, profileId) {
   });
 }
 
-export default {
-  createToken: createToken,
-  findByProfileId: checkToken
-};
+export default {createToken, findByProfileId};

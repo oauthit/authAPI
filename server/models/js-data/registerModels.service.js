@@ -1,7 +1,4 @@
-import Schema from './modelsSchema.service';
-
-var registerModel = Schema.registerModel;
-const debug = require('debug')('authAPI:registerModels.service');
+import {registerModel} from './modelsSchema.service';
 
 registerModel('account');
 registerModel('orgAccount');
