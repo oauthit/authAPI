@@ -1,43 +1,45 @@
 'use strict';
 
-class SignupController {
-  //start-non-standard
-  user = {};
-  errors = {};
-  submitted = false;
-  //end-non-standard
+(function () {
 
-  constructor(Auth, $state) {
-    this.Auth = Auth;
-    this.$state = $state;
+  function SignupController(Auth) {
+
+    var vm = this;
+
+    vm.user = {};
+    vm.errors = {};
+    vm.submitted = false;
+
+    vm.register = function (form) {
+
+      vm.submitted = true;
+      var user = vm.user;
+
+      if (form.$valid) {
+        Auth.createUser({
+          name: user.name,
+          email: user.email,
+          password: user.password
+        })
+          .then(() => {
+            // Account created, redirect to home
+            this.$state.go('main');
+          })
+          .catch(function (err) {
+            err = err.data;
+            vm.errors = {};
+
+            // Update validity of form fields that match the mongoose errors
+            _.each(err.errors, function (error, field) {
+              form[field].$setValidity('mongoose', false);
+              vm.errors[field] = error.message;
+            });
+          });
+      }
+    };
   }
 
-  register(form) {
-    this.submitted = true;
+  angular.module('authApiApp')
+    .controller('SignupController', SignupController);
 
-    if (form.$valid) {
-      this.Auth.createUser({
-        name: this.user.name,
-        email: this.user.email,
-        password: this.user.password
-      })
-      .then(() => {
-        // Account created, redirect to home
-        this.$state.go('main');
-      })
-      .catch(err => {
-        err = err.data;
-        this.errors = {};
-
-        // Update validity of form fields that match the mongoose errors
-        angular.forEach(err.errors, (error, field) => {
-          form[field].$setValidity('mongoose', false);
-          this.errors[field] = error.message;
-        });
-      });
-    }
-  }
-}
-
-angular.module('authApiApp')
-  .controller('SignupController', SignupController);
+})();

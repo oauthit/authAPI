@@ -28,6 +28,8 @@
   <!-- injector:css -->
   <!-- endinjector -->
   <!-- endbuild -->
+
+  <link rel="stylesheet" href="bower_components/octicons/octicons/octicons.css">
 </head>
 <body ng-app="authApiApp">
 <!--[if lt IE 7]>
@@ -87,74 +89,59 @@
 <script src="bower_components/angular-ui-router.stateHelper/statehelper.js"></script>
 <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="bower_components/js-data/dist/js-data.js"></script>
+<script src="bower_components/async/lib/async.js"></script>
 <script src="bower_components/js-data-angular/dist/js-data-angular.js"></script>
 <script src="bower_components/sistemium-angular/dist/sistemium-angular.js"></script>
 <script src="bower_components/sistemium-angular/dist/socket-io.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
 <script src="bower_components/sistemium-angular-bootstrap/dist/sistemium-angular-bootstrap.js"></script>
+<script src="bower_components/sistemium-angular-auth/dist/sistemium-angular-auth.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 <!-- build:js(.tmp) app/app.js -->
 <script src="app/app.js"></script>
 <!-- injector:js -->
+<script src="app/account/models/models.module.js"></script>
 <script src="app/admin/admin.module.js"></script>
 <script src="app/core/core.module.js"></script>
-<script src="app/core/directives/directives.module.js"></script>
-<script src="app/core/filters/filters.module.js"></script>
 <script src="app/core/interceptors/interceptors.module.js"></script>
-<script src="app/core/models/models.module.js"></script>
 <script src="app/core/services/services.module.js"></script>
-<script src="components/auth/auth.module.js"></script>
 <script src="components/util/util.module.js"></script>
 <script src="app/account/account.js"></script>
+<script src="app/account/domain/account/account.controller.js"></script>
+<script src="app/account/domain/account/account.router.js"></script>
+<script src="app/account/domain/organizationInfo/orgInfo.controller.js"></script>
+<script src="app/account/domain/organizationInfo/orgInfo.router.js"></script>
+<script src="app/account/domain/organizations/org.controller.js"></script>
+<script src="app/account/domain/organizations/org.router.js"></script>
+<script src="app/account/domain/providerApps/providerApp.controller.js"></script>
+<script src="app/account/domain/providerApps/providerApp.router.js"></script>
+<script src="app/account/domain/providerApps/providerAppAccounts/providerAppAccounts.controller.js"></script>
+<script src="app/account/domain/providerApps/providerAppAccounts/providerAppAccounts.router.js"></script>
 <script src="app/account/login/login.controller.js"></script>
+<script src="app/account/models/SocialAccount.model.js"></script>
+<script src="app/account/models/account.model.js"></script>
+<script src="app/account/models/app.model.js"></script>
+<script src="app/account/models/org.model.js"></script>
+<script src="app/account/models/orgApp.model.js"></script>
+<script src="app/account/models/orgProviderApp.model.js"></script>
+<script src="app/account/models/providerAccount.model.js"></script>
+<script src="app/account/models/providerApp.model.js"></script>
 <script src="app/account/settings/settings.controller.js"></script>
 <script src="app/account/signup/signup.controller.js"></script>
 <script src="app/admin/admin.controller.js"></script>
 <script src="app/admin/admin.router.js"></script>
+<script src="app/admin/services/org.service.js"></script>
 <script src="app/app.config.js"></script>
 <script src="app/app.constant.js"></script>
-<script src="app/core/decorators/$exceptionHandler.decorator.js"></script>
-<script src="app/core/directives/dButtons/dButtons.directive.js"></script>
-<script src="app/core/directives/dInputWithAddon/dInputWithAddon.directive.js"></script>
-<script src="app/core/directives/typeaheadClickOpen.directive.js"></script>
-<script src="app/core/filters/reverse.filter.js"></script>
-<script src="app/core/interceptors/auth.interceptor.js"></script>
 <script src="app/core/interceptors/error.interceptor.js"></script>
-<script src="app/core/models/domain/account.model.js"></script>
-<script src="app/core/models/domain/agent.model.js"></script>
-<script src="app/core/models/domain/contact.model.js"></script>
-<script src="app/core/models/domain/counterAgent.model.js"></script>
-<script src="app/core/models/domain/currency.model.js"></script>
-<script src="app/core/models/domain/invite.model.js"></script>
-<script src="app/core/models/domain/operation.model.js"></script>
-<script src="app/core/models/domain/socialFriend.model.js"></script>
-<script src="app/core/services/domain/initCtrl.service.js"></script>
-<script src="app/core/services/domain/initialization.service.js"></script>
-<script src="app/core/services/domain/invite.service.js"></script>
-<script src="app/core/services/domain/model.service.js"></script>
-<script src="app/core/services/domain/settings.service.js"></script>
-<script src="app/domain/agent/agent.controller.js"></script>
-<script src="app/domain/agent/agent.router.js"></script>
-<script src="app/domain/contact/add/contactAdd.controller.js"></script>
-<script src="app/domain/contact/contact.router.js"></script>
-<script src="app/domain/contact/info/contactInfo.controller.js"></script>
-<script src="app/domain/contact/list/contactList.controller.js"></script>
-<script src="app/domain/contact/socialNetworkFriends/friends.controller.js"></script>
-<script src="app/domain/invite/create/inviteCreate.controller.js"></script>
-<script src="app/domain/invite/info/inviteInfo.controller.js"></script>
-<script src="app/domain/invite/invite.router.js"></script>
-<script src="app/domain/invite/list/inviteList.controller.js"></script>
+<script src="app/core/services/domain/InitCtrl.service.js"></script>
+<script src="app/core/services/domain/saAuthWrapper.service.js"></script>
+<script src="app/core/services/domain/saSchemaWrapper.service.js"></script>
 <script src="app/domain/main/main.controller.js"></script>
 <script src="app/domain/main/main.router.js"></script>
-<script src="app/domain/operation/add/operationAdd.controller.js"></script>
-<script src="app/domain/operation/info/operationInfo.controller.js"></script>
-<script src="app/domain/operation/list/operationList.controller.js"></script>
-<script src="app/domain/operation/operation.router.js"></script>
-<script src="components/auth/auth.service.js"></script>
-<script src="components/auth/router.decorator.js"></script>
-<script src="components/auth/token.service.js"></script>
+<script src="app/router.decorator.js"></script>
 <script src="components/footer/footer.directive.js"></script>
 <script src="components/formly/formly-config.js"></script>
 <script src="components/modal/modal.service.js"></script>

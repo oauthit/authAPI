@@ -1,0 +1,32 @@
+.container
+  h1 {{vm.providerApp.name}} {{vm.providerApp.provider}} Provider Accounts
+
+  table.table.table-striped.table-hover.table-responsive(
+  ng-table='vm.ngTableParams'
+  )
+    tr.clickable(
+    ng-repeat='row in $data track by row.id'
+    )
+      td(title="'Name'")
+        | {{row.name}}
+      td(title="'Provider'")
+        | {{row.profileData.provider}}
+      td(title="'Roles'")
+        | {{row.roles}}
+
+  div(ng-if="vm.providerApp.provider === 'facebook'")
+    a.btn.btn-social.btn-facebook(ng-class='classes'
+    ng-click='vm.loginOauth(vm.providerApp.name + "Facebook")')
+      i.fa.fa-facebook
+      |  Connect with Facebook
+
+  div(ng-if="vm.providerApp.provider === 'google'")
+    a.btn.btn-social.btn-google(ng-class='classes'
+    ng-click='vm.loginOauth(vm.providerApp.name + "Google")')
+      i.fa.fa-google-plus
+      |  Connect with Google+
+  div(ng-if="vm.providerApp.provider === 'sms'")
+    a.btn.btn-social.btn-openid(ng-class='classes'
+    ng-click='vm.loginOauth(vm.providerApp.name)')
+      i.glyphicon.glyphicon-phone
+      |  Connect with mobile number

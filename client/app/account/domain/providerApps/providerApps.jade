@@ -1,0 +1,20 @@
+.container
+  h1 Providers
+
+  table.table.table-striped.table-hover.table-responsive(
+  ng-table='vm.ngTableParams'
+  )
+    tr.clickable(
+    ng-repeat='row in $data track by row.id'
+    ui-sref='auth.providerAccounts({providerId: row.id})'
+    )
+      td(title="'Name'")
+        | {{row.name}}
+      td(title="'Provider'")
+        | {{row.provider}}
+      td(title="'Code'")
+        | {{row.code}}
+      td(title="'Client ID'" ng-if="true")
+        | {{row.clientId}}
+      td(title="'Client Secret'" ng-if="true")
+        | {{row.clientSecret}}

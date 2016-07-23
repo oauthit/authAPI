@@ -9,7 +9,6 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
-  app.use('/api/domain', require('./api/agent'));
   app.use('/api', require('./api'));
 
   app.use('/auth', require('./auth'));
@@ -21,6 +20,7 @@ export default function(app) {
   // All other routes should redirect to the index.html
   app.route('/*')
     .get((req, res) => {
+      console.log(`app.route('/*')`);
       res.sendFile(path.resolve(app.get('appPath') + '/index.html'));
     });
 }

@@ -21,32 +21,37 @@
             )
               | Cancel changes
 
-      .row(ng-show='vm.providers')
-        .col-sm-4.col-md-3
-          a.btn.btn-social.btn-facebook.btn-block(ng-hide='vm.hasProviderLinked("facebook")'
-          ng-click='vm.link("facebook")')
-            i.fa.fa-facebook
-            |  Link your Facebook
-          a.btn.btn-social.btn-facebook.btn-block(ng-show='vm.hasProviderLinked("facebook")'
-          ng-click='vm.unlink("facebook")')
-            i.fa.fa-facebook
-            |  Unlink your Facebook
+      pre Account {{vm.acc}}
 
-          a.btn.btn-social.btn-google.btn-block(ng-click='vm.link("google")'
-          ng-hide='vm.hasProviderLinked("google")')
-            i.fa.fa-google-plus
-            |  Link your Google+
-          a.btn.btn-social.btn-google.btn-block(ng-click='vm.unlink("google")'
-          ng-show='vm.hasProviderLinked("google")')
-            i.fa.fa-google-plus
-            |  Unlink your Google+
+      pre ProviderAccounts {{vm.providerAccounts}}
 
-          a.btn.btn-social.btn-twitter.btn-block(ng-click='vm.link("twitter")'
-          ng-hide='vm.hasProviderLinked("twitter")')
-            i.fa.fa-twitter
-            |  Link your Twitter
-          a.btn.btn-social.btn-twitter.btn-block(ng-click='vm.unlink("twitter")'
-          ng-show='vm.hasProviderLinked("twitter")')
-            i.fa.fa-twitter
-            |  Unlink your Twitter
+      //
+      //.row(ng-show='vm.providers')
+      //  .col-sm-4.col-md-3
+      //    a.btn.btn-social.btn-facebook.btn-block(ng-hide='vm.hasProviderLinked("facebook")'
+      //    ng-click='vm.link("facebook")')
+      //      i.fa.fa-facebook
+      //      |  Link your Facebook
+      //    a.btn.btn-social.btn-facebook.btn-block(ng-show='vm.hasProviderLinked("facebook")'
+      //    ng-click='vm.unlink("facebook")')
+      //      i.fa.fa-facebook
+      //      |  Unlink your Facebook
+      //
+      //    a.btn.btn-social.btn-google.btn-block(ng-click='vm.link("google")'
+      //    ng-hide='vm.hasProviderLinked("google")')
+      //      i.fa.fa-google-plus
+      //      |  Link your Google+
+      //    a.btn.btn-social.btn-google.btn-block(ng-click='vm.unlink("google")'
+      //    ng-show='vm.hasProviderLinked("google")')
+      //      i.fa.fa-google-plus
+      //      |  Unlink your Google+
+      //
+      //    a.btn.btn-social.btn-twitter.btn-block(ng-click='vm.link("twitter")'
+      //    ng-hide='vm.hasProviderLinked("twitter")')
+      //      i.fa.fa-twitter
+      //      |  Link your Twitter
+      //    a.btn.btn-social.btn-twitter.btn-block(ng-click='vm.unlink("twitter")'
+      //    ng-show='vm.hasProviderLinked("twitter")')
+      //      i.fa.fa-twitter
+      //      |  Unlink your Twitter
 

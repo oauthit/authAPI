@@ -1,18 +1,22 @@
 'use strict';
 
 import express from 'express';
-import passport from 'passport';
-import config from '../config/environment';
-import providerAccount from '../api/providerAccount/providerAccount.model';
-
-// Passport Configuration
-require('./facebook/passport').setup(providerAccount(), config);
-require('./google/passport').setup(providerAccount(), config);
+import providerApp from '../models/js-data/providerApp.model';
+const debug = require('debug')('AuthAPI:auth:index');
 
 var router = express.Router();
 
-router.use('/pha', require('./pha'));
-router.use('/facebook', require('./facebook'));
-router.use('/google', require('./google'));
+// Passport Configuration
+
+providerApp.find()
+  .then((providerApps) => {
+    providerApps.forEach(providerApp => {
+      router.use('/' + providerApp.code, require(`./${providerApp.provider}`)(providerApp));
+    });
+  })
+  .catch(err => {
+    debug('error:', err);
+  })
+;
 
 export default router;

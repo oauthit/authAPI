@@ -3,33 +3,26 @@
 (function () {
 
   angular.module('authApiApp.dependencies', [
-    'ngSanitize',
     'ui.router',
     'ui.router.stateHelper',
-    'validation.match',
     'LocalStorageModule',
     'formly',
     'formlyBootstrap',
-    'ngclipboard',
-    'angularMoment',
     'cgBusy',
     'sistemium',
-    'sistemiumBootstrap'
+    'sistemiumAngularAuth',
+    'sistemiumBootstrap',
+    'ngSanitize'
   ]);
 
   angular.module('authApiApp', [
       'authApiApp.dependencies',
       'authApiApp.core',
-      'authApiApp.auth',
       'authApiApp.admin',
       'authApiApp.constants'
     ])
 
-    .run(function ($rootScope, InitService, sabErrorsService) {
-      //subscribe for logged-in event
-      $rootScope.$on('logged-in',function(){
-        InitService.init();
-      });
+    .run(function ($rootScope, sabErrorsService) {
 
       //add function to $rootScope to add errors
       $rootScope.addError = function (error) {

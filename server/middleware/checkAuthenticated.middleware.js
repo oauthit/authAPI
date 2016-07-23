@@ -3,7 +3,7 @@
 function onReject(response, status) {
   return function (err) {
     response.status(status || 500).end(err);
-  }
+  };
 }
 
 export default function () {
@@ -13,5 +13,5 @@ export default function () {
     } else {
       next();
     }
-  }
+  };
 }

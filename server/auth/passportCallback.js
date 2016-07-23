@@ -1,28 +1,42 @@
 'use strict';
-import Token from '../api/token/token.model';
-import ProviderToken from '../api/providerToken/providerToken.model';
-import account from '../api/account/account.model';
+
+import Token from '../models/js-data/token.model';
+import ProviderToken from '../models/providerToken.model.js';
+import account from '../models/account.model.js';
+
 var Account = account();
-var debug = require('debug')('authAPI:passportCallback');
+var debug = require('debug')('authAPI:auth:passportCallback');
 
 export default (provider, profile, done) => {
   return (data) => {
-    ProviderToken.save(provider, profile.id, data.accessToken, data.refreshToken).then(function () {
-      if (data.accountId) {
-        Account.findById(data.accountId)
-          .then((data) => {
-            Token.save(data)
-              .then(token => {
-                done(null, data, token);
-              }, done)
-            ;
-          }, done)
-          .catch(done);
-      } else {
-        debug(data);
-        done(null, data);
-      }
-    });
 
-  }
-}
+    ProviderToken.createToken(provider, profile.id, data.accessToken, data.refreshToken)
+      .then(function () {
+
+        debug('token created:', data);
+
+        if (data.accountId) {
+          Account.findById(data.accountId)
+            .then((account) => {
+
+              debug('account data:', account);
+              Token.create({tokenInfo: account})
+                .then(token => {
+                  done(null, data, token);
+                }, done)
+              ;
+            }, done)
+            .catch(done);
+        } else {
+          debug(data);
+          done(null, data);
+        }
+
+      })
+      .catch(err => {
+        debug('error', err);
+        done(err);
+      });
+
+  };
+};

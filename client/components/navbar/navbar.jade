@@ -6,7 +6,7 @@ div.navbar.navbar-default.navbar-static-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/') Debt.ee
+      a.navbar-brand(href='/') Auth
 
     div#navbar-main.navbar-collapse.collapse(uib-collapse='nav.isCollapsed')
       ul.nav.navbar-nav
@@ -14,32 +14,21 @@ div.navbar.navbar-default.navbar-static-top
           a(ui-sref='{{item.state}}') {{item.title}}
 
         li(ng-show='nav.isAdmin()', ui-sref-active='active')
-          a(ui-sref='debt.admin') Admin
+          a(ui-sref='auth.admin') Admin
 
       ul.nav.navbar-nav.navbar-right
         li(ng-hide='nav.isLoggedIn()', ui-sref-active='active')
-          a(ui-sref='debt.signup') Sign up
+          a(ui-sref='auth.signup') Sign up
 
         li(ng-hide='nav.isLoggedIn()', ui-sref-active='active')
-          a(ui-sref='debt.login') Login
+          a(ui-sref='auth.login') Login
 
-        li.dropdown(ng-show='nav.isLoggedIn()' uib-dropdown='' is-open='nav.agentNavOpen')
+        li(ng-show='nav.isLoggedIn()')
           a.dropdown-toggle(href='#' uib-dropdown-toggle='')
             span {{ nav.getCurrentUser().name }} ({{nav.currentAgent.name}})
-            span.caret
-          ul.dropdown-menu(role='menu')
-            li(ng-repeat='agent in nav.agents')
-              a(href='' ng-click='nav.setCurrentAgent(agent)')
-                | {{agent.name}}
-                span(ng-if='agent.id==nav.currentAgent.id')
-                  = ' '
-                  i.fa.fa-check
-            li.divider
-            li
-              a(ui-sref='debt.agent.manage') Manage Agents
 
         li(ng-show='nav.isLoggedIn()', ui-sref-active='active')
-          a(ui-sref='debt.settings')
+          a(ui-sref='auth.settings')
             span.glyphicon.glyphicon-cog
 
         li(ng-show='nav.isLoggedIn()')

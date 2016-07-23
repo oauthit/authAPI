@@ -1,32 +1,30 @@
 import passport from 'passport';
-import config from '../../config/environment';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
 var debug = require('debug')('authAPI:google/passport');
 import passportCb from '../passportCallback';
 
 export function setup(ProviderAccount, config) {
-  passport.use(new GoogleStrategy({
-    clientID: config.google.clientID,
-    clientSecret: config.google.clientSecret,
-    callbackURL: config.google.callbackURL,
+  var strategy = new GoogleStrategy({
+    clientID: config.clientId,
+    clientSecret: config.clientSecret,
+    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
     passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => {
 
-    let provider = 'google';
-
     ProviderAccount.getOrCreate({
-      provider: provider,
       profileId: profile.id
     }, {
       profileData: profile,
+      profileId: profile.id,
       name: profile.displayName,
-      //TODO change this
-      roles: ['admin'],
+      roles: [],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      appId: config.google.clientID
-    }).then(passportCb(provider, profile, done), done);
+      providerAppId: config.id
+    }).then(passportCb(config.provider, profile, done), done);
+  });
 
-
-  }));
+  strategy.name = 'google' + config.code;
+  console.log(strategy.name);
+  return strategy;
 }

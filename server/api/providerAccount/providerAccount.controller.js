@@ -1,7 +1,7 @@
 'use strict';
 
-import providerAccount from './oprProviderAccount.model';
-import abstractController from '../abstract/abstract.controller';
+import providerAccount from './../../models/js-data/providerAccount.model';
+import abstractController from '../abstract/abstract.jsdata.controller';
 var debug = require('debug')('authAPI:providerAccount.controller');
 
 let ctrl = abstractController(providerAccount);
@@ -15,7 +15,7 @@ function setReq(req) {
 }
 
 ctrl.showMe = function (req, res) {
-  ctrl.show(setReq(req), res);
+  ctrl.find(setReq(req), res);
 };
 
 ctrl.updateMe = function (req, res) {

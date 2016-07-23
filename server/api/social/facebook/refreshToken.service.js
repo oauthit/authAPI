@@ -1,49 +1,40 @@
 'use strict';
 
 import config from '../../../config/environment';
-import redisWrapper from '../../../config/redis';
 var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
-import ProviderToken from '../../providerToken/providerToken.model.js';
-var redisClient = redisWrapper.redisClient;
+import ProviderToken from '../../../models/providerToken.model.js';
 
 export default function (provider, profileId) {
-  return new Promise ((resolve, reject) => {
-    redisClient.hgetAsync(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId).then(function (reply) {
-      debug('accessToken/redis', reply);
-      if (!reply) {
-        debug('refreshToken', 'No such accessToken');
-        return reject();
-      }
-      var accessToken = reply.accessToken;
+  return new Promise((resolve, reject) => {
 
-      if (provider === 'facebook') {
-        FB.api('oauth/access_token', {
-          client_id: config.facebook.clientID,
-          client_secret: config.facebook.clientSecret,
-          grant_type: 'fb_exchange_token',
-          fb_exchange_token: accessToken
-        }, function (res) {
-          if(!res || res.error) {
-            reject();
-          }
+    ProviderToken.findByProfileId(provider, profileId)
+      .then((providerToken) => {
 
-          var providerToken = {
-            accessToken: accessToken,
-            refreshToken: res.accees_token
-          };
-          ProviderToken.save(config.redisTables.PROVIDER_TOKEN+':'+provider, profileId, JSON.stringify(providerToken)).then(function () {
-            resolve(res);
+        var accessToken = providerToken.accessToken;
+
+        if (provider === 'facebook') {
+          FB.api('oauth/access_token', {
+            client_id: config.facebook.clientID,
+            client_secret: config.facebook.clientSecret,
+            grant_type: 'fb_exchange_token',
+            fb_exchange_token: accessToken
+          }, function (res) {
+            if (!res || res.error) {
+              reject(res.error);
+            }
+
+            ProviderToken.createToken(provider, profileId, accessToken, res.access_token).then(function () {
+              resolve(res);
+            });
           });
-        });
-      } else {
-        throw new Error('Invalid provider');
-      }
+        } else {
+          throw new Error('Invalid provider');
+        }
 
-    }, function () {
-      console.log('no data');
-      reject();
-    });
+      })
+      .catch((err) => {
+        return reject(err);
+      });
   });
-
 }

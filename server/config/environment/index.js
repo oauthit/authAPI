@@ -19,7 +19,7 @@ var all = {
   root: path.normalize(__dirname + '/../../..'),
 
   // Server port
-  port: process.env.PORT || 9090,
+  port: process.env.PORT || 9080,
 
   // Server IP
   ip: process.env.IP || '0.0.0.0',
@@ -35,6 +35,12 @@ var all = {
     url: process.env.REDIS_URL
   },
 
+  redisSessionConfig: {
+    prefix: 'authApiSess:',
+    db: process.env.REDIS_DB || 7,
+    ttl: process.env.SESSION_TTL || 24 * 3600
+  },
+
   redisTables: {
     AUTH_TOKEN: 'AuthToken',
     PROVIDER_TOKEN: 'ProviderToken',
@@ -44,22 +50,14 @@ var all = {
     GOOGLE_PROFILE: 'GoogleProfile'
   },
 
-  facebook: {
-    clientID:     process.env.FACEBOOK_ID || 'id',
-    clientSecret: process.env.FACEBOOK_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/facebook/callback'
+  session: {
+    type: 'RedisStore',
+    maxAge: process.env.SESSION_MAX_AGE || 24 * 3600 * 1000
   },
 
-  twitter: {
-    clientID:     process.env.TWITTER_ID || 'id',
-    clientSecret: process.env.TWITTER_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/twitter/callback'
-  },
-
-  google: {
-    clientID:     process.env.GOOGLE_ID || 'id',
-    clientSecret: process.env.GOOGLE_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+  saaAppConfig: {
+    authUrl: process.env.AUTH_URL || 'http://localhost:9080',
+    authApiUrl: process.env.AUTH_API_URL || 'http://localhost:9080/api/'
   }
 };
 

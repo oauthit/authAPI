@@ -1,15 +1,14 @@
 header#banner.hero-unit
   .container
-    h1 Debtee
-    p.lead Know your debt and credit app
-    //img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+    h1 Auth API
+    p.lead Authentication & Authorization service
 
 .container
-  .row.chapter-menu
-    .col-sm-4.btn-group.btn-group-lg.display-flex(
-      role="group"
-      ng-repeat="b in vm.data track by b.name"
-    )
-      button.btn.btn-default.flex-1(type="button" ui-sref="{{b.sref}}") {{b.name}}
-      button.btn.btn-primary(type="button" ui-sref="{{b.addSref}}")
-        i.fa.fa-plus
+  .row
+    .col-sm-6.col-md-4(ng-repeat="section in vm.sections")
+      .thumbnail(ui-sref='{{section.state}}')
+        span(ng-class="'{{section.icon}}'")
+        .caption
+          h3 {{ section.title }}
+          p {{ section.description }}
+

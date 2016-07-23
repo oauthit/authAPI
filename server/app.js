@@ -7,6 +7,10 @@
 import express from 'express';
 import config from './config/environment';
 import http from 'http';
+import './models/js-data/registerModels.service';
+import debug from 'debug';
+
+debug.log = console.info.bind(console);
 
 // Setup server
 var app = express();

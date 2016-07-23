@@ -5,6 +5,7 @@ import paths from './conf';
 import {protractor, webdriver_update} from 'gulp-protractor';
 import {Server as KarmaServer} from 'karma';
 import pipes from './reusablePipelines';
+import runSequence from 'run-sequence';
 
 gulp.task('test:e2e', ['env:all', 'env:test', 'start:server', 'webdriver_update'], cb => {
   gulp.src(paths.client.e2e)
@@ -27,16 +28,18 @@ gulp.task('test:client', ['wiredep:test', 'constant'], (done) => {
 });
 
 gulp.task('test', cb => {
-  return runSequence('test:server', 'test:client', cb);
+  return runSequence('test:server', /*'test:client',*/ cb);
 });
 
+//TODO add watcher for tests
+//TODO uncomment if wanna coverage ya
 gulp.task('test:server', cb => {
   runSequence(
     'env:all',
     'env:test',
     'mocha:unit',
     //'mocha:integration',
-    'mocha:coverage',
+    //'mocha:coverage',
     cb);
 });
 

@@ -4,33 +4,42 @@
 
   function MainController($state, Auth) {
 
-    var vm = this;
-
     let accessToken = $state.params ['access-token'];
 
     if (accessToken) {
       Auth.login(accessToken, function (err) {
         if (!err) {
-          $state.go('debt.main', false, {inherit: false});
+          $state.go('auth.main', false, {inherit: false});
         }
       });
     }
 
-    vm.data = [
-      {
-        sref: 'debt.operation.list',
-        name: 'Operations',
-        addSref: 'debt.operation.add'
-      },{
-        sref: 'debt.contact.list',
-        name: 'Contacts',
-        addSref: 'debt.contact.add'
-      },{
-        sref: 'debt.invite.list',
-        name: 'Invites',
-        addSref: 'debt.invite.add'
-      }
-    ];
+    let vm = this;
+
+    angular.extend(vm, {
+
+      sections: [
+        {
+          title: 'Organizations',
+          icon: 'mega-octicon octicon-organization',
+          description: 'Some description',
+          state: 'auth.org'
+        },
+        {
+          title: 'Providers',
+          icon: 'mega-octicon octicon-gist-secret',
+          description: 'Auth provider apps',
+          state: 'auth.providers'
+        },
+        {
+          title: 'Account',
+          icon: 'fa fa-2x fa-user',
+          description: 'Account',
+          state: 'auth.account'
+        }
+      ]
+
+    });
 
   }
 

@@ -1,16 +1,25 @@
 'use strict';
 
-import config from '../config/environment';
 import compose from 'composable-middleware';
-import Token from '../api/token/token.model';
-var debug = require('debug')('authAPI:auth.service');
-import account from '../api/account/account.model';
-var Account = account();
-import providerAccount from '../api/providerAccount/providerAccount.model';
-var ProviderAccount = providerAccount();
-import _ from 'lodash';
-import uuid from 'node-uuid';
+var debug = require('debug')('authAPI:auth:service');
+import {model} from '../models/js-data/modelsSchema.service';
+import co from 'co';
 
+const Account = model('account');
+const ProviderAccount = model('providerAccount');
+const SocialAccount = model('socialAccount');
+const Token = model('token');
+const ProviderApp = model('providerApp');
+
+/**
+ *
+ * @params {Request} req - The express Request object
+ * @params {Response} res - The express Response object
+ * @params {function} next
+ *
+ * @return {}
+ *
+ * */
 var validateAuth = (req, res, next) => {
 
   let token = req.headers.authorization;
@@ -18,21 +27,27 @@ var validateAuth = (req, res, next) => {
   //debug ('validateAuth','token:',token);
 
   if (!token) {
-    return res.status(401).end('Unauthorized');
+    debug('info', 'Token is not defined, sending unauthorized status.');
+    return res.sendStatus(401);
   }
 
-  Token.findById(token).then((user) => {
+  debug('token:', token);
+  Token.find(token).then((user) => {
     //debug ('validateAuth', 'user:', user);
+    debug('info', `Successfully found token for user: ${JSON.stringify(user)}`);
     req.user = user;
+    debug('debug', `req.user = ${user}`);
     next();
   }, (err) => {
-    return res.status(401).end(err);
-  })
+    debug('info', `Error occured while trying to find token by id(Token.find(${token})).`);
+    debug('debug', `Error message: ${err}`);
+    return res.sendStatus(401);
+  });
 };
 
 /**
  * Attaches the user object to the request if authenticated
- * Otherwise returns 403
+ * Otherwise returns 401
  */
 export function isAuthenticated() {
   return compose()
@@ -44,14 +59,17 @@ export function isAuthenticated() {
         req.headers.authorization = req.query ['authorization:'];
       }
       validateAuth(req, res, next);
-    })
+    });
 }
 
 /**
  * Checks if the user role meets the minimum requirements of the route
+ *
+ * @params {String} roleRequired - Parameter for role name
  */
 export function hasRole(roleRequired) {
   if (!roleRequired) {
+    debug(`roleRequired parameter missing...`);
     throw new Error('Required role needs to be set');
   }
 
@@ -59,6 +77,7 @@ export function hasRole(roleRequired) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       if (req.user.roles[roleRequired] || req.user.roles.indexOf(roleRequired) > -1) {
+        debug(`User have role '${roleRequired}'`);
         next();
       } else {
         res.status(403).end('Forbidden');
@@ -67,63 +86,173 @@ export function hasRole(roleRequired) {
 }
 
 /**
- * Set token cookie directly for oAuth strategies
+ *
+ * @param providerCode {String} - Unique providerCode
+ * @returns {Function}
  */
-export function setAuthorized(req, res) {
-  //debug ('User:', req.user);
-  if (_.isEmpty(req.authInfo)) {
-    //TODO think of how to create
-    let account = req.query.state;
-    if (account) {
+export function setAuthorized(providerCode) {
+  /**
+   * Set token cookie directly for oAuth strategies
+   *
+   * @params {Request} req - Express Request object
+   * @params {Response} res - Express Response object
+   */
 
-      Account.findById(account)
-        .then((data) => {
-          req.user.accountId = account;
-          ProviderAccount.save(req.user)
-            .then(function () {
-              Token.save(data)
-                .then(() => {
-                  return res.redirect('/#/account');
-                }, function () {
-                  return res.redirect('/#/setupAccount');
-                })
-              ;
-            }, function () {
-              return res.redirect('/#/setupAccount');
-            })
-          ;
-        }, function () {
-          return res.redirect('/#/setupAccount');
-        })
-        .catch(function () {
-          return res.redirect('/#/setupAccount');
-        })
-      ;
-    } else {
-      //TODO for now create account here
-      let user = req.user;
-      account = {
-        id: uuid.v4(),
-        name: user.name,
-        roles: user.roles
-      };
-      Account.save(account)
-        .then(function (account) {
-          user.accountId = account.id;
-          ProviderAccount.save(user)
-            .then(function () {
-              Token.save(account)
-                .then(token => {
-                    debug(token);
-                    return res.redirect('/#/?access-token=' + token)
-                  }
-                )
-              ;
-            });
+  return function (req, res) {
+
+    debug('setAuthorized user:', req.user);
+    debug('setAuthorized session:', req.session);
+
+    co(function* () {
+
+      let providerAppPromise = ProviderApp.findAll({'code': providerCode})
+        .then((providerApps) => {
+
+          if (providerApps.length === 1)
+            return providerApps[0];
+
+          else {
+            debug('Error:', `No such provider app with code: ${providerCode}`);
+            throw new Error(`No such provider: ${providerCode}`);
+          }
         });
-    }
-  } else {
-    debug('AuthInfo:', req.authInfo);
-    res.redirect('/#/?access-token=' + req.authInfo);
-  }
+
+      let providerApp = yield providerAppPromise;
+
+      debug('providerApp:', providerApp);
+
+      let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
+      debug('socialAccount:', socialAccount);
+
+      let providerAccount = yield new Promise((fulfil, reject) => {
+        //TODO teach stapi to take js-data query for relations
+        //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
+
+        ProviderAccount.findAll({socialAccountId: socialAccount.id})
+          .then(providerAccounts => {
+
+            debug('setAuthorized:providerAccounts:', providerAccounts);
+
+            if (providerAccounts.length === 0) {
+
+              let socialAccountId = socialAccount.id;
+              delete socialAccount.id;
+
+              let providerAccount = Object.assign({}, socialAccount, {
+                socialAccountId: socialAccountId,
+                accessToken: req.user.accessToken,
+                profileData: req.user.profileData,
+                roles: req.user.roles,
+                providerAppId: providerApp.id
+              });
+
+              ProviderAccount.update(req.user.id, providerAccount)
+                .then(providerAccount => {
+                  return fulfil(providerAccount);
+                }, err => {
+                  debug('setAuthorized:ProviderAccount.update error:', err);
+                  return reject(err);
+                });
+
+            } else {
+              return fulfil(providerAccounts[0]);
+            }
+
+          }, err => {
+
+            debug('setAuthorized:ProviderAccount.findAll error:', err);
+            reject(err);
+
+          });
+      });
+
+      let account = yield Account.findOrCreate(providerAccount.accountId);
+      debug('setAuthorized: account:', account);
+
+      providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
+      debug('setAuthorized: providerAccount:', providerAccount);
+
+      yield ProviderAccount.update(providerAccount.id, providerAccount);
+      let token = yield Token.create({tokenInfo: account}).then(token => {
+        debug('setAuthorized:Token.create', token);
+        return token.id;
+      });
+
+      debug('setAuthorized: token:', token);
+
+      if (req.session && req.session.returnTo) {
+        console.log(req.session.returnTo);
+        let redirectUrl = req.session.returnTo;
+        delete req.session.returnTo;
+        return res.redirect(redirectUrl + '#/?access-token=' + token);
+      }
+
+      // //TODO redirect to app, or show app list get account org, with org get apps
+      // let orgAccounts = yield OrgAccount.findAll({
+      //   accountId: account.id
+      // });
+      //
+      // debug('orgAccounts:', orgAccounts);
+      //
+      // if (orgAccounts.length === 0) {
+      //   return res.json({
+      //     error: "account don't have orgs"
+      //   });
+      // }
+      //
+      // let orgPromises = [];
+      // orgAccounts.forEach((orgAccount) => {
+      //   let orgPromise = Org.find(orgAccount.orgId);
+      //   orgPromises.push(orgPromise);
+      // });
+      //
+      // Promise.all(orgPromises).then((orgs) => {
+      //   debug('orgs:', orgs);
+      //
+      //   let orgAppPromises = [];
+      //   orgs.forEach((org) => {
+      //     let orgAppPromise = OrgApp.findAll({
+      //       orgId: org.id
+      //     });
+      //
+      //     orgAppPromises.push(orgAppPromise);
+      //   });
+      //
+      //   Promise.all(orgAppPromises).then((orgApps) => {
+      //     debug('orgApps:', orgApps);
+      //
+      //     if (orgApps.length === 0) {
+      //       return res.json({
+      //         error: "org don't have apps"
+      //       });
+      //     }
+      //
+      //     else if (orgApps.length === 1) {
+      //       console.log(orgApps[0][0]);
+      //       let appPromise = App.find(orgApps[0][0].appId);
+      //
+      //       appPromise.then((app) => {
+      //         debug('app:', app);
+      //
+      //         return res.redirect(app.url + '/#/?access-token=' + token);
+      //       });
+      //
+      //     } else {
+      //       return res.json(orgApps);
+      //     }
+      //   }).catch((err) => {
+      //     debug('err in orgAppPromises:', err);
+      //   });
+      //
+      // }).catch((err) => {
+      //   debug('err in orgPromises:', err);
+      // });
+
+    }).catch((err) => {
+      debug('setAuthorized:catch:', err.data || err);
+      return res.sendStatus(500);
+    });
+
+  };
 }
+

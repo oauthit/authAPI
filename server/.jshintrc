@@ -1,7 +1,7 @@
 {
   "expr": true,
   "node": true,
-  "esnext": true,
+  "esversion": 6,
   "bitwise": true,
   "eqeqeq": true,
   "immed": true,
@@ -10,6 +10,7 @@
   "noarg": true,
   "undef": true,
   "smarttabs": true,
-  "asi": true,
-  "debug": true
+  "asi": false,
+  "debug": true,
+  "noyield": true
 }
