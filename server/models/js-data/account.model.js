@@ -5,13 +5,14 @@ import {Schema} from 'js-data';
 import {findOrCreate} from './findOrCreate';
 
 const accountSchema = new Schema({
+
   properties: {
     name: {type: 'string'},
     email: {
       type: 'string',
       uniqueItems: true
     }
-  },
+  }
 
 });
 

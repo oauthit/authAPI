@@ -104,6 +104,7 @@ export function setAuthorized(providerCode) {
 
 
     co(function* () {
+
       let providerAppPromise = ProviderApp.findAll({"code": providerCode})
         .then((providerApps) => {
 
@@ -122,6 +123,7 @@ export function setAuthorized(providerCode) {
 
       let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
+
       let providerAccount = yield new Promise((fulfil, reject) => {
         //TODO teach stapi to take js-data query for relations
         //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
@@ -156,20 +158,20 @@ export function setAuthorized(providerCode) {
           });
       });
 
-      debug('providerAccount:', providerAccount);
-      let account = yield Account.findOrCreate(providerAccount.accountId, providerAccount);
+      let account = yield Account.findOrCreate(providerAccount.accountId);
+      debug('setAuthorized:account:', account);
 
-      debug('account:', account);
       providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
-      debug('providerAccount:', providerAccount);
+      debug('setAuthorized:providerAccount:', providerAccount);
 
       yield ProviderAccount.update(providerAccount.id, providerAccount);
       let token = yield Token.create({tokenInfo: account}).then(token => {
+        debug('setAuthorized:Token.create', token);
         return token.id;
       });
+
       debug('token:', token);
 
-//req.session.returnTo
       if (req.session && req.session.returnTo) {
         console.log(req.session.returnTo);
         let redirectUrl = req.session.returnTo;
@@ -239,7 +241,7 @@ export function setAuthorized(providerCode) {
       // });
 
     }).catch((err) => {
-      debug('error occurred:', err);
+      debug('setAuthorized:catch:', err);
       return res.sendStatus(500);
     });
 

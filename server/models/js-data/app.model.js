@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import store from './store';
 import {findOrCreate} from './findOrCreate';

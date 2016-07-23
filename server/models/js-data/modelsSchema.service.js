@@ -6,7 +6,7 @@ let models = {};
 
 function registerModel(modelName) {
   models[modelName] = require('./' + modelName + '.model');
-  debug(`${modelName} was defined`);
+  debug('registerModel:', modelName);
 }
 
 export default {
