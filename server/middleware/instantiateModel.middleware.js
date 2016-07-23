@@ -1,7 +1,7 @@
 'use strict';
 
 import stapi from '../models/abstract.model';
-import winston from 'winston';
+var debug = require('debug')('middleware:instantiate');
 
 export default function (req, res, next) {
   if (req && req.params) {
@@ -10,11 +10,11 @@ export default function (req, res, next) {
       next();
     }
     else {
-      winston.warn(`Incorrect route params, you should pass pool name and table name in params`);
+      debug(`Incorrect route params, you should pass pool name and table name in params`);
       return res.sendStatus(400);
     }
   } else {
-    winston.warn(`Incorrect request object`);
+    debug(`Incorrect request object`);
     return res.sendStatus(400);
   }
 }

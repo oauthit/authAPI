@@ -1,17 +1,20 @@
 'use strict';
+
 import Token from '../models/js-data/token.model';
 import ProviderToken from '../models/providerToken.model.js';
 import account from '../models/account.model.js';
+
 var Account = account();
-var debug = require('debug')('authAPI:passportCallback');
+var debug = require('debug')('authAPI:auth:passportCallback');
 
 export default (provider, profile, done) => {
-
-  debug('done', done);
   return (data) => {
+
     ProviderToken.createToken(provider, profile.id, data.accessToken, data.refreshToken)
       .then(function () {
+
         debug('token created:', data);
+
         if (data.accountId) {
           Account.findById(data.accountId)
             .then((account) => {
@@ -28,6 +31,7 @@ export default (provider, profile, done) => {
           debug(data);
           done(null, data);
         }
+
       })
       .catch(err => {
         debug('error', err);

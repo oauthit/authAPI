@@ -1,11 +1,7 @@
 'use strict';
 
-import config from '../config/environment';
 import compose from 'composable-middleware';
-var debug = require('debug')('authAPI:auth.service');
-import _ from 'lodash';
-import winston from 'winston';
-import uuid from 'node-uuid';
+var debug = require('debug')('authAPI:auth:service');
 import {model} from '../models/js-data/modelsSchema.service';
 import co from 'co';
 
@@ -14,10 +10,6 @@ const ProviderAccount = model('providerAccount');
 const SocialAccount = model('socialAccount');
 const Token = model('token');
 const ProviderApp = model('providerApp');
-const OrgAccount = model('orgAccount');
-const Org = model('org');
-const OrgApp = model('orgApp');
-const App = model('app');
 
 /**
  *
@@ -35,20 +27,20 @@ var validateAuth = (req, res, next) => {
   //debug ('validateAuth','token:',token);
 
   if (!token) {
-    winston.log('info', 'Token is not defined, sending unauthorized status.');
+    debug('info', 'Token is not defined, sending unauthorized status.');
     return res.sendStatus(401);
   }
 
   debug('token:', token);
   Token.find(token).then((user) => {
     //debug ('validateAuth', 'user:', user);
-    winston.log('info', `Successfully found token for user: ${JSON.stringify(user)}`);
+    debug('info', `Successfully found token for user: ${JSON.stringify(user)}`);
     req.user = user;
-    winston.log('debug', `req.user = ${user}`);
+    debug('debug', `req.user = ${user}`);
     next();
   }, (err) => {
-    winston.log('info', `Error occured while trying to find token by id(Token.find(${token})).`);
-    winston.log('debug', `Error message: ${err}`);
+    debug('info', `Error occured while trying to find token by id(Token.find(${token})).`);
+    debug('debug', `Error message: ${err}`);
     return res.sendStatus(401);
   });
 };
@@ -77,7 +69,7 @@ export function isAuthenticated() {
  */
 export function hasRole(roleRequired) {
   if (!roleRequired) {
-    winston.warn(`roleRequired parameter missing...`);
+    debug(`roleRequired parameter missing...`);
     throw new Error('Required role needs to be set');
   }
 
@@ -85,7 +77,7 @@ export function hasRole(roleRequired) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       if (req.user.roles[roleRequired] || req.user.roles.indexOf(roleRequired) > -1) {
-        winston.info(`User have role '${roleRequired}'`);
+        debug(`User have role '${roleRequired}'`);
         next();
       } else {
         res.status(403).end('Forbidden');
