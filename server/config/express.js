@@ -49,7 +49,9 @@ export default function(app) {
     secret: config.secrets.session,
     store: sessionStorage,
     key: 'authAPI.sid',
-    cookie: {maxAge: config.session.maxAge * 1000}
+    cookie: {
+      maxAge: config.session.maxAge * 1000
+    }
   };
 
   app.use(expressSession(sessionConfig));
