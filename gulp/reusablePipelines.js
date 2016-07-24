@@ -26,8 +26,8 @@ export default {
   styles: lazypipe()
     .pipe(plugins.sourcemaps.init)
     .pipe(plugins.sass)
-    .pipe(plugins.autoprefixer, {browsers: ['last 1 version']})
-    .pipe(plugins.sourcemaps.write, '.'),
+    .pipe(plugins.autoprefixer, {browsers: ['last 1 version']}),
+    // .pipe(plugins.sourcemaps.write, '.'),
 
   transpileClient: lazypipe()
     .pipe(plugins.sourcemaps.init)
@@ -40,8 +40,8 @@ export default {
     .pipe(plugins.sourcemaps.init)
     .pipe(plugins.babel, {
       plugins: ['transform-runtime']
-    })
-    .pipe(plugins.sourcemaps.write, '.'),
+    }),
+    // .pipe(plugins.sourcemaps.write, '.'),
 
   mocha: lazypipe()
     .pipe(plugins.mocha, {
