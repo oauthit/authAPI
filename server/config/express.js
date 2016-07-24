@@ -54,6 +54,13 @@ export default function(app) {
     }
   };
 
+  // FIXME app crashes on req.session.returnTo if client didn't send the cookie
+
+  if (env === 'production') {
+    app.set('trust proxy', 1);
+    // sessionConfig.cookie.secure = true;
+  }
+
   app.use(expressSession(sessionConfig));
 
   app.use(passport.initialize());
