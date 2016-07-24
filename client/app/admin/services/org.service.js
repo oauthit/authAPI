@@ -1,12 +1,14 @@
-(function (ng) {
-  'use strict';
-  ng.module('authApiApp.admin')
+'use strict';
+
+(function () {
+
+  angular.module('authApiApp.admin')
     .service('OrgService', function (schema) {
 
-      let org = schema().models().org;
+      var org = schema().models().org;
       console.log(org);
 
     })
   ;
 
-})(angular);
+})();

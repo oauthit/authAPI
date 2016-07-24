@@ -1,6 +1,8 @@
-(function (ng) {
-  'use strict';
-  ng.module('authApiApp.admin.models')
+'use strict';
+
+(function () {
+
+  angular.module('authApiApp.admin.models')
     .run(function (schema) {
       schema.register({
         name: 'ProviderAccount',
@@ -20,4 +22,4 @@
     })
   ;
 
-})(angular);
+})();
