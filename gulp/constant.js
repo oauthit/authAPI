@@ -47,8 +47,9 @@ gulp.task('constant', function () {
   return plugins.ngConstant({
       name: 'authApiApp.constants',
       deps: [],
-      wrap: true,
+      wrap: `(function() {<%= __ngModule %>})();`,
       stream: true,
+      templatePath: 'gulp/ng-constant.tpl.ejs',
       constants: {
         appConfig: appConfigConstants,
         saaAppConfig: saaAppConfigConstants
