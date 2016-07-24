@@ -36,6 +36,8 @@ var all = {
   },
 
   redisSessionConfig: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
     prefix: 'authApiSess:',
     db: process.env.REDIS_DB || 7,
     ttl: process.env.SESSION_TTL || 24 * 3600
