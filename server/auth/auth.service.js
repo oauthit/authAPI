@@ -180,14 +180,17 @@ export function setAuthorized(providerCode) {
 
       debug('setAuthorized: token:', token);
 
+      let redirectUrl;
+
       if (req.session && req.session.returnTo) {
-        let redirectUrl = req.session.returnTo;
-        debug('setAuthorized: redirectUrl:', redirectUrl);
+        redirectUrl = req.session.returnTo;
         delete req.session.returnTo;
-        return res.redirect(redirectUrl + '#/?access-token=' + token);
       } else {
-        return res.redirect('/#/?access-token=' + token);
+        redirectUrl = '/';
       }
+
+      debug('setAuthorized: redirectUrl:', redirectUrl);
+      return res.redirect(redirectUrl + '#/?access-token=' + token);
 
       // //TODO redirect to app, or show app list get account org, with org get apps
       // let orgAccounts = yield OrgAccount.findAll({
