@@ -16,7 +16,6 @@ import config from './environment';
 import passport from 'passport';
 import cors from 'cors';
 import expressSession from 'express-session';
-import cookieParser from 'cookie-parser';
 
 export default function(app) {
   var env = app.get('env');
@@ -41,11 +40,10 @@ export default function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
 
-  app.use(cookieParser());
 //Session Configuration
   var sessionConfig = {
-    saveUninitialized: true,
-    resave: true,
+    saveUninitialized: false,
+    resave: false,
     secret: config.secrets.session,
     store: sessionStorage,
     key: 'authAPI.sid',
