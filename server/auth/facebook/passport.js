@@ -1,6 +1,5 @@
 'use strict';
 
-import passport from 'passport';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 var debug = require('debug')('authAPI:facebook/passport');
 import refresh_token from '../../api/social/facebook/refreshToken.service';
