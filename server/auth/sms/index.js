@@ -14,11 +14,9 @@ var providerApps = [];
 function setPassportUse(req, res, next) {
 
   var fullUrl = req.originalUrl.split('/');
-  fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
+  var name = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
 
-  let providerApp = _.find(providerApps, (o) => {
-    return o.code === fullUrl;
-  });
+  let providerApp = _.find(providerApps, {name: name});
 
   debug('setPassportUse providerApp:', providerApp);
 

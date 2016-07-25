@@ -26,18 +26,18 @@ OAuthStrategy.prototype.userProfile = function (accessToken, done) {
 
 };
 
-export function setup(req, ProviderAccount, config) {
-  debug (config);
-  debug (config.code);
+export function setup(req, ProviderAccount, providerApp) {
+  debug (providerApp);
+  debug (providerApp.code);
   var strategy = new OAuthStrategy({
     //TODO authorization url
     authorizationURL: smsAuthUrl + '/dialog/authorize',
     tokenURL: smsAuthUrl + '/oauth/token',
     //TODO change record for correct clientID and clientSecret
     clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
-    clientSecret: 'someSecret' || config.clientSecret,
+    clientSecret: 'someSecret' || providerApp.clientSecret,
     scope: 'offline_access',
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
+    callbackURL: `${process.env.DOMAIN || ''}/auth/${providerApp.provider}/${providerApp.name}/callback`,
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
 
@@ -60,10 +60,10 @@ export function setup(req, ProviderAccount, config) {
       roles: [],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      providerAppId: config.id
-    }).then(passportCb(config.provider, profile, done), done);
+      providerAppId: providerApp.id
+    }).then(passportCb(providerApp.provider, profile, done), done);
   });
 
-  strategy.name = config.code;
+  strategy.name = providerApp.code;
   return strategy;
 }
