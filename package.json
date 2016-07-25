@@ -16,7 +16,7 @@
     "debug": "^2.2.0",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
-    "express-session": "^1.11.3",
+    "express-session": "^1.14.0",
     "fb": "^1.0.2",
     "googleapis": "^3.1.0",
     "jade": "^1.11.0",
