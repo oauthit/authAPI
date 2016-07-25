@@ -3,11 +3,11 @@ import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
 var debug = require('debug')('authAPI:google/passport');
 import passportCb from '../passportCallback';
 
-export function setup(ProviderAccount, config) {
+export function setup(ProviderAccount, providerApp) {
   var strategy = new GoogleStrategy({
-    clientID: config.clientId,
-    clientSecret: config.clientSecret,
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
+    clientID: providerApp.clientId,
+    clientSecret: providerApp.clientSecret,
+    callbackURL: `${process.env.DOMAIN || ''}/auth/${providerApp.provider}/${providerApp.name}/callback`,
     passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => {
 
@@ -20,11 +20,10 @@ export function setup(ProviderAccount, config) {
       roles: [],
       accessToken: accessToken,
       refreshToken: refreshToken,
-      providerAppId: config.id
-    }).then(passportCb(config.provider, profile, done), done);
+      providerAppId: providerApp.id
+    }).then(passportCb(providerApp.provider, profile, done), done);
   });
 
-  strategy.name = 'google' + config.code;
-  console.log(strategy.name);
+  strategy.name = 'google' + providerApp.code;
   return strategy;
 }

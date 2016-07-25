@@ -11,13 +11,13 @@ var router = express.Router();
 var providerApps = [];
 
 function setPassportUse(req, res, next) {
-  var fullUrl = req.originalUrl.split('/');
+  let originalUrl = req.originalUrl;
+  let fullUrl = originalUrl.split('/');
 
-  //TODO learn to parse url
-  //fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
-  fullUrl = fullUrl[2];
+  let index = originalUrl.indexOf('callback?code=');
+  let name = index === -1 ? fullUrl[fullUrl.length - 1] : fullUrl[fullUrl.length - 3];
   let providerApp = _.find(providerApps, (o) => {
-    return o.code === fullUrl;
+    return o.name === name;
   });
   const strategy = require('./passport').setup(providerAccount(), providerApp);
   passport.use(strategy);
