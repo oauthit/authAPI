@@ -10,8 +10,10 @@ var router = express.Router();
 
 providerApp.find()
   .then((providerApps) => {
-    providerApps.forEach(providerApp => {
-      router.use('/' + providerApp.code, require(`./${providerApp.provider}`)(providerApp));
+    providerApps.forEach(app => {
+      var passport = require(`./${app.provider}`)(app);
+      router.use('/' + app.code, passport);
+      router.use(`/${app.provider}/${app.name}`, passport);
     });
   })
   .catch(err => {

@@ -11,8 +11,8 @@
           count: 12
         },
         providerApp: providerApp,
-        loginOauth: function(provider) {
-          $window.location.href = '/auth/' + provider;
+        loginOauth: function(app) {
+          $window.location.href = '/auth/' + app.provider + '/' + app.name;
         }
       });
 

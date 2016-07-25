@@ -1,5 +1,5 @@
 .container
-  h1 {{vm.providerApp.name}} {{vm.providerApp.provider}} Provider Accounts
+  h1 {{vm.providerApp.name}} {{vm.providerApp.provider}} Provider App Accounts
 
   table.table.table-striped.table-hover.table-responsive(
   ng-table='vm.ngTableParams'
@@ -16,17 +16,17 @@
 
   div(ng-if="vm.providerApp.provider === 'facebook'")
     a.btn.btn-social.btn-facebook(ng-class='classes'
-    ng-click='vm.loginOauth(vm.providerApp.name + "Facebook")')
+    ng-click='vm.loginOauth(vm.providerApp)')
       i.fa.fa-facebook
       |  Connect with Facebook
 
   div(ng-if="vm.providerApp.provider === 'google'")
     a.btn.btn-social.btn-google(ng-class='classes'
-    ng-click='vm.loginOauth(vm.providerApp.name + "Google")')
+    ng-click='vm.loginOauth(vm.providerApp)')
       i.fa.fa-google-plus
       |  Connect with Google+
   div(ng-if="vm.providerApp.provider === 'sms'")
     a.btn.btn-social.btn-openid(ng-class='classes'
-    ng-click='vm.loginOauth(vm.providerApp.name)')
+    ng-click='vm.loginOauth(vm.providerApp)')
       i.glyphicon.glyphicon-phone
       |  Connect with mobile number
