@@ -11,15 +11,20 @@ var router = express.Router();
 var providerApps = [];
 
 function setPassportUse (req, res, next) {
+
   var fullUrl = req.originalUrl.split('/');
-  fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
+  var name = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
+
   let providerApp = _.find(providerApps, (o) => {
-    return o.code === fullUrl;
+    return o.name === name;
   });
+
   const strategy = require('../facebook/passport').setup(providerAccount(), providerApp);
+
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;
   next();
+
 }
 
 export default function (providerApp) {

@@ -6,11 +6,11 @@ var debug = require('debug')('authAPI:facebook/passport');
 import refresh_token from '../../api/social/facebook/refreshToken.service';
 import passportCb from '../passportCallback';
 
-export function setup(ProviderAccount, providerAppConfig) {
+export function setup(ProviderAccount, providerApp) {
   var strategy = new FacebookStrategy({
-    clientID: providerAppConfig.clientId,
-    clientSecret: providerAppConfig.clientSecret,
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + providerAppConfig.code + '/callback',
+    clientID: providerApp.clientId,
+    clientSecret: providerApp.clientSecret,
+    callbackURL: `${process.env.DOMAIN || ''}/auth/${providerApp.provider}/${providerApp.name}/callback`,
     passReqToCallback: true
   }, (req, accessToken, refreshToken, profile, done) => {
 
@@ -27,9 +27,9 @@ export function setup(ProviderAccount, providerAppConfig) {
           roles: [],
           accessToken: accessToken,
           refreshToken: refToken && JSON.stringify(refToken) || null,
-          providerAppId: providerAppConfig.id
+          providerAppId: providerApp.id
         })
-        .then(passportCb(providerAppConfig.provider, profile, done), done);
+        .then(passportCb(providerApp.provider, profile, done), done);
 
     }
 
@@ -38,6 +38,6 @@ export function setup(ProviderAccount, providerAppConfig) {
     });
   });
 
-  strategy.name = 'facebook' + providerAppConfig.code;
+  strategy.name = 'facebook' + providerApp.code;
   return strategy;
 }
