@@ -6,6 +6,8 @@ const debug = require('debug')('AuthAPI:auth:index');
 
 var router = express.Router();
 
+// TODO: check oa2 errors and user decline callbacks
+
 // Passport Configuration
 
 providerApp.find()
