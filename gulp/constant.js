@@ -32,7 +32,8 @@ gulp.task('constant', function () {
   let {AUTH_URL, AUTH_API_URL} = localConfig;
   let saaAppConfigConstants = {
     authApi: AUTH_URL,
-    authApiUrl: AUTH_API_URL
+    authApiUrl: AUTH_API_URL,
+    loginState: 'auth.login'
   };
 
   let merged = _.merge({}, sharedConfig, localConfig);
