@@ -14,7 +14,6 @@ providerApp.find()
   .then((providerApps) => {
     providerApps.forEach(app => {
       var passport = require(`./${app.provider}`)(app);
-      router.use('/' + app.code, passport);
       router.use(`/${app.provider}/${app.name}`, passport);
     });
   })
