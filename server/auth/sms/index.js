@@ -21,7 +21,9 @@ function setPassportUse(req, res, next) {
   debug('setPassportUse providerApp:', providerApp);
 
   if (!providerApp) {
-    return next('no providerApp');
+    let redirectUrl = req.session.returnTo;
+    let error = 'Authorization denied!';
+    return res.redirect(`${redirectUrl}#/login?error=${error}`);
   }
 
   passport.use(require('./passport').setup(req, providerAccount(), providerApp));
