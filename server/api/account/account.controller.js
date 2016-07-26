@@ -1,10 +1,11 @@
 'use strict';
 
 import stapiAccount from './../../models/account.model.js';
-import abstractController from '../abstract/abstract.stapi.controller';
+import sistemium from 'sistemium-node';
 import Account from '../../models/js-data/account.model';
 var debug = require('debug')('authAPI:api:account:controller');
 
+let abstractController = sistemium.stapiAbstractController;
 let ctrl = abstractController(stapiAccount);
 
 function setReq(req) {
