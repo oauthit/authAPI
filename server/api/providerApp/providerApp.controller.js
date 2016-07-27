@@ -11,14 +11,6 @@ import co from 'co';
 
 let ctrl = abstractCtrl(ProviderApp);
 
-function setReq(req) {
-  if (!req.params) {
-    req.params = {};
-  }
-  req.params.id = req.user && req.user.id || 0;
-  return req;
-}
-
 ctrl.privateFindAll = function (req, res) {
 
   debug('privateFindAll user:', req.user);
