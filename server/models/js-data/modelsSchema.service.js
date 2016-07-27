@@ -13,4 +13,4 @@ function model(name) {
   return models[name];
 }
 
-export default {registerModel, model};
+export {registerModel, model};
