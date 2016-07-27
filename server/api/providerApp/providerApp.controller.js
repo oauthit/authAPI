@@ -21,7 +21,7 @@ ctrl.privateFindAll = function (req, res) {
   co(function *() {
     let providerApps = [];
     let providerAccounts = yield ProviderAccount.findAll({accountId: accountId});
-    //providerAccounts should contain olny one record ProviderAccount have only one Account
+    //providerAccounts should contain only one record ProviderAccount have only one Account
 
     debug('privateFindAll providerAccounts:', providerAccounts);
 
