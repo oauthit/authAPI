@@ -2,7 +2,7 @@
 
 (function () {
 
-  function MainController($state, Auth) {
+  function HomeController($state, Auth) {
 
     let accessToken = $state.params ['access-token'];
 
@@ -44,6 +44,6 @@
   }
 
   angular.module('authApiApp')
-    .controller('MainController', MainController);
+    .controller('HomeController', HomeController);
 
 })();

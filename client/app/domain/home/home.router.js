@@ -11,8 +11,8 @@
         })
         .state('auth.main', {
           url: '/?access-token',
-          templateUrl: 'app/domain/main/main.html',
-          controller: 'MainController',
+          templateUrl: 'app/domain/home/home.html',
+          controller: 'HomeController',
           controllerAs: 'vm'
         });
     })
