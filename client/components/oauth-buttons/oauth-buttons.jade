@@ -1,6 +1,6 @@
 a.btn.btn-social(ng-repeat='button in OauthButtons.buttons'
-  ng-click='OauthButtons.loginOauth(button.oauthPath)'
-  class='{{button.aClass}}'
-  ng-class='classes')
-    i(ng-class='button.iClass')
-    | Connect with {{button.title}}
+ng-click='OauthButtons.loginOauth(button.oauthPath)'
+ng-class='[button.aClass,classes]'
+)
+  i(ng-class='button.iClass')
+  | Connect with {{button.title}}

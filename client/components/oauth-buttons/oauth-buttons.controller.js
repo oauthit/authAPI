@@ -7,12 +7,12 @@ angular.module('authApiApp')
 
     OauthButtons.buttons = [{
       aClass: 'btn-facebook',
-      iClass: ['fa', 'fa-facebook'],
+      iClass: 'fa fa-facebook',
       oauthPath: 'facebook/debtee',
       title: 'Facebook'
     }, {
       aClass: 'btn-google',
-      iClass: ['fa', 'fa-google-plus'],
+      iClass: 'fa fa-google-plus',
       oauthPath: 'google/debtee',
       title: 'Google+'
     }, {
