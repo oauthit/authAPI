@@ -5,7 +5,7 @@
       $stateProvider
         .state('auth.orgInfo', {
           url: '/orgInfo/:orgId',
-          templateUrl: 'app/account/domain/organizationInfo/orgInfo.html',
+          templateUrl: 'app/domain/organizationInfo/orgInfo.html',
           controller: 'OrgInfoController',
           controllerAs: 'vm',
           resolve: {

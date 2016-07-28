@@ -3,10 +3,10 @@
   angular.module('authApiApp')
     .config(function ($stateProvider) {
       $stateProvider
-        .state('auth.account', {
-          url: '/account',
-          templateUrl: 'app/account/domain/account/account.html',
-          controller: 'AccountController',
+        .state('auth.org', {
+          url: '/org',
+          templateUrl: 'app/domain/organizations/org.html',
+          controller: 'OrgController',
           controllerAs: 'vm'
         });
     });

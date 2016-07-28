@@ -5,7 +5,7 @@
       $stateProvider
         .state('auth.providers', {
           url: '/providers',
-          templateUrl: 'app/account/domain/providerApps/providerApps.html',
+          templateUrl: 'app/domain/providerApps/providerApps.html',
           controller: 'ProviderAppController',
           controllerAs: 'vm'
         });
