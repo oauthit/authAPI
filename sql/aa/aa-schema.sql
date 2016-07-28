@@ -25,7 +25,7 @@ meta.defineEntity 'Account',
   'name;roles;isDeleted;'
 ;
 
-meta.defineEntity 'Org'
+meta.defineEntity 'Org',
   'isDeleted;name'
 ;
 
