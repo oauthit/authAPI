@@ -1,8 +1,8 @@
 "use strict";
 
-import store from './store';
+import store from './storeSchema';
 
-store.defineMapper('ProviderApp', {
+export default store.defineMapper('ProviderApp', {
   relations: {
     hasMany: {
       OrgProviderApp: {
@@ -16,5 +16,3 @@ store.defineMapper('ProviderApp', {
     }
   }
 });
-
-export default store.getMapper('ProviderApp');

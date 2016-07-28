@@ -43,7 +43,7 @@ describe('passport setup function', () => {
 
 });
 
-describe('GET /auth/{providerApp.code}', () => {
+describe('GET /auth/${app.provider}/{$app.name}', () => {
 
   before((done) => {
     setTimeout(function () {
@@ -56,7 +56,7 @@ describe('GET /auth/{providerApp.code}', () => {
     //arrange
 
     request(app)
-      .get('/auth/debteeFacebook')
+      .get('/auth/facebook/debtee')
       .expect(302, done)
     ;
 
@@ -65,7 +65,7 @@ describe('GET /auth/{providerApp.code}', () => {
 
   it('should authorize', (done) => {
     request(app)
-      .get('/auth/vseramkiFacebook')
+      .get('/auth/facebook/vseramki')
       .expect(302, done)
     ;
   })

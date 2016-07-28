@@ -1,5 +1,6 @@
 'use strict';
 
+//TODO change everywhere usage with sistemium-node before deleting this file
 import _ from 'lodash';
 
 /**
