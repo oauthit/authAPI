@@ -1,23 +1,8 @@
 "use strict";
 
-import store from './store';
-//import {Schema} from 'js-data';
-import {findOrCreate} from './findOrCreate';
+import store from './storeSchema';
 
-// FIXME findOrCreate produces find error
-// const accountSchema = new Schema({
-//
-//   properties: {
-//     name: {type: 'string'},
-//     email: {
-//       type: 'string',
-//       uniqueItems: true
-//     }
-//   }
-//
-// });
-
-store.defineMapper('Account', {
+export default store.defineMapper('Account', {
   //schema: accountSchema,
   relations: {
     hasMany: {
@@ -32,8 +17,3 @@ store.defineMapper('Account', {
     }
   }
 });
-
-const account = store.getMapper('Account');
-account.findOrCreate = findOrCreate;
-
-export default account;

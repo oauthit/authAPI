@@ -1,10 +1,11 @@
 "use strict";
 
+//TODO change everywhere usage with sistemium-node before deleting this file
 import abstractJSDataController from './abstract.jsdata.controller';
-import {model} from '../../models/js-data/modelsSchema.service';
+import {model} from '../../models/js-data/storeSchema';
 import sinon from 'sinon';
 const expect = require('chai').expect;
-const store = require('../../models/js-data/store');
+const store = require('../../models/js-data/storeSchema');
 import {createRequest, createResponse} from 'node-mocks-http';
 import sinonStubPromise from 'sinon-stub-promise';
 sinonStubPromise(sinon);

@@ -2,14 +2,16 @@
 
 import compose from 'composable-middleware';
 var debug = require('debug')('authAPI:auth:service');
-import {model} from '../models/js-data/modelsSchema.service';
+import {model, models} from '../models/js-data/storeSchema';
 import co from 'co';
 
-const Account = model('account');
-const ProviderAccount = model('providerAccount');
-const SocialAccount = model('socialAccount');
-const Token = model('token');
-const ProviderApp = model('providerApp');
+const Account = model('Account');
+const ProviderAccount = model('ProviderAccount');
+const SocialAccount = model('SocialAccount');
+const Token = model('Token');
+const ProviderApp = model('ProviderApp');
+
+console.log('models:', models);
 
 /**
  *

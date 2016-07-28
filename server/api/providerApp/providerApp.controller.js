@@ -4,9 +4,10 @@ let ns = 'AuthAPI:api:providerApp:controller';
 
 import abstractCtrl from '../abstract/abstract.jsdata.controller';
 const debug = require('debug')(ns);
-import {model} from '../../models/js-data/modelsSchema.service';
-const ProviderAccount = model('providerAccount');
-const ProviderApp = model('providerApp');
+import {model} from '../../models/js-data/storeSchema';
+
+const ProviderAccount = model('ProviderAccount');
+const ProviderApp = model('ProviderApp');
 import co from 'co';
 
 let ctrl = abstractCtrl(ProviderApp);

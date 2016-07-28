@@ -7,7 +7,20 @@
 import express from 'express';
 import config from './config/environment';
 import http from 'http';
-import './models/js-data/registerModels.service';
+
+//todo extract to requireJsDataModels
+import './models/js-data/account.model';
+import './models/js-data/app.model';
+import './models/js-data/org.model';
+import './models/js-data/orgAccount.model';
+import './models/js-data/orgApp.model';
+import './models/js-data/orgProviderApp.model';
+import './models/js-data/providerAccount.model';
+import './models/js-data/providerApp.model';
+import './models/js-data/providerToken.model';
+import './models/js-data/socialAccount.model';
+import './models/js-data/token.model';
+
 import debug from 'debug';
 
 debug.log = console.info.bind(console);
