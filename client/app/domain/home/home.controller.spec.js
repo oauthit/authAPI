@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: MainController', function () {
+describe('Controller: HomeController', function () {
 
 
   // load the controller's module
@@ -9,7 +9,7 @@ describe('Controller: MainController', function () {
   beforeEach(module('js-data-mocks'));
 
   var scope;
-  var MainController;
+  var HomeController;
   var state;
   var $httpBackend;
   var DS;
@@ -32,7 +32,7 @@ describe('Controller: MainController', function () {
       'access-token': 'myAccessToken'
     };
 
-    MainController = $controller('MainController', {
+    HomeController = $controller('HomeController', {
       $scope: scope
     });
   }));
@@ -43,7 +43,7 @@ describe('Controller: MainController', function () {
     DS.flush();
 
     expect(true).to.equal(true);
-    expect(MainController.data.length).to.equal(3);
+    expect(HomeController.data.length).to.equal(3);
     state.ensureAllTransitionsHappened();
   });
 });
