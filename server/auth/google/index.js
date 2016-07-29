@@ -3,7 +3,6 @@
 import express from 'express';
 import passport from 'passport';
 import {setAuthorized} from '../auth.service';
-import providerAccount from '../../models/providerAccount/providerAccount.model';
 import _ from 'lodash';
 
 var router = express.Router();
@@ -11,17 +10,16 @@ var router = express.Router();
 var providerApps = [];
 
 function setPassportUse(req, res, next) {
+
   let originalUrl = req.originalUrl;
   let fullUrl = originalUrl.split('/');
-
   let index = originalUrl.indexOf('callback?code=');
   let name = index === -1 ? fullUrl[fullUrl.length - 1] : fullUrl[fullUrl.length - 3];
-  let providerApp = _.find(providerApps, (o) => {
-    return o.name === name;
-  });
-  const strategy = require('./passport')(providerAccount(), providerApp);
-  passport.use(strategy);
+  let providerApp = _.find(providerApps, {name: name});
+
+  passport.use(require('./passport')(providerApp));
   req.AUTHAPIproviderApp = providerApp;
+  
   next();
 }
 
