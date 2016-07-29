@@ -3,7 +3,6 @@
 import express from 'express';
 import passport from 'passport';
 import {setAuthorized} from '../auth.service';
-import providerAccount from '../../models/providerAccount/providerAccount.model';
 import _ from 'lodash';
 import config from '../../config/environment';
 
@@ -15,8 +14,12 @@ var providerApps = [];
 
 function setPassportUse(req, res, next) {
 
-  var fullUrl = req.originalUrl.split('/');
-  var name = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
+  var urlParts = req.baseUrl.split('/');
+  var name = _.last(urlParts);
+
+  if (name === 'callback') {
+    name = _.nth(urlParts,- 2);
+  }
 
   let providerApp = _.find(providerApps, {name: name});
 
@@ -31,16 +34,9 @@ function setPassportUse(req, res, next) {
   let config = {
     authorizationURL: smsAuthUrl + '/dialog/authorize',
     tokenURL: smsAuthUrl + '/oauth/token',
-    //TODO change record for correct clientID and clientSecret
-    clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
-    clientSecret: 'someSecret' || providerApp.clientSecret,
     scope: 'offline_access'
   };
-  passport.use(require('./passport')(
-    providerAccount(),
-    providerApp,
-    config)
-  );
+  passport.use(require('./passport')(providerApp,config));
   req.AUTHAPIproviderApp = providerApp;
   next();
 
@@ -68,7 +64,7 @@ export default function (providerApp) {
 
       req.session.returnTo = req.headers.referer;
 
-      passport.authenticate('sms', {
+      passport.authenticate('sms' + req.AUTHAPIproviderApp.name, {
         failureRedirect: '/#/login',
         state: req.query.accountId
       })(req, res, next);
@@ -77,7 +73,7 @@ export default function (providerApp) {
 
     .get('/callback', setPassportUse, function (req, res, next) {
 
-      passport.authenticate('sms', {
+      passport.authenticate('sms' + req.AUTHAPIproviderApp.name, {
         failureRedirect: '/#/login'
       })(req, res, next);
 
