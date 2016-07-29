@@ -3,7 +3,7 @@
 import express from 'express';
 import passport from 'passport';
 import {setAuthorized} from '../auth.service';
-import providerAccount from '../../models/providerAccount/providerAccount.model';
+
 import _ from 'lodash';
 import fbPassport from './passport';
 
@@ -18,13 +18,7 @@ function setPassportUse (req, res, next) {
 
   let providerApp = _.find(providerApps, {name: name});
 
-  console.log('fbPassport:', fbPassport);
-  const strategy = fbPassport(
-    providerAccount(),
-    providerApp
-  );
-
-  passport.use(strategy);
+  passport.use(fbPassport(providerApp));
   req.AUTHAPIproviderApp = providerApp;
   next();
 
@@ -38,7 +32,7 @@ export default function (providerApp) {
       console.log('req.headers.referer:', req.headers.referer);
       req.session.returnTo = req.headers.referer;
       console.log('req.session:', req.session);
-      passport.authenticate('facebook' + providerApp.code, {
+      passport.authenticate('facebook' + providerApp.name, {
         scope: ['email', 'user_about_me', 'public_profile', 'user_friends'],
         failureRedirect: '/#/login',
         auth_type: 'reauthenticate',
@@ -49,7 +43,7 @@ export default function (providerApp) {
     .get('/callback', setPassportUse, function (req, res, next) {
       console.log('req.session:', req.session);
       console.log('req.headers.referer:', req.headers.referer);
-      passport.authenticate('facebook' + req.AUTHAPIproviderApp.code, {
+      passport.authenticate('facebook' + req.AUTHAPIproviderApp.name, {
         failureRedirect: '/#/login',
         session: false
       })(req, res, next);
