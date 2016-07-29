@@ -2,11 +2,11 @@
 
 import socialAccount from './socialAccountSTAPI.model.js';
 import providerAccount from '../../../models/providerAccount/oprProviderAccount.model.js';
-import abstractController from '../../abstract/abstract.stapi.controller';
+import {stapiBaseController} from 'sistemium-node';
 var debug = require('debug')('authAPI:socialAccount.controller');
 import uuid from 'node-uuid';
 
-let ctrl = abstractController(socialAccount);
+let ctrl = stapiBaseController(socialAccount);
 
 Object.assign(ctrl, {
   index: function (req, res) {

@@ -2,10 +2,10 @@
 
 import Org from './../../models/js-data/org.model';
 import OrgAccount from './../../models/js-data/orgAccount.model';
-import abstractCtrl from '../abstract/abstract.jsdata.controller';
+import {jsDataBaseController} from 'sistemium-node';
 import co from 'co';
 
-let ctrl = abstractCtrl(Org);
+let ctrl = jsDataBaseController(Org);
 
 ctrl.findAll = (req, res) => {
 

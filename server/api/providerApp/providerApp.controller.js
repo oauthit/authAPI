@@ -2,7 +2,7 @@
 
 let ns = 'AuthAPI:api:providerApp:controller';
 
-import abstractCtrl from '../abstract/abstract.jsdata.controller';
+import {jsDataBaseController} from 'sistemium-node';
 const debug = require('debug')(ns);
 import {model} from '../../models/js-data/storeSchema';
 
@@ -10,7 +10,7 @@ const ProviderAccount = model('ProviderAccount');
 const ProviderApp = model('ProviderApp');
 import co from 'co';
 
-let ctrl = abstractCtrl(ProviderApp);
+let ctrl = jsDataBaseController(ProviderApp);
 
 ctrl.privateFindAll = function (req, res) {
 
