@@ -4,13 +4,11 @@ import passportCb from './passportCallback';
 const FACEBOOK_PROVIDER = 'facebook';
 const SMS_PROVIDER = 'sms';
 const GOOGLE_PROVIDER = 'google';
-console.error('basePassportSetup');
 
 
 
 export default function (Strategy) {
 
-  console.log('basePassportSetup: strategy', Strategy);
   return function (ProviderAccount, app, config) {
 
     switch (app.provider) {
@@ -25,7 +23,6 @@ export default function (Strategy) {
         throw new Error(`No such provider "${app.provider}" configured...`);
     }
 
-    console.error('setup');
 
     function setupStrategy(config) {
       config = Object.assign({}, config, {

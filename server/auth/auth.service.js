@@ -11,7 +11,6 @@ const SocialAccount = model('SocialAccount');
 const Token = model('Token');
 const ProviderApp = model('ProviderApp');
 
-console.log('models:', models);
 
 /**
  *

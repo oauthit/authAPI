@@ -12,6 +12,7 @@ var router = express.Router();
 
 providerApp.find()
   .then((providerApps) => {
+    // console.log(providerApps);
     providerApps.forEach(app => {
       var passport = require(`./${app.provider}`)(app);
       router.use(`/${app.provider}/${app.name}`, passport);
