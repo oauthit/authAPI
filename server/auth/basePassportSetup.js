@@ -38,7 +38,7 @@ export default function (Strategy) {
         }, {
           profileData: profile,
           profileId: profile.id,
-          name: profile.displayName,
+          name: profile.displayName || profile.name,
           roles: [],
           accessToken: accessToken,
           refreshToken: refreshToken,
