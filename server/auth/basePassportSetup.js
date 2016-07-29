@@ -1,0 +1,55 @@
+"use strict";
+
+import passportCb from './passportCallback';
+const FACEBOOK_PROVIDER = 'facebook';
+const SMS_PROVIDER = 'sms';
+const GOOGLE_PROVIDER = 'google';
+console.error('basePassportSetup');
+
+
+
+export default function (Strategy) {
+
+  console.log('basePassportSetup: strategy', Strategy);
+  return function (ProviderAccount, app, config) {
+
+    switch (app.provider) {
+      case SMS_PROVIDER:
+        config = config || {};
+        return setupStrategy(config);
+      case FACEBOOK_PROVIDER:
+        return setupStrategy();
+      case GOOGLE_PROVIDER:
+        return setupStrategy();
+      default:
+        throw new Error(`No such provider "${app.provider}" configured...`);
+    }
+
+    console.error('setup');
+
+    function setupStrategy(config) {
+      config = Object.assign({}, config, {
+        clientID: app.clientId,
+        clientSecret: app.clientSecret,
+        callbackURL: `${process.env.DOMAIN || ''}/auth/${app.provider}/${app.name}/callback`,
+        passReqToCallback: true
+      });
+      let strategy = new Strategy(config, (request, accessToken, refreshToken, profile, done) => {
+        ProviderAccount.getOrCreate({
+          profileId: profile.id
+        }, {
+          profileData: profile,
+          profileId: profile.id,
+          name: profile.displayName,
+          roles: [],
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          appId: app.id
+        }).then(passportCb(app.provider, profile, done), done);
+      });
+
+      strategy.name = app.provider + app.code;
+      return strategy;
+    }
+  };
+}
