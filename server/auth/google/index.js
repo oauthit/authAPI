@@ -19,7 +19,7 @@ function setPassportUse(req, res, next) {
   let providerApp = _.find(providerApps, (o) => {
     return o.name === name;
   });
-  const strategy = require('./passport').setup(providerAccount(), providerApp);
+  const strategy = require('./passport')(providerAccount(), providerApp);
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;
   next();

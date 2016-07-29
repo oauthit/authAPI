@@ -5,6 +5,7 @@ import passport from 'passport';
 import {setAuthorized} from '../auth.service';
 import providerAccount from '../../models/providerAccount/providerAccount.model';
 import _ from 'lodash';
+import fbPassport from './passport';
 
 var router = express.Router();
 
@@ -15,11 +16,13 @@ function setPassportUse (req, res, next) {
   var fullUrl = req.originalUrl.split('/');
   var name = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
 
-  let providerApp = _.find(providerApps, (o) => {
-    return o.name === name;
-  });
+  let providerApp = _.find(providerApps, {name: name});
 
-  const strategy = require('../facebook/passport').setup(providerAccount(), providerApp);
+  console.log('fbPassport:', fbPassport);
+  const strategy = fbPassport(
+    providerAccount(),
+    providerApp
+  );
 
   passport.use(strategy);
   req.AUTHAPIproviderApp = providerApp;

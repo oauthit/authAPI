@@ -5,10 +5,12 @@ import passport from 'passport';
 import {setAuthorized} from '../auth.service';
 import providerAccount from '../../models/providerAccount/providerAccount.model';
 import _ from 'lodash';
+import config from '../../config/environment';
 
 var debug = require('debug')('AuthAPI:auth:sms:index');
 var router = express.Router();
 
+const smsAuthUrl = config.smsAuth.url;
 var providerApps = [];
 
 function setPassportUse(req, res, next) {
@@ -26,7 +28,19 @@ function setPassportUse(req, res, next) {
     return res.redirect(`${redirectUrl}#/login?error=${error}`);
   }
 
-  passport.use(require('./passport').setup(req, providerAccount(), providerApp));
+  let config = {
+    authorizationURL: smsAuthUrl + '/dialog/authorize',
+    tokenURL: smsAuthUrl + '/oauth/token',
+    //TODO change record for correct clientID and clientSecret
+    clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
+    clientSecret: 'someSecret' || providerApp.clientSecret,
+    scope: 'offline_access'
+  };
+  passport.use(require('./passport')(
+    providerAccount(),
+    providerApp,
+    config)
+  );
   req.AUTHAPIproviderApp = providerApp;
   next();
 
