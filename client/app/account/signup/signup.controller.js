@@ -2,9 +2,17 @@
 
 (function () {
 
-  function SignupController(Auth) {
+  function SignupController(Auth, $state, schema) {
 
     var vm = this;
+
+    var ProviderApp = schema.model('ProviderApp');
+    ProviderApp.findAll()
+      .then(function (data) {
+        vm.buttons = _.map(data, function(app) {
+          return app.oauthButton();
+        });
+      });
 
     vm.user = {};
     vm.errors = {};

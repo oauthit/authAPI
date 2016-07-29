@@ -2,7 +2,11 @@
 
 angular.module('authApiApp')
   .controller('OauthButtonsCtrl', function($window) {
-    this.loginOauth = function(provider) {
+
+    var OauthButtons = this;
+
+    OauthButtons.loginOauth = function(provider) {
       $window.location.href = '/auth/' + provider;
     };
+
   });

@@ -1,14 +1,6 @@
-a.btn.btn-social.btn-facebook(ng-class='classes'
-  ng-click='OauthButtons.loginOauth("facebook/debtee")')
-  i.fa.fa-facebook
-  |  Connect with Facebook
-
-a.btn.btn-social.btn-google(ng-class='classes'
-  ng-click='OauthButtons.loginOauth("google/debtee")')
-  i.fa.fa-google-plus
-  |  Connect with Google+
-
-a.btn.btn-social.btn-twitter(ng-class='classes'
-  ng-click='OauthButtons.loginOauth("twitter")')
-  i.fa.fa-twitter
-  |  Connect with Twitter
+a.btn.btn-social(ng-repeat='button in buttons'
+ng-click='OauthButtons.loginOauth(button.oauthPath)'
+ng-class='[button.aClass,classes]'
+)
+  i(ng-class='button.iClass')
+  | Connect with {{button.title}}

@@ -1,55 +1,63 @@
 'use strict';
 
-var LoginController = function (Auth, $state) {
+var LoginController = function (Auth, $state, schema) {
 
-  var me = this;
+  var vm = this;
 
-  me.user = {};
-  me.errors = {};
-  me.submitted = false;
-  me.Auth = Auth;
-  me.$state = $state;
+  var ProviderApp = schema.model('ProviderApp');
+  ProviderApp.findAll()
+    .then(function (data) {
+      vm.buttons = _.map(data, function(app) {
+        return app.oauthButton();
+      });
+    });
+
+  vm.user = {};
+  vm.errors = {};
+  vm.submitted = false;
+  vm.Auth = Auth;
+  vm.$state = $state;
 
   var catchFn = function (text404) {
     return function (err) {
       if (err.status === 404) {
-        me.errors.other = text404;
+        vm.errors.other = text404;
       } else {
-        me.errors.other = err.data.message || text404;
+        vm.errors.other = err.data.message || text404;
       }
-      me.submitted = false;
+      vm.submitted = false;
     };
   };
 
-  me.login = function () {
+  vm.login = function () {
 
     var q;
-    me.errors = {};
-    me.submitted = true;
+    vm.errors = {};
+    vm.submitted = true;
 
-    if (me.user.mobileNumber && !me.smsId) {
+    if (vm.user.mobileNumber && !vm.smsId) {
 
-      q = me.Auth.loginWithMobileNumber(me.user.mobileNumber)
+      q = vm.Auth.loginWithMobileNumber(vm.user.mobileNumber)
 
         .then(res => {
-          console.log (res);
-          me.smsId = res.data.ID;
-          me.submitted = false;
+          console.log(res);
+          vm.smsId = res.data.ID;
+          vm.submitted = false;
         })
 
         .catch(catchFn('Wrong mobile number'));
 
-    } else if (me.smsId && me.smsCode) {
+    } else if (vm.smsId && vm.smsCode) {
 
-      q = me.Auth.authWithSmsCode (me.smsId, me.smsCode)
+      q = vm.Auth.authWithSmsCode(vm.smsId, vm.smsCode)
 
-        .then(function(res){
+        .then(function (res) {
           if (res.token) {
             $state.go('main', {'access-token': res.token});
           } else {
-            me.errors.other = 'Error: got empty token';
+            vm.errors.other = 'Error: got empty token';
           }
-          me.submitted = false;
+          vm.submitted = false;
         })
 
         .catch(catchFn('Wrong SMS code'));
@@ -57,9 +65,9 @@ var LoginController = function (Auth, $state) {
     }
 
     if (q) {
-      me.busy = q;
-      q.finally(function(){
-        me.submitted = false;
+      vm.busy = q;
+      q.finally(function () {
+        vm.submitted = false;
       });
     }
   };

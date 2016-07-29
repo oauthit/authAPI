@@ -1,1 +1,12 @@
+.fa-sms:before {
+  content: "\f10b";
+}
 
+@mixin aa-btn-social($color-bg, $color: #fff) {
+  background-color: $color-bg;
+  @include button-variant($color, $color-bg, rgba(0, 0, 0, .2));
+}
+
+.btn-sms {
+  @include aa-btn-social(#f7931e);
+}
