@@ -1,15 +1,16 @@
 "use strict";
 
 import passportCb from './passportCallback';
+import providerAccount from '../models/providerAccount/providerAccount.model';
 const FACEBOOK_PROVIDER = 'facebook';
 const SMS_PROVIDER = 'sms';
 const GOOGLE_PROVIDER = 'google';
-
+const ProviderAccount = providerAccount();
 
 
 export default function (Strategy) {
 
-  return function (ProviderAccount, app, config) {
+  return function (app, config) {
 
     switch (app.provider) {
       case SMS_PROVIDER:
@@ -45,7 +46,7 @@ export default function (Strategy) {
         }).then(passportCb(app.provider, profile, done), done);
       });
 
-      strategy.name = app.provider + app.code;
+      strategy.name = app.provider + app.name;
       return strategy;
     }
   };
