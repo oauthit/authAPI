@@ -16,6 +16,7 @@ OAuthStrategy.prototype.userProfile = function (accessToken, done) {
   }).then(body => {
     console.log(body);
     body = JSON.parse(body);
+    body.provider = 'sms';
     done(null, body);
   }).catch(err => {
     console.error('sms:passport error:', err);
