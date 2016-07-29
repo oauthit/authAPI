@@ -1,5 +1,8 @@
-.fa-sms:before {
-  content: "\f10b";
+.fa-sms {
+  &:before {
+    content: "\f10b";
+  }
+  top: -1px !important;
 }
 
 @mixin aa-btn-social($color-bg, $color: #fff) {
