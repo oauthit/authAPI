@@ -27,7 +27,7 @@ export default function (providerApp) {
     return new Error('setPassportUse with no providerApp');
   }
 
-  const smsAuthUrl = _.get(config,'smsAuth.url') || providerApp.url;
+  const smsAuthUrl = _.get(config,'smsAuth.' + providerApp.name + '.url') || providerApp.url;
 
   let appConfig = {
     authorizationURL: smsAuthUrl + '/dialog/authorize',
@@ -35,7 +35,7 @@ export default function (providerApp) {
     scope: 'offline_access'
   };
 
-  passport.use(require('./passport')(providerApp, appConfig));
+  passport.use(require('./passport')(smsAuthUrl)(providerApp, appConfig));
 
   router
 
