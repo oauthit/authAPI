@@ -1,12 +1,13 @@
 'use strict';
 
-import stapi from '../models/abstract.model';
+import {baseStapiModel} from 'sistemium-node';
+
 var debug = require('debug')('middleware:instantiate');
 
 export default function (req, res, next) {
   if (req && req.params) {
     if (req.params.pool && req.params.tableName) {
-      req.model = stapi(`/${req.params.pool}/${req.params.tableName}`);
+      req.model = baseStapiModel(`/${req.params.pool}/${req.params.tableName}`);
       next();
     }
     else {

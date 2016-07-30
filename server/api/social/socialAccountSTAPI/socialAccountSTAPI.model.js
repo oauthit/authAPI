@@ -1,4 +1,5 @@
 'use strict';
-import STAPI from '../../../models/abstract.model.js';
 
-export default STAPI ('/aa/socialAccount');
+import {baseStapiModel} from 'sistemium-node';
+
+export default baseStapiModel('/aa/socialAccount');
