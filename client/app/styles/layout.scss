@@ -71,3 +71,17 @@
 .input-group-btn .btn.dropdown-toggle {
   padding-bottom: 7px;
 }
+
+a h3.caption {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+a.thumbnail {
+  &:hover, &:focus, & {
+    text-decoration: none;
+  }
+  .caption {
+    color: inherit;
+  }
+}
