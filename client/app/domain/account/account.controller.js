@@ -37,24 +37,31 @@
        * Get current account and his providerAccounts
        */
       function init() {
-        vm.busy = $q(function (resolve, reject) {
-          Account.find('me').then(function (acc) {
+        vm.busy = Account.find('me').then(function (acc) {
+          vm.acc = acc;
 
-            vm.acc = acc;
+          vm.providerAccNgTableParams = vm.setupNgTable({
+            getCount: function (params, options) {
+              let p = angular.extend({
+                accountId: vm.acc.id
+              },params || {});
+              let o = options || {};
+              return ProviderAccount.getCount(p, o);
+            },
 
-            Account.loadRelations(acc, ['ProviderAccount']).then(function () {
-                vm.providerAccounts = acc.providerAccounts;
-
-                resolve();
-              })
-              .catch(function (err) {
-                console.log(err);
-                reject();
-              });
-          }).catch(err => {
-            console.log(err);
-            reject();
+            findAll: function () {
+              return Account.loadRelations(vm.acc, ['ProviderAccount'])
+                .then(function(acc){
+                  return vm.providerAccounts = acc.providerAccounts;
+                })
+                .catch(function (err) {
+                  console.error(err);
+                });
+            }
           });
+
+        }).catch(err => {
+          console.error(err);
         });
       }
 
@@ -67,18 +74,6 @@
 
         findAll: function (params, o) {
           return Org.findAll(angular.extend({}, params), o);
-        }
-      });
-
-      vm.providerAccNgTableParams = vm.setupNgTable({
-        getCount: function (params, options) {
-          let p = params || {};
-          let o = options || {};
-          return ProviderAccount.getCount([p, o]);
-        },
-
-        findAll: function (params, o) {
-          return ProviderAccount.findAll(angular.extend({}, params), o);
         }
       });
 
