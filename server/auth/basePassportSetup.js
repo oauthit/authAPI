@@ -29,7 +29,7 @@ export default function (Strategy, strategyConfig) {
       }).then(passportCb(app.provider, profile, done), done);
     });
 
-    strategy.name = app.provider + app.name;
+    strategy.name = app.code;
     Object.assign(strategy,strategyConfig||{});
 
     return strategy;
