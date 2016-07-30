@@ -22,19 +22,19 @@
         {
           title: 'Organizations',
           icon: 'mega-octicon octicon-organization',
-          description: 'Some description',
+          description: 'join existing or create yours',
           state: 'auth.org'
         },
         {
           title: 'Providers',
           icon: 'mega-octicon octicon-gist-secret',
-          description: 'Auth provider apps',
+          description: 'browse available applications',
           state: 'auth.providers'
         },
         {
           title: 'Account',
-          icon: 'fa fa-2x fa-user',
-          description: 'Account',
+          icon: 'fa fa-user',
+          description: 'manage your auth personae',
           state: 'auth.account'
         }
       ]
