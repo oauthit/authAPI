@@ -4,6 +4,7 @@ import compose from 'composable-middleware';
 var debug = require('debug')('authAPI:auth:service');
 import {model, models} from '../models/js-data/storeSchema';
 import co from 'co';
+import _ from 'lodash';
 
 const Account = model('Account');
 const ProviderAccount = model('ProviderAccount');
@@ -34,14 +35,11 @@ var validateAuth = (req, res, next) => {
 
   debug('token:', token);
   Token.find(token).then((user) => {
-    //debug ('validateAuth', 'user:', user);
-    debug('info', `Successfully found token for user: ${JSON.stringify(user)}`);
     req.user = user;
-    debug('debug', `req.user = ${user}`);
+    debug('req.user:', user);
     next();
   }, (err) => {
-    debug('info', `Error occured while trying to find token by id(Token.find(${token})).`);
-    debug('debug', `Error message: ${err}`);
+    debug('error:', err);
     return res.sendStatus(401);
   });
 };
@@ -55,7 +53,7 @@ export function isAuthenticated() {
 
     .use(function (req, res, next) {
       // allow authorization to be passed through query parameter as well
-      //debug ('isAuthenticated', 'query:', req.query);
+      debug ('isAuthenticated', 'query:', req.query);
       if (req.query && req.query.hasOwnProperty('authorization:')) {
         req.headers.authorization = req.query ['authorization:'];
       }
@@ -77,7 +75,10 @@ export function hasRole(roleRequired) {
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
-      if (req.user.roles[roleRequired] || req.user.roles.indexOf(roleRequired) > -1) {
+
+      var roles = _.get(req, 'user.tokeninfo.roles') || [];
+
+      if (roles && (roles[roleRequired] || roles.indexOf(roleRequired) >= 0)) {
         debug(`User have role '${roleRequired}'`);
         next();
       } else {
