@@ -3,9 +3,15 @@ import rp from 'request-promise';
 import config from '../../config/environment';
 import basePassportSetup from '../basePassportSetup';
 
+var debug = require('debug')('authAPI:auth:sms:passport');
 var smsAuthUrl = config.smsAuth.url;
 
-OAuthStrategy.prototype.userProfile = function (accessToken, done) {
+function userProfile (accessToken, done) {
+
+  if (!accessToken) {
+    console.error ('No access token calling SMS userProfile');
+    // return;
+  }
 
   return rp({
     method: 'GET',
@@ -23,6 +29,6 @@ OAuthStrategy.prototype.userProfile = function (accessToken, done) {
     done(err);
   });
 
-};
+}
 
-export default basePassportSetup(OAuthStrategy);
+export default basePassportSetup(OAuthStrategy,{userProfile});
