@@ -31,7 +31,6 @@ function SettingsController($window,
 
         Account.loadRelations(acc, ['ProviderAccount']).then(function () {
             vm.providerAccounts = acc.providerAccounts;
-
             resolve();
           })
           .catch(function (err) {
