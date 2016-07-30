@@ -69,9 +69,7 @@ function SettingsController($window,
     },
 
     onSubmit: function () {
-      var data = {
-        name: vm.model.name
-      };
+      var data = vm.model;
       Account.create(data).then(function () {
         saMessageService.success('Account have been updated', 'Success!');
       }, function (err) {
