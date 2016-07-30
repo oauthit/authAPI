@@ -16,13 +16,11 @@
 
       vm.setupNgTable({
         getCount: function (params, options) {
-          let p = params || {};
-          let o = options || {};
-          return Org.getCount(p, o);
+          return Org.getCount(params, options);
         },
 
-        findAll: function (params, o) {
-          return Org.findAll(angular.extend({}, params), o);
+        findAll: function (params, options) {
+          return Org.findAll(params, options);
         }
       });
 

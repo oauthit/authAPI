@@ -42,11 +42,9 @@
 
           vm.providerAccNgTableParams = vm.setupNgTable({
             getCount: function (params, options) {
-              let p = angular.extend({
+              return ProviderAccount.getCount(angular.extend(params || {},{
                 accountId: vm.acc.id
-              },params || {});
-              let o = options || {};
-              return ProviderAccount.getCount(p, o);
+              }), options);
             },
 
             findAll: function () {
@@ -67,25 +65,21 @@
 
       vm.orgNgTableParams = vm.setupNgTable({
         getCount: function (params, options) {
-          let p = params || {};
-          let o = options || {};
-          return Org.getCount(p, o);
+          return Org.getCount(params, options);
         },
 
-        findAll: function (params, o) {
-          return Org.findAll(angular.extend({}, params), o);
+        findAll: function (params, options) {
+          return Org.findAll(params, options);
         }
       });
 
       vm.appNgTableParams = vm.setupNgTable({
         getCount: function (params, options) {
-          let p = params || {};
-          let o = options || {};
-          return App.getCount(p, o);
+          return App.getCount(params, options);
         },
 
-        findAll: function (params, o) {
-          return App.findAll(angular.extend({}, params), o);
+        findAll: function (params, options) {
+          return App.findAll(params, options);
         }
       });
 
