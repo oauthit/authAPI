@@ -30,7 +30,7 @@ meta.defineEntity 'Org',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;provider;code'
+  'isDeleted;name;clientId;clientSecret;provider;url'
 ;
 
 meta.defineEntity 'OrgAccount',
@@ -75,18 +75,24 @@ meta.defineEntity 'OrgApp',
   'Org,orgId;App,appId'
 ;
 
-meta.createTable 'SocialAccount',0,1;
-meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
+meta.createTable 'App',0,1;
+meta.createTable 'Token',0,1;
+
 meta.createTable 'ProviderApp',0,1;
-meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
+
+meta.createTable 'SocialAccount',0,1;
+meta.createTable 'SocialFriend',0,1;
+
+
+meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
 meta.createTable 'OrgAccount',0,1;
-meta.createTable 'Token',0,1;
-meta.createTable 'App',0,1;
 meta.createTable 'OrgApp',0,1;
 
-alter table aa.ProviderApp add unique (code)
-alter table aa.App add unique (url)
+alter table aa.ProviderApp add code CODE not null compute (string(provider,name));
+alter table aa.ProviderApp add unique (code);
+alter table aa.ProviderApp add unique (provider, name);
+alter table aa.App add unique (url);
