@@ -7,11 +7,11 @@
     tr.clickable(
     ng-repeat='row in $data track by row.id'
     )
-      td(title="'Name'")
+      td(data-title="'Name'")
         | {{row.name}}
-      td(title="'Provider'")
+      td(data-title="'Provider'")
         | {{row.profileData.provider}}
-      td(title="'Roles'")
+      td(data-title="'Roles'")
         | {{row.roles}}
 
   div(ng-if="vm.providerApp.provider === 'facebook'")

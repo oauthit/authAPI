@@ -8,13 +8,13 @@
     ng-repeat='row in $data track by row.id'
     ui-sref='auth.providerAccounts({providerId: row.id})'
     )
-      td(title="'Name'")
+      td(data-title="'Name'")
         | {{row.name}}
-      td(title="'Provider'")
+      td(data-title="'Provider'")
         | {{row.provider}}
-      td(title="'Code'")
+      td(data-title="'Code'")
         | {{row.code}}
-      td(title="'Client ID'" ng-if="true")
+      td(data-title="'Client ID'" ng-if="true")
         | {{row.clientId}}
-      td(title="'Client Secret'" ng-if="true")
+      td(data-title="'Client Secret'" ng-if="true")
         | {{row.clientSecret}}
