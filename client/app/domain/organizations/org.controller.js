@@ -18,7 +18,7 @@
         getCount: function (params, options) {
           let p = params || {};
           let o = options || {};
-          return Org.getCount([p, o]);
+          return Org.getCount(p, o);
         },
 
         findAll: function (params, o) {

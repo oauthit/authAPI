@@ -18,7 +18,7 @@
         getCount: function (params, options) {
           let p = params || {};
           let o = options || {};
-          return Provider.getCount([p, o]);
+          return Provider.getCount(p, o);
         },
 
         findAll: function (params, o) {
