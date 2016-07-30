@@ -39,27 +39,31 @@
         tr.clickable(
         ng-repeat='row in $data track by row.id'
         )
-          td(title="'Profile ID'")
+          td(data-title="'Profile ID'")
             | {{row.profileId}}
-          td(title="'Display Name'")
+          td(data-title="'Display Name'")
             | {{row.profileData.displayName}}
-          td(title="'Provider'")
+          td(data-title="'Provider'")
             | {{row.profileData.provider}}
-          td(title="'Roles'")
+          td(data-title="'Roles'")
             | {{row.profileData.roles}}
 
 
-      h3 App list
+      section
 
-      table.table.table-striped.table-hover.table-responsive(
-      ng-table='vm.appNgTableParams'
-      )
-        tr.clickable(
-        ng-repeat='row in $data track by row.id'
+        h3 App list
+
+        table.table.table-striped.table-hover.table-responsive(
+        ng-table='vm.appNgTableParams'
         )
-          td(title="'Url'")
-            a(href="{{vm.getRedirectUrl(row.url)}}" target='blank') {{row.url}}
+          tr.clickable(
+          ng-repeat='row in $data track by row.id'
+          )
+            td(title="'Url'")
+              a(href="{{vm.getRedirectUrl(row.url)}}" target='blank') {{row.url}}
 
-      pre Account {{vm.acc}}
+      h3 Account
+      pre {{vm.acc| json}}
 
-      pre ProviderAccounts {{vm.providerAccounts}}
+      h3 ProviderAccounts
+      pre {{vm.providerAccounts | json}}
