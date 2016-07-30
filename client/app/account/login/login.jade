@@ -5,49 +5,8 @@
       .lead Please identify yourself with any of the options bellow
 
     .col-sm-12
-      form.form(name='form', ng-submit='vm.login(form)' novalidate='')
-
-        .form-group
-          label Email
-          input.form-control(
-            ng-if='!vm.smsId'
-            type='email'
-            name='email'
-            ng-model='vm.user.email'
-            autocomplete='off'
-          )
-
-        .form-group
-          label Mobile phone
-          input.form-control(
-            type='text'
-            name='mobileNumber'
-            ng-model='vm.user.mobileNumber'
-            autocomplete='off'
-            ng-disabled='vm.smsId'
-          )
-        .form-group(ng-if='vm.smsId')
-          label SMS code
-          input.form-control(type='text', name='smsCode', ng-model='vm.smsCode', autocomplete='off', ng-required='true', autofocus='autofocus')
-
-        .form-group.has-error
-          p.help-block(ng-show='!vm.user.mobileNumber && !vm.user.email && vm.submitted')
-            | Please enter either your email or mobile phone number
-          p.help-block(ng-show='form.smsCode.$error.required && vm.submitted')
-            | Please enter the 6-digit code that is sent with sms to the mobile phone
-          p.help-block {{ vm.errors.other }}
-
-        div
-          button.btn.btn-inverse.btn-lg.btn-login(type='submit' ng-disabled='vm.busy.$$state.status===0')
-            | Login
-          = ' '
-          a.btn.btn-default.btn-lg.btn-register(ui-sref='auth.signup')
-            | Register
-
-        hr
-
-        .row
-          .col-sm-4.col-md-3
-            oauth-buttons(classes='btn-block' buttons='vm.buttons')
+      .row
+        .col-sm-5.col-md-4.col-lg-3
+          oauth-buttons(classes='btn-block' buttons='vm.buttons')
 
   hr
