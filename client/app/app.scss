@@ -4,6 +4,8 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
 
+// FIXME: sistemium-bootstrap styles are not linked
+
 /**
  * App-wide Styles
  */
@@ -22,6 +24,7 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 @import 'styles/animation';
 @import 'styles/colors';
 @import 'styles/data';
+@import 'styles/helpers';
 @import 'styles/layout';
 @import '../components/footer/footer';
 @import '../components/modal/modal';
