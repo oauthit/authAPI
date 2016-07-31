@@ -33,7 +33,7 @@
         },
         {
           title: 'Account',
-          icon: 'fa fa-user',
+          icon: 'mega-octicon octicon-person',
           description: 'manage your auth personae',
           state: 'auth.account'
         }
