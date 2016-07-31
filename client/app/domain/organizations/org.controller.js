@@ -15,13 +15,8 @@
       });
 
       vm.setupNgTable({
-        getCount: function (params, options) {
-          return Org.getCount(params, options);
-        },
-
-        findAll: function (params, options) {
-          return Org.findAll(params, options);
-        }
+        getCount: Org.getCount,
+        findAll: Org.findAll
       });
 
     })
