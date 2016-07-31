@@ -1,7 +1,6 @@
 'use strict';
 
 import {isAuthenticated} from '../auth/auth.service';
-import checkUser from '../middleware/checkAuthenticated.middleware';
 
 var router = require('express').Router();
 
