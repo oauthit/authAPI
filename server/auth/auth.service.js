@@ -22,43 +22,44 @@ const ProviderApp = model('ProviderApp');
  * @return {}
  *
  * */
-var validateAuth = (req, res, next) => {
+function validateAuth (req, res, next) {
 
   let token = req.headers.authorization;
 
-  //debug ('validateAuth','token:',token);
+  debug ('validateAuth','token:',token);
 
   if (!token) {
     debug('info', 'Token is not defined, sending unauthorized status.');
     return res.sendStatus(401);
   }
 
-  debug('token:', token);
-  Token.find(token).then((user) => {
-    req.user = user;
-    debug('req.user:', user);
+  Token.find(token).then((data) => {
+    req.user = data && data.tokenInfo;
+    debug('validateAuth: token:', data);
+    if (!req.user) {
+      res.sendStatus(401);
+    }
     next();
   }, (err) => {
     debug('error:', err);
     return res.sendStatus(401);
   });
-};
+}
 
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 401
  */
-export function isAuthenticated() {
-  return compose()
-
-    .use(function (req, res, next) {
-      // allow authorization to be passed through query parameter as well
-      debug ('isAuthenticated', 'query:', req.query);
+function isAuthenticated() {
+  return compose(
+    function (req,res,next) {
       if (req.query && req.query.hasOwnProperty('authorization:')) {
         req.headers.authorization = req.query ['authorization:'];
       }
-      validateAuth(req, res, next);
-    });
+      next();
+    },
+    validateAuth
+  );
 }
 
 /**
@@ -66,7 +67,7 @@ export function isAuthenticated() {
  *
  * @params {String} roleRequired - Parameter for role name
  */
-export function hasRole(roleRequired) {
+function hasRole(roleRequired) {
   if (!roleRequired) {
     debug(`roleRequired parameter missing...`);
     throw new Error('Required role needs to be set');
@@ -92,7 +93,7 @@ export function hasRole(roleRequired) {
  * @param providerCode {String} - Unique providerCode
  * @returns {Function}
  */
-export function setAuthorized(providerCode) {
+function setAuthorized(providerCode) {
   /**
    * Set token cookie directly for oAuth strategies
    *
@@ -105,7 +106,7 @@ export function setAuthorized(providerCode) {
     debug('setAuthorized user:', req.user);
     debug('setAuthorized session:', req.session);
 
-    co(function* () {
+    co(function*() {
 
       let providerAppPromise = ProviderApp.findAll({'code': providerCode})
         .then((providerApps) => {
@@ -206,3 +207,4 @@ export function setAuthorized(providerCode) {
   };
 }
 
+export {hasRole, setAuthorized, isAuthenticated};
