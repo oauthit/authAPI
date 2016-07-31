@@ -15,10 +15,14 @@ function SettingsController($window,
   const Account = schema.model('Account');
   const ProviderAccount = schema.model('ProviderAccount');
 
-  Auth.getCurrentUser(function (account) {
-    vm.originalModel = angular.copy(account);
-    vm.model = account;
-  });
+  var originalModelFields;
+  var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
+
+  function saveOriginalFields(data) {
+    originalModelFields = _.pick(data, _.map(fields, (field) => {
+      return field.key;
+    }));
+  }
 
   /**
    * Get current account and his providerAccounts
@@ -27,26 +31,22 @@ function SettingsController($window,
     vm.busy = $q(function (resolve, reject) {
       Account.find('me').then(function (acc) {
 
-        vm.acc = acc;
+        vm.account = acc;
+        saveOriginalFields(acc);
 
         Account.loadRelations(acc, ['ProviderAccount']).then(function () {
-            vm.providerAccounts = acc.providerAccounts;
-            resolve();
-          })
-          .catch(function (err) {
-            console.log(err);
-            reject();
-          });
-      }).catch(err => {
-        console.log(err);
-        reject();
-      });
+          vm.providerAccounts = acc.providerAccounts;
+          resolve();
+        })
+          .catch(reject);
+
+      }).catch(reject);
     });
   }
 
   angular.extend(vm, {
 
-    fields: saFormlyConfigService.getConfigFieldsByKey('accountInfo'),
+    fields: fields,
     buttons: [
       {
         name: 'Manage agents',
@@ -54,13 +54,8 @@ function SettingsController($window,
       }
     ],
 
-    socialProviders: [
-      'facebook',
-      'google',
-      'twitter'
-    ],
     onCancel: function (form) {
-      vm.model = angular.copy(vm.originalModel);
+      angular.extend(vm.account, originalModelFields);
       form.$setPristine();
     },
 
@@ -68,13 +63,13 @@ function SettingsController($window,
       return _.find(vm.providers, {provider: provider});
     },
 
-    onSubmit: function () {
-      var data = vm.model;
-      Account.save(data).then(function () {
-        saMessageService.success('Account have been updated', 'Success!');
-      }, function (err) {
-        sabErrorsService.addError(err);
-      });
+    onSubmit: function (form) {
+      Account.save(vm.account.id)
+        .then(function () {
+          saMessageService.success('Account have been updated', 'Success!');
+          form.$setPristine();
+        })
+        .catch(sabErrorsService.addError);
     },
 
     link: function (provider) {
