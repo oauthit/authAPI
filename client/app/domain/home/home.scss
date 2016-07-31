@@ -20,3 +20,9 @@
   // was 4393B9
   background-color: $primary-color;
 }
+
+@media (max-width: 767px) {
+  .hero-unit {
+    padding: 10px;
+  }
+}
