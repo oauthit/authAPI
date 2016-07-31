@@ -70,7 +70,7 @@ function SettingsController($window,
 
     onSubmit: function () {
       var data = vm.model;
-      Account.create(data).then(function () {
+      Account.save(data).then(function () {
         saMessageService.success('Account have been updated', 'Success!');
       }, function (err) {
         sabErrorsService.addError(err);

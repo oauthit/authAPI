@@ -50,7 +50,7 @@
             findAll: function () {
               return Account.loadRelations(vm.acc, ['ProviderAccount'])
                 .then(function(acc){
-                  return vm.providerAccounts = acc.providerAccounts;
+                  return (vm.providerAccounts = acc.providerAccounts);
                 })
                 .catch(function (err) {
                   console.error(err);
@@ -98,7 +98,7 @@
 
         onSubmit: function () {
           var data = vm.model;
-          Account.create(data).then(function () {
+          Account.save(data).then(function () {
             saMessageService.success('Account have been updated', 'Success!');
           }, function (err) {
             sabErrorsService.addError(err);
