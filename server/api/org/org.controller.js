@@ -11,7 +11,7 @@ ctrl.findAll = (req, res) => {
 
   co(function *() {
 
-    let account = req && req.user && req.user.tokenInfo;
+    let account = req && req.user;
 
     let orgAccounts = yield OrgAccount.findAll({accountId: account.id});
 

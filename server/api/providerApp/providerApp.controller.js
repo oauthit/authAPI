@@ -16,7 +16,7 @@ ctrl.privateFindAll = function (req, res) {
 
   debug('privateFindAll user:', req.user);
 
-  const account = req && req.user && req.user.tokenInfo;
+  const account = req && req.user;
   const accountId = account.id;
 
   co(function *() {
