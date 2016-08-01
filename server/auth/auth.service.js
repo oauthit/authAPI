@@ -37,7 +37,7 @@ function validateAuth (req, res, next) {
     req.user = data && data.tokenInfo;
     debug('validateAuth: token:', data);
     if (!req.user) {
-      res.sendStatus(401);
+      return res.sendStatus(401);
     }
     next();
   }, (err) => {
