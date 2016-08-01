@@ -153,17 +153,26 @@ function setAuthorized(providerApp) {
           });
       });
 
+      var linkToAccountId = _.get(req,'session.linkToAccountId');
+      console.error('linkToAccountId:', linkToAccountId);
+
+      if (linkToAccountId && !providerAccount.accountId) {
+        providerAccount.accountId = linkToAccountId;
+      }
+
+      debug('setAuthorized: providerAccount:', providerAccount);
 
       let account = yield Account.findOrCreate(providerAccount.accountId, {
         name: providerAccount.name,
         roles: providerAccount.roles
       });
+      providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
+
       debug('setAuthorized: account:', account);
 
-      providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
-      debug('setAuthorized: providerAccount:', providerAccount);
 
       yield ProviderAccount.update(providerAccount.id, providerAccount);
+
       let token = yield Token.create({tokenInfo: account}).then(token => {
         debug('setAuthorized:Token.create', token);
         return token.id;
