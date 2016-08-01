@@ -64,23 +64,13 @@
       }
 
       vm.orgNgTableParams = vm.setupNgTable({
-        getCount: function (params, options) {
-          return Org.getCount(params, options);
-        },
-
-        findAll: function (params, options) {
-          return Org.findAll(params, options);
-        }
+        getCount: Org.getCount,
+        findAll: Org.findAll
       });
 
       vm.appNgTableParams = vm.setupNgTable({
-        getCount: function (params, options) {
-          return App.getCount(params, options);
-        },
-
-        findAll: function (params, options) {
-          return App.findAll(params, options);
-        }
+        getCount: App.getCount,
+        findAll: App.findAll
       });
 
       angular.extend(vm, {
