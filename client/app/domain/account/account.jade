@@ -3,20 +3,18 @@
     .col-sm-12
       h1 My account
     .col-sm-12
-      form(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit()')
-        formly-form(model='vm.model' fields='vm.fields')
-          .buttons.pull-right
+      form.clearfix(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit(vm.accountForm)')
+        formly-form(model='vm.account' fields='vm.fields')
+          .buttons.pull-right(ng-if='vm.accountForm.$dirty')
             button.btn.btn-primary(
             type='submit'
             ng-disabled='vm.accountForm.$invalid'
-            ng-if='vm.accountForm.$dirty'
             )
               | Save
             = ' '
             button.btn.btn-warning(
             type='button'
             ng-click='vm.onCancel(vm.accountForm)'
-            ng-if='vm.accountForm.$dirty'
             )
               | Cancel changes
 
@@ -28,7 +26,7 @@
         tr.clickable(
         ng-repeat='row in $data track by row.id'
         )
-          td(title="'Name'")
+          td(data-title="'Name'")
             | {{row.name}}
 
       h3 Provider account list
@@ -46,7 +44,7 @@
           td(data-title="'Provider'")
             | {{row.profileData.provider}}
           td(data-title="'Roles'")
-            | {{row.profileData.roles}}
+            | {{row.profileData.roles | json}}
 
 
       section
@@ -59,11 +57,5 @@
           tr.clickable(
           ng-repeat='row in $data track by row.id'
           )
-            td(title="'Url'")
+            td(data-title="'Url'")
               a(href="{{vm.getRedirectUrl(row.url)}}" target='blank') {{row.url}}
-
-      h3 Account
-      pre {{vm.acc| json}}
-
-      h3 ProviderAccounts
-      pre {{vm.providerAccounts | json}}

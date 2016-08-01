@@ -3,8 +3,6 @@
 
   angular.module('authApiApp')
     .controller('AccountController', function ($q,
-                                               Auth,
-                                               localStorageService,
                                                InitCtrlService,
                                                saFormlyConfigService,
                                                saMessageService,
@@ -16,10 +14,6 @@
       angular.extend(vm, {
         ngTable: {
           count: 12
-        },
-        accessToken: localStorageService.get('access-token'),
-        getRedirectUrl: function (url) {
-          return `${url}?access-token=${vm.accessToken}`;
         }
       });
 
@@ -30,10 +24,6 @@
       var originalModelFields;
       var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
 
-      Auth.getCurrentUser(function (account) {
-        vm.originalModel = angular.copy(account);
-        vm.model = account;
-      });
       function saveOriginalFields(data) {
         originalModelFields = saFormlyConfigService.originalFieldsData(fields, data);
       }
@@ -43,18 +33,19 @@
        */
       function init() {
         vm.busy = Account.find('me').then(function (acc) {
-          vm.acc = acc;
+          vm.account = acc;
+          saveOriginalFields(acc);
 
           vm.providerAccNgTableParams = vm.setupNgTable({
             getCount: function (params, options) {
-              return ProviderAccount.getCount(angular.extend(params || {},{
-                accountId: vm.acc.id
+              return ProviderAccount.getCount(angular.extend(params || {}, {
+                accountId: vm.account.id
               }), options);
             },
 
             findAll: function () {
-              return Account.loadRelations(vm.acc, ['ProviderAccount'])
-                .then(function(acc){
+              return Account.loadRelations(vm.account, ['ProviderAccount'])
+                .then(function (acc) {
                   return (vm.providerAccounts = acc.providerAccounts);
                 })
                 .catch(function (err) {
@@ -80,10 +71,10 @@
 
       angular.extend(vm, {
 
-        fields: saFormlyConfigService.getConfigFieldsByKey('accountInfo'),
+        fields: fields,
 
         onCancel: function (form) {
-          vm.model = angular.copy(vm.originalModel);
+          angular.extend(vm.account, originalModelFields);
           form.$setPristine();
         },
 
@@ -91,13 +82,13 @@
           return _.find(vm.providers, {provider: provider});
         },
 
-        onSubmit: function () {
-          var data = vm.model;
-          Account.save(data).then(function () {
-            saMessageService.success('Account have been updated', 'Success!');
-          }, function (err) {
-            sabErrorsService.addError(err);
-          });
+        onSubmit: function (form) {
+          Account.save(vm.account.id)
+            .then(function () {
+              saMessageService.success('Account have been updated', 'Success!');
+              form.$setPristine();
+            })
+            .catch(sabErrorsService.addError);
         }
 
       });
