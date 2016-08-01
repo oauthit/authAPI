@@ -33,10 +33,7 @@ export default (provider, profile, done) => {
         }
 
       })
-      .catch(err => {
-        debug('error', err);
-        done(err);
-      });
+      .catch(done);
 
   };
 };
