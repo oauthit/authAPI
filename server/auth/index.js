@@ -2,6 +2,7 @@
 
 import express from 'express';
 import providerApp from '../models/js-data/providerApp.model';
+import {prepareToLinkProviderAccounts} from '../middleware/authHelpers.middleware';
 const debug = require('debug')('AuthAPI:auth:index');
 
 var router = express.Router();
@@ -15,7 +16,9 @@ providerApp.find()
     // console.log(providerApps);
     providerApps.forEach(app => {
       var passport = require(`./${app.provider}`)(app);
-      router.use(`/${app.provider}/${app.name}`, passport);
+      var authRoot = `/${app.provider}/${app.name}`;
+      router.use(authRoot + '/', prepareToLinkProviderAccounts);
+      router.use(authRoot, passport);
     });
   })
   .catch(err => {

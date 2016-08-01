@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('ProviderAppAccountsController', function ($q, $stateParams, $window, InitCtrlService, schema, providerAccounts, providerApp) {
+    .controller('ProviderAppAccountsController', function ($q, saToken, $stateParams, $window, InitCtrlService, schema, providerAccounts, providerApp) {
 
       let vm = InitCtrlService.setup(this);
 
@@ -12,7 +12,12 @@
         },
         providerApp: providerApp,
         loginOauth: function(app) {
-          $window.location.href = '/auth/' + app.provider + '/' + app.name;
+          var token = saToken.get();
+          var href = `/auth/${app.provider}/${app.name}`;
+          if (token) {
+            href += `?access_token=${token}`;
+          }
+          $window.location.href = href;
         }
       });
 
