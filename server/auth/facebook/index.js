@@ -33,7 +33,7 @@ export default function (providerApp) {
         session: false
       })(req, res, next);
     }, function (req, res, next) {
-      setAuthorized(providerApp.code)(req, res, next);
+      setAuthorized(providerApp)(req, res, next);
     });
 
   return router;

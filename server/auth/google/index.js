@@ -3,7 +3,6 @@
 import express from 'express';
 import passport from 'passport';
 import {setAuthorized} from '../auth.service';
-import _ from 'lodash';
 
 var router = express.Router();
 
@@ -27,7 +26,7 @@ export default function (providerApp) {
         session: false
       })(req, res, next);
     }, function (req, res, next) {
-      setAuthorized(providerApp.code)(req, res, next);
+      setAuthorized(providerApp)(req, res, next);
     });
 
   return router;
