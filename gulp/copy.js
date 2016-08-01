@@ -4,7 +4,7 @@ import gulp from 'gulp';
 import paths from './conf';
 
 gulp.task('copy:fonts', () => {
-  return gulp.src(`${paths.clientPath}/bower_components/{bootstrap,font-awesome,bootstrap-sass-official/assets}/fonts/**/*`, {dot: true})
+  return gulp.src(`${paths.clientPath}/bower_components/{sistemium-angular-bootstrap/dist,font-awesome}/fonts/**/*`, {dot: true})
     .pipe(gulp.dest(`${paths.dist}/${paths.clientPath}/bower_components`));
 });
 
