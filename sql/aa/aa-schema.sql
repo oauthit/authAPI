@@ -30,7 +30,7 @@ meta.defineEntity 'Org',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;provider;url'
+  'isDeleted;name;clientId;clientSecret;provider;url,,nullable'
 ;
 
 meta.defineEntity 'OrgAccount',
