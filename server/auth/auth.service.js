@@ -90,7 +90,7 @@ function hasRole(roleRequired) {
 
 /**
  *
- * @param providerCode {String} - Unique providerCode
+ * @param providerApp {String} - Unique providerCode
  * @returns {Function}
  */
 function setAuthorized(providerApp) {
