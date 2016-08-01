@@ -93,7 +93,7 @@ function hasRole(roleRequired) {
  * @param providerCode {String} - Unique providerCode
  * @returns {Function}
  */
-function setAuthorized(providerCode) {
+function setAuthorized(providerApp) {
   /**
    * Set token cookie directly for oAuth strategies
    *
@@ -107,22 +107,6 @@ function setAuthorized(providerCode) {
     debug('setAuthorized session:', req.session);
 
     co(function*() {
-
-      let providerAppPromise = ProviderApp.findAll({'code': providerCode})
-        .then((providerApps) => {
-
-          if (providerApps.length === 1)
-            return providerApps[0];
-
-          else {
-            debug('Error:', `No such provider app with code: ${providerCode}`);
-            throw new Error(`No such provider: ${providerCode}`);
-          }
-        });
-
-      let providerApp = yield providerAppPromise;
-
-      debug('providerApp:', providerApp);
 
       let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
