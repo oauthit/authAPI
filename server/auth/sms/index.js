@@ -41,10 +41,6 @@ export default function (providerApp) {
 
     .get('/', function (req, res, next) {
 
-      if (req.session) {
-        req.session.returnTo = req.headers.referer;
-      }
-
       passport.authenticate(providerApp.code, {
         failureRedirect: '/#/login',
         state: req.query.accountId

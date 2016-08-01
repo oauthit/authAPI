@@ -14,10 +14,6 @@ export default function (providerApp) {
   router
     .get('/', function (req, res) {
 
-      if (req.session) {
-        req.session.returnTo = req.headers.referer;
-      }
-
       passport.authenticate(providerApp.code, {
         scope: ['email', 'user_about_me', 'public_profile', 'user_friends'],
         failureRedirect: '/#/login',

@@ -5,8 +5,29 @@ import {model} from '../models/js-data/storeSchema';
 let Token = model('Token');
 var debug = require('debug')('authAPI:middleware:authHelpers');
 
+function setReturnTo(req, res, next) {
 
-function prepareToLinkProviderAccounts (req,res,next){
+  if (req.path !== '/') {
+    return next();
+  }
+
+  let returnTo = req.query.redirect_uri;
+
+  // TODO: check if redirect_uri is allowed by ProviderApp.allowedRedirectUris
+
+  if (req.session) {
+    req.session.returnTo = returnTo;
+  }
+  debug ('setReturnTo returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
+  next();
+}
+
+
+function prepareToLinkProviderAccounts(req, res, next) {
+
+  if (req.path !== '/') {
+    return next();
+  }
 
   let token = req.query.access_token;
 
@@ -26,10 +47,13 @@ function prepareToLinkProviderAccounts (req,res,next){
       return res.sendStatus(401);
     });
   } else {
+    if (req.session) {
+      delete req.session.linkToAccountId;
+    }
     next();
   }
 
 }
 
 
-export {prepareToLinkProviderAccounts};
+export {prepareToLinkProviderAccounts, setReturnTo};
