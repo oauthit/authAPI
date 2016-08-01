@@ -1,10 +1,7 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-@import '../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap';
+@import '../bower_components/sistemium-angular-bootstrap/dist/sass/index.scss';
 @import '../bower_components/bootstrap-social/bootstrap-social.scss';
 $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
-
-// FIXME: sistemium-bootstrap styles are not linked
 
 /**
  * App-wide Styles
