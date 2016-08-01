@@ -27,11 +27,16 @@
       const ProviderAccount = schema.model('ProviderAccount');
       const Org = schema.model('Org');
       const App = schema.model('App');
+      var originalModelFields;
+      var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
 
       Auth.getCurrentUser(function (account) {
         vm.originalModel = angular.copy(account);
         vm.model = account;
       });
+      function saveOriginalFields(data) {
+        originalModelFields = saFormlyConfigService.originalFieldsData(fields, data);
+      }
 
       /**
        * Get current account and his providerAccounts

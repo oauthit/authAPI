@@ -4,7 +4,6 @@
 
 function SettingsController($window,
                             $q,
-                            Auth,
                             saFormlyConfigService,
                             schema,
                             saMessageService,
@@ -19,9 +18,7 @@ function SettingsController($window,
   var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
 
   function saveOriginalFields(data) {
-    originalModelFields = _.pick(data, _.map(fields, (field) => {
-      return field.key;
-    }));
+    originalModelFields = saFormlyConfigService.originalFieldsData(fields, data);
   }
 
   /**
