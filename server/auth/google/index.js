@@ -14,8 +14,9 @@ export default function (providerApp) {
     .get('/', function (req, res) {
       passport.authenticate(providerApp.code, {
         failureRedirect: '/#/login',
-        scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read'],
-        accessType: 'offline',
+        scope: ['https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/userinfo.profile'],
+        //accessType: 'online',
         approvalPrompt: 'force',
         state: req.query.accountId
       })(req, res);
