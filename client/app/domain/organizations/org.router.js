@@ -16,6 +16,13 @@
               templateUrl: 'app/domain/organizations/create/orgCreate.html',
               controller: 'OrgCreateController',
               controllerAs: 'vm'
+            },
+            {
+              name: 'joinPublic',
+              url: '/joinPublic',
+              templateUrl: 'app/domain/organizations/joinPublic/joinPublic.html',
+              controller: 'OrgJoinPublicController',
+              controllerAs: 'vm'
             }
           ]
         });

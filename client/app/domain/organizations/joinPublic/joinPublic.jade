@@ -1,0 +1,14 @@
+section
+  h3 Join public organizations
+
+  table.table.table-striped.table-hover.table-responsive
+    th Name
+    th Is public?
+    th Logo
+    tr(ng-repeat='row in vm.publicOrgs track by row.id')
+      td
+        | {{row.name}}
+      td
+        input(type='checkbox' ng-model='row.isPublic' disabled)
+      td
+        img(ng-src="{{row.logo}}")

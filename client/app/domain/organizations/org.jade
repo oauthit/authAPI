@@ -1,7 +1,8 @@
 .container
   h1 Organizations
     .pull-right
-      button.btn.btn-primary(ui-sref='.create') Create organization
+      button.btn.btn-primary(ui-sref='.create') Create
+      button.btn.btn-primary(ui-sref='.joinPublic') Join Public
 
   .ui-view
     table.table.table-striped.table-hover.table-responsive(
@@ -13,5 +14,7 @@
       )
         td(title="'Name'")
           | {{row.name}}
+        td(title="'Is public?'")
+          input(type='checkbox' ng-model='row.isPublic' disabled)
         td(title="'Logo'")
           img(ng-src="{{row.logo}}")
