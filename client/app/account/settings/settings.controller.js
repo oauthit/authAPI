@@ -23,7 +23,7 @@ function SettingsController($window,
   }
 
   /**
-   * Get current account and his providerAccounts
+   * Get current account and its providerAccounts
    */
   function init() {
     vm.busy = $q(function (resolve, reject) {
