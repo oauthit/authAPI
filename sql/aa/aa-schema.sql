@@ -31,15 +31,19 @@ meta.defineEntity 'Org',
 ;
 
 meta.defineEntity 'Role',
-  'isDeleted;name;code;isPublic',
-  'Org,orgId,nullable'
+  'isDeleted;name;code;isPublic'
+;
+
+meta.defineEntity 'OrgRole',
+  'isDeleted',
+  'Org,orgId;Role,roleId'
 ;
 
 meta.defineEntity 'ProviderApp',
   'isDeleted;name;clientId;clientSecret;provider;url,,nullable'
 ;
 
-meta.defineEntity 'OrgAccount',
+meta.defineEntity 'OrgAccountRole',
   'isDeleted',
   'Org,orgId;Account,accountId;Role,roleId'
 ;
@@ -83,15 +87,18 @@ meta.defineEntity 'OrgApp',
 
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
+meta.createTable 'Role',0,1;
 meta.createTable 'App',0,1;
 meta.createTable 'Token',0,1;
+
+meta.createTable 'OrgRole',0,1;
+meta.createTable 'OrgAccountRole',0,1;
 
 meta.createTable 'ProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
 
 meta.createTable 'SocialAccount',0,1;
 meta.createTable 'SocialFriend',0,1;
-
 
 meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
