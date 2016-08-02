@@ -7,7 +7,7 @@
       let vm = InitCtrlService.setup(this);
       var Org = schema.model('Org');
 
-      Org.findAll({isPublic: 1}).then(res => {
+      Org.findAll({isPublic: true}).then(res => {
         vm.publicOrgs = res;
       });
 
