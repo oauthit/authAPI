@@ -12,9 +12,9 @@
       ng-repeat='row in $data track by row.id'
       ui-sref='auth.orgInfo({orgId: row.id})'
       )
-        td(title="'Name'")
+        td(data-title="'Name'")
           | {{row.name}}
-        td(title="'Is public?'")
+        td(data-title="'Is public?'")
           input(type='checkbox' ng-model='row.isPublic' disabled)
-        td(title="'Logo'")
+        td(data-title="'Logo'")
           img(ng-src="{{row.logo}}")
