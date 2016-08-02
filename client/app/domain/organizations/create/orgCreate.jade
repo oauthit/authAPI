@@ -1,0 +1,21 @@
+.container
+  .row
+    .col-sm-12
+      h1 Create organization
+    .col-sm-12
+      form.clearfix(name='vm.orgCreateForm' role='form' novalidate='' ng-submit='vm.onSubmit(vm.orgCreateForm)')
+        formly-form(model='vm.org' fields='vm.fields')
+          .buttons.pull-right(ng-if='vm.orgCreateForm.$dirty')
+            button.btn.btn-primary(
+            type='submit'
+            ng-disabled='vm.orgCreateForm.$invalid'
+            )
+              | Save
+            = ' '
+            button.btn.btn-warning(
+            type='button'
+            ng-click='vm.onCancel(vm.orgCreateForm)'
+            )
+              | Cancel changes
+
+
