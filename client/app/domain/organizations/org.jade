@@ -1,16 +1,17 @@
 .container
   h1 Organizations
+    .pull-right
+      button.btn.btn-primary(ui-sref='.create') Create organization
 
-  table.table.table-striped.table-hover.table-responsive(
-  ng-table='vm.ngTableParams'
-  )
-    tr.clickable(
-    ng-repeat='row in $data track by row.id'
-    ui-sref='auth.orgInfo({orgId: row.id})'
+  .ui-view
+    table.table.table-striped.table-hover.table-responsive(
+    ng-table='vm.ngTableParams'
     )
-      td(title="'Name'")
-        | {{row.name}}
-      td(title="'Logo'")
-        img(ng-src="row.logo")
-
-  button.btn.btn-default(ui-sref='^.orgCreate') Create organization
+      tr.clickable(
+      ng-repeat='row in $data track by row.id'
+      ui-sref='auth.orgInfo({orgId: row.id})'
+      )
+        td(title="'Name'")
+          | {{row.name}}
+        td(title="'Logo'")
+          img(ng-src="{{row.logo}}")

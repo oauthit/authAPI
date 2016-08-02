@@ -2,27 +2,31 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgCreateController', function (saFormlyConfigService) {
+    .controller('OrgCreateController', function (saFormlyConfigService, schema, $state, sabErrorsService, saMessageService) {
+
       var vm = this;
-
-
+      var Org = schema.model('Org');
 
       angular.extend(vm, {
-        org: {},
+
+        org: Org.createInstance(),
         fields: saFormlyConfigService.getConfigFieldsByKey('orgCreateFields'),
-        onCancel: function (form) {
-          vm.org = {};
-          form.$setPristine();
+
+        onCancel: function () {
+          $state.go('^');
         },
+
         onSubmit: function (form) {
-          Account.save(vm.account.id)
+          Org.create(vm.org)
             .then(function () {
-              saMessageService.success('Account have been updated', 'Success!');
+              saMessageService.success('Org has been created', 'Success!');
               form.$setPristine();
             })
             .catch(sabErrorsService.addError);
         }
+
       });
+
     })
   ;
 
