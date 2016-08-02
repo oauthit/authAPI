@@ -1,35 +1,32 @@
 'use strict';
 
-import Org from './../../models/js-data/org.model';
-import OrgAccount from './../../models/js-data/orgAccount.model';
-import {jsDataBaseController} from 'sistemium-node';
-import co from 'co';
+import stapiOrg from './../../models/org.model.js';
+import orgAccountRole from './../../models/orgAccountRole.model.js';
+import {stapiBaseController} from 'sistemium-node';
 
-let ctrl = jsDataBaseController(Org);
+let ctrl = stapiBaseController(stapiOrg);
 
-ctrl.findAll = (req, res) => {
+function findAll(req, res) {
+  req.query.accountId = req.user.id;
+  ctrl.index(req, res);
+}
 
-  co(function *() {
+function find(req, res) {
+  req.query.accountId = req.user.id;
+  ctrl.show(req, res);
+}
 
-    let account = req && req.user;
+function create(req, res) {
+  ctrl.create(req, res, org =>
 
-    let orgAccounts = yield OrgAccount.findAll({accountId: account.id});
+    orgAccountRole(req).save({
+      orgId: org.id,
+      accountId: req.user.id,
+      // TODO: get public roles at bootstrap
+      roleId: '08af0df4-588d-11e6-8000-e188647b398f'
+    })
 
-    let orgs = [];
-    if (orgAccounts) {
-      for (let i = 0; i < orgAccounts.length; i++) {
-        let org = yield Org.find(orgAccounts[i].orgId);
-        orgs.push(org);
-      }
-    }
+  );
+}
 
-    return res.json(orgs);
-
-  }).catch((err) => {
-    console.log(err);
-    return res.sendStatus(500);
-  });
-
-};
-
-export default ctrl;
+export default {findAll, find, create};
