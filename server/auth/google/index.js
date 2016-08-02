@@ -2,13 +2,13 @@
 
 import express from 'express';
 import passport from 'passport';
-import {setAuthorized} from '../auth.service';
+import googlePassport from './passport';
 
 var router = express.Router();
 
 export default function (providerApp) {
 
-  passport.use(require('./passport')(providerApp));
+  passport.use(googlePassport(providerApp));
 
   router
     .get('/', function (req, res) {
@@ -20,14 +20,6 @@ export default function (providerApp) {
         approvalPrompt: 'force',
         state: req.query.accountId
       })(req, res);
-    })
-    .get('/callback', function (req, res, next) {
-      passport.authenticate(providerApp.code, {
-        failureRedirect: '/#/login',
-        session: false
-      })(req, res, next);
-    }, function (req, res, next) {
-      setAuthorized(providerApp)(req, res, next);
     });
 
   return router;

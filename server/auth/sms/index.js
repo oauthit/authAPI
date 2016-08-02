@@ -2,9 +2,9 @@
 
 import express from 'express';
 import passport from 'passport';
-import {setAuthorized} from '../auth.service';
 import _ from 'lodash';
 import config from '../../config/environment';
+import smsPassport from './passport';
 
 var debug = require('debug')('AuthAPI:auth:sms:index');
 var router = express.Router();
@@ -35,7 +35,7 @@ export default function (providerApp) {
     scope: 'offline_access'
   };
 
-  passport.use(require('./passport')(smsAuthUrl)(providerApp, appConfig));
+  passport.use(smsPassport(smsAuthUrl)(providerApp, appConfig));
 
   router
 
@@ -46,16 +46,6 @@ export default function (providerApp) {
         state: req.query.accountId
       })(req, res, next);
 
-    })
-
-    .get('/callback', function (req, res, next) {
-
-      passport.authenticate(providerApp.code, {
-        failureRedirect: '/#/login'
-      })(req, res, next);
-
-    }, function (req, res, next) {
-      setAuthorized(providerApp)(req, res, next);
     });
 
   return router;
