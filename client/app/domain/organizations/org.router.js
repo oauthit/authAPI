@@ -23,6 +23,13 @@
               templateUrl: 'app/domain/organizations/joinPublic/joinPublic.html',
               controller: 'OrgJoinPublicController',
               controllerAs: 'vm'
+            },
+            {
+              name: 'info',
+              url: '/:orgId/info?isPublic',
+              templateUrl: 'app/domain/organizationInfo/orgInfo.html',
+              controller: 'OrgInfoController',
+              controllerAs: 'vm'
             }
           ]
         });

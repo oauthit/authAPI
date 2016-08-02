@@ -10,7 +10,7 @@
     )
       tr.clickable(
       ng-repeat='row in $data track by row.id'
-      ui-sref='auth.orgInfo({orgId: row.id})'
+      ui-sref='.info({orgId: row.id})'
       )
         td(data-title="'Name'")
           | {{row.name}}

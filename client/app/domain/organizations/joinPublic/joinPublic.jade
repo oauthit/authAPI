@@ -5,7 +5,7 @@ section
     th Name
     th Is public?
     th Logo
-    tr(ng-repeat='row in vm.publicOrgs track by row.id')
+    tr(ng-repeat='row in vm.publicOrgs track by row.id' ui-sref='^.info({orgId: row.id, isPublic: true})')
       td
         | {{row.name}}
       td
