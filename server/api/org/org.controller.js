@@ -7,7 +7,9 @@ import {stapiBaseController} from 'sistemium-node';
 let ctrl = stapiBaseController(stapiOrg);
 
 function findAll(req, res) {
-  req.query.accountId = req.user.id;
+  if (!req.query.isPublic) {
+    req.query.accountId = req.user.id;
+  }
   ctrl.index(req, res);
 }
 
