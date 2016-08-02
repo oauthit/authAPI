@@ -20,13 +20,19 @@ meta.defineType 'passReqToCallback:BOOL';
 meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
+meta.defineType 'isPublic:BOOL';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
 ;
 
 meta.defineEntity 'Org',
-  'isDeleted;name'
+  'isDeleted;name;isPublic'
+;
+
+meta.defineEntity 'Role',
+  'isDeleted;name;code;isPublic',
+  'Org,orgId,nullable'
 ;
 
 meta.defineEntity 'ProviderApp',
@@ -35,7 +41,7 @@ meta.defineEntity 'ProviderApp',
 
 meta.defineEntity 'OrgAccount',
   'isDeleted',
-  'Org,orgId;Account,accountId'
+  'Org,orgId;Account,accountId;Role,roleId'
 ;
 
 meta.defineEntity 'OrgProviderApp',
