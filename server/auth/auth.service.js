@@ -173,7 +173,7 @@ function setAuthorized(providerApp) {
 
       yield ProviderAccount.update(providerAccount.id, providerAccount);
 
-      let token = yield Token.create({tokenInfo: account}).then(token => {
+      let token = yield Token.create({tokenInfo: account, accountId: account.id}).then(token => {
         debug('setAuthorized:Token.create', token);
         return token.id;
       });
