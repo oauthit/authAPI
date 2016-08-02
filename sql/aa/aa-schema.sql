@@ -73,7 +73,8 @@ meta.defineEntity 'SocialFriend',
 ;
 
 meta.defineEntity 'Token',
-  'tokenInfo;isDeleted'
+  'tokenInfo;isDeleted',
+  'Account,accountId'
 ;
 
 meta.defineEntity 'App',
