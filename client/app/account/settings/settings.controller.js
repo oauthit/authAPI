@@ -3,6 +3,7 @@
 // TODO show and edit account data
 
 function SettingsController($window,
+                            $scope,
                             $q,
                             saFormlyConfigService,
                             schema,
@@ -41,6 +42,12 @@ function SettingsController($window,
     });
   }
 
+  function undoAccount() {
+    angular.extend(vm.account, originalModelFields);
+  }
+
+  $scope.$on('$destroy',undoAccount);
+
   angular.extend(vm, {
 
     fields: fields,
@@ -52,7 +59,7 @@ function SettingsController($window,
     ],
 
     onCancel: function (form) {
-      angular.extend(vm.account, originalModelFields);
+      undoAccount();
       form.$setPristine();
     },
 
@@ -65,6 +72,7 @@ function SettingsController($window,
         .then(function () {
           saMessageService.success('Account have been updated', 'Success!');
           form.$setPristine();
+          saveOriginalFields(vm.account);
         })
         .catch(sabErrorsService.addError);
     },
