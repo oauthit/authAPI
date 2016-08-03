@@ -48,6 +48,11 @@ meta.defineEntity 'OrgAccountRole',
   'Org,orgId;Account,accountId;Role,roleId'
 ;
 
+meta.defineEntity 'OrgAccount',
+  'isDeleted;name',
+  'Org,orgId;Account,accountId'
+;
+
 meta.defineEntity 'OrgProviderApp',
   'isDeleted',
   'Org,orgId;ProviderApp,providerAppId'
