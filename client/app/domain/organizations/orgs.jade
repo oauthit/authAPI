@@ -12,9 +12,9 @@
       ng-repeat='row in $data track by row.id'
       ui-sref='.info({orgId: row.id})'
       )
-        td(data-title="'Name'")
+        td(data-title='"Logo"' header-class='"logo"')
+          img(ng-src='{{row.logo}}')
+        td(data-title='"Name"' header-class='"text-left"')
           | {{row.name}}
-        td(data-title="'Is public?'")
-          input(type='checkbox' ng-model='row.isPublic' disabled)
-        td(data-title="'Logo'")
-          img(ng-src="{{row.logo}}")
+        td.text-center(data-title='"Info"')
+          span.label.label-info(ng-if='row.isPublic') Public
