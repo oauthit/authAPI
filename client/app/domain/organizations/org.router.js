@@ -7,7 +7,7 @@
           name: 'auth.org',
           url: '/org',
           templateUrl: 'app/domain/organizations/orgs.html',
-          controller: 'OrgController',
+          controller: 'OrgsController',
           controllerAs: 'vm',
           children: [
             {

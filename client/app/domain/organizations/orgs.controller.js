@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgController', function (InitCtrlService, schema, sabNgTable) {
+    .controller('OrgsController', function (InitCtrlService, schema, sabNgTable) {
 
       let vm = InitCtrlService.setup(this);
 
