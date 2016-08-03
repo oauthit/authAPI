@@ -93,3 +93,15 @@ th.logo {
 th.text-left {
   text-align: left;
 }
+
+a.sref {
+  color: $primary-color;
+  &:focus, &:active {
+    color: $primary-color;
+    text-decoration: none;
+  }
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: none;
+  }
+}
