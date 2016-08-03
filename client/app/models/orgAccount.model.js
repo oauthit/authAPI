@@ -3,7 +3,8 @@
 (function () {
 
   angular.module('authApiApp.admin.models')
-    .run(function (schema) {
+    .run(function (schema, saFormlyConfigService) {
+
       schema.register({
         name: 'OrgAccount',
         relations: {
@@ -19,6 +20,22 @@
           }
         }
       });
+
+      var joinFelds = [
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name in the organization',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        }
+      ];
+
+      saFormlyConfigService.setConfig('OrgAccount.join', joinFelds);
+
     })
   ;
 
