@@ -1,11 +1,12 @@
 'use strict';
 
+import {setAccount} from '../../middleware/authHelpers.middleware';
 var express = require('express');
 var controller = require('./org.controller.js');
 
 var router = express.Router();
-router.get('/', controller.findAll);
-router.get('/:id', controller.find);
+router.get('/', setAccount, controller.index);
+router.get('/:id', setAccount, controller.show);
 
 router.post('/', controller.create);
 

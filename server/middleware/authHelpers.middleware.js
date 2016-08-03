@@ -5,6 +5,18 @@ import {model} from '../models/js-data/storeSchema';
 let Token = model('Token');
 var debug = require('debug')('authAPI:middleware:authHelpers');
 
+export {prepareToLinkProviderAccounts, setReturnTo, setAccount};
+
+
+function setAccount(req, res, next) {
+  if (!req.query.isPublic) {
+    req.query.isMember = true;
+  }
+  req.query.accountId = req.user.id;
+  next();
+}
+
+
 function setReturnTo(req, res, next) {
 
   if (req.path !== '/') {
@@ -54,6 +66,3 @@ function prepareToLinkProviderAccounts(req, res, next) {
   }
 
 }
-
-
-export {prepareToLinkProviderAccounts, setReturnTo};

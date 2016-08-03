@@ -7,15 +7,11 @@ import {stapiBaseController} from 'sistemium-node';
 
 let ctrl = stapiBaseController(stapiOrg);
 
-function findAll(req, res) {
-  if (!req.query.isPublic) {
-    req.query.accountId = req.user.id;
-  }
+function index(req, res) {
   ctrl.index(req, res);
 }
 
-function find(req, res) {
-  req.query.accountId = req.user.id;
+function show(req, res) {
   ctrl.show(req, res);
 }
 
@@ -41,4 +37,4 @@ function create(req, res) {
   );
 }
 
-export default {findAll, find, create};
+export default {index, show, create};
