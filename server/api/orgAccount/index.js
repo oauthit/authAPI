@@ -28,5 +28,6 @@ function checkIfAlreadyMember (req, res, next) {
 }
 router.post('/', setAccount, checkIfAlreadyMember, controller.create);
 router.put('/:id', setAccount, checkIfAlreadyMember, controller.create);
+router.delete('/:id', controller.destroy);
 
 module.exports = router;

@@ -18,7 +18,7 @@
               OrgAccount.findAll({
                 orgId: org.id,
                 accountId: account.id
-              })
+              });
             });
           });
       }

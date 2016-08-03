@@ -27,7 +27,7 @@
           accountId: user.id
         };
 
-        OrgAccount.findAll(orgAccount)
+        OrgAccount.findAll(orgAccount, {bypassCache: true})
           .then(oa=>{
             vm.orgAccount = oa.length && oa[0] ||
               OrgAccount.createInstance(angular.extend(orgAccount,{
@@ -41,7 +41,16 @@
 
       angular.extend(vm, {
         join: function () {
-          OrgAccount.create(vm.orgAccount);
+          OrgAccount.create(vm.orgAccount)
+            .then(()=>{
+              Org.find(stateFilter.id, {bypassCache: true});
+            });
+        },
+        leave: function () {
+          OrgAccount.destroy(vm.orgAccount)
+            .then(()=>{
+              Org.find(stateFilter.id, {bypassCache: true});
+            });
         }
       });
 
