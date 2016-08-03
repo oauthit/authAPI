@@ -99,6 +99,7 @@ meta.createTable 'Token',0,1;
 
 meta.createTable 'OrgRole',0,1;
 meta.createTable 'OrgAccountRole',0,1;
+meta.createTable 'OrgAccount',0,1;
 
 meta.createTable 'ProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
