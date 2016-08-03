@@ -5,7 +5,7 @@
       = ' '
       button.btn.btn-primary(ui-sref='.joinPublic') Join Public
 
-  .ui-view
+  .ui-view(cg-busy='vm.orgTable.busy')
     table.table.table-striped.table-hover.table-responsive(
     ng-table='vm.ngTableParams'
     )

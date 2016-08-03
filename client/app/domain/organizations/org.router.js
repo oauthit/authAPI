@@ -30,6 +30,20 @@
               templateUrl: 'app/domain/organizationInfo/orgInfo.html',
               controller: 'OrgInfoController',
               controllerAs: 'vm'
+            },
+            {
+              name: 'join',
+              url: '/:orgId/join',
+              templateUrl: 'app/domain/organizationInfo/joinOrg.html',
+              controller: 'OrgInfoController',
+              controllerAs: 'vm'
+            },
+            {
+              name: 'leave',
+              url: '/:orgId/leave',
+              templateUrl: 'app/domain/organizationInfo/leaveOrg.html',
+              controller: 'OrgInfoController',
+              controllerAs: 'vm'
             }
           ]
         });

@@ -2,21 +2,27 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgController', function (InitCtrlService, schema) {
+    .controller('OrgController', function (InitCtrlService, schema, sabNgTable) {
 
       let vm = InitCtrlService.setup(this);
 
       let Org = schema.model('Org');
 
-      angular.extend(vm, {
+      let orgTable = {
         ngTable: {
           count: 12
         }
-      });
+        // TODO: sabNgTable should cache getCount
+        // bypassCache: false
+      };
 
-      vm.setupNgTable({
+      vm.ngTableParams = sabNgTable.setup(orgTable, {
         getCount: Org.getCount,
         findAll: Org.findAll
+      });
+
+      angular.extend(vm,{
+        orgTable: orgTable
       });
 
     })

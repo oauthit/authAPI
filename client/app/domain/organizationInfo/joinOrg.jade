@@ -1,0 +1,10 @@
+section
+  h3 Do you really want to join?
+
+  form.form-inline
+    .form-group
+      label(for='name') Name in organization
+      input.form-control(type='text' id='name' placeholder='Name in organization' ng-model='vm.orgAccount.name')
+  button.btn.btn-primary(type='button' ng-click='vm.join()') Yes
+  = ' '
+  button.btn.btn-warning(type='button' ui-sref='auth.org') No
