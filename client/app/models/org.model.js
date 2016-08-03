@@ -3,7 +3,7 @@
 (function () {
 
   angular.module('authApiApp.admin.models')
-    .run(function (schema, saFormlyConfigService) {
+    .run(function (schema, saFormlyConfigService, Auth) {
       schema.register({
         name: 'Org',
         relations: {
@@ -23,7 +23,14 @@
               localField: 'app'
             }
           }
+        },
+
+        methods: {
+          isIAmAMember: function() {
+            return !!_.find(this.accounts, {accountId: Auth.getCurrentUser().id});
+          }
         }
+
       });
 
       var orgCreateFields = [
