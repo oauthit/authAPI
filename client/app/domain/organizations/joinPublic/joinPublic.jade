@@ -2,13 +2,25 @@ section
   h3 Join public organizations
 
   table.table.table-striped.table-hover.table-responsive
-    th Name
-    th Is public?
-    th Logo
-    tr(ng-repeat='row in vm.publicOrgs track by row.id' ui-sref='^.info({orgId: row.id, isPublic: true})')
-      td
-        | {{row.name}}
-      td
-        input(type='checkbox' ng-model='row.isPublic' disabled)
-      td
-        img(ng-src="{{row.logo}}")
+
+    colgroup
+      col(width='15%')
+      col(width='75%')
+      col(width='10%')
+
+    thead
+      th Logo
+      th Name
+      th
+
+    tbody
+      tr(ng-repeat='row in vm.orgs track by row.id' ui-sref='^.info({orgId: row.id, isPublic: true})')
+        td
+          img(ng-src="{{row.logo}}")
+        td
+          | {{row.name}}
+        td
+          button.btn.btn-block(
+          ng-class='row.isMember ? "btn-primary" : "btn-success"'
+          ) {{ row.isMember ? "Leave" : "Join" }}
+
