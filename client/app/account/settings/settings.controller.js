@@ -15,12 +15,7 @@ function SettingsController($window,
   const Account = schema.model('Account');
   const ProviderAccount = schema.model('ProviderAccount');
 
-  var originalModelFields;
   var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
-
-  function saveOriginalFields(data) {
-    originalModelFields = saFormlyConfigService.originalFieldsData(fields, data);
-  }
 
   /**
    * Get current account and its providerAccounts
@@ -30,7 +25,6 @@ function SettingsController($window,
       Account.find('me').then(function (acc) {
 
         vm.account = acc;
-        saveOriginalFields(acc);
 
         Account.loadRelations(acc, ['ProviderAccount']).then(function () {
           vm.providerAccounts = acc.providerAccounts;
@@ -43,7 +37,7 @@ function SettingsController($window,
   }
 
   function undoAccount() {
-    angular.extend(vm.account, originalModelFields);
+    Account.revert(vm.account);
   }
 
   $scope.$on('$destroy',undoAccount);
@@ -72,7 +66,6 @@ function SettingsController($window,
         .then(function () {
           saMessageService.success('Account have been updated', 'Success!');
           form.$setPristine();
-          saveOriginalFields(vm.account);
         })
         .catch(sabErrorsService.addError);
     },

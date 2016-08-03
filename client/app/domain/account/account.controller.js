@@ -3,6 +3,7 @@
 
   angular.module('authApiApp')
     .controller('AccountController', function ($q,
+                                               $scope,
                                                InitCtrlService,
                                                saFormlyConfigService,
                                                saMessageService,
@@ -21,20 +22,22 @@
       const ProviderAccount = schema.model('ProviderAccount');
       const Org = schema.model('Org');
       const App = schema.model('App');
-      var originalModelFields;
+
       var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
 
-      function saveOriginalFields(data) {
-        originalModelFields = saFormlyConfigService.originalFieldsData(fields, data);
+      function undoChanges() {
+        Account.revert(vm.account);
       }
+
+      $scope.$on('$destroy', undoChanges);
 
       /**
        * Get current account and his providerAccounts
        */
       function init() {
         vm.busy = Account.find('me').then(function (acc) {
+
           vm.account = acc;
-          saveOriginalFields(acc);
 
           vm.providerAccNgTableParams = vm.setupNgTable({
             getCount: function (params, options) {
@@ -54,9 +57,7 @@
             }
           });
 
-        }).catch(err => {
-          console.error(err);
-        });
+        }).catch(sabErrorsService.addError);
       }
 
       vm.orgNgTableParams = vm.setupNgTable({
@@ -74,7 +75,7 @@
         fields: fields,
 
         onCancel: function (form) {
-          angular.extend(vm.account, originalModelFields);
+          undoChanges();
           form.$setPristine();
         },
 
