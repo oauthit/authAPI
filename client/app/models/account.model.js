@@ -11,6 +11,10 @@
             ProviderAccount: {
               foreignKey: 'accountId',
               localField: 'providerAccounts'
+            },
+            OrgAccount: {
+              foreignKey: 'accountId',
+              localField: 'orgAccounts'
             }
           }
         }

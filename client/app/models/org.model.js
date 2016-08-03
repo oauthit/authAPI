@@ -10,13 +10,17 @@
           hasMany: {
             OrgProviderApp: {
               foreignKey: 'orgId',
-              localField: 'orgProviderApps'
+              localField: 'providerApps'
+            },
+            OrgAccount: {
+              foreignKey: 'orgId',
+              localField: 'accounts'
             }
           },
           hasOne: {
             OrgApp: {
               foreignKey: 'orgId',
-              localField: 'orgApp'
+              localField: 'app'
             }
           }
         }

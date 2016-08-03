@@ -11,6 +11,7 @@ router.use('/providerApp', /*authMiddleware*/ require('./providerApp'));
 router.use('/org', authMiddleware, require('./org'));
 router.use('/app', authMiddleware, require('./app'));
 router.use('/orgApp', authMiddleware, require('./orgApp'));
+router.use('/orgAccount', authMiddleware, require('./orgAccount'));
 router.use('/orgProviderApp', /*authMiddleware*/ require('./orgProviderApp'));
 router.use('/account', authMiddleware, require('./account'));
 router.use('/admin', require('./admin'));
