@@ -6,7 +6,7 @@
         .state({
           name: 'auth.org',
           url: '/org',
-          templateUrl: 'app/domain/organizations/org.html',
+          templateUrl: 'app/domain/organizations/orgs.html',
           controller: 'OrgController',
           controllerAs: 'vm',
           children: [
