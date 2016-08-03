@@ -10,9 +10,8 @@ export {prepareToLinkProviderAccounts, setReturnTo, setAccount};
 
 function setAccount(req, res, next) {
   if (!req.query.isPublic) {
-    req.query.isMember = true;
+    req.query.accountId = req.user.id;
   }
-  req.query.accountId = req.user.id;
   next();
 }
 
