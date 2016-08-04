@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, saFormlyConfigService) {
+    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, saFormlyConfigService) {
 
       var vm = this;
 
@@ -23,7 +23,6 @@
       Org.bindOne(stateFilter.id, $scope, 'vm.org');
 
 
-
       Auth.getCurrentUser(user => {
 
         var orgAccountFilter = {
@@ -32,9 +31,9 @@
         };
 
         OrgAccount.findAll(orgAccountFilter, {bypassCache: true})
-          .then(oa=>{
+          .then(oa=> {
             vm.orgAccount = oa.length && oa[0] ||
-              OrgAccount.createInstance(angular.extend(orgAccountFilter,{
+              OrgAccount.createInstance(angular.extend(orgAccountFilter, {
                 name: user.name
               }));
           });
@@ -47,16 +46,24 @@
 
         join: function () {
           OrgAccount.create(vm.orgAccount)
-            .then(()=>{
+            .then(()=> {
               Org.find(stateFilter.id, {bypassCache: true});
             });
         },
 
         leave: function () {
           OrgAccount.destroy(vm.orgAccount)
-            .then(()=>{
+            .then(()=> {
               Org.find(stateFilter.id, {bypassCache: true});
             });
+        },
+
+        deleteClick: function () {
+          Modal.confirm.delete(function () {
+            Org.destroy(vm.org)
+              .then(() => $state.go('auth.org'));
+          })(vm.org.name);
+
         }
 
       });

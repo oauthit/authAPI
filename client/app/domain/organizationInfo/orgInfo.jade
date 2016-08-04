@@ -1,7 +1,12 @@
 section
-  h3 {{vm.org.name}}
-  pre {{ vm.org | json }}
+  section.clearfix
+    h2.pull-left {{vm.org.name}}
+    .buttons.pull-right
+      button.btn.btn-danger.btn-sm(ng-click='vm.deleteClick()') Delete
 
+  h3 Apps
 
+  h3 Accounts
 
-  h3 Organization accounts
+  h3 Providers Apps
+
