@@ -23,11 +23,14 @@ function setReturnTo(req, res, next) {
   }
 
   let returnTo = req.query.redirect_uri;
+  let orgId = req.query.orgId;
 
   // TODO: check if redirect_uri is allowed by ProviderApp.allowedRedirectUris
 
+
   if (req.session) {
     req.session.returnTo = returnTo;
+    req.session.orgId = orgId;
   }
   debug ('setReturnTo returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
   next();

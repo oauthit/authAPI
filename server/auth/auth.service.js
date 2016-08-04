@@ -3,8 +3,12 @@
 import compose from 'composable-middleware';
 var debug = require('debug')('authAPI:auth:service');
 import {model, models} from '../models/js-data/storeSchema';
+import stapiOrgAccount from '../models/orgAccount.model.js';
 import co from 'co';
 import _ from 'lodash';
+
+
+export {hasRole, setAuthorized, isAuthenticated};
 
 const Account = model('Account');
 const ProviderAccount = model('ProviderAccount');
@@ -22,11 +26,11 @@ const ProviderApp = model('ProviderApp');
  * @return {}
  *
  * */
-function validateAuth (req, res, next) {
+function validateAuth(req, res, next) {
 
   let token = req.headers.authorization;
 
-  debug ('validateAuth','token:',token);
+  debug('validateAuth', 'token:', token);
 
   if (!token) {
     debug('info', 'Token is not defined, sending unauthorized status.');
@@ -52,7 +56,7 @@ function validateAuth (req, res, next) {
  */
 function isAuthenticated() {
   return compose(
-    function (req,res,next) {
+    function (req, res, next) {
       if (req.query && req.query.hasOwnProperty('authorization:')) {
         req.headers.authorization = req.query ['authorization:'];
       }
@@ -153,7 +157,7 @@ function setAuthorized(providerApp) {
           });
       });
 
-      var linkToAccountId = _.get(req,'session.linkToAccountId');
+      var linkToAccountId = _.get(req, 'session.linkToAccountId');
       console.error('linkToAccountId:', linkToAccountId);
 
       if (linkToAccountId && !providerAccount.accountId) {
@@ -180,6 +184,23 @@ function setAuthorized(providerApp) {
 
       debug('setAuthorized: token:', token);
 
+      // check session.orgId
+      if (req.session.orgId) {
+        let orgAccount = yield stapiOrgAccount(req).find({
+          orgId: req.session.orgId,
+          accountId: account.id
+        });
+
+        if (orgAccount.length === 0) {
+
+          yield stapiOrgAccount(req).save({
+            orgId: req.session.orgId,
+            accountId: account.id,
+            name: account.name
+          });
+        }
+      }
+
       let redirectUrl;
 
       if (req.session && req.session.returnTo) {
@@ -200,4 +221,3 @@ function setAuthorized(providerApp) {
   };
 }
 
-export {hasRole, setAuthorized, isAuthenticated};
