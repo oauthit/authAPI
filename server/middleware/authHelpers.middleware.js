@@ -9,7 +9,7 @@ import _ from 'lodash';
 let Token = model('Token');
 var debug = require('debug')('authAPI:middleware:authHelpers');
 
-export {prepareToLinkProviderAccounts, setReturnTo, setAccount};
+export {prepareToLinkProviderAccounts, setQueryParamsToSession, checkIfValidRedirectUri, setAccount};
 
 
 function setAccount(req, res, next) {
@@ -20,7 +20,7 @@ function setAccount(req, res, next) {
 }
 
 
-function setReturnTo(req, res, next) {
+function setQueryParamsToSession(req, res, next) {
 
   co(function *() {
     if (req.path !== '/') {
@@ -29,18 +29,9 @@ function setReturnTo(req, res, next) {
 
     let returnTo = req.query.redirect_uri;
     let orgAppId = req.query.orgAppId;
-
     let orgApp = yield stapiOrgApp(req).findById(orgAppId);
     let orgId = orgApp.orgId;
     let appId = orgApp.appId;
-    let app = yield stapiApp(req).findById(appId);
-
-    //regexp for return_uri check, checking if redirect_uri is allowed
-    let returnToRegEx = new RegExp(`^${_.escapeRegExp(returnTo)}.*`);
-
-    if (!returnToRegEx.test(app.url)) {
-        throw new Error(`Return to ${returnTo} is not allowed!!`);
-    }
 
     if (req.session) {
       req.session.returnTo = returnTo;
@@ -48,13 +39,35 @@ function setReturnTo(req, res, next) {
       req.session.appId = appId;
       req.session.orgAppId = orgAppId;
     }
-    debug ('setReturnTo returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
+    debug('setQueryParamsToSession returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
     next();
   }).catch(err => {
-    debug('setReturnTo:catch:', err.data || err);
+    debug('setQueryParamsToSession:catch:', err.data || err);
     return res.sendStatus(500);
   });
 
+}
+
+function checkIfValidRedirectUri(req, res, next) {
+
+  co(function *() {
+    if (req.session) {
+      let returnTo = req.session.returnTo;
+      let app = yield stapiApp(req).findById(req.session.appId);
+
+      //regexp for return_uri check, checking if redirect_uri is allowed
+      let returnToRegEx = new RegExp(`^${_.escapeRegExp(returnTo)}.*`);
+
+      if (!returnToRegEx.test(app.url)) {
+        throw new Error(`Return to ${returnTo} is not allowed!!`);
+      }
+    }
+
+    next();
+  }).catch(err => {
+    debug('checkIfValidRedirectUri:catch:', err);
+    next(err);
+  });
 }
 
 function prepareToLinkProviderAccounts(req, res, next) {

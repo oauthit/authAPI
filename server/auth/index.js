@@ -2,7 +2,7 @@
 
 import express from 'express';
 import providerApp from '../models/js-data/providerApp.model';
-import {prepareToLinkProviderAccounts, setReturnTo} from '../middleware/authHelpers.middleware';
+import {prepareToLinkProviderAccounts, setQueryParamsToSession, checkIfValidRedirectUri} from '../middleware/authHelpers.middleware';
 import {setAuthorized} from './auth.service';
 import passport from 'passport';
 
@@ -21,7 +21,7 @@ providerApp.find()
       var appPassport = require(`./${app.provider}`)(app);
       var authRoot = `/${app.provider}/${app.name}`;
 
-      router.use(authRoot + '/', prepareToLinkProviderAccounts, setReturnTo);
+      router.use(authRoot + '/', prepareToLinkProviderAccounts, setQueryParamsToSession, checkIfValidRedirectUri);
       router.use(authRoot, appPassport);
       router.get(authRoot + '/callback',
         function (req, res, next) {
