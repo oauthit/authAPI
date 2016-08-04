@@ -8,6 +8,10 @@ import express from 'express';
 import config from './config/environment';
 import http from 'http';
 
+var debug = require('debug');
+
+debug.log = console.info.bind(console);
+
 //todo extract to requireJsDataModels
 import './models/js-data/account.model';
 import './models/js-data/app.model';
@@ -20,10 +24,6 @@ import './models/js-data/providerApp.model';
 import './models/js-data/providerToken.model';
 import './models/js-data/socialAccount.model';
 import './models/js-data/token.model';
-
-import debug from 'debug';
-
-debug.log = console.info.bind(console);
 
 // Setup server
 var app = express();
