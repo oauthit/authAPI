@@ -27,8 +27,14 @@ function setQueryParamsToSession(req, res, next) {
       return next();
     }
 
+
     let returnTo = req.query.redirect_uri;
     let orgAppId = req.query.orgAppId;
+
+    if(!(returnTo && orgAppId)) {
+      return next();
+    }
+
     let orgApp = yield stapiOrgApp(req).findById(orgAppId);
     let orgId = orgApp.orgId;
     let appId = orgApp.appId;
@@ -52,7 +58,15 @@ function checkIfValidRedirectUri(req, res, next) {
 
   co(function *() {
     if (req.session) {
+
       let returnTo = req.session.returnTo;
+      let appId = req.session.appId;
+
+      //don't check app if no returnTo
+      if (!(returnTo && appId)) {
+        return next();
+      }
+
       let app = yield stapiApp(req).findById(req.session.appId);
 
       //regexp for return_uri check, checking if redirect_uri is allowed
