@@ -1,0 +1,19 @@
+$cg-background-color: #F5F5F5;
+
+
+.cg-busy-default-spinner {
+  top: 10px;
+  left: 20px;
+}
+
+.cg-busy-default-sign {
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: $cg-background-color;
+  border-color: darken($cg-background-color,4);
+
+  .cg-busy-default-text {
+    font-size: 15px;
+    text-shadow: none;
+  }
+}
