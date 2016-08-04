@@ -9,7 +9,8 @@ section
   table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAppsNgTable' cg-busy='vm.orgAppsNgTableCtrl.busy')
     tbody
       tr(ng-repeat='row in $data track by row.id')
-        td(data-title-text="'Url'")
+        td(data-title="'Id'") {{ row.id }}
+        td(data-title="'Url'")
           a(href='{{row.app.url}}') {{ row.app.url }}
         td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
 
@@ -23,5 +24,9 @@ section
 
   h3.clear-both Providers Apps
 
-  pre {{ vm.orgProviderApps | json }}
-
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgProviderAppsNgTable' cg-busy='vm.orgProviderAppsNgTableCtrl.busy')
+    tbody
+      tr(ng-repeat='row in $data track by row.id')
+        td(data-title="'Provider'") {{ row.providerApp.provider }}
+        td(data-title="'Name'") {{ row.providerApp.name }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}

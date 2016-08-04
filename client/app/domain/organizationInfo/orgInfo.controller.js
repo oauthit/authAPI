@@ -9,6 +9,7 @@
       var Org = schema.model('Org');
       var OrgAccount = schema.model('OrgAccount');
       var OrgApp = schema.model('OrgApp');
+      var OrgProviderApp = schema.model('OrgProviderApp');
 
       var joinFields = saFormlyConfigService.getConfigFieldsByKey('OrgAccount.join');
 
@@ -50,11 +51,17 @@
         ngTable: {}
       };
 
+      var orgProviderAppsNgTableCtrl = {
+        ngTable: {}
+      };
+
       angular.extend(vm, {
 
         joinFields: joinFields,
+
         orgAccountsNgTableCtrl: orgAccountsNgTableCtrl,
         orgAppsNgTableCtrl: orgAppsNgTableCtrl,
+        orgProviderAppsNgTableCtrl: orgProviderAppsNgTableCtrl,
 
         join: ()=> OrgAccount.create(vm.orgAccount)
           .then(() => Org.find(stateFilter.id, {bypassCache: true})),
@@ -79,6 +86,13 @@
             OrgApp.findAllWithRelations(_.assign(params, {orgId: stateFilter.id}), options)('App'),
           getCount: (params, options) =>
             OrgApp.getCount(_.assign(params, {orgId: stateFilter.id}), options)
+        }),
+
+        orgProviderAppsNgTable: sabNgTable.setup(orgProviderAppsNgTableCtrl, {
+          findAll: (params, options) =>
+            OrgProviderApp.findAllWithRelations(_.assign(params, {orgId: stateFilter.id}), options)('ProviderApp'),
+          getCount: (params, options) =>
+            OrgProviderApp.getCount(_.assign(params, {orgId: stateFilter.id}), options)
         })
 
       });
