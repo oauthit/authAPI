@@ -9,11 +9,11 @@
         relations: {
           hasOne: {
             App: {
-              foreignKey: 'appId',
-              localField: 'apps'
+              localKey: 'appId',
+              localField: 'app'
             },
             Org: {
-              foreignKey: 'orgId',
+              localKey: 'orgId',
               localField: 'org'
             }
           }

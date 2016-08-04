@@ -6,10 +6,10 @@
       schema.register({
         name: 'App',
         relations: {
-          hasOne: {
+          hasMany: {
             OrgApp: {
               foreignKey: 'appId',
-              localField: 'orgApps'
+              localField: 'apps'
             }
           }
         }

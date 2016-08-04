@@ -15,12 +15,10 @@
             OrgAccount: {
               foreignKey: 'orgId',
               localField: 'accounts'
-            }
-          },
-          hasOne: {
+            },
             OrgApp: {
               foreignKey: 'orgId',
-              localField: 'app'
+              localField: 'apps'
             }
           }
         },
