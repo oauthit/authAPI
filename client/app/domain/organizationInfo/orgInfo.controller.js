@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, saFormlyConfigService, sabNgTable) {
+    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, $q, saFormlyConfigService, sabNgTable) {
 
       var vm = this;
 
@@ -26,22 +26,20 @@
 
       // TODO: secure routes that need currentUser with ui-router
 
-      Auth.getCurrentUser(user => {
+      var user = Auth.getCurrentUser();
 
-        var orgAccountFilter = {
-          orgId: stateFilter.id,
-          accountId: user.id
-        };
+      var orgAccountFilter = {
+        orgId: stateFilter.id,
+        accountId: user.id
+      };
 
-        OrgAccount.findAll(orgAccountFilter, {bypassCache: true})
-          .then(oa=> {
-            vm.orgAccount = oa.length && oa[0] ||
-              OrgAccount.createInstance(angular.extend(orgAccountFilter, {
-                name: user.name
-              }));
-          });
-
-      });
+      OrgAccount.findAll(orgAccountFilter, {bypassCache: true})
+        .then(oa=> {
+          vm.orgAccount = oa.length && oa[0] ||
+            OrgAccount.createInstance(angular.extend(orgAccountFilter, {
+              name: user.name
+            }));
+        });
 
       var orgAccountsNgTableCtrl = {
         ngTable: {}
