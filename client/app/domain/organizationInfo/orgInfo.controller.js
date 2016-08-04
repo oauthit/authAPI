@@ -22,6 +22,7 @@
       Org.findAll(stateFilter);
       Org.bindOne(stateFilter.id, $scope, 'vm.org');
 
+      // TODO: secure routes that need currentUser with ui-router
 
       Auth.getCurrentUser(user => {
 
