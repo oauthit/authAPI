@@ -45,27 +45,16 @@
 
         joinFields: joinFields,
 
-        join: function () {
-          OrgAccount.create(vm.orgAccount)
-            .then(()=> {
-              Org.find(stateFilter.id, {bypassCache: true});
-            });
-        },
+        join: ()=> OrgAccount.create(vm.orgAccount)
+          .then(() => Org.find(stateFilter.id, {bypassCache: true})),
 
-        leave: function () {
-          OrgAccount.destroy(vm.orgAccount)
-            .then(()=> {
-              Org.find(stateFilter.id, {bypassCache: true});
-            });
-        },
+        leave: ()=> OrgAccount.destroy(vm.orgAccount)
+          .then(() => Org.find(stateFilter.id, {bypassCache: true})),
 
-        deleteClick: function () {
-          Modal.confirm.delete(function () {
-            Org.destroy(vm.org)
-              .then(() => $state.go('auth.org'));
-          })(vm.org.name);
-
-        }
+        deleteClick: ()=> Modal.confirm.delete(
+          ()=> Org.destroy(vm.org)
+            .then(() => $state.go('auth.org'))
+        )(vm.org.name)
 
       });
 
