@@ -10,7 +10,6 @@
         Account: schema.model('Account')
       };
 
-      console.log(saAuth(config));
       let Auth = saAuth(config);
       angular.extend(Auth, {
         getCurrentRoles: function () {
