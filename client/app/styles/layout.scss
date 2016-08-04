@@ -2,7 +2,6 @@
   margin-left: 15px;
 }
 
-
 .table-hover tr {
   cursor: pointer;
 }
@@ -40,10 +39,12 @@
     }
   }
 
-  h3.pull-left ~ .buttons.pull-right {
-    margin: {
-      top: 20px;
-      bottom: 20px;
+  h3, h2 {
+    &.pull-left ~ .buttons.pull-right {
+      margin: {
+        top: 20px;
+        bottom: 20px;
+      }
     }
   }
 
