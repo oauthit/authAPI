@@ -63,7 +63,7 @@
 
         join: ()=> OrgAccount.create(vm.orgAccount)
           .then(() => Org.find(stateFilter.id, {bypassCache: true}))
-          .then(() => $state.go('auth.org')),
+          .then(() => $state.go('auth.org.info', {orgId: stateFilter.id})),
 
         leave: ()=> OrgAccount.destroy(vm.orgAccount)
           .then(() => Org.find(stateFilter.id, {bypassCache: true}))
