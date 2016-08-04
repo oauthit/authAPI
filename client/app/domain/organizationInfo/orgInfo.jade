@@ -6,14 +6,20 @@ section
 
   h3.clear-both Apps
 
-  pre {{ vm.orgApps | json }}
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAppsNgTable' cg-busy='vm.orgAppsNgTableCtrl.busy')
+    tbody
+      tr(ng-repeat='row in $data track by row.id')
+        td(data-title-text="'Url'")
+          a(href='{{row.app.url}}') {{ row.app.url }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
 
   h3.clear-both Accounts
 
-  table.table.table-striped(ng-table='vm.orgAccountsNgTable' cg-busy='vm.orgAccountsNgTableCtrl.busy')
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAccountsNgTable' cg-busy='vm.orgAccountsNgTableCtrl.busy')
     tbody
       tr(ng-repeat='row in $data track by row.id')
-        td(data-title="'Json'") {{row || json}}
+        td(data-title="'Name'") {{ row.name }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
 
   h3.clear-both Providers Apps
 
