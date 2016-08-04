@@ -1,5 +1,5 @@
 $cg-background-color: #F5F5F5;
-
+$cg-border-radius: 7px;
 
 .cg-busy-default-spinner {
   top: 10px;
@@ -11,6 +11,9 @@ $cg-background-color: #F5F5F5;
   padding-right: 20px;
   background-color: $cg-background-color;
   border-color: darken($cg-background-color,4);
+  -webkit-border-radius: $cg-border-radius;
+  -moz-border-radius: $cg-border-radius;
+  border-radius: $cg-border-radius;
 
   .cg-busy-default-text {
     font-size: 15px;
