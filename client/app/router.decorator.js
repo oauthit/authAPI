@@ -6,13 +6,16 @@
     .run(function ($rootScope, $state, Auth, sabErrorsService) {
       // Redirect to login if route requires auth and the user is not logged in, or doesn't have required role
       $rootScope.$on('$stateChangeStart', (event, next) => {
+
+        let nextAuthenticate = _.get(next, 'data.authenticate');
+        console.log('###########next.authenticate:', nextAuthenticate);
         sabErrorsService.clear();
-        if (!next.authenticate) {
+        if (!nextAuthenticate) {
           return;
         }
 
-        if (typeof next.authenticate === 'string') {
-          Auth.hasRole(next.authenticate, _.noop)
+        if (typeof nextAuthenticate === 'string') {
+          Auth.hasRole(nextAuthenticate, _.noop)
             .then((has) => {
               if (has) {
                 return;
@@ -30,11 +33,11 @@
           Auth.isLoggedIn(_.noop)
             .then((is) => {
               if (is) {
-                return;
+                Auth.getCurrentUser(_.noop);
+              } else {
+                event.preventDefault();
+                $state.go('main');
               }
-
-              event.preventDefault();
-              $state.go('main');
             })
             .catch((err) => {
               console.log(err);

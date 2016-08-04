@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgJoinPublicController', function ($scope, $state, InitCtrlService, schema, Auth) {
+    .controller('OrgJoinPublicController', function ($scope, $state, InitCtrlService, schema) {
 
       let vm = InitCtrlService.setup(this);
       var Org = schema.model('Org');
@@ -25,7 +25,6 @@
 
       Org.bindAll(stateFilter, $scope, 'vm.orgs');
 
-      Auth.getCurrentUser(refresh);
 
       angular.extend(vm, {
         ngTable: {
@@ -37,6 +36,8 @@
           $state.go(state, {orgId: org.id});
         }
       });
+
+     refresh();
 
     })
   ;
