@@ -8,7 +8,6 @@
       $rootScope.$on('$stateChangeStart', (event, next) => {
 
         let nextAuthenticate = _.get(next, 'data.authenticate');
-        console.log('###########next.authenticate:', nextAuthenticate);
         sabErrorsService.clear();
         if (!nextAuthenticate) {
           return;
@@ -36,7 +35,7 @@
                 Auth.getCurrentUser(_.noop);
               } else {
                 event.preventDefault();
-                $state.go('main');
+                $state.go('auth.login');
               }
             })
             .catch((err) => {
