@@ -10,7 +10,15 @@
         Account: schema.model('Account')
       };
 
-      return saAuth(config);
+      console.log(saAuth(config));
+      let Auth = saAuth(config);
+      angular.extend(Auth, {
+        getCurrentRoles: function () {
+          //TODO api route for currentRoles
+        },
+      });
+
+      return Auth;
 
     })
   ;
