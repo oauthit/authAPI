@@ -7,6 +7,12 @@ import {stapiBaseController} from 'sistemium-node';
 
 let ctrl = stapiBaseController(stapiOrg);
 
+export default {index, show, create, destroy};
+
+function destroy(req, res) {
+  ctrl.destroy(req, res);
+}
+
 function index(req, res) {
   ctrl.index(req, res);
 }
@@ -38,5 +44,3 @@ function create(req, res, next) {
 
   ctrl.create(req, res, next);
 }
-
-export default {index, show, create};
