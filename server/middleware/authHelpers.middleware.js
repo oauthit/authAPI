@@ -59,7 +59,8 @@ function checkIfValidRedirectUri(req, res, next) {
       let urlRegEx = new RegExp(`^${_.escapeRegExp(app.url)}.*`);
 
       if (!urlRegEx.test(returnTo)) {
-        throw new Error(`Return to ${returnTo} is not allowed!!`);
+        let error = `Return to ${returnTo} is not allowed!!`;
+        return res.redirect(`${req.headers.referer}#/?error=${error}`);
       }
     }
 
