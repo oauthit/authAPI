@@ -56,9 +56,9 @@ function checkIfValidRedirectUri(req, res, next) {
       let app = yield stapiApp(req).findById(req.session.appId);
 
       //regexp for return_uri check, checking if redirect_uri is allowed
-      let returnToRegEx = new RegExp(`^${_.escapeRegExp(returnTo)}.*`);
+      let urlRegEx = new RegExp(`^${_.escapeRegExp(app.url)}.*`);
 
-      if (!returnToRegEx.test(app.url)) {
+      if (!urlRegEx.test(returnTo)) {
         throw new Error(`Return to ${returnTo} is not allowed!!`);
       }
     }
