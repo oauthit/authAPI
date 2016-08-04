@@ -62,10 +62,12 @@
         orgProviderAppsNgTableCtrl: orgProviderAppsNgTableCtrl,
 
         join: ()=> OrgAccount.create(vm.orgAccount)
-          .then(() => Org.find(stateFilter.id, {bypassCache: true})),
+          .then(() => Org.find(stateFilter.id, {bypassCache: true}))
+          .then(() => $state.go('auth.org')),
 
         leave: ()=> OrgAccount.destroy(vm.orgAccount)
-          .then(() => Org.find(stateFilter.id, {bypassCache: true})),
+          .then(() => Org.find(stateFilter.id, {bypassCache: true}))
+          .then(() => $state.go('auth.org')),
 
         deleteClick: ()=> Modal.confirm.delete(
           ()=> Org.destroy(vm.org)
