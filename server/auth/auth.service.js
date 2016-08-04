@@ -185,19 +185,24 @@ function setAuthorized(providerApp) {
       debug('setAuthorized: token:', token);
 
       // check session.orgId
-      if (req.session.orgId) {
+      if (req.session && req.session.orgId) {
+
+        let orgId = req.session.orgId;
+        delete req.session.orgId;
+
         let orgAccount = yield stapiOrgAccount(req).find({
-          orgId: req.session.orgId,
+          orgId: orgId,
           accountId: account.id
         });
 
         if (orgAccount.length === 0) {
 
           yield stapiOrgAccount(req).save({
-            orgId: req.session.orgId,
+            orgId: orgId,
             accountId: account.id,
             name: account.name
           });
+
         }
       }
 

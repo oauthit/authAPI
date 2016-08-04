@@ -43,7 +43,6 @@ function setQueryParamsToSession(req, res, next) {
       req.session.returnTo = returnTo;
       req.session.orgId = orgId;
       req.session.appId = appId;
-      req.session.orgAppId = orgAppId;
     }
     debug('setQueryParamsToSession returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
     next();
@@ -61,6 +60,8 @@ function checkIfValidRedirectUri(req, res, next) {
 
       let returnTo = req.session.returnTo;
       let appId = req.session.appId;
+
+      delete req.session.appId;
 
       //don't check app if no returnTo
       if (!(returnTo && appId)) {
