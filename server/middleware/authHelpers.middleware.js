@@ -1,6 +1,10 @@
 'use strict';
 
 import {model} from '../models/js-data/storeSchema';
+import stapiApp from '../models/app.model';
+import stapiOrgApp from '../models/orgApp.model';
+import co from 'co';
+import _ from 'lodash';
 
 let Token = model('Token');
 var debug = require('debug')('authAPI:middleware:authHelpers');
@@ -18,24 +22,40 @@ function setAccount(req, res, next) {
 
 function setReturnTo(req, res, next) {
 
-  if (req.path !== '/') {
-    return next();
-  }
+  co(function *() {
+    if (req.path !== '/') {
+      return next();
+    }
 
-  let returnTo = req.query.redirect_uri;
-  let orgId = req.query.orgId;
+    let returnTo = req.query.redirect_uri;
+    let orgAppId = req.query.orgAppId;
 
-  // TODO: check if redirect_uri is allowed by ProviderApp.allowedRedirectUris
+    let orgApp = yield stapiOrgApp(req).findById(orgAppId);
+    let orgId = orgApp.orgId;
+    let appId = orgApp.appId;
+    let app = yield stapiApp(req).findById(appId);
 
+    //regexp for return_uri check, checking if redirect_uri is allowed
+    let returnToRegEx = new RegExp(`^${_.escapeRegExp(returnTo)}.*`);
 
-  if (req.session) {
-    req.session.returnTo = returnTo;
-    req.session.orgId = orgId;
-  }
-  debug ('setReturnTo returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
-  next();
+    if (!returnToRegEx.test(app.url)) {
+        throw new Error(`Return to ${returnTo} is not allowed!!`);
+    }
+
+    if (req.session) {
+      req.session.returnTo = returnTo;
+      req.session.orgId = orgId;
+      req.session.appId = appId;
+      req.session.orgAppId = orgAppId;
+    }
+    debug ('setReturnTo returnTo:', returnTo, 'baseUrl:', req.baseUrl, 'path:', req.path);
+    next();
+  }).catch(err => {
+    debug('setReturnTo:catch:', err.data || err);
+    return res.sendStatus(500);
+  });
+
 }
-
 
 function prepareToLinkProviderAccounts(req, res, next) {
 
