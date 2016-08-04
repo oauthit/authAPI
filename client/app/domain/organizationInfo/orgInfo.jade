@@ -1,12 +1,21 @@
 section
-  section.clearfix
+  section
     h2.pull-left {{vm.org.name}}
     .buttons.pull-right
       button.btn.btn-danger.btn-sm(ng-click='vm.deleteClick()') Delete
 
-  h3 Apps
+  h3.clear-both Apps
 
-  h3 Accounts
+  pre {{ vm.orgApps | json }}
 
-  h3 Providers Apps
+  h3.clear-both Accounts
+
+  table.table.table-striped(ng-table='vm.orgAccountsNgTable' cg-busy='vm.orgAccountsNgTableCtrl.busy')
+    tbody
+      tr(ng-repeat='row in $data track by row.id')
+        td(data-title="'Json'") {{row || json}}
+
+  h3.clear-both Providers Apps
+
+  pre {{ vm.orgProviderApps | json }}
 

@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, saFormlyConfigService) {
+    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, saFormlyConfigService, sabNgTable) {
 
       var vm = this;
 
@@ -41,9 +41,14 @@
 
       });
 
+      var orgAccountsNgTableCtrl = {
+        ngTable: {}
+      };
+
       angular.extend(vm, {
 
         joinFields: joinFields,
+        orgAccountsNgTableCtrl: orgAccountsNgTableCtrl,
 
         join: ()=> OrgAccount.create(vm.orgAccount)
           .then(() => Org.find(stateFilter.id, {bypassCache: true})),
@@ -54,11 +59,17 @@
         deleteClick: ()=> Modal.confirm.delete(
           ()=> Org.destroy(vm.org)
             .then(() => $state.go('auth.org'))
-        )(vm.org.name)
+        )(vm.org.name),
+
+        orgAccountsNgTable: sabNgTable.setup(orgAccountsNgTableCtrl, {
+          findAll: (params, options) =>
+            OrgAccount.findAll(_.assign(params, {orgId: stateFilter.id}), options),
+          getCount: (params, options) =>
+            OrgAccount.getCount(_.assign(params, {orgId: stateFilter.id}), options)
+        })
 
       });
 
-    })
-  ;
+    });
 
 })();
