@@ -73,7 +73,9 @@ export default function(app) {
   }
 
   if ('development' === env) {
-    app.use(require('connect-livereload')());
+    app.use(require('connect-livereload')({
+      port: process.env.LIVERELOAD_PORT
+    }));
   }
 
   if ('development' === env || 'test' === env) {
