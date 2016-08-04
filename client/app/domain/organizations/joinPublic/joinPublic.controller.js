@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgJoinPublicController', function ($scope, $state, InitCtrlService, schema) {
+    .controller('OrgJoinPublicController', function ($scope, $state, InitCtrlService, schema, Auth) {
 
       let vm = InitCtrlService.setup(this);
       var Org = schema.model('Org');
@@ -37,7 +37,7 @@
         }
       });
 
-     refresh();
+      Auth.getCurrentUser(refresh);
 
     })
   ;
