@@ -33,15 +33,9 @@ function setQueryParamsToSession(req, res, next) {
     let orgAppId = req.query.orgAppId;
 
     if(!(returnTo && orgAppId)) {
-      if (req.session.returnTo) {
+      if (req.session) {
         delete req.session.returnTo;
-      }
-
-      if (req.session.appId) {
         delete req.session.appId;
-      }
-
-      if (req.session.orgId) {
         delete req.session.orgId;
       }
 
