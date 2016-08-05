@@ -177,18 +177,10 @@ function setAuthorized(providerApp) {
 
       yield ProviderAccount.update(providerAccount.id, providerAccount);
 
-      let token = yield Token.create({tokenInfo: account, accountId: account.id}).then(token => {
-        debug('setAuthorized:Token.create', token);
-        return token.id;
-      });
-
-      debug('setAuthorized: token:', token);
-
       // check session.orgId
       if (req.session && req.session.orgId) {
 
         let orgId = req.session.orgId;
-        delete req.session.orgId;
 
         let orgAccount = yield stapiOrgAccount(req).find({
           orgId: orgId,
@@ -206,6 +198,23 @@ function setAuthorized(providerApp) {
         }
       }
 
+      let appId, orgId, orgAppId;
+      if (req.session) {
+        appId = req.session.appId;
+        orgId = req.session.orgId;
+        orgAppId = req.session.orgAppId;
+      }
+      let token = yield Token.create({tokenInfo: account, accountId: account.id, appId, orgId, orgAppId}).then(token => {
+        debug('setAuthorized:Token.create', token);
+        return token.id;
+      });
+
+      delete req.session.appId;
+      delete req.session.orgId;
+      delete req.session.orgAppId;
+
+      debug('setAuthorized: token:', token);
+
       let redirectUrl;
 
       if (req.session && req.session.returnTo) {
@@ -219,6 +228,7 @@ function setAuthorized(providerApp) {
       return res.redirect(redirectUrl + '#/?access-token=' + token);
 
     }).catch((err) => {
+      //TODO delete req.session onError?
       debug('setAuthorized:catch:', err.data || err);
       return res.sendStatus(500);
     });

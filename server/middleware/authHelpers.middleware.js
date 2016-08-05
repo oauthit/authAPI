@@ -48,6 +48,7 @@ function setQueryParamsToSession(req, res, next) {
 
     if (req.session) {
       req.session.returnTo = returnTo;
+      req.session.orgAppId = orgAppId;
       req.session.orgId = orgId;
       req.session.appId = appId;
     }
@@ -68,10 +69,10 @@ function checkIfValidRedirectUri(req, res, next) {
       let returnTo = req.session.returnTo;
       let appId = req.session.appId;
 
-      delete req.session.appId;
 
       //don't check app if no returnTo
       if (!(returnTo && appId)) {
+        delete req.session.appId;
         return next();
       }
 
@@ -81,6 +82,7 @@ function checkIfValidRedirectUri(req, res, next) {
       let urlRegEx = new RegExp(`^${_.escapeRegExp(app.url)}.*`);
 
       if (!urlRegEx.test(returnTo)) {
+        delete req.session.appId;
         let error = `Return to ${returnTo} is not allowed!!`;
         return res.redirect(`${req.headers.referer}#/?error=${error}`);
       }
