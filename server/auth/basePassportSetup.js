@@ -2,8 +2,6 @@
 
 import passportCb from './passportCallback';
 import providerAccount from '../models/providerAccount/providerAccount.model';
-const ProviderAccount = providerAccount();
-
 
 export default function (Strategy, strategyConfig) {
   return function (app, config) {
@@ -16,7 +14,7 @@ export default function (Strategy, strategyConfig) {
     });
 
     let strategy = new Strategy(config, (request, accessToken, refreshToken, profile, done) => {
-      ProviderAccount.getOrCreate({
+      providerAccount(request).getOrCreate({
         profileId: profile.id
       }, {
         profileData: profile,
