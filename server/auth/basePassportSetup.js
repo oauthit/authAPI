@@ -23,7 +23,7 @@ export default function (Strategy, strategyConfig) {
         roles: [],
         accessToken: accessToken,
         refreshToken: refreshToken,
-        appId: app.id
+        providerAppId: app.id
       }).then(passportCb(app.provider, profile, done), done);
     });
 
