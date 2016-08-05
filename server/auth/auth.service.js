@@ -43,6 +43,7 @@ function validateAuth(req, res, next) {
     if (!req.user) {
       return res.sendStatus(401);
     }
+    req.authToken = data;
     next();
   }, (err) => {
     debug('error:', err);
