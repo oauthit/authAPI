@@ -9,16 +9,49 @@ import _ from 'lodash';
 let Token = model('Token');
 var debug = require('debug')('authAPI:middleware:authHelpers');
 
-export {prepareToLinkProviderAccounts, setQueryParamsToSession, checkIfValidRedirectUri, setAccount};
+export {
+  prepareToLinkProviderAccounts,
+  setQueryParamsToSession,
+  checkIfValidRedirectUri,
+  setAccount,
+  setOrgApp,
+  stripIdFromName
+};
 
+function stripIdFromName (name){
+  return (req,res,next)=>{
+
+    let id = req.query[`${name}Id`];
+
+    if (id) {
+      req.query.id = id;
+    }
+
+    next();
+
+  }
+}
 
 function setAccount(req, res, next) {
-  if (!req.query.isPublic) {
-    req.query.accountId = req.user.id;
-  }
+  req.query.accountId = req.user.id;
   next();
 }
 
+function setOrgApp(req, res, next) {
+
+  let token = req.authToken;
+  if (token) {
+    if (token.appId) {
+      req.query.appId = token.appId;
+    }
+    if (token.orgId) {
+      req.query.orgId = token.orgId;
+    }
+  }
+
+  next();
+
+}
 
 function setQueryParamsToSession(req, res, next) {
 
@@ -30,7 +63,7 @@ function setQueryParamsToSession(req, res, next) {
     let returnTo = req.query.redirect_uri;
     let orgAppId = req.query.orgAppId;
 
-    if(!(returnTo && orgAppId)) {
+    if (!(returnTo && orgAppId)) {
 
       if (req.session) {
         delete req.session.returnTo;
