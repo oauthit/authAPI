@@ -27,12 +27,11 @@ function setQueryParamsToSession(req, res, next) {
       return next();
     }
 
-
-
     let returnTo = req.query.redirect_uri;
     let orgAppId = req.query.orgAppId;
 
     if(!(returnTo && orgAppId)) {
+
       if (req.session) {
         delete req.session.returnTo;
         delete req.session.appId;
