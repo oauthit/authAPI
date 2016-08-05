@@ -25,6 +25,8 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 @import 'styles/helpers';
 @import 'styles/layout';
 @import 'styles/ng-table';
+@import '../components/cg-busy/loading-ripple';
+@import '../components/cg-busy/loading';
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
