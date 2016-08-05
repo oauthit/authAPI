@@ -1,15 +1,17 @@
 'use strict';
 
-import {setAccount} from '../../middleware/authHelpers.middleware';
 var express = require('express');
 import controller from './org.controller.js';
+import {stripIdFromName} from '../../middleware/authHelpers.middleware';
 
 var router = express.Router();
 
+router.use(stripIdFromName('org'));
+
 export default router;
 
-router.get('/', setAccount, controller.index);
-router.get('/:id', setAccount, controller.show);
+router.get('/', controller.index);
+router.get('/:id', controller.show);
 
 router.post('/', controller.create);
 router.put('/:id', controller.create);
