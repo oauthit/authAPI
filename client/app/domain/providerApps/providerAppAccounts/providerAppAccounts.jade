@@ -1,8 +1,19 @@
 .container
-  h1 {{vm.providerApp.name}} {{vm.providerApp.provider}} Provider App Accounts
+  h1 {{vm.providerApp.provider}}/{{vm.providerApp.name}} Provider App Accounts
+
+  .buttons.pull-right
+    button.btn.btn-social.btn-xs(
+    ng-class='"btn-" + vm.providerApp.provider'
+    ng-click='vm.loginOauth()'
+    )
+      i.fa(ng-class='"fa-" + vm.providerApp.provider')
+      = ' '
+      span Connect
+
 
   table.table.table-striped.table-hover.table-responsive(
   ng-table='vm.ngTableParams'
+  cg-busy='vm.busy'
   )
     tr.clickable(
     ng-repeat='row in $data track by row.id'
@@ -12,21 +23,4 @@
       td(data-title="'Provider'")
         | {{row.profileData.provider}}
       td(data-title="'Roles'")
-        | {{row.roles}}
-
-  div(ng-if="vm.providerApp.provider === 'facebook'")
-    a.btn.btn-social.btn-facebook(ng-class='classes'
-    ng-click='vm.loginOauth(vm.providerApp)')
-      i.fa.fa-facebook
-      |  Connect with Facebook
-
-  div(ng-if="vm.providerApp.provider === 'google'")
-    a.btn.btn-social.btn-google(ng-class='classes'
-    ng-click='vm.loginOauth(vm.providerApp)')
-      i.fa.fa-google-plus
-      |  Connect with Google+
-  div(ng-if="vm.providerApp.provider === 'sms'")
-    a.btn.btn-social.btn-openid(ng-class='classes'
-    ng-click='vm.loginOauth(vm.providerApp)')
-      i.glyphicon.glyphicon-phone
-      |  Connect with mobile number
+        | {{row.roles | json}}

@@ -3,10 +3,11 @@
 
   table.table.table-striped.table-hover.table-responsive(
   ng-table='vm.ngTableParams'
+  cg-busy='vm.busy'
   )
     tr.clickable(
     ng-repeat='row in $data track by row.id'
-    ui-sref='auth.providerAccounts({providerId: row.id})'
+    ng-click='vm.rowClick(row,$event)'
     )
       td(data-title="'Name'")
         | {{row.name}}
@@ -14,3 +15,12 @@
         | {{row.provider}}
       td(data-title="'Code'")
         | {{row.code}}
+      td(data-title='"Connect"')
+        button.btn.btn-social.btn-xs(
+        ng-class='"btn-" + row.provider'
+        ng-click='vm.loginOauth(row, $event)'
+        )
+          i.fa(ng-class='"fa-" + row.provider')
+          = ' '
+          span Connect
+
