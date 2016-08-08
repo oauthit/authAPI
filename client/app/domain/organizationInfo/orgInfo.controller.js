@@ -27,8 +27,8 @@
       };
 
       Auth.getOrgRolesForCurrentUser(roleFilter.orgId).then((roles) => {
-        vm.roles = roles.map((role) => role.code);
-        vm.isOrgAdmin = Auth.isOrgAdmin(vm.roles);
+        var roles = roles.map((role) => role.code);
+        vm.isOrgAdmin = Auth.isOrgAdmin(roles);
       });
 
       Org.findAll(stateFilter);
