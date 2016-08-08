@@ -2,23 +2,26 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('ProviderAppAccountsController', function ($q, saToken, $stateParams, $window, InitCtrlService, schema, providerAccounts, providerApp) {
+    .controller('ProviderAppAccountsController', function ($q, $scope, $stateParams, Auth, InitCtrlService, schema) {
 
       let vm = InitCtrlService.setup(this);
+      let providerAppId = $stateParams.providerId;
+      let ProviderAccount = schema.model('ProviderAccount');
+      let ProviderApp = schema.model('ProviderApp');
+
+      ProviderApp.bindOne(providerAppId, $scope, 'vm.providerApp');
+      ProviderAccount.bindAll({
+        providerAppId: providerAppId
+      }, $scope, 'vm.providerAccounts');
+
+      ProviderApp.find(providerAppId);
 
       angular.extend(vm, {
         ngTable: {
           count: 12
         },
-        providerApp: providerApp,
-        loginOauth: function(app) {
-          var token = saToken.get();
-          var href = `/auth/${app.provider}/${app.name}`;
-          if (token) {
-            href += `?access_token=${token}`;
-          }
-          $window.location.href = href;
-        }
+        providerApp: false,
+        loginOauth: () => Auth.loginOauth(vm.providerApp)
       });
 
       function setupNgTable(providerAccounts) {
@@ -35,19 +38,10 @@
 
       }
 
-      if (!providerAccounts) {
-
-        let ProviderAccount = schema.model('ProviderAccount');
-
-        ProviderAccount.findAll({providerAppId: $stateParams.providerId}, {bypassCache: true})
-          .then((providerAccounts) => {
-            setupNgTable(providerAccounts);
-          })
-        ;
-
-      } else {
-        setupNgTable(providerAccounts);
-      }
+      vm.busy = ProviderAccount.findAll({providerAppId: providerAppId}, {bypassCache: true})
+        .then((providerAccounts) => {
+          setupNgTable(providerAccounts);
+        });
 
     })
   ;
