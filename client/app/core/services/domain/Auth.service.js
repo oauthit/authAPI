@@ -24,6 +24,14 @@
           });
 
         },
+        /**
+         * Check if has admin role in organization
+         *
+         * @param roles
+         */
+        isOrgAdmin: function (roles) {
+          return roles.indexOf('admin') > -1;
+        },
         loginOauth: function(providerApp) {
           if (!providerApp) {
             return console.error('Auth.loginOauth providerApp undefined');

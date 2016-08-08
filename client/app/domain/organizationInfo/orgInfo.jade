@@ -2,7 +2,7 @@ section
   section
     h2.pull-left {{vm.org.name}}
     .buttons.pull-right
-      button.btn.btn-danger.btn-sm(ng-click='vm.deleteClick()') Delete
+      button.btn.btn-danger.btn-sm(ng-click='vm.deleteClick()' ng-show='vm.isOrgAdmin') Delete
 
   h3.clear-both Apps
 
@@ -29,4 +29,6 @@ section
       tr(ng-repeat='row in $data track by row.id')
         td(data-title="'Provider'") {{ row.providerApp.provider }}
         td(data-title="'Name'") {{ row.providerApp.name }}
-        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }
+
+  pre {{vm.roles | json}}

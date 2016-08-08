@@ -10,6 +10,7 @@
       var OrgAccount = schema.model('OrgAccount');
       var OrgApp = schema.model('OrgApp');
       var OrgProviderApp = schema.model('OrgProviderApp');
+      var Role = schema.model('Role');
 
       var joinFields = saFormlyConfigService.getConfigFieldsByKey('OrgAccount.join');
 
@@ -20,6 +21,15 @@
       if ($state.params.isPublic || /join$/.test($state.current.name)) {
         stateFilter.isPublic = true;
       }
+
+      var roleFilter = {
+        orgId: $state.params.orgId
+      };
+
+      Auth.getOrgRolesForCurrentUser(roleFilter.orgId).then((roles) => {
+        vm.roles = roles.map((role) => role.code);
+        vm.isOrgAdmin = Auth.isOrgAdmin(vm.roles);
+      });
 
       Org.findAll(stateFilter);
       Org.bindOne(stateFilter.id, $scope, 'vm.org');
