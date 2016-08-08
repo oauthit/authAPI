@@ -1,11 +1,11 @@
 .container
   h1
     a.sref(ui-sref='auth.org') Organizations
-    .buttons.pull-right
+    .pull-right.buttons
       button.btn.btn-primary(ui-sref='.create') Create
       button.btn.btn-primary(ui-sref='.joinPublic') Join Public
 
-  .ui-view(cg-busy='vm.orgTable.busy')
+  .ui-view.clear-both(cg-busy='vm.orgTable.busy')
     table.table.table-striped.table-hover.table-responsive(
     ng-table='vm.ngTableParams'
     )
