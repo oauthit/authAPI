@@ -3,7 +3,9 @@
 (function () {
 
   angular.module('authApiApp.core.services')
-    .factory('Auth', function (saAuth,schema) {
+    .factory('Auth', function (saAuth, schema) {
+
+      let Role = schema.model('Role');
 
       var config = {
         authUrl: '',
@@ -12,8 +14,13 @@
 
       let Auth = saAuth(config);
       angular.extend(Auth, {
-        getCurrentRoles: function () {
+        getOrgRolesForCurrentUser: (orgId) => {
           //TODO api route for currentRoles
+
+          return Role.findAll({
+            orgId
+          });
+
         },
       });
 
