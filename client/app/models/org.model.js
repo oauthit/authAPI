@@ -19,6 +19,10 @@
             OrgApp: {
               foreignKey: 'orgId',
               localField: 'apps'
+            },
+            OrgAccountRole: {
+              foreignKey: 'orgId',
+              localField: 'accountRoles'
             }
           }
         },

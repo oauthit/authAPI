@@ -15,6 +15,10 @@
             OrgAccount: {
               foreignKey: 'accountId',
               localField: 'orgAccounts'
+            },
+            OrgAccountRole: {
+              foreignKey: 'accountId',
+              localField: 'orgRoles'
             }
           }
         }
