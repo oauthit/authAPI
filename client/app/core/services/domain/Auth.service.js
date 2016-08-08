@@ -5,7 +5,6 @@
   angular.module('authApiApp.core.services')
 
     .factory('Auth', function (saAuth, schema, saToken, $window) {
-      let Role = schema.model('Role');
 
       var config = {
         authUrl: '',
@@ -17,6 +16,8 @@
       angular.extend(Auth, {
         getOrgRolesForCurrentUser: (orgId) => {
           //TODO api route for currentRoles
+
+          let Role = schema.model('Role');
 
           return Role.findAll({
             orgId
