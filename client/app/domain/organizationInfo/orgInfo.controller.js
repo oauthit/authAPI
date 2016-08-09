@@ -10,7 +10,6 @@
       var OrgAccount = schema.model('OrgAccount');
       var OrgApp = schema.model('OrgApp');
       var OrgProviderApp = schema.model('OrgProviderApp');
-      var Role = schema.model('Role');
 
       var joinFields = saFormlyConfigService.getConfigFieldsByKey('OrgAccount.join');
 

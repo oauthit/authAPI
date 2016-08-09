@@ -12,6 +12,7 @@ gulp.task('wiredep:client', () => {
         /bootstrap-sass-official/,
         /[^-]bootstrap.js$/,
         /json3/,
+        /jquery/,
         /es5-shim/,
         /bootstrap.css/,
         /font-awesome.css/

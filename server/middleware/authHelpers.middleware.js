@@ -29,7 +29,7 @@ function stripIdFromName (name){
 
     next();
 
-  }
+  };
 }
 
 function setAccount(req, res, next) {
