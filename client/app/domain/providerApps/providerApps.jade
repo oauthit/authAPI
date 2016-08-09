@@ -13,10 +13,8 @@
         | {{row.name}}
       td(data-title="'Provider'")
         | {{row.provider}}
-      td(data-title="'Code'")
-        | {{row.code}}
-      td(data-title='"Connect"')
-        button.btn.btn-social.btn-xs(
+      td.buttons(data-title='"Connect"')
+        button.btn.btn-social.btn-sm(
         ng-class='"btn-" + row.provider'
         ng-click='vm.loginOauth(row, $event)'
         )
