@@ -5,17 +5,25 @@
     .controller('OrgRolesController', function (schema, $scope) {
 
       var vm = this;
+      vm.roles = [];
 
       var OrgRole = schema.model('OrgRole');
-      console.log(OrgRole);
+      var Role = schema.model('Role');
 
-      OrgRole.findAll().then((orgRoles) => {
-        console.log(orgRoles);
-      });
+      OrgRole.findAll();
       OrgRole.bindAll({}, $scope, 'vm.orgRoles');
 
+      Role.findAll();
+      Role.bindAll({}, $scope, 'vm.roles');
 
-      angular.extend(vm, {});
+      angular.extend(vm, {
+
+        refreshRoles: function (searchFor) {
+          return Role.findAll({searchFor: searchFor, searchFields: ['name']});
+        },
+        selectedRoles: []
+
+      });
 
     })
   ;

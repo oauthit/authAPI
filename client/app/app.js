@@ -13,7 +13,8 @@
     'sistemiumAngularAuth',
     'sistemiumBootstrap',
     'ngSanitize',
-    'angularMoment'
+    'angularMoment',
+    'ui.select'
   ]);
 
   angular.module('authApiApp', [

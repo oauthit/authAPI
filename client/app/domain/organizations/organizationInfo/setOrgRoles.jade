@@ -1,0 +1,12 @@
+section
+  h3 Set org roles
+
+  ui-select(ng-model='vm.selectedRoles' multiple tagging)
+    ui-select-match
+      span(ng-bind='$item.name')
+    ui-select-choices(
+      repeat='item in vm.roles track by item.id'
+      refresh='vm.refreshRoles($select.search)'
+      refresh-delay="0"
+    )
+      span(ng-bind='item.name')
