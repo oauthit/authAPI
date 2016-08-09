@@ -28,21 +28,28 @@
             {
               name: 'info',
               url: '/:orgId/info?isPublic',
-              templateUrl: 'app/domain/organizationInfo/orgInfo.html',
+              templateUrl: 'app/domain/organizations/organizationInfo/orgInfo.html',
               controller: 'OrgInfoController',
               controllerAs: 'vm'
             },
             {
+              name: 'setOrgRoles',
+              url: '/:orgId/setOrgRoles',
+              templateUrl: 'app/domain/organizations/organizationInfo/setOrgRoles.html',
+              controller: 'OrgRolesController',
+
+            },
+            {
               name: 'join',
               url: '/:orgId/join',
-              templateUrl: 'app/domain/organizationInfo/joinOrg.html',
+              templateUrl: 'app/domain/organizations/organizationInfo/joinOrg.html',
               controller: 'OrgInfoController',
               controllerAs: 'vm'
             },
             {
               name: 'leave',
               url: '/:orgId/leave',
-              templateUrl: 'app/domain/organizationInfo/leaveOrg.html',
+              templateUrl: 'app/domain/organizations/organizationInfo/leaveOrg.html',
               controller: 'OrgInfoController',
               controllerAs: 'vm'
             }
