@@ -23,6 +23,10 @@
             OrgAccountRole: {
               foreignKey: 'orgId',
               localField: 'accountRoles'
+            },
+            OrgRole: {
+              foreignKey: 'orgId',
+              localField: 'roles'
             }
           }
         },

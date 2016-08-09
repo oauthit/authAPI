@@ -6,21 +6,21 @@
     .run(function (schema) {
 
       schema.register({
-        name: 'Role',
+        name: 'OrgRole',
         relations: {
-          hasMany: {
-            OrgAccountRole: {
+          hasOne: {
+            Role: {
               foreignKey: 'roleId',
-              localField: 'orgAccountRoles'
+              localField: 'role'
             },
-            OrgRole: {
-              foreignKey: 'roleId',
-              localField: 'roleOrgs'
-
+            Org: {
+              foreignKey: 'orgId',
+              localField: 'org'
             }
           }
         }
       });
+
     })
   ;
 
