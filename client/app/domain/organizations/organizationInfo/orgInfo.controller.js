@@ -12,9 +12,10 @@
       var OrgProviderApp = schema.model('OrgProviderApp');
 
       var joinFields = saFormlyConfigService.getConfigFieldsByKey('OrgAccount.join');
+      var orgId = $state.params.orgId;
 
       var stateFilter = {
-        id: $state.params.orgId
+        id: orgId
       };
 
       if ($state.params.isPublic || /join$/.test($state.current.name)) {
@@ -22,7 +23,7 @@
       }
 
       var roleFilter = {
-        orgId: $state.params.orgId
+        orgId
       };
 
       Auth.getOrgRolesForCurrentUser(roleFilter.orgId).then((roles) => {
@@ -31,14 +32,14 @@
       });
 
       Org.findAll(stateFilter);
-      Org.bindOne(stateFilter.id, $scope, 'vm.org');
+      Org.bindOne(orgId, $scope, 'vm.org');
 
       // TODO: secure routes that need currentUser with ui-router
 
       var user = Auth.getCurrentUser();
 
       var orgAccountFilter = {
-        orgId: stateFilter.id,
+        orgId,
         accountId: user.id
       };
 
@@ -65,6 +66,7 @@
       angular.extend(vm, {
 
         joinFields: joinFields,
+        orgId,
 
         orgAccountsNgTableCtrl: orgAccountsNgTableCtrl,
         orgAppsNgTableCtrl: orgAppsNgTableCtrl,

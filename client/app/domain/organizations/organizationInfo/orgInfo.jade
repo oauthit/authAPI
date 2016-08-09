@@ -3,6 +3,7 @@ section
     h2.pull-left {{vm.org.name}}
     .buttons.pull-right
       button.btn.btn-danger.btn-sm(ng-click='vm.deleteClick()' ng-show='vm.isOrgAdmin') Delete
+      button.btn.btn-warning.btn-sm(ui-sref='^.setOrgRoles({orgId: vm.orgId})' ng-show='vm.isOrgAdmin') Roles
 
   h3.clear-both Apps
 
