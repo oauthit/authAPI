@@ -2,20 +2,18 @@
 
 import compose from 'composable-middleware';
 var debug = require('debug')('authAPI:auth:service');
-import {model, models} from '../models/js-data/storeSchema';
-import stapiOrgAccount from '../models/orgAccount.model.js';
 import co from 'co';
 import _ from 'lodash';
 
 
 export {hasRole, setAuthorized, isAuthenticated};
 
-const Account = model('Account');
-const ProviderAccount = model('ProviderAccount');
-const SocialAccount = model('SocialAccount');
-const Token = model('Token');
-const ProviderApp = model('ProviderApp');
-
+// const Account = model('Account');
+import account from '../models/account.model';
+import providerAccount from '../models/providerAccount/providerAccount.model';
+import socialAccount from '../models/socialAccount.model';
+import token from '../models/token.model';
+import orgAccount from '../models/orgAccount.model';
 
 /**
  *
@@ -37,7 +35,7 @@ function validateAuth(req, res, next) {
     return res.sendStatus(401);
   }
 
-  Token.find(token).then((data) => {
+  token(req).find(token).then((data) => {
     req.user = data && data.tokenInfo;
     debug('validateAuth: token:', data);
     if (!req.user) {
@@ -111,6 +109,12 @@ function setAuthorized(providerApp) {
     debug('setAuthorized user:', req.user);
     debug('setAuthorized session:', req.session);
 
+    let Account = account(req);
+    let ProviderAccount = providerAccount(req);
+    let SocialAccount = socialAccount(req);
+    let Token = token(req);
+    let OrgAccount = orgAccount(req);
+
     co(function*() {
 
       let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
@@ -120,7 +124,7 @@ function setAuthorized(providerApp) {
         //TODO teach stapi to take js-data query for relations
         //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
 
-        ProviderAccount.findAll({socialAccountId: socialAccount.id})
+        ProviderAccount.find({socialAccountId: socialAccount.id})
           .then(providerAccounts => {
 
             debug('setAuthorized:providerAccounts:', providerAccounts);
@@ -167,7 +171,7 @@ function setAuthorized(providerApp) {
 
       debug('setAuthorized: providerAccount:', providerAccount);
 
-      let account = yield Account.findOrCreate(providerAccount.accountId, {
+      let account = yield Account.getOrCreate(providerAccount.accountId, {
         name: providerAccount.name,
         roles: providerAccount.roles
       });
@@ -183,14 +187,14 @@ function setAuthorized(providerApp) {
 
         let orgId = req.session.orgId;
 
-        let orgAccount = yield stapiOrgAccount(req).find({
+        let orgAccount = yield OrgAccount.find({
           orgId: orgId,
           accountId: account.id
         });
 
         if (orgAccount.length === 0) {
 
-          yield stapiOrgAccount(req).save({
+          yield OrgAccount.save({
             orgId: orgId,
             accountId: account.id,
             name: account.name
