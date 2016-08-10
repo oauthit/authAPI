@@ -24,12 +24,18 @@
       'authApiApp.constants'
     ])
 
-    .run(function ($rootScope, sabErrorsService) {
+    .run(function ($rootScope, sabErrorsService, schema) {
 
       //add function to $rootScope to add errors
       $rootScope.addError = function (error) {
         sabErrorsService.addError(error);
       };
+
+      $rootScope.$on('logged-in', function (e) {
+        console.log('event:', e);
+        var Org = schema.model('Org');
+        Org.findAll();
+      });
     });
 
 }());
