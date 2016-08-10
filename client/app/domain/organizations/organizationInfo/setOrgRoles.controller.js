@@ -13,14 +13,16 @@
       OrgRole.findAll();
       OrgRole.bindAll({}, $scope, 'vm.orgRoles');
 
-      Role.findAll();
+      Role.findAll({}, {bypassCache: true});
       Role.bindAll({}, $scope, 'vm.roles');
+
+      $scope.refreshRoles = function (searchFor) {
+        console.log(searchFor);
+        return Role.findAll({searchFor: searchFor, searchFields: ['name']}, {bypassCache: true});
+      };
 
       angular.extend(vm, {
 
-        refreshRoles: function (searchFor) {
-          return Role.findAll({searchFor: searchFor, searchFields: ['name']});
-        },
         selectedRoles: []
 
       });

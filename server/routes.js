@@ -11,6 +11,10 @@ export default function(app) {
   // Insert routes below
   app.use('/api', require('./api'));
 
+  function searchForPredicates() {
+
+  }
+
   app.use('/auth', require('./auth'));
 
   // All undefined asset or api routes should return a 404
