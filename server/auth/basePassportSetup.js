@@ -14,6 +14,11 @@ export default function (Strategy, strategyConfig) {
     });
 
     let strategy = new Strategy(config, (request, accessToken, refreshToken, profile, done) => {
+
+      if (!profile || !profile.id) {
+        return done(new Error(`auth/${app.provider}/${app.name} no profile.id`));
+      }
+
       providerAccount(request).getOrCreate({
         profileId: profile.id
       }, {
