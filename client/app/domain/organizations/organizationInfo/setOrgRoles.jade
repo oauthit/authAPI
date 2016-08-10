@@ -5,7 +5,7 @@ section
     ui-select-match(placeholder='Select roles...')
       span(ng-bind='$item.name')
     ui-select-choices(
-      repeat='item in vm.roles track by item.id'
+      repeat='item in vm.roles | filter:$select.search track by item.id'
       refresh='refreshRoles($select.search)'
       refresh-delay="0"
     )

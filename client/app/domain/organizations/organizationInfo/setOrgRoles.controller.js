@@ -18,7 +18,11 @@
 
       $scope.refreshRoles = function (searchFor) {
         console.log(searchFor);
-        return Role.findAll({searchFor: searchFor, searchFields: ['name']}, {bypassCache: true});
+        return Role.findAll({"searchFor:": searchFor, "searchFields:": ['name']}, {bypassCache: true})
+          .then((roles) => {
+            console.log(vm.roles);
+            console.log(roles);
+          });
       };
 
       angular.extend(vm, {
