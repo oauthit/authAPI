@@ -2,13 +2,13 @@
 
 import express from 'express';
 import passport from 'passport';
-import VkontaktePassport from './passport';
+import vkontaktePassport from './passport';
 
 var router = express.Router();
 
 export default function (providerApp) {
 
-  passport.use(VkontaktePassport(providerApp));
+  passport.use(vkontaktePassport(providerApp));
 
   router
     .get('/', function (req, res) {
