@@ -9,11 +9,12 @@ import _ from 'lodash';
 export {hasRole, setAuthorized, isAuthenticated};
 
 // const Account = model('Account');
-import account from '../models/account.model';
-import providerAccount from '../models/providerAccount/providerAccount.model';
-import socialAccount from '../models/socialAccount.model';
-import token from '../models/token.model';
-import orgAccount from '../models/orgAccount.model';
+import accountModel from '../models/account.model';
+import providerAccountModel from '../models/providerAccount/providerAccount.model';
+import socialAccountModel from '../models/socialAccount.model';
+import Token from '../models/js-data/token.model';
+import orgAccountModel from '../models/orgAccount.model';
+
 
 /**
  *
@@ -35,7 +36,7 @@ function validateAuth(req, res, next) {
     return res.sendStatus(401);
   }
 
-  token(req).find(token).then((data) => {
+  Token.find(token).then((data) => {
     req.user = data && data.tokenInfo;
     debug('validateAuth: token:', data);
     if (!req.user) {
@@ -109,15 +110,14 @@ function setAuthorized(providerApp) {
     debug('setAuthorized user:', req.user);
     debug('setAuthorized session:', req.session);
 
-    let Account = account(req);
-    let ProviderAccount = providerAccount(req);
-    let SocialAccount = socialAccount(req);
-    let Token = token(req);
-    let OrgAccount = orgAccount(req);
+    let Account = accountModel(req);
+    let ProviderAccount = providerAccountModel(req);
+    let SocialAccount = socialAccountModel(req);
+    let OrgAccount = orgAccountModel(req);
 
     co(function*() {
 
-      let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
+      let socialAccount = yield SocialAccount.getOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
 
       let providerAccount = yield new Promise((fulfil, reject) => {
@@ -156,7 +156,7 @@ function setAuthorized(providerApp) {
 
           }, err => {
 
-            debug('setAuthorized:ProviderAccount.findAll error:', err);
+            debug('setAuthorized:ProviderAccount.find error:', err);
             reject(err);
 
           });

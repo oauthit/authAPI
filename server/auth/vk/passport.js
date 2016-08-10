@@ -10,10 +10,7 @@ export default basePassportSetup(VkontakteStrategy,{
       if (err) {
         done(err);
       } else {
-        profile.id = profile.id || profile.username;
-        if (/^id[\d]+/.test(profile.id)) {
-          profile.id = profile.id.replace(/^id/,'')
-        }
+        profile.id = profile.id || profile._json.uid;
         done(null, profile);
       }
     });
