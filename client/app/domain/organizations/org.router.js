@@ -37,7 +37,7 @@
               url: '/:orgId/setOrgRoles',
               templateUrl: 'app/domain/organizations/organizationInfo/setOrgRoles.html',
               controller: 'OrgRolesController',
-
+              controllerAs: 'vm'
             },
             {
               name: 'join',

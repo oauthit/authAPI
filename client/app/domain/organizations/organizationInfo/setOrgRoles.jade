@@ -1,7 +1,10 @@
 section
-  h3 Set org roles
 
-  ui-select(ng-model='vm.selectedRoles' multiple)
+  h3 {{ vm.org.name }}
+
+  h5 Set organization roles
+
+  ui-select(ng-model='vm.selectedRoles' multiple on-select='vm.onSelectCallback($item, $model)')
     ui-select-match(placeholder='Select roles...')
       span(ng-bind='$item.name')
     ui-select-choices(
@@ -10,3 +13,20 @@ section
       refresh-delay="0"
     )
       span(ng-bind='item.name')
+
+  table.table.table-striped.table-hover.table-responsive(ng-show='vm.orgRoles')
+    thead
+      th Id
+      th Name
+      th
+      th Last Timestamp
+      th
+    tbody
+      tr(ng-repeat='row in vm.orgRoles track by row.id')
+        td {{ row.id }}
+        td {{ row.name }}
+        td.text-center
+          span.label.label-info(ng-if='row.isPublic') Public
+        td {{ row.ts | amCalendar }}
+        td
+          button.btn.btn-danger.btn-xs(ng-click='vm.onDeleteOrg(row)') Delete
