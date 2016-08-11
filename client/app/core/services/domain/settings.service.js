@@ -9,6 +9,8 @@
 
     function setCurrentOrg(org) {
       if (!org) {
+        localStorageService.remove('current-org-id');
+        $rootScope.$broadcast('current-org', undefined);
         return;
       }
       localStorageService.set('current-org-id', org.id);

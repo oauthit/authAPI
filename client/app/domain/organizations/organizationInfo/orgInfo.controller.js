@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('authApiApp')
-    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, $q, saFormlyConfigService, sabNgTable) {
+    .controller('OrgInfoController', function (schema, $state, $stateParams, $scope, Auth, Modal, $q, saFormlyConfigService, sabNgTable, SettingsService) {
 
       var vm = this;
 
@@ -74,10 +74,12 @@
 
         join: ()=> OrgAccount.create(vm.orgAccount)
           .then(() => Org.find(stateFilter.id, {bypassCache: true}))
+          .then((org) => SettingsService.setCurrentOrg(org))
           .then(() => $state.go('auth.org.info', {orgId: stateFilter.id})),
 
         leave: ()=> OrgAccount.destroy(vm.orgAccount)
           .then(() => Org.find(stateFilter.id, {bypassCache: true}))
+          .then(() => SettingsService.setCurrentOrg())
           .then(() => $state.go('auth.org')),
 
         deleteClick: ()=> Modal.confirm.delete(
