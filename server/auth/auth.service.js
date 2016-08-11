@@ -204,15 +204,19 @@ function setAuthorized(providerApp) {
       }
 
       let appId, orgId, orgAppId;
+
       if (req.session) {
         appId = req.session.appId;
         orgId = req.session.orgId;
         orgAppId = req.session.orgAppId;
       }
-      let token = yield tokenModel({}).save({tokenInfo: account, accountId: account.id, appId, orgId, orgAppId}).then(token => {
-        debug('setAuthorized:Token.create', token);
-        return token.id;
-      });
+
+      let token = yield tokenModel({})
+        .save({tokenInfo: account, accountId: account.id, appId, orgId, orgAppId})
+        .then(token => {
+          debug('setAuthorized:Token.create', token);
+          return token.id;
+        });
 
       delete req.session.appId;
       delete req.session.orgId;
