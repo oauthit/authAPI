@@ -12,7 +12,7 @@ export {hasRole, setAuthorized, isAuthenticated};
 import accountModel from '../models/account.model';
 import providerAccountModel from '../models/providerAccount/providerAccount.model';
 import socialAccountModel from '../models/socialAccount.model';
-import Token from '../models/js-data/token.model';
+import tokenModel from '../models/token.model';
 import orgAccountModel from '../models/orgAccount.model';
 
 
@@ -36,7 +36,7 @@ function validateAuth(req, res, next) {
     return res.sendStatus(401);
   }
 
-  Token.find(token).then((data) => {
+  tokenModel({}).findById(token).then((data) => {
     req.user = data && data.tokenInfo;
     debug('validateAuth: token:', data);
     if (!req.user) {
@@ -209,7 +209,7 @@ function setAuthorized(providerApp) {
         orgId = req.session.orgId;
         orgAppId = req.session.orgAppId;
       }
-      let token = yield Token.create({tokenInfo: account, accountId: account.id, appId, orgId, orgAppId}).then(token => {
+      let token = yield tokenModel({}).save({tokenInfo: account, accountId: account.id, appId, orgId, orgAppId}).then(token => {
         debug('setAuthorized:Token.create', token);
         return token.id;
       });
