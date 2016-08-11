@@ -7,6 +7,8 @@
       var vm = this;
       vm.roles = [];
 
+      //var Org = schema.model('Org');
+
       var Role = schema.model('Role');
 
       Role.findAll({}, {bypassCache: true});
