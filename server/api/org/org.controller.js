@@ -3,6 +3,8 @@
 import stapiOrg from './../../models/org.model.js';
 import orgAccountRole from './../../models/orgAccountRole.model.js';
 import orgAccount from './../../models/orgAccount.model.js';
+import orgRole from './../../models/orgRole.model.js';
+import role from './../../models/role.model.js';
 import {stapiBaseController} from 'sistemium-node';
 
 let ctrl = stapiBaseController(stapiOrg);
@@ -25,19 +27,36 @@ function create(req, res, next) {
 
   req.onStapiSuccess = org => {
 
-    return Promise.all([
-      orgAccountRole(req).save({
-        orgId: org.id,
-        accountId: req.user.id,
-        // TODO: get public roles at bootstrap
-        roleId: '08af0df4-588d-11e6-8000-e188647b398f'
-      }), orgAccount(req).save({
-        orgId: org.id,
-        accountId: req.user.id,
-        name: req.user.name
-      })
-    ]).then(() => {
-      return org;
+    return new Promise(function (resolve, reject) {
+
+      role(req).findOne({code: 'admin'})
+        .then((role) => {
+          return Promise.all([
+            orgRole(req).save({
+              orgId: org.id,
+              roleId: role.id
+            }),
+            orgAccountRole(req).save({
+              orgId: org.id,
+              accountId: req.user.id,
+              // TODO: get public roles at bootstrap
+              roleId: role.id
+            }), orgAccount(req).save({
+              orgId: org.id,
+              accountId: req.user.id,
+              name: req.user.name
+            })
+          ]).then(() => {
+            return resolve(org);
+          }).catch(err => {
+            return reject(err);
+          });
+        })
+        .catch(err => {
+          return reject(err);
+        })
+      ;
+
     });
 
   };
