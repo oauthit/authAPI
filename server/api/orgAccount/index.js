@@ -9,6 +9,7 @@ var controller = require('./orgAccount.controller.js');
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/withRoles',  controller.indexWithRoles);
 router.get('/:id', controller.show);
 
 function checkIfAlreadyMember (req, res, next) {
