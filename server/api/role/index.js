@@ -10,5 +10,6 @@ router.use(stripIdFromName('role'));
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);
+router.post('/', controller.create);
 
 module.exports = router;
