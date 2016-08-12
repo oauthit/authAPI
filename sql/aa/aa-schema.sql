@@ -116,3 +116,4 @@ alter table aa.ProviderApp add code CODE not null compute (string(provider,name)
 alter table aa.ProviderApp add unique (code);
 alter table aa.ProviderApp add unique (provider, name);
 alter table aa.App add unique (url);
+alter table aa.OrgRole add unique (orgId, roleId);
