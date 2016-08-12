@@ -5,14 +5,18 @@ section
   h5 Set organization roles
 
   ui-select(ng-model='vm.selectedRoles' multiple on-select='vm.onSelectCallback($item, $model)')
-    ui-select-match(placeholder='Select roles...')
+    ui-select-match(placeholder='Select roles...' allow-clear='true')
       span(ng-bind='$item.name')
     ui-select-choices(
-      repeat='item in vm.roles | filter:$select.search track by item.id'
-      refresh='refreshRoles($select.search)'
+      repeat='item in vm.unUsedRoles | filter:$select.search track by item.id'
+      refresh='vm.refreshRoles($select.search)'
       refresh-delay="0"
     )
       span(ng-bind='item.name')
+    ui-select-no-choice
+      span(ng-hide='$select.search') No available roles found. Type role name to add.
+      span(ng-if='$select.search')
+        button.btn.btn-sm.btn-warning(ng-click='vm.saveRole($select.search) && $select.close()') Add "{{ $select.search }}" role
 
   table.table.table-striped.table-hover.table-responsive(ng-show='vm.orgRoles')
     thead
@@ -24,9 +28,9 @@ section
     tbody
       tr(ng-repeat='row in vm.orgRoles track by row.id')
         td {{ row.id }}
-        td {{ row.name }}
+        td {{ row.role.name }}
         td.text-center
           span.label.label-info(ng-if='row.isPublic') Public
         td {{ row.ts | amCalendar }}
         td
-          button.btn.btn-danger.btn-xs(ng-click='vm.onDeleteOrg(row)') Delete
+          button.btn.btn-danger.btn-xs(ng-click='vm.deleteOrgRole(row)') Delete

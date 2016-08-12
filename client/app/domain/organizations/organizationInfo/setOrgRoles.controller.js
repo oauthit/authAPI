@@ -1,78 +1,94 @@
+'use strict';
+
 (function () {
-  'use strict';
 
-  angular.module('authApiApp')
-    .controller('OrgRolesController', function (schema, $scope, $stateParams) {
+  function OrgRolesController(schema, $scope, $stateParams) {
 
-      var vm = this;
-      vm.roles = [];
-      var orgId = $stateParams.orgId;
-      var Role = schema.model('Role');
-      var OrgRole = schema.model('OrgRole');
-      var Org = schema.model('Org');
+    var vm = this;
 
-      function onDeleteOrg(role) {
-        console.log(role);
-        Role.destroy(role);
-      }
+    var orgId = $stateParams.orgId;
+    var Role = schema.model('Role');
+    var OrgRole = schema.model('OrgRole');
+    var Org = schema.model('Org');
 
-      function saveOrgRole(role) {
-        return OrgRole.create({
-          roleId: role.id,
-          orgId
-        });
-      }
-
-      function onSelectCallback(item) {
-        saveOrgRole(item)
-          .then(() => {
-            vm.orgRoles.push(item);
-            _.remove(vm.roles, (role) => {
-              return role.id === item.id;
-            });
-            vm.selectedRoles = [];
-          })
-          .catch(err => {
-            console.log(err);
-            vm.selectedRoles = [];
-          })
-        ;
-      }
-
-      angular.extend(vm, {
-
-        selectedRoles: [],
-        onDeleteOrg,
-        onSelectCallback
-
-      });
-
-      Org.find(orgId);
-      Org.bindOne(orgId, $scope, 'vm.org');
-
-      $scope.refreshRoles = (searchFor) => {
-        return Role.filter({
-          where: {
-            name: {
-              'likei': searchFor
-            }
-          }
-        });
-      };
-
-      OrgRole.findAllWithRelations({orgId: orgId})('Role')
-        .then(orgRoles => {
-          console.log(orgRoles);
-          return vm.orgRoles = _.map(orgRoles, 'role')
-        })
-        .then(() => {
-          Role.findAll({}, {bypassCache: true});
-          Role.bindAll({}, $scope, 'vm.roles', function () {
-            vm.roles = _.difference(vm.roles, vm.orgRoles);
-          });
+    function deleteOrgRole(orgRole) {
+      OrgRole.destroy(orgRole)
+        .catch(err => {
+          console.log(err);
         })
       ;
-    })
-  ;
+    }
+
+    function saveOrgRole(role) {
+      return OrgRole.create({
+        roleId: role.id,
+        orgId
+      })
+        .catch(err => {
+          console.log(err);
+        })
+        ;
+    }
+
+    function saveRole(roleName) {
+
+      return Role.create({
+        name: roleName,
+        //TODO think how to save code
+        code: roleName,
+        isPublic: false
+      })
+        .then(role => {
+          return OrgRole.create({
+            roleId: role.id,
+            orgId
+          }).then(() => {
+            vm.selectedRoles = [];
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          vm.selectedRoles = [];
+        });
+    }
+
+    function onSelectCallback(item) {
+      saveOrgRole(item)
+        .then(() => {
+          vm.selectedRoles = [];
+        });
+    }
+
+    _.assign(vm, {
+
+      roles: [],
+      selectedRoles: [],
+      deleteOrgRole,
+      onSelectCallback,
+      saveRole
+
+    });
+
+    Org.find(orgId);
+    Org.bindOne(orgId, $scope, 'vm.org');
+
+    vm.refreshRoles = (searchFor) => {
+      // TODO: fetch other roles
+    };
+
+    function setUnusedRoles() {
+      vm.unUsedRoles = _.difference(vm.roles, _.map(vm.orgRoles, 'role'));
+    }
+
+    Role.bindAll({}, $scope, 'vm.roles', setUnusedRoles);
+    OrgRole.bindAll({orgId: orgId}, $scope, 'vm.orgRoles', setUnusedRoles);
+
+    Role.findAll({}, {bypassCache: true})
+      .then(()=>OrgRole.findAllWithRelations({orgId: orgId})('Role'));
+
+  }
+
+  angular.module('authApiApp')
+    .controller('OrgRolesController', OrgRolesController);
 
 })();
