@@ -21,14 +21,6 @@ meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
 meta.defineType 'isPublic:BOOL';
-meta.defineType 'resource:STRING';
-meta.defineType 'params:STRING';
-meta.defineType 'requestBody:STRING';
-meta.defineType 'responseBody:STRING';
-meta.defineType 'authorization:STRING';
-meta.defineType 'method:STRING';
-meta.defineType 'status:STRING';
-meta.defineType 'authorization:STRING';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -99,10 +91,6 @@ meta.defineEntity 'OrgApp',
   'Org,orgId;App,appId'
 ;
 
-meta.defineEntity 'RequestLog',
-  'resource;params;requestBody;responseBody;status;authorization;method;isDeleted'
-;
-
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
 meta.createTable 'Role',0,1;
@@ -123,7 +111,6 @@ meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
 meta.createTable 'OrgAccount',0,1;
 meta.createTable 'OrgApp',0,1;
-meta.createTable 'RequestLog',0,1;
 
 alter table aa.ProviderApp add code CODE not null compute (string(provider,name));
 alter table aa.ProviderApp add unique (code);
