@@ -10,23 +10,31 @@
         relations: {
           hasOne: {
             Account: {
-              foreignKey: 'accountId',
+              localKey: 'accountId',
               localField: 'account'
             },
             Org: {
-              foreignKey: 'orgId',
+              localKey: 'orgId',
               localField: 'org'
             }
+          },
+          hasMany: {
+            OrgAccountRole: {
+              foreignKey: 'orgAccountId',
+              localField: 'orgAccountRoles'
+            }
+          }
+        },
+
+        methods: {
+          getOrgAccountRoles: function () {
+            console.log(this.orgAcountRoles);
+            return _.map(_.map(this.orgAccountRoles, 'role'), 'name');
           }
         }
       });
 
-      schema.register({
-        name: 'OrgAccountWithRoles',
-        endpoint: 'orgAccount/withRoles'
-      });
-
-      var joinFelds = [
+      var joinFields = [
         {
           key: 'name',
           type: 'input',
@@ -39,7 +47,7 @@
         }
       ];
 
-      saFormlyConfigService.setConfig('OrgAccount.join', joinFelds);
+      saFormlyConfigService.setConfig('OrgAccount.join', joinFields);
 
     })
   ;
