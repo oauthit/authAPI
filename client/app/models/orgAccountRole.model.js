@@ -10,16 +10,20 @@
         relations: {
           hasOne: {
             Account: {
-              foreignKey: 'accountId',
+              localKey: 'accountId',
               localField: 'account'
             },
             Org: {
-              foreignKey: 'orgId',
+              localKey: 'orgId',
               localField: 'org'
             },
             Role: {
-              foreignKey: 'roleId',
+              localKey: 'roleId',
               localField: 'role'
+            },
+            OrgAccount: {
+              localKey: 'orgAccountId',
+              localField: 'orgAccount'
             }
           }
         }
