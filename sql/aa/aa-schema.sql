@@ -43,14 +43,14 @@ meta.defineEntity 'ProviderApp',
   'isDeleted;name;clientId;clientSecret;provider;url,,nullable'
 ;
 
-meta.defineEntity 'OrgAccountRole',
-  'isDeleted',
-  'Org,orgId;Account,accountId;Role,roleId'
-;
-
 meta.defineEntity 'OrgAccount',
   'isDeleted;name',
   'Org,orgId;Account,accountId'
+;
+
+meta.defineEntity 'OrgAccountRole',
+  'isDeleted',
+  'Org,orgId;Account,accountId;Role,roleId;OrgAccount,orgAccountId'
 ;
 
 meta.defineEntity 'OrgProviderApp',
