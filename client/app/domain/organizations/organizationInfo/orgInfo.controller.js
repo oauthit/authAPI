@@ -7,6 +7,7 @@
       var vm = this;
 
       var Org = schema.model('Org');
+      var OrgAccountWithRoles = schema.model('OrgAccountWithRoles');
       var OrgAccount = schema.model('OrgAccount');
       var OrgApp = schema.model('OrgApp');
       var OrgProviderApp = schema.model('OrgProviderApp');
@@ -89,7 +90,7 @@
 
         orgAccountsNgTable: sabNgTable.setup(orgAccountsNgTableCtrl, {
           findAll: (params, options) =>
-            OrgAccount.findAll(_.assign(params, {orgId: stateFilter.id}), options),
+            OrgAccountWithRoles.findAll(_.assign(params, {orgId: stateFilter.id}), options).then(res => console.log(res)),
           getCount: (params, options) =>
             OrgAccount.getCount(_.assign(params, {orgId: stateFilter.id}), options)
         }),

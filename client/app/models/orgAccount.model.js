@@ -21,6 +21,11 @@
         }
       });
 
+      schema.register({
+        name: 'OrgAccountWithRoles',
+        endpoint: 'orgAccount/withRoles'
+      });
+
       var joinFelds = [
         {
           key: 'name',
