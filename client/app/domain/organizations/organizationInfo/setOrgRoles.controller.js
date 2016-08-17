@@ -72,7 +72,7 @@
     Org.find(orgId);
     Org.bindOne(orgId, $scope, 'vm.org');
 
-    vm.refreshRoles = (searchFor) => {
+    vm.refreshRoles = () => {
       // TODO: fetch other roles
     };
 
