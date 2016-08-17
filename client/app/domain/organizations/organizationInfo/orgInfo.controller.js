@@ -7,10 +7,10 @@
       var vm = this;
 
       var Org = schema.model('Org');
-      var OrgAccountWithRoles = schema.model('OrgAccountWithRoles');
       var OrgAccount = schema.model('OrgAccount');
       var OrgApp = schema.model('OrgApp');
       var OrgProviderApp = schema.model('OrgProviderApp');
+      var OrgAccountRole = schema.model('OrgAccountRole');
 
       var joinFields = saFormlyConfigService.getConfigFieldsByKey('OrgAccount.join');
       var orgId = $state.params.orgId;
@@ -89,8 +89,14 @@
         )(vm.org.name),
 
         orgAccountsNgTable: sabNgTable.setup(orgAccountsNgTableCtrl, {
-          findAll: (params, options) =>
-            OrgAccountWithRoles.findAll(_.assign(params, {orgId: stateFilter.id}), options).then(res => console.log(res)),
+          findAll: (params, options) => {
+            params = _.assign(params, {orgId: stateFilter.id});
+            return OrgAccount.findAllWithRelations(params, options)('OrgAccountRole')
+              .then(res => {
+                console.log(res);
+                return res;
+              });
+          },
           getCount: (params, options) =>
             OrgAccount.getCount(_.assign(params, {orgId: stateFilter.id}), options)
         }),
