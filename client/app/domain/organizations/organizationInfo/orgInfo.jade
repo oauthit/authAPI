@@ -19,7 +19,7 @@ section
 
   table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAccountsNgTable' cg-busy='vm.orgAccountsNgTableCtrl.busy')
     tbody
-      tr(ng-repeat='row in $data track by row.id')
+      tr(ng-repeat='row in $data track by row.id' ui-sref='^.editOrgAccount({orgAccountId: row.id})')
         td(data-title="'Name'") {{ row.name }}
         td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
         td(data-title="'Roles'")

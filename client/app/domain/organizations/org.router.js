@@ -26,13 +26,6 @@
               controllerAs: 'vm'
             },
             {
-              name: 'info',
-              url: '/:orgId/info?isPublic',
-              templateUrl: 'app/domain/organizations/organizationInfo/orgInfo.html',
-              controller: 'OrgInfoController',
-              controllerAs: 'vm'
-            },
-            {
               name: 'setOrgRoles',
               url: '/:orgId/setOrgRoles',
               templateUrl: 'app/domain/organizations/organizationInfo/setOrgRoles.html',

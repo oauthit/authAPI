@@ -1,0 +1,21 @@
+section(cg-busy='vm.busy')
+  h3 Edit org account
+
+  h6 Set roles for organization account
+  ui-select(ng-model='vm.orgAccountRoles' multiple on-remove='vm.onRemoveRole($item, $model)' on-select='vm.onSelectRole($item, $model)')
+    ui-select-match(placeholder='Select roles' allow-clear='true')
+      span(ng-bind='$item.role.name')
+    ui-select-choices(
+    repeat='item in vm.unUsedRoles | filter:$select.search track by item.id'
+    refresh='vm.refreshRoles($select.search)'
+    refresh-delay="0"
+    )
+      span(ng-bind='item.name')
+    ui-select-no-choice
+      span(ng-hide='$select.search') No matching roles
+
+  form
+    .form-group
+      label(for='name') Account name
+      input.form-control(id='name' type='text' ng-model='vm.orgAccount.name')
+

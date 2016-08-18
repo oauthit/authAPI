@@ -8,8 +8,7 @@ var router = express.Router();
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 
-// router.post('/', controller.create);
-// router.put('/:id', controller.create);
-// router.delete('/:id', controller.destroy);
+router.post('/', controller.create);
+router.delete('/:id', controller.destroy);
 
 module.exports = router;
