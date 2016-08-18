@@ -25,41 +25,40 @@ function show(req, res) {
 
 function create(req, res, next) {
 
-  req.onStapiSuccess = org => {
+  req.onStapiSuccess = org =>
 
-    return new Promise(function (resolve, reject) {
+    new Promise(function (resolve, reject) {
 
       role(req).findOne({code: 'admin'})
         .then((role) => {
-          return Promise.all([
-            orgRole(req).save({
-              orgId: org.id,
-              roleId: role.id
-            }),
-            orgAccountRole(req).save({
-              orgId: org.id,
-              accountId: req.user.id,
-              // TODO: get public roles at bootstrap
-              roleId: role.id
-            }), orgAccount(req).save({
+
+          let orgRoleParams = {
+            orgId: org.id,
+            roleId: role.id
+          };
+
+          Promise.all([
+            orgRole(req).getOrCreate(orgRoleParams, orgRoleParams),
+            orgAccount(req).save({
               orgId: org.id,
               accountId: req.user.id,
               name: req.user.name
             })
-          ]).then(() => {
-            return resolve(org);
-          }).catch(err => {
-            return reject(err);
-          });
+              .then(orgAccount => orgAccountRole(req).save({
+                orgId: org.id,
+                accountId: req.user.id,
+                orgAccountId: orgAccount.id,
+                // TODO: get public roles at bootstrap
+                roleId: role.id
+              }))
+          ])
+            .then(() => resolve(org))
+            .catch(reject);
+
         })
-        .catch(err => {
-          return reject(err);
-        })
-      ;
+        .catch(reject);
 
     });
-
-  };
 
   ctrl.create(req, res, next);
 }
