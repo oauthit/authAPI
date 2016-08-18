@@ -12,7 +12,7 @@ router.use('/providerApp', /*authMiddleware*/ require('./providerApp'));
 router.use('/role', authMiddleware, require('./role'));
 
 router.use('/org', ...authMiddleware, require('./org'));
-router.use('/orgRole', authMiddleware, require('./orgRole'));
+router.use('/orgRole', ...authMiddleware, require('./orgRole'));
 router.use('/orgAccount', ...authMiddleware, require('./orgAccount'));
 router.use('/orgAccountRole', ...authMiddleware, require('./orgAccountRole'));
 router.use('/orgApp', ...authMiddleware, require('./orgApp'));

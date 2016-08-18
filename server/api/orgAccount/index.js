@@ -16,7 +16,7 @@ function checkIfAlreadyMember (req, res, next) {
   stapiOrgAccount(req)
     .find({
       orgId: req.body.orgId,
-      accountId: req.query.accountId
+      accountId: req.query.requesterAccountId
     })
     .then((orgAccounts)=>{
       if (orgAccounts.length){

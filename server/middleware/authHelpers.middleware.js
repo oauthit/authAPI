@@ -33,7 +33,7 @@ function stripIdFromName (name){
 }
 
 function setAccount(req, res, next) {
-  req.query.accountId = req.user.id;
+  req.query.requesterAccountId = req.user.id;
   next();
 }
 
