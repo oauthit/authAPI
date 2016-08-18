@@ -7,8 +7,8 @@ section.clear-both
     span ?
 
   .buttons.pull-right
-    button.btn.btn-primary(type='button' ng-click='vm.join()') Yes
-    button.btn.btn-warning(type='button' ui-sref='auth.org') No
+    button.btn.btn-primary(type='button' ng-click='vm.join()' ng-disabled='!vm.orgAccount') Yes
+    button.btn.btn-warning(type='button' ui-sref='auth.org' ng-disabled='!vm.orgAccount') No
 
   section.clear-both
     form(name='vm.orgAccountForm' role='form' ng-submit='vm.onSubmit(vm.accountForm)' ng-if='vm.orgAccount')
