@@ -22,7 +22,9 @@ section
       tr(ng-repeat='row in $data track by row.id')
         td(data-title="'Name'") {{ row.name }}
         td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
-        td(data-title="'Roles'") {{row.getOrgAccountRoles() | json}}
+        td(data-title="'Roles'")
+          span.label.label-info {{row.getOrgAccountRoles().toString()}}
+
   h3.clear-both Providers Apps
 
   table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgProviderAppsNgTable' cg-busy='vm.orgProviderAppsNgTableCtrl.busy')

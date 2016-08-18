@@ -28,7 +28,6 @@
 
         methods: {
           getOrgAccountRoles: function () {
-            console.log(this.orgAcountRoles);
             return _.map(_.map(this.orgAccountRoles, 'role'), 'name');
           }
         }
