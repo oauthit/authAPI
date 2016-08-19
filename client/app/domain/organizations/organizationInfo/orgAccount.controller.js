@@ -35,8 +35,12 @@
       orgAccountForm.$setPristine();
     }
 
+    function undoOrgAccount() {
+      OrgAccount.revert(vm.orgAccount);
+    }
+
     function onCancelEdit(orgAccountForm) {
-      vm.orgAccount = _.assign({}, vm.originalOrgAccount);
+      undoOrgAccount();
       orgAccountForm.$setPristine();
     }
 
@@ -52,7 +56,6 @@
     vm.busy = OrgAccount.find(orgAccountId)
       .then(orgAccount => {
 
-        vm.originalOrgAccount = _.assign({}, orgAccount);
         var orgFilter = {orgId: orgAccount.orgId};
         var orgAccountFilter = {
           orgAccountId: orgAccountId
@@ -72,6 +75,8 @@
       .catch(err => {
         console.error(err);
       });
+
+    $scope.$on('$destroy', undoOrgAccount);
 
   }
 
