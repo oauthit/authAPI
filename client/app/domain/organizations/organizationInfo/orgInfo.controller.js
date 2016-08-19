@@ -92,7 +92,6 @@
             params = _.assign(params, {orgId: stateFilter.id});
             return OrgAccount.findAllWithRelations(params, options)('OrgAccountRole')
               .then(res => {
-                console.log(res);
                 return res;
               });
           },

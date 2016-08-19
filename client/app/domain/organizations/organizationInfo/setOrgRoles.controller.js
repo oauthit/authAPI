@@ -14,7 +14,7 @@
     function deleteOrgRole(orgRole) {
       OrgRole.destroy(orgRole)
         .catch(err => {
-          console.log(err);
+          console.error(err);
         })
       ;
     }
@@ -25,7 +25,7 @@
         orgId
       })
         .catch(err => {
-          console.log(err);
+          console.error(err);
         })
         ;
     }
@@ -47,7 +47,7 @@
           });
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
           vm.selectedRoles = [];
         });
     }

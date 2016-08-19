@@ -41,7 +41,6 @@
         q = vm.Auth.loginWithMobileNumber(vm.user.mobileNumber)
 
           .then(res => {
-            console.log(res);
             vm.smsId = res.data.ID;
             vm.submitted = false;
           })
