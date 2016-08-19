@@ -24,12 +24,6 @@
               localField: 'orgAccountRoles'
             }
           }
-        },
-
-        methods: {
-          getOrgAccountRoles: function () {
-            return _.map(_.map(this.orgAccountRoles, 'role'), 'name');
-          }
         }
       });
 
