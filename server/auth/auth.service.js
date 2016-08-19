@@ -4,7 +4,9 @@ import compose from 'composable-middleware';
 var debug = require('debug')('authAPI:auth:service');
 import co from 'co';
 import _ from 'lodash';
+import {redisHelper} from 'sistemium-node';
 
+var {hget, hset} = redisHelper;
 
 export {hasRole, setAuthorized, isAuthenticated};
 
@@ -36,7 +38,7 @@ function validateAuth(req, res, next) {
     return res.sendStatus(401);
   }
 
-  tokenModel({}).findById(token).then((data) => {
+  function authorized (data) {
     req.user = data && data.tokenInfo;
     debug('validateAuth: token:', data);
     if (!req.user) {
@@ -44,10 +46,25 @@ function validateAuth(req, res, next) {
     }
     req.authToken = data;
     next();
-  }, (err) => {
-    debug('error:', err);
-    return res.sendStatus(401);
-  });
+  }
+
+  hget('Token', token)
+    .then((redisData)=>{
+      if (redisData) {
+        debug('validateAuth from redis');
+        authorized(redisData);
+      } else {
+        tokenModel({}).findById(token)
+          .then((dbData)=>{
+            hset('Token', token, dbData);
+            authorized(dbData);
+          });
+      }
+    }, (err) => {
+      console.error('error getting token:', err);
+      return res.sendStatus(401);
+    });
+
 }
 
 /**

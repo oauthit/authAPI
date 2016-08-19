@@ -7,6 +7,11 @@
 import express from 'express';
 import config from './config/environment';
 import http from 'http';
+var redisHelper = require('sistemium-node').redisHelper;
+
+//console.log(redisHelper);
+redisHelper.setup(config.redisConfig);
+
 
 var debug = require('debug');
 
