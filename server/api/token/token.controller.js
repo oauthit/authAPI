@@ -6,10 +6,6 @@ import {jsDataBaseController} from 'sistemium-node';
 let ctrl = jsDataBaseController(Token);
 let findOriginal = ctrl.find;
 
-function checkToken() {
-
-}
-
 // Gets a single Token from the DB
 ctrl.find = function find(req,res) {
 
