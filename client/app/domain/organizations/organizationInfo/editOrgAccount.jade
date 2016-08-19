@@ -14,8 +14,17 @@ section(cg-busy='vm.busy')
     ui-select-no-choice
       span(ng-hide='$select.search') No matching roles
 
-  form
-    .form-group
-      label(for='name') Account name
-      input.form-control(id='name' type='text' ng-model='vm.orgAccount.name')
-
+  form.clearfix(name='vm.orgAccountForm' role='form' novalidate='' ng-submit='vm.onSubmitEdit(vm.orgAccountForm)')
+    formly-form(model='vm.orgAccount' fields='vm.fields')
+      .buttons.pull-right(ng-if='vm.orgAccountForm.$dirty')
+        button.btn.btn-primary(
+        type='submit'
+        ng-disabled='vm.orgAccountForm.$invalid'
+        )
+          | Save
+        = ' '
+        button.btn.btn-warning(
+        type='button'
+        ng-click='vm.onCancelEdit(vm.orgAccountForm)'
+        )
+          | Cancel changes

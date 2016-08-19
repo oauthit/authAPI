@@ -2,7 +2,7 @@
 
 (function () {
 
-  function OrgAccountController ($scope, $stateParams, schema, $q) {
+  function OrgAccountController ($scope, $stateParams, schema, $q, saFormlyConfigService) {
 
     var orgAccountId = $stateParams.orgAccountId;
     var vm = this;
@@ -30,15 +30,29 @@
       OrgAccountRole.destroy(role.id);
     }
 
+    function onSubmitEdit(orgAccountForm) {
+      OrgAccount.update(vm.orgAccount, vm.orgAccount);
+      orgAccountForm.$setPristine();
+    }
+
+    function onCancelEdit(orgAccountForm) {
+      vm.orgAccount = _.assign({}, vm.originalOrgAccount);
+      orgAccountForm.$setPristine();
+    }
+
     _.assign(vm, {
       onSelectRole,
-      onRemoveRole
+      onRemoveRole,
+      onSubmitEdit,
+      onCancelEdit,
+      fields: saFormlyConfigService.getConfigFieldsByKey('OrgAccount.edit'),
     });
 
 
     vm.busy = OrgAccount.find(orgAccountId)
       .then(orgAccount => {
 
+        vm.originalOrgAccount = _.assign({}, orgAccount);
         var orgFilter = {orgId: orgAccount.orgId};
         var orgAccountFilter = {
           orgAccountId: orgAccountId

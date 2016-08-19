@@ -38,7 +38,20 @@
           key: 'name',
           type: 'input',
           templateOptions: {
-            label: 'Name in the organization',
+            label: 'Name in the organization:',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        }
+      ];
+
+      var orgAccount = [
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name of organization account:',
             type: 'text',
             required: true,
             maxlength: 30
@@ -47,6 +60,7 @@
       ];
 
       saFormlyConfigService.setConfig('OrgAccount.join', joinFields);
+      saFormlyConfigService.setConfig('OrgAccount.edit', orgAccount);
 
     })
   ;
