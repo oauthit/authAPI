@@ -48,21 +48,28 @@ function validateAuth(req, res, next) {
     next();
   }
 
+  function getFromDb (token) {
+    return tokenModel({}).findById(token)
+      .then((dbData)=>{
+        if (dbData) {
+          hset('Token', token, dbData);
+          authorized(dbData);
+        } else {
+          return res.sendStatus(401);
+        }
+      });
+  }
+
   hget('Token', token)
     .then((redisData)=>{
       if (redisData) {
-        debug('validateAuth from redis');
         authorized(redisData);
       } else {
-        tokenModel({}).findById(token)
-          .then((dbData)=>{
-            hset('Token', token, dbData);
-            authorized(dbData);
-          });
+        getFromDb(token);
       }
     }, (err) => {
-      console.error('error getting token:', err);
-      return res.sendStatus(401);
+      console.error('error getting token from redis:', err);
+      getFromDb(token);
     });
 
 }
