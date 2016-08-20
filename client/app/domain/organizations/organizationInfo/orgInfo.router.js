@@ -11,9 +11,9 @@
           controllerAs: 'vm'
         })
         .state({
-          name: 'auth.org.editOrgAccount',
+          name: 'auth.org.orgAccount',
           url: '/:orgAccountId/edit',
-          templateUrl: 'app/domain/organizations/organizationInfo/editOrgAccount.html',
+          templateUrl: 'app/domain/organizations/organizationInfo/orgAccount.html',
           controller: 'OrgAccountController',
           controllerAs: 'vm'
         });
