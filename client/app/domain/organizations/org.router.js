@@ -28,7 +28,7 @@
             {
               name: 'setOrgRoles',
               url: '/:orgId/setOrgRoles',
-              templateUrl: 'app/domain/organizations/organizationInfo/setOrgRoles.html',
+              templateUrl: 'app/domain/organizations/organizationInfo/OrgRoles.html',
               controller: 'OrgRolesController',
               controllerAs: 'vm'
             },
