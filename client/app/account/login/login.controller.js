@@ -2,7 +2,7 @@
 
 (function () {
 
-  function LoginController(Auth, $state, schema) {
+  function LoginController($state, schema) {
 
     var vm = angular.extend(this,{
       user: {},
