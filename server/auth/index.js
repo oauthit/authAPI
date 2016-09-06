@@ -14,7 +14,6 @@ var router = express.Router();
 
 providerApp.find()
   .then((providerApps) => {
-    // console.log(providerApps);
 
     providerApps.forEach(app => {
 
@@ -23,6 +22,7 @@ providerApp.find()
 
       router.use(authRoot + '/', prepareToLinkProviderAccounts, setQueryParamsToSession, checkIfValidRedirectUri);
       router.use(authRoot, appPassport);
+      console.error('authRoot:', authRoot);
       router.get(authRoot + '/callback',
         function (req, res, next) {
           passport.authenticate(app.code, {
