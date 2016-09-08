@@ -20,5 +20,6 @@ router.use('/orgProviderApp', /*authMiddleware*/ require('./orgProviderApp'));
 router.use('/app', ...authMiddleware, require('./app'));
 router.use('/account', ...authMiddleware, require('./account'));
 router.use('/admin', require('./admin'));
+router.use('/social', ...authMiddleware, require('./social'));
 
 export default router;

@@ -8,7 +8,7 @@
         name: 'SocialAccount',
         //relations: {
         //  hasOne: {
-        //    ProviderAccount: {
+        //    providerAccount: {
         //      foreignKey: 'providerAccountId',
         //      localField: 'providerAccount'
         //    }

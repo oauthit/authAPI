@@ -1,9 +1,9 @@
 'use strict';
 
 var express = require('express');
+var controller = require('./friend.controller.js');
 var router = express.Router();
 
-//TODO make refresh token controller
-// router.get('/refreshToken', controller.refreshToken);
+router.get('/', controller.index);
 
 module.exports = router;

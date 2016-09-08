@@ -12,6 +12,5 @@
 
 import Org from '../../../models/org.model.js';
 import {stapiBaseController} from 'sistemium-node';
-let abstractController = stapiBaseController;
 
-export default abstractController(Org);
+export default stapiBaseController(Org);

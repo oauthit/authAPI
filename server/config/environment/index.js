@@ -60,7 +60,9 @@ var all = {
   saaAppConfig: {
     authUrl: process.env.AUTH_URL || 'http://localhost:9080',
     authApiUrl: process.env.AUTH_API_URL || 'http://localhost:9080/api/'
-  }
+  },
+
+
 };
 
 // Export the config object based on the NODE_ENV

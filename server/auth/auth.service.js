@@ -146,7 +146,7 @@ function setAuthorized(providerApp) {
 
       let providerAccount = yield new Promise((fulfil, reject) => {
         //TODO teach stapi to take js-data query for relations
-        //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
+        //socialAccount.find(socialAccount.id, {with: ['providerAccount']})
 
         ProviderAccount.find({socialAccountId: socialAccount.id})
           .then(providerAccounts => {
@@ -170,7 +170,7 @@ function setAuthorized(providerApp) {
                 .then(providerAccount => {
                   return fulfil(providerAccount);
                 }, err => {
-                  debug('setAuthorized:ProviderAccount.update error:', err);
+                  debug('setAuthorized:providerAccount.update error:', err);
                   return reject(err);
                 });
 
@@ -180,7 +180,7 @@ function setAuthorized(providerApp) {
 
           }, err => {
 
-            debug('setAuthorized:ProviderAccount.find error:', err);
+            debug('setAuthorized:providerAccount.find error:', err);
             reject(err);
 
           });
