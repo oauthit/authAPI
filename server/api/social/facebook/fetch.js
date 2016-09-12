@@ -2,7 +2,7 @@
 
 import FB from 'fb';
 
-export default function (providerApp, accessToken) {
+export default function (providerApp, providerAccount) {
 
   return new Promise((resolve) => {
 
@@ -11,7 +11,7 @@ export default function (providerApp, accessToken) {
       appSecret: providerApp.clientSecret
     });
 
-    FB.api('me/friends', {access_token: accessToken, limit: 10}, (res) => {
+    FB.api('me/friends', {access_token: providerAccount.accessToken, limit: 10}, (res) => {
       return resolve(res);
     });
 

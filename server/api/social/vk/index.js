@@ -1,11 +1,11 @@
 'use strict';
 
-import fetch from './fetch';
-import save from './save';
-import parse from './parse';
+var express = require('express');
+var controller = require('./vk.controller.js');
+var router = express.Router();
 
-export {
-  fetch,
-  save,
-  parse
-}
+router.get('/', controller.index);
+
+module.exports = router;
+
+

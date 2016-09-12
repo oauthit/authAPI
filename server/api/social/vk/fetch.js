@@ -2,8 +2,9 @@
 
 import VKApi from 'node-vkapi';
 
-export default function (providerApp, profileId) {
+export default function (providerApp, providerAccount) {
 
+  console.log(providerAccount);
   return new Promise((resolve, reject) => {
     const VK = new VKApi({
       app: {
@@ -13,7 +14,7 @@ export default function (providerApp, profileId) {
     });
 
     VK.call('friends.get', {
-      user_id: profileId,
+      user_id: providerAccount.profileId,
       fields: [
         'nickname', 'domain', 'sex', 'bdate', 'city', 'country',
         'timezone', 'photo_50', 'photo_100', 'photo_200_orig',

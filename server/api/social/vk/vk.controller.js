@@ -8,5 +8,5 @@ import parse from './parse';
 
 let ctrl = stapiBaseController(socialAccount);
 
-ctrl.index = getSocialFriends(fetch, parse, 'google');
+ctrl.index = getSocialFriends(fetch, parse, 'vkontakte');
 export default ctrl;

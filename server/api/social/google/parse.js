@@ -1,6 +1,8 @@
 'use strict';
 
 export default function (friendsListObj) {
+  console.log(friendsListObj);
+  friendsListObj.items = friendsListObj.items.filter(item => item.objectType === 'person');
   return friendsListObj.items.map(item => {
     return {
       profileId: item.id,

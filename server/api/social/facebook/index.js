@@ -1,7 +1,11 @@
 'use strict';
 
-import fetch from './fetch';
+var express = require('express');
+var controller = require('./facebook.controller');
+var router = express.Router();
 
-export {
-  fetch
-}
+router.get('/', controller.index);
+
+module.exports = router;
+
+
