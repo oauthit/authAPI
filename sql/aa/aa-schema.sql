@@ -69,7 +69,7 @@ meta.defineEntity 'OrgProviderAccount',
 ;
 
 meta.defineEntity 'SocialAccount',
-  'isDeleted;profileId;name;avatarUrl'
+  'isDeleted;profileId;name;provider;avatarUrl'
 ;
 
 meta.defineEntity 'SocialFriend',
@@ -117,3 +117,5 @@ alter table aa.ProviderApp add unique (code);
 alter table aa.ProviderApp add unique (provider, name);
 alter table aa.App add unique (url);
 alter table aa.OrgRole add unique (orgId, roleId);
+alter table aa.SocialAccount add unique (profileId, name);
+alter table aa.SocialFriend add unique (ownerProfileId, friendProfileId);a
