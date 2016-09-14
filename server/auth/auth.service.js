@@ -141,6 +141,7 @@ function setAuthorized(providerApp) {
 
     co(function*() {
 
+      req.user.provider = providerApp.provider;
       let socialAccount = yield SocialAccount.getOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
 
