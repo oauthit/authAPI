@@ -1,7 +1,7 @@
 'use strict';
 
 import socialAccount from './socialAccountSTAPI.model.js';
-import providerAccount from '../../../models/providerAccount/oprProviderAccount.model.js';
+import providerAccount from '../../../models/providerAccount/providerAccount.model.js';
 import {stapiBaseController} from 'sistemium-node';
 var debug = require('debug')('authAPI:socialAccount.controller');
 import uuid from 'node-uuid';
@@ -11,13 +11,15 @@ let ctrl = stapiBaseController(socialAccount);
 Object.assign(ctrl, {
   index: function (req, res) {
     let query = req.query;
+
     socialAccount(req).find(query).then((reply) => {
-      if (reply && reply.length === 0 ) {
+      if (reply && reply.length === 0) {
         //if not found in socialAccount search providerAccount
         providerAccount(req).find(query).then((reply) => {
           if (reply && reply.length === 0) {
             return res.json([]);
           } else {
+            console.error(reply);
             let data = {
               id: uuid.v4(),
               profileId: reply[0].profileId,
@@ -26,7 +28,7 @@ Object.assign(ctrl, {
             };
             debug('data', data);
             socialAccount(req).save(data).then(() => {
-              return res.json(data);
+              return res.json([data]);
             }).catch((err) => {
               debug('error while saving socialAccount', err);
               return res.status(500);
@@ -41,6 +43,7 @@ Object.assign(ctrl, {
       debug('error in index', err);
       return res.status(500);
     });
+
   }
 });
 export default ctrl;
