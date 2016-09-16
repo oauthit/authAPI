@@ -9,7 +9,7 @@
           templateUrl: 'app/domain/organizations/orgs.html',
           controller: 'OrgsController',
           controllerAs: 'vm',
-          data: { authenticate: true },
+          data: { authenticate: false },
           children: [
             {
               name: 'create',
