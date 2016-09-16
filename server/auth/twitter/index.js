@@ -4,9 +4,10 @@ import express from 'express';
 import passport from 'passport';
 import twitterPassport from './passport';
 
-var router = express.Router();
 
 export default function (providerApp) {
+
+  var router = express.Router();
 
   passport.use(twitterPassport(providerApp, {
     consumerKey: providerApp.clientId,

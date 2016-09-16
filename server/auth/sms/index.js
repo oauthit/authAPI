@@ -7,7 +7,6 @@ import config from '../../config/environment';
 import smsPassport from './passport';
 
 var debug = require('debug')('AuthAPI:auth:sms:index');
-var router = express.Router();
 
 passport.serializeUser((user, done) => {
 //  debug('serializeUser:', user);
@@ -22,6 +21,8 @@ passport.deserializeUser((user, done) => {
 });
 
 export default function (providerApp) {
+
+  var router = express.Router();
 
   if (!providerApp) {
     return new Error('setPassportUse with no providerApp');

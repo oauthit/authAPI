@@ -4,9 +4,10 @@ import express from 'express';
 import passport from 'passport';
 import vkontaktePassport from './passport';
 
-var router = express.Router();
 
 export default function (providerApp) {
+
+  var router = express.Router();
 
   passport.use(vkontaktePassport(providerApp));
 

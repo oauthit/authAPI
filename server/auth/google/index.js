@@ -4,9 +4,10 @@ import express from 'express';
 import passport from 'passport';
 import googlePassport from './passport';
 
-var router = express.Router();
 
 export default function (providerApp) {
+
+  var router = express.Router();
 
   passport.use(googlePassport(providerApp));
 
@@ -23,5 +24,6 @@ export default function (providerApp) {
     });
 
   return router;
+
 }
 
