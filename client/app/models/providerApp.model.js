@@ -3,7 +3,7 @@
 (function () {
 
   angular.module('authApiApp.admin.models')
-    .run(function (schema) {
+    .run(function (schema, saFormlyConfigService) {
 
       schema.register({
         name: 'ProviderApp',
@@ -31,6 +31,71 @@
           }
         }
       });
+
+      var providerAppFields = [
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'Name',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        },
+        {
+          key: 'provider',
+          type: 'input',
+          templateOptions: {
+            label: 'Provider',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        },
+        {
+          key: 'code',
+          type: 'input',
+          templateOptions: {
+            label: 'Code',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        },
+        {
+          key: 'clientId',
+          type: 'input',
+          templateOptions: {
+            label: 'Client ID',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        },
+        {
+          key: 'clientSecret',
+          type: 'input',
+          templateOptions: {
+            label: 'Client Secret',
+            type: 'text',
+            required: true,
+            maxlength: 100
+          }
+        },
+        {
+          key: 'url',
+          type: 'input',
+          templateOptions: {
+            label: 'Url',
+            type: 'text',
+            required: true,
+            maxlength: 30
+          }
+        },
+      ];
+
+      saFormlyConfigService.setConfig('providerApp', providerAppFields);
     })
   ;
 
