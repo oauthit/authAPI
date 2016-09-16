@@ -17,7 +17,6 @@ import socialAccountModel from '../models/socialAccount.model';
 import tokenModel from '../models/token.model';
 import orgAccountModel from '../models/orgAccount.model';
 
-
 /**
  *
  * @params {Request} req - The express Request object
@@ -166,6 +165,8 @@ function setAuthorized(providerApp) {
                 roles: req.user.roles,
                 providerAppId: providerApp.id
               });
+
+              debug('providerAccount:', providerAccount);
 
               ProviderAccount.update(req.user.id, providerAccount)
                 .then(providerAccount => {
