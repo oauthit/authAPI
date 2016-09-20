@@ -17,36 +17,48 @@ var router = express.Router();
 // TODO: check oa2 errors and user decline callbacks
 
 
-function routerFn(app) {
-  return function (req, res, next) {
-    console.log('AUTHROOT:', req.url);
-    passport.authenticate(app.code,
-      function (err, user, info) {
+router.get('/error', (req, res) => {
 
-        console.error('info: ', info);
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          console.error(req.session);
-          console.error(req.query);
-          return res.redirect(req.session.returnTo);
-        }
-        // TODO check if this necessary
-        req.logIn(user, function (err) {
-          if (err) {
-            return next(err);
-          }
-          return res.redirect('/users/' + user.username);
-        });
-      }
-      // {
-      //   failureRedirect: '/auth/error',
-      //   session: false
-      // }
-    )(req, res, next);
-  };
+  console.error('req.sesstion:', req.session);
+  console.error(req.session);
+  console.error(req.query);
+
+  var err;
+
+  var returnTo = req.session.returnTo || '';
+  var errorMsg = err && err.text || req.query.error || 'authError';
+  return res.redirect(`${returnTo}/#/login?error=${errorMsg}`);
+
+});
+
+function routerFn(app) {
+  return passport.authenticate(app.code, {
+    failureRedirect: '/auth/error',
+    failureMessage: true,
+    session: false
+  });
 }
+
+// function (err, user) {
+//
+//   // console.error('info: ', info);
+//
+//   if (err || !user) {
+//     console.error(req.session);
+//     console.error(req.query);
+//     var returnTo = req.session.returnTo || '';
+//     var errorMsg = err && err.text || req.query.error || 'authError';
+//     return res.redirect(`${returnTo}/#/login?error=${errorMsg}`);
+//   }
+//
+//   req.logIn(user, function (err) {
+//     if (err) {
+//       return next(err);
+//     }
+//     return next();
+//   });
+//
+// }
 
 providerApp.find()
   .then((providerApps) => {
