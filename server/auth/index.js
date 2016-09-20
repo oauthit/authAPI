@@ -27,6 +27,7 @@ router.get('/error', (req, res) => {
 
   var returnTo = req.session.returnTo || '';
   var errorMsg = err && err.text || req.query.error || 'authError';
+  // TODO: get login page with aa.App field
   return res.redirect(`${returnTo}/#/login?error=${errorMsg}`);
 
 });
