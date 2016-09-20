@@ -7,7 +7,11 @@ section
 
   h3.clear-both Apps
 
-  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAppsNgTable' cg-busy='vm.orgAppsNgTableCtrl.busy')
+  div(ng-show='vm.showNoAppsMessage')
+    p Organization have no apps associated with it.
+    button.btn.btn-danger.btn-sm Find or create apps
+
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAppsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgAppsNgTableCtrl.busy')
     tbody
       tr(ng-repeat='row in $data track by row.id')
         td(data-title="'Id'") {{ row.id }}
@@ -17,7 +21,10 @@ section
 
   h3.clear-both Accounts
 
-  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAccountsNgTable' cg-busy='vm.orgAccountsNgTableCtrl.busy')
+  div(ng-show='vm.showNoAccountsMessage')
+    p No accounts in organization
+
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAccountsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgAccountsNgTableCtrl.busy')
     tbody
       tr(ng-repeat='row in $data track by row.id' ui-sref='^.orgAccount({orgAccountId: row.id})')
         td(data-title="'Name'") {{ row.name }}
@@ -27,7 +34,11 @@ section
 
   h3.clear-both Providers Apps
 
-  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgProviderAppsNgTable' cg-busy='vm.orgProviderAppsNgTableCtrl.busy')
+  div(ng-show='vm.showNoProviderAppsMessage')
+    p No providers apps associated with this organization.
+    button.btn.btn-danger.btn-sm() Find provider apps
+
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgProviderAppsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgProviderAppsNgTableCtrl.busy')
     tbody
       tr(ng-repeat='row in $data track by row.id')
         td(data-title="'Provider'") {{ row.providerApp.provider }}

@@ -70,7 +70,7 @@
             label: 'Client ID',
             type: 'text',
             required: true,
-            maxlength: 30
+            maxlength: 100
           }
         },
         {

@@ -68,6 +68,9 @@
         joinFields: joinFields,
         orgId,
 
+        showNoAppsMessage: false,
+        showNoAccountsMessage: false,
+        showNoProviderAppsMessage: false,
         orgAccountsNgTableCtrl: orgAccountsNgTableCtrl,
         orgAppsNgTableCtrl: orgAppsNgTableCtrl,
         orgProviderAppsNgTableCtrl: orgProviderAppsNgTableCtrl,
@@ -92,6 +95,9 @@
             params = _.assign(params, {orgId: stateFilter.id});
             return OrgAccount.findAllWithRelations(params, options)('OrgAccountRole')
               .then(res => {
+                if (res.length === 0) {
+                  vm.showNoAccountsMessage = true;
+                }
                 return res;
               });
           },
@@ -101,14 +107,26 @@
 
         orgAppsNgTable: sabNgTable.setup(orgAppsNgTableCtrl, {
           findAll: (params, options) =>
-            OrgApp.findAllWithRelations(_.assign(params, {orgId: stateFilter.id}), options)('App'),
+            OrgApp.findAllWithRelations(_.assign(params, {orgId: stateFilter.id}), options)('App')
+              .then(res => {
+                if (res.length === 0) {
+                  vm.showNoAppsMessage = true;
+                }
+                return res;
+              }),
           getCount: (params, options) =>
             OrgApp.getCount(_.assign(params, {orgId: stateFilter.id}), options)
         }),
 
         orgProviderAppsNgTable: sabNgTable.setup(orgProviderAppsNgTableCtrl, {
           findAll: (params, options) =>
-            OrgProviderApp.findAllWithRelations(_.assign(params, {orgId: stateFilter.id}), options)('ProviderApp'),
+            OrgProviderApp.findAllWithRelations(_.assign(params, {orgId: stateFilter.id}), options)('ProviderApp')
+              .then(res => {
+                if (res.length === 0) {
+                  vm.showNoProviderAppsMessage = true;
+                }
+                return res;
+              }),
           getCount: (params, options) =>
             OrgProviderApp.getCount(_.assign(params, {orgId: stateFilter.id}), options)
         })
