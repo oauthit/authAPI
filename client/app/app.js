@@ -14,7 +14,8 @@
     'sistemiumBootstrap',
     'ngSanitize',
     'angularMoment',
-    'ui.select'
+    'ui.select',
+    'ngRedux'
   ]);
 
   angular.module('authApiApp', [

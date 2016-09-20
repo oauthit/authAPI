@@ -10,6 +10,7 @@ section
   div(ng-show='vm.showNoAppsMessage')
     p Organization have no apps associated with it.
     button.btn.btn-danger.btn-sm Find or create apps
+    create-app
 
   table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAppsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgAppsNgTableCtrl.busy')
     tbody

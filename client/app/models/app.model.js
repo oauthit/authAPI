@@ -2,7 +2,7 @@
 
 (function () {
   angular.module('authApiApp.admin.models')
-    .run(function (schema) {
+    .run(function (schema, saFormlyConfigService) {
       schema.register({
         name: 'App',
         relations: {
@@ -14,6 +14,21 @@
           }
         }
       });
+
+      var appCreateFields = [
+        {
+          key: 'url',
+          type: 'input',
+          templateOptions: {
+            label: 'Url',
+            type: 'url',
+            required: true,
+            maxlength: 30
+          }
+        }
+      ];
+
+      saFormlyConfigService.setConfig('appCreateFields', appCreateFields);
     })
   ;
 
