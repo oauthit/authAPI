@@ -17,15 +17,34 @@ var router = express.Router();
 // TODO: check oa2 errors and user decline callbacks
 
 
-function routerFn (app) {
+function routerFn(app) {
   return function (req, res, next) {
-    //FIXME: authRoot incorrect
     console.log('AUTHROOT:', req.url);
-    console.log(app);
-    passport.authenticate(app.code, {
-      failureRedirect: '/#/login',
-      session: false
-    })(req, res, next);
+    passport.authenticate(app.code,
+      function (err, user, info) {
+
+        console.error('info: ', info);
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          console.error(req.session);
+          console.error(req.query);
+          return res.redirect(req.session.returnTo);
+        }
+        // TODO check if this necessary
+        req.logIn(user, function (err) {
+          if (err) {
+            return next(err);
+          }
+          return res.redirect('/users/' + user.username);
+        });
+      }
+      // {
+      //   failureRedirect: '/auth/error',
+      //   session: false
+      // }
+    )(req, res, next);
   };
 }
 
