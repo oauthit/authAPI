@@ -71,8 +71,8 @@
         showNoAppsMessage: false,
         showNoAccountsMessage: false,
         showNoProviderAppsMessage: false,
-        orgAccountsNgTableCtrl: orgAccountsNgTableCtrl,
         orgAppsNgTableCtrl: orgAppsNgTableCtrl,
+        orgAccountsNgTableCtrl: orgAccountsNgTableCtrl,
         orgProviderAppsNgTableCtrl: orgProviderAppsNgTableCtrl,
 
         join: ()=> OrgAccount.create(vm.orgAccount)

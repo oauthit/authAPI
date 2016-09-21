@@ -1,9 +1,9 @@
 h5 Create app
 
 .col-sm-12
-  form.clearfix(name='vm.appCreateForm' role='form' novalidate='' ng-submit='vm.onSubmit(vm.orgCreateForm)')
+  form.clearfix(name='vm.appCreateForm' role='form' novalidate='' ng-submit='vm.createApp(vm.orgCreateForm)')
     formly-form(model='vm.app' fields='vm.fields')
-      .buttons.pull-right(ng-if='vm.orgCreateForm.$dirty')
+      .buttons.pull-right(ng-if='vm.appCreateForm.$dirty')
         button.btn.btn-primary(
         type='submit'
         ng-disabled='vm.appCreateForm.$invalid'

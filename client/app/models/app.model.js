@@ -23,7 +23,8 @@
             label: 'Url',
             type: 'url',
             required: true,
-            maxlength: 30
+            maxlength: 30,
+            placeholder: 'Enter app url address'
           }
         }
       ];
