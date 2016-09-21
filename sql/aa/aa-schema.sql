@@ -15,12 +15,14 @@ meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
 meta.defineType 'clientId:STRING';
 meta.defineType 'clientSecret:CODE';
+meta.defineType 'clientPublic:CODE,,nullable';
 meta.defineType 'callbackUrl:STRING';
 meta.defineType 'passReqToCallback:BOOL';
 meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
 meta.defineType 'isPublic:BOOL';
+meta.defineType 'loginPage:CODE,,nullable'
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -40,7 +42,7 @@ meta.defineEntity 'OrgRole',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;provider;url,,nullable'
+  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,nullable'
 ;
 
 meta.defineEntity 'OrgAccount',
@@ -83,7 +85,7 @@ meta.defineEntity 'Token',
 ;
 
 meta.defineEntity 'App',
-  'isDeleted;url'
+  'isDeleted;url;loginPage'
 ;
 
 meta.defineEntity 'OrgApp',
