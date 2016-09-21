@@ -22,6 +22,7 @@ meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
 meta.defineType 'isPublic:BOOL';
+meta.defineType 'loginPage:CODE,,nullable'
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -84,7 +85,7 @@ meta.defineEntity 'Token',
 ;
 
 meta.defineEntity 'App',
-  'isDeleted;url'
+  'isDeleted;url;loginPage'
 ;
 
 meta.defineEntity 'OrgApp',
