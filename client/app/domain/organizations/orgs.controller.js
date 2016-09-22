@@ -1,31 +1,29 @@
-(function () {
-  'use strict';
+'use strict';
 
-  angular.module('authApiApp')
-    .controller('OrgsController', function (InitCtrlService, schema, sabNgTable) {
+import angular from 'angular';
 
-      let vm = InitCtrlService.setup(this);
+import {routeConfig} from './org.router';
 
-      let Org = schema.model('Org');
+export default function (InitCtrlService, schema, sabNgTable) {
+  let vm = InitCtrlService.setup(this);
 
-      let orgTable = {
-        ngTable: {
-          count: 12
-        }
-        // TODO: sabNgTable should cache getCount
-        // bypassCache: false
-      };
+  let Org = schema.model('Org');
 
-      vm.ngTableParams = sabNgTable.setup(orgTable, {
-        getCount: Org.getCount,
-        findAll: Org.findAll
-      });
+  let orgTable = {
+    ngTable: {
+      count: 12
+    }
+    // TODO: sabNgTable should cache getCount
+    // bypassCache: false
+  };
 
-      angular.extend(vm,{
-        orgTable: orgTable
-      });
+  vm.ngTableParams = sabNgTable.setup(orgTable, {
+    getCount: Org.getCount,
+    findAll: Org.findAll
+  });
 
-    })
-  ;
+  angular.extend(vm, {
+    orgTable: orgTable
+  });
 
-})();
+}

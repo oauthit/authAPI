@@ -18,7 +18,7 @@ export {
   stripIdFromName
 };
 
-function stripIdFromName (name){
+function stripIdFromName(name) {
   return (req,res,next)=>{
 
     let id = req.query[`${name}Id`];
@@ -154,7 +154,7 @@ function prepareToLinkProviderAccounts(req, res, next) {
     if (req.session) {
       delete req.session.linkToAccountId;
     }
-    next();
+    return next();
   }
 
 }

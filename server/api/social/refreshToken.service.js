@@ -1,7 +1,7 @@
 'use strict';
 
 import config from '../../config/environment';
-var debug = require('debug')('authAPI:refreshToken');
+// var debug = require('debug')('authAPI:refreshToken');
 import FB from 'fb';
 import ProviderToken from '../../models/providerToken.model.js';
 

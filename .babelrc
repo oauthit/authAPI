@@ -1,7 +1,8 @@
 {
   "presets": ["es2015"],
-  "plugins": ["add-module-exports", ["transform-runtime", {
-    "polyfill": false,
-    "regenerator": true
-  }]]
+  "plugins": [
+    "transform-flow-comments",
+    "transform-class-properties",
+    "add-module-exports"
+  ]
 }

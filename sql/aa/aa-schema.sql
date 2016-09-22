@@ -22,7 +22,8 @@ meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
 meta.defineType 'isPublic:BOOL';
-meta.defineType 'loginPage:CODE,,nullable'
+meta.defineType 'loginPage:CODE,,nullable';
+meta.defineType 'scope:STRING';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -42,7 +43,7 @@ meta.defineEntity 'OrgRole',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,nullable'
+  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,nullable;scope,,nullable'
 ;
 
 meta.defineEntity 'OrgAccount',

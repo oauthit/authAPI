@@ -1,7 +1,8 @@
 'use strict';
 
-(function () {
+import angular from 'angular';
 
-  angular.module('authApiApp.core.interceptors', []);
+import {errorInterceptor} from './error.interceptor';
 
-}());
+export default angular.module('authApiApp.core.interceptors', [])
+  .factory('errorInterceptor', errorInterceptor);

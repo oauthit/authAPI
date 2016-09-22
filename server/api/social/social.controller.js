@@ -3,7 +3,7 @@
 import providerAccount from '../../models/providerAccount/providerAccount.model';
 import providerApp from '../../models/providerApp.model';
 import socialAccount from '../../models/socialAccount.model';
-import socialFriend from '../../models/socialFriend.model';
+// import socialFriend from '../../models/socialFriend.model';
 
 import _ from 'lodash';
 
@@ -56,19 +56,19 @@ function saveSocialAccount(req, socialAcc) {
   }
 }
 
-function saveSocialFriend(req, socialAccount, ownerSocialAccount) {
-  return socialFriend(req).save({
-    ownerProfileId: ownerSocialAccount.profileId,
-    friendProfileId: socialAccount.profileId,
-    ownerSocialAccountId: ownerSocialAccount.id,
-    friendSocialAccountId: socialAccount.id
-  }).then(socialFriend => {
-    return socialFriend;
-  })
-    .catch(err => {
-      console.error(err);
-    });
-}
+// function saveSocialFriend(req, socialAccount, ownerSocialAccount) {
+//   return socialFriend(req).save({
+//     ownerProfileId: ownerSocialAccount.profileId,
+//     friendProfileId: socialAccount.profileId,
+//     ownerSocialAccountId: ownerSocialAccount.id,
+//     friendSocialAccountId: socialAccount.id
+//   }).then(socialFriend => {
+//     return socialFriend;
+//   })
+//     .catch(err => {
+//       console.error(err);
+//     });
+// }
 
 export function getSocialFriends(fetch, parse, provider) {
   return function (req, res) {

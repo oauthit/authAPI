@@ -1,100 +1,99 @@
-(function () {
-  'use strict';
+'use strict';
 
-  angular.module('authApiApp')
-    .controller('AccountController', function ($q,
-                                               $scope,
-                                               InitCtrlService,
-                                               saFormlyConfigService,
-                                               saMessageService,
-                                               sabErrorsService,
-                                               schema) {
+import angular from 'angular';
 
-      let vm = InitCtrlService.setup(this);
+export default function ($q,
+                         $scope,
+                         InitCtrlService,
+                         saFormlyConfigService,
+                         saMessageService,
+                         sabErrorsService,
+                         schema) {
 
-      angular.extend(vm, {
-        ngTable: {
-          count: 12
-        }
-      });
+  let vm = InitCtrlService.setup(this);
 
-      const Account = schema.model('Account');
-      const ProviderAccount = schema.model('ProviderAccount');
-      const Org = schema.model('Org');
-      const App = schema.model('App');
+  angular.extend(vm, {
+    ngTable: {
+      count: 12
+    }
+  });
 
-      var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
+  const Account = schema.model('Account');
+  const ProviderAccount = schema.model('ProviderAccount');
+  const Org = schema.model('Org');
+  const App = schema.model('App');
 
-      function undoChanges() {
-        Account.revert(vm.account);
-      }
+  var fields = saFormlyConfigService.getConfigFieldsByKey('accountInfo');
 
-      $scope.$on('$destroy', undoChanges);
+  function undoChanges() {
+    Account.revert(vm.account);
+  }
 
-      /**
-       * Get current account and his providerAccounts
-       */
-      function init() {
-        vm.busy = Account.find('me').then(function (acc) {
+  $scope.$on('$destroy', undoChanges);
 
-          vm.account = acc;
+  /**
+   * Get current account and his providerAccounts
+   */
+  function init() {
+    vm.busy = Account.find('me').then(function (acc) {
 
-          vm.providerAccNgTableParams = vm.setupNgTable({
-            getCount: function (params, options) {
-              return ProviderAccount.getCount(angular.extend(params || {}, {
-                accountId: vm.account.id
-              }), options);
-            },
+      vm.account = acc;
 
-            findAll: function () {
-              return Account.loadRelations(vm.account, ['ProviderAccount'])
-                .then(function (acc) {
-                  return (vm.providerAccounts = acc.providerAccounts);
-                })
-                .catch(function (err) {
-                  console.error(err);
-                });
-            }
-          });
-
-        }).catch(sabErrorsService.addError);
-      }
-
-      vm.orgNgTableParams = vm.setupNgTable({
-        getCount: Org.getCount,
-        findAll: Org.findAll
-      });
-
-      vm.appNgTableParams = vm.setupNgTable({
-        getCount: App.getCount,
-        findAll: App.findAll
-      });
-
-      angular.extend(vm, {
-
-        fields: fields,
-
-        onCancel: function (form) {
-          undoChanges();
-          form.$setPristine();
+      vm.providerAccNgTableParams = vm.setupNgTable({
+        getCount: function (params, options) {
+          return ProviderAccount.getCount(angular.extend(params || {}, {
+            accountId: vm.account.id
+          }), options);
         },
 
-        hasProviderLinked: function (provider) {
-          return _.find(vm.providers, {provider: provider});
-        },
-
-        onSubmit: function (form) {
-          Account.save(vm.account.id)
-            .then(function () {
-              saMessageService.success('Account have been updated', 'Success!');
-              form.$setPristine();
+        findAll: function () {
+          return Account.loadRelations(vm.account, ['ProviderAccount'])
+            .then(function (acc) {
+              return (vm.providerAccounts = acc.providerAccounts);
             })
-            .catch(sabErrorsService.addError);
+            .catch(function (err) {
+              console.error(err);
+            });
         }
-
       });
 
-      init();
+    }).catch(sabErrorsService.addError);
+  }
 
-    });
-})();
+  vm.orgNgTableParams = vm.setupNgTable({
+    getCount: Org.getCount,
+    findAll: Org.findAll
+  });
+
+  vm.appNgTableParams = vm.setupNgTable({
+    getCount: App.getCount,
+    findAll: App.findAll
+  });
+
+  angular.extend(vm, {
+
+    fields: fields,
+
+    onCancel: function (form) {
+      undoChanges();
+      form.$setPristine();
+    },
+
+    hasProviderLinked: function (provider) {
+      return _.find(vm.providers, {provider: provider});
+    },
+
+    onSubmit: function (form) {
+      Account.save(vm.account.id)
+        .then(function () {
+          saMessageService.success('Account have been updated', 'Success!');
+          form.$setPristine();
+        })
+        .catch(sabErrorsService.addError);
+    }
+
+  });
+
+  init();
+
+}

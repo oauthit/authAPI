@@ -2,7 +2,7 @@ import {Strategy as OAuthStrategy} from 'passport-oauth2';
 import rp from 'request-promise';
 import basePassportSetup from '../basePassportSetup';
 
-var debug = require('debug')('authAPI:auth:sms:passport');
+// var debug = require('debug')('authAPI:auth:sms:passport');
 
 export default function(smsAuthUrl) {
 

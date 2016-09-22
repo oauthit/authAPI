@@ -1,10 +1,11 @@
 'use strict';
 
-(function () {
+import angular from 'angular';
 
-  angular.module('authApiApp.core', [
-    'authApiApp.core.interceptors',
-    'authApiApp.core.services'
+import interceptors from './interceptors/interceptors.module';
+import services from './services/services.module';
+
+export default angular.module('authApiApp.core', [
+    interceptors,
+    services
   ]);
-
-})();

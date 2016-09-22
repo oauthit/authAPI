@@ -1,53 +1,46 @@
 'use strict';
 
-(function () {
+export function Auth(saAuth, schema, saToken, $window) {
 
-  angular.module('authApiApp.core.services')
+  var config = {
+    authUrl: '',
+    Account: schema.model('Account')
+  };
 
-    .factory('Auth', function (saAuth, schema, saToken, $window) {
+  let Auth = saAuth(config);
 
-      var config = {
-        authUrl: '',
-        Account: schema.model('Account')
-      };
+  angular.extend(Auth, {
+    getOrgRolesForCurrentUser: (orgId) => {
+      //TODO api route for currentRoles
 
-      let Auth = saAuth(config);
+      let Role = schema.model('Role');
 
-      angular.extend(Auth, {
-        getOrgRolesForCurrentUser: (orgId) => {
-          //TODO api route for currentRoles
-
-          let Role = schema.model('Role');
-
-          return Role.findAll({
-            orgId
-          });
-
-        },
-        /**
-         * Check if has admin role in organization
-         *
-         * @param roles
-         */
-        isOrgAdmin: function (roles) {
-          return roles.indexOf('admin') > -1;
-        },
-        loginOauth: function(providerApp) {
-          if (!providerApp) {
-            return console.error('Auth.loginOauth providerApp undefined');
-          }
-          var href = `/auth/${providerApp.provider}/${providerApp.name}`;
-          var token = saToken.get();
-          if (token) {
-            href += `?access_token=${token}`;
-          }
-          $window.location.href = href;
-        }
+      return Role.findAll({
+        orgId
       });
 
-      return Auth;
+    },
+    /**
+     * Check if has admin role in organization
+     *
+     * @param roles
+     */
+    isOrgAdmin: function (roles) {
+      return roles.indexOf('admin') > -1;
+    },
+    loginOauth: function (providerApp) {
+      if (!providerApp) {
+        return console.error('Auth.loginOauth providerApp undefined');
+      }
+      var href = `/auth/${providerApp.provider}/${providerApp.name}`;
+      var token = saToken.get();
+      if (token) {
+        href += `?access_token=${token}`;
+      }
+      $window.location.href = href;
+    }
+  });
 
-    })
-  ;
+  return Auth;
 
-})();
+}

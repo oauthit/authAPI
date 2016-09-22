@@ -19,7 +19,7 @@ function checkIfAlreadyMember (req, res, next) {
       accountId: req.query.requesterAccountId
     })
     .then((orgAccounts)=>{
-      if (orgAccounts.length){
+      if (orgAccounts.length) {
         req.params.id = orgAccounts[0].id;
       }
       next();

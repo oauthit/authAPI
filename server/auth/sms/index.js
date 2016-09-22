@@ -6,7 +6,7 @@ import _ from 'lodash';
 import config from '../../config/environment';
 import smsPassport from './passport';
 
-var debug = require('debug')('AuthAPI:auth:sms:index');
+// var debug = require('debug')('AuthAPI:auth:sms:index');
 
 passport.serializeUser((user, done) => {
 //  debug('serializeUser:', user);

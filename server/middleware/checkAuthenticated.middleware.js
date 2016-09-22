@@ -13,7 +13,7 @@ function ensureAuthenticated () {
     if (!req.user) {
       return res.sendStatus(401);
     } else {
-      next();
+      return next();
     }
   };
 }
@@ -28,13 +28,13 @@ function ensureItsMe (req, res, next) {
   req.params.id = req.user && req.user.id;
 
   if (!req.params.id) {
-    res.sendStatus(403);
+    return res.sendStatus(403);
   }
 
   debug ('ensureItsMe', req.params.id);
 
-  next();
+  return next();
 
 }
 
-export {ensureAuthenticated, ensureItsMe};
+export {ensureAuthenticated, ensureItsMe, onReject};

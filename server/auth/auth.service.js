@@ -81,7 +81,7 @@ function isAuthenticated() {
   return compose(
     function (req, res, next) {
       if (req.query && req.query.hasOwnProperty('authorization:')) {
-        req.headers.authorization = req.query ['authorization:'];
+        req.headers.authorization = req.query['authorization:'];
       }
       next();
     },
@@ -108,9 +108,9 @@ function hasRole(roleRequired) {
 
       if (roles && (roles[roleRequired] || roles.indexOf(roleRequired) >= 0)) {
         debug(`User have role '${roleRequired}'`);
-        next();
+        return next();
       } else {
-        res.status(403).end('Forbidden');
+        return res.status(403).end('Forbidden');
       }
     });
 }

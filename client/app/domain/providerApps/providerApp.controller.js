@@ -1,39 +1,34 @@
-(function () {
-  'use strict';
+'use strict';
 
-  angular.module('authApiApp')
-    .controller('ProviderAppController', function (InitCtrlService, schema, $state, Auth) {
+export default function (InitCtrlService, schema, $state, Auth) {
+  'ngInject';
+  let vm = InitCtrlService.setup(this);
 
-      let vm = InitCtrlService.setup(this);
+  let Provider = schema.model('ProviderApp');
 
-      let Provider = schema.model('ProviderApp');
+  function loginOauth(app, event) {
+    _.result(event, 'preventDefault');
+    Auth.loginOauth(app);
+  }
 
-      function loginOauth(app, event) {
-        _.result(event, 'preventDefault');
-        Auth.loginOauth(app);
-      }
+  function rowClick(row, event) {
+    if (_.result(event, 'isDefaultPrevented')) {
+      return;
+    }
+    $state.go('auth.providerAccounts', {providerId: row.id});
+  }
 
-      function rowClick(row, event) {
-        if (_.result(event, 'isDefaultPrevented')) {
-          return;
-        }
-        $state.go('auth.providerAccounts', {providerId: row.id});
-      }
+  angular.extend(vm, {
+    ngTable: {
+      count: 12
+    },
+    loginOauth: loginOauth,
+    rowClick: rowClick
+  });
 
-      angular.extend(vm, {
-        ngTable: {
-          count: 12
-        },
-        loginOauth: loginOauth,
-        rowClick: rowClick
-      });
+  vm.setupNgTable({
+    getCount: Provider.getCount,
+    findAll: Provider.findAll
+  });
 
-      vm.setupNgTable({
-        getCount: Provider.getCount,
-        findAll: Provider.findAll
-      });
-
-    })
-  ;
-
-})();
+}

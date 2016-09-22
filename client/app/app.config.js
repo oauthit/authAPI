@@ -1,54 +1,21 @@
 'use strict';
 
-let INCREMENT = 'INCREMENT';
-let DECREMENT = 'DECREMENT';
+export function routeConfig($urlRouterProvider) {
+  'ngInject';
 
-function increment() {
-  return {
-    type: INCREMENT
-  };
+  $urlRouterProvider.otherwise('/');
+
 }
 
-function decrement() {
-  return {
-    type: DECREMENT
-  };
+export function httpConfig($httpProvider) {
+  'ngInject';
+
+  $httpProvider.interceptors.push('errorInterceptor');
 }
 
-(function () {
+export function localStorageConfig(localStorageServiceProvider) {
+  'ngInject';
 
-  function counter(state = 1, action) {
-    switch (action.type) {
-      case INCREMENT:
-        return ++state;
-
-      case DECREMENT:
-        return --state;
-
-      default:
-        return state;
-    }
-  }
-
-
-  angular.module('authApiApp')
-    .config(function ($httpProvider, $urlRouterProvider, localStorageServiceProvider, $ngReduxProvider) {
-
-
-      let reducer = Redux.combineReducers({counter: counter});
-      $ngReduxProvider.createStoreWith(reducer);
-      $httpProvider.interceptors.push('errorInterceptor');
-
-      $urlRouterProvider
-        .otherwise('/');
-
-      localStorageServiceProvider
-        .setPrefix('authAPI');
-    })
-    .value('cgBusyDefaults',{
-      message: 'Loading data ...',
-      templateUrl: 'components/cg-busy/busy.html'
-    })
-  ;
-
-}());
+  localStorageServiceProvider
+    .setPrefix('authAPI');
+}
