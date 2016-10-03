@@ -11,6 +11,17 @@
       "email": "alevin.ru@gmail.com"
     }
   ],
+  "overrides": {
+    "octicons": {
+      "main": [
+        "octicons/octicons.css",
+        "octicons/octicons.eot",
+        "octicons/octicons.svg",
+        "octicons/octicons.ttf",
+        "octicons/octicons.woff"
+      ]
+    }
+  },
   "dependencies": {
     "json3": "~3.3.1",
     "es5-shim": "~3.0.1",
