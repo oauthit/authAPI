@@ -16,7 +16,7 @@ export default function (providerApp) {
   router
     .get('/', function (req, res, next) {
       passport.authenticate(providerApp.code, {
-        scope: ['VALUABLE_ACCESS', 'GET_EMAIL'],
+        scope: providerApp.scope, // ['VALUABLE_ACCESS', 'GET_EMAIL'],
         failureRedirect: '/#/login',
         // state: req.query.accountId
       })(req, res, next);

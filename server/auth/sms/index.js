@@ -33,7 +33,7 @@ export default function (providerApp) {
   let appConfig = {
     authorizationURL: smsAuthUrl + '/dialog/authorize',
     tokenURL: smsAuthUrl + '/oauth/token',
-    scope: 'offline_access'
+    scope: providerApp.scope, // 'offline_access'
   };
 
   passport.use(smsPassport(smsAuthUrl)(providerApp, appConfig));
