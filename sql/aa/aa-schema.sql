@@ -42,7 +42,7 @@ meta.defineEntity 'OrgRole',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,nullable'
+  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,,nullable'
 ;
 
 meta.defineEntity 'OrgAccount',
