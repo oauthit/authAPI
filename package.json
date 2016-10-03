@@ -4,6 +4,7 @@
   "main": "server/app.js",
   "dependencies": {
     "async": "^1.5.2",
+    "axios": "^0.13.1",
     "bluebird": "^3.3.4",
     "body-parser": "^1.13.3",
     "co": "^4.6.0",
@@ -19,6 +20,7 @@
     "fb": "^1.1.1",
     "googleapis": "^3.1.0",
     "jade": "^1.11.0",
+    "js-data-http-node": "^3.0.0-rc.2",
     "lodash": "^4.14.2",
     "method-override": "^2.3.5",
     "morgan": "~1.6.1",
