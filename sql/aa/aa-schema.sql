@@ -23,6 +23,8 @@ meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
 meta.defineType 'isPublic:BOOL';
 meta.defineType 'loginPage:CODE,,nullable'
+meta.defineType 'isOffline:BOOL';
+meta.defineType 'scope:STRING';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
@@ -42,7 +44,7 @@ meta.defineEntity 'OrgRole',
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,,nullable'
+  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,,nullable;scope;isOffline'
 ;
 
 meta.defineEntity 'OrgAccount',
@@ -120,4 +122,4 @@ alter table aa.ProviderApp add unique (provider, name);
 alter table aa.App add unique (url);
 alter table aa.OrgRole add unique (orgId, roleId);
 alter table aa.SocialAccount add unique (profileId, name);
-alter table aa.SocialFriend add unique (ownerProfileId, friendProfileId);a
+alter table aa.SocialFriend add unique (ownerProfileId, friendProfileId);
