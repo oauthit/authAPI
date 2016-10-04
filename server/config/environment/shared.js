@@ -7,6 +7,9 @@ exports = module.exports = {
   smsAuth: {
     sistemium: {
       url: process.env.SMSAUTH
+    },
+    vseramki: {
+      url: 'http://localhost:3000'
     }
   },
   POOL_NAME: 'aa'
