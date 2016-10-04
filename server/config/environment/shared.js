@@ -9,7 +9,7 @@ exports = module.exports = {
       url: process.env.SMSAUTH
     },
     vseramki: {
-      url: 'http://localhost:3000'
+      url: process.env.SMSAUTH
     }
   },
   POOL_NAME: 'aa'
