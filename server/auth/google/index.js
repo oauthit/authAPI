@@ -16,8 +16,8 @@ export default function (providerApp) {
       passport.authenticate(providerApp.code, {
         failureRedirect: '/#/login',
         scope: providerApp.scope, // ['https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/userinfo.profile'],
-        accessType: providerApp.isOffline || 'online',
-        approvalPrompt: 'force',
+        accessType: providerApp.isOffline ? 'offline' : 'online',
+        approvalPrompt: 'auto',
         state: req.query.accountId
       })(req, res);
     });
