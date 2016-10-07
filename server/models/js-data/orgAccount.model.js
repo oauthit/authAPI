@@ -1,9 +1,8 @@
 "use strict";
 
-import store from './store';
-import {findOrCreate} from './findOrCreate';
+import store from './storeSchema';
 
-store.defineMapper('OrgAccount', {
+export default store.defineMapper('OrgAccount', {
   relations: {
     hasOne: {
       Account: {
@@ -17,8 +16,3 @@ store.defineMapper('OrgAccount', {
     }
   }
 });
-
-const orgAccount = store.getMapper('OrgAccount');
-orgAccount.findOrCreate = findOrCreate;
-
-export default orgAccount;

@@ -1,5 +1,4 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-@import '../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap';
+@import '../bower_components/sistemium-angular-bootstrap/dist/sass/index.scss';
 @import '../bower_components/bootstrap-social/bootstrap-social.scss';
 $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
@@ -18,11 +17,16 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 // Component styles are injected through grunt
 // injector
 @import 'admin/admin';
-@import 'domain/main/main';
+@import 'domain/home/home';
 @import 'styles/animation';
+@import 'styles/busy';
 @import 'styles/colors';
 @import 'styles/data';
+@import 'styles/helpers';
 @import 'styles/layout';
+@import 'styles/ng-table';
+@import '../components/cg-busy/loading-ripple';
+@import '../components/cg-busy/loading';
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';

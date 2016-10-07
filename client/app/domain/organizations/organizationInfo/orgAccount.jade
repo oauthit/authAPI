@@ -1,0 +1,28 @@
+section(cg-busy='vm.busy')
+  h3 Edit org account
+
+  h6 Set roles for organization account
+  ui-select(ng-model='vm.orgAccountRoles' multiple on-remove='vm.onRemoveRole($item, $model)' on-select='vm.onSelectRole($item, $model)')
+    ui-select-match(placeholder='Select roles' allow-clear='true')
+      span {{$item.role.name}}
+    ui-select-choices(
+    repeat='item in vm.unUsedRoles | filter:$select.search track by item.id'
+    )
+      span(ng-bind='item.name')
+    ui-select-no-choice
+      span.ml-em(ng-hide='$select.search') No more roles in the organization
+
+  form.clearfix(name='vm.orgAccountForm' role='form' novalidate='' ng-submit='vm.onSubmitEdit(vm.orgAccountForm)')
+    formly-form(model='vm.orgAccount' fields='vm.fields')
+      .buttons.pull-right(ng-if='vm.orgAccountForm.$dirty')
+        button.btn.btn-primary(
+        type='submit'
+        ng-disabled='vm.orgAccountForm.$invalid'
+        )
+          | Save
+        = ' '
+        button.btn.btn-warning(
+        type='button'
+        ng-click='vm.onCancelEdit(vm.orgAccountForm)'
+        )
+          | Cancel changes

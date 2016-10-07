@@ -9,7 +9,8 @@
 
 'use strict';
 
-import Org from '../../../models/org.model.js';
-import abstractController from '../../abstract/abstract.stapi.controller';
 
-export default abstractController(Org);
+import Org from '../../../models/org.model.js';
+import {stapiBaseController} from 'sistemium-node';
+
+export default stapiBaseController(Org);

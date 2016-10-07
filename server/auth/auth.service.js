@@ -2,14 +2,20 @@
 
 import compose from 'composable-middleware';
 var debug = require('debug')('authAPI:auth:service');
-import {model} from '../models/js-data/modelsSchema.service';
 import co from 'co';
+import _ from 'lodash';
+import {redisHelper} from 'sistemium-node';
 
-const Account = model('account');
-const ProviderAccount = model('providerAccount');
-const SocialAccount = model('socialAccount');
-const Token = model('token');
-const ProviderApp = model('providerApp');
+var {hget, hset} = redisHelper;
+
+export {hasRole, setAuthorized, isAuthenticated};
+
+// const Account = model('Account');
+import accountModel from '../models/account.model';
+import providerAccountModel from '../models/providerAccount/providerAccount.model';
+import socialAccountModel from '../models/socialAccount.model';
+import tokenModel from '../models/token.model';
+import orgAccountModel from '../models/orgAccount.model';
 
 /**
  *
@@ -20,46 +26,67 @@ const ProviderApp = model('providerApp');
  * @return {}
  *
  * */
-var validateAuth = (req, res, next) => {
+function validateAuth(req, res, next) {
 
   let token = req.headers.authorization;
 
-  //debug ('validateAuth','token:',token);
+  debug('validateAuth', 'token:', token);
 
   if (!token) {
     debug('info', 'Token is not defined, sending unauthorized status.');
     return res.sendStatus(401);
   }
 
-  debug('token:', token);
-  Token.find(token).then((user) => {
-    //debug ('validateAuth', 'user:', user);
-    debug('info', `Successfully found token for user: ${JSON.stringify(user)}`);
-    req.user = user;
-    debug('debug', `req.user = ${user}`);
+  function authorized (data) {
+    req.user = data && data.tokenInfo;
+    debug('validateAuth: token:', data);
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    req.authToken = data;
     next();
-  }, (err) => {
-    debug('info', `Error occured while trying to find token by id(Token.find(${token})).`);
-    debug('debug', `Error message: ${err}`);
-    return res.sendStatus(401);
-  });
-};
+  }
+
+  function getFromDb (token) {
+    return tokenModel({}).findById(token)
+      .then((dbData)=>{
+        if (dbData) {
+          hset('Token', token, dbData);
+          authorized(dbData);
+        } else {
+          return res.sendStatus(401);
+        }
+      });
+  }
+
+  hget('Token', token)
+    .then((redisData)=>{
+      if (redisData) {
+        authorized(redisData);
+      } else {
+        getFromDb(token);
+      }
+    }, (err) => {
+      console.error('error getting token from redis:', err);
+      getFromDb(token);
+    });
+
+}
 
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 401
  */
-export function isAuthenticated() {
-  return compose()
-
-    .use(function (req, res, next) {
-      // allow authorization to be passed through query parameter as well
-      //debug ('isAuthenticated', 'query:', req.query);
+function isAuthenticated() {
+  return compose(
+    function (req, res, next) {
       if (req.query && req.query.hasOwnProperty('authorization:')) {
         req.headers.authorization = req.query ['authorization:'];
       }
-      validateAuth(req, res, next);
-    });
+      next();
+    },
+    validateAuth
+  );
 }
 
 /**
@@ -67,7 +94,7 @@ export function isAuthenticated() {
  *
  * @params {String} roleRequired - Parameter for role name
  */
-export function hasRole(roleRequired) {
+function hasRole(roleRequired) {
   if (!roleRequired) {
     debug(`roleRequired parameter missing...`);
     throw new Error('Required role needs to be set');
@@ -76,7 +103,10 @@ export function hasRole(roleRequired) {
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
-      if (req.user.roles[roleRequired] || req.user.roles.indexOf(roleRequired) > -1) {
+
+      var roles = _.get(req, 'user.tokeninfo.roles') || [];
+
+      if (roles && (roles[roleRequired] || roles.indexOf(roleRequired) >= 0)) {
         debug(`User have role '${roleRequired}'`);
         next();
       } else {
@@ -87,10 +117,10 @@ export function hasRole(roleRequired) {
 
 /**
  *
- * @param providerCode {String} - Unique providerCode
+ * @param providerApp {String} - Unique providerCode
  * @returns {Function}
  */
-export function setAuthorized(providerCode) {
+function setAuthorized(providerApp) {
   /**
    * Set token cookie directly for oAuth strategies
    *
@@ -103,32 +133,22 @@ export function setAuthorized(providerCode) {
     debug('setAuthorized user:', req.user);
     debug('setAuthorized session:', req.session);
 
-    co(function* () {
+    let Account = accountModel(req);
+    let ProviderAccount = providerAccountModel(req);
+    let SocialAccount = socialAccountModel(req);
+    let OrgAccount = orgAccountModel(req);
 
-      let providerAppPromise = ProviderApp.findAll({'code': providerCode})
-        .then((providerApps) => {
+    co(function*() {
 
-          if (providerApps.length === 1)
-            return providerApps[0];
-
-          else {
-            debug('Error:', `No such provider app with code: ${providerCode}`);
-            throw new Error(`No such provider: ${providerCode}`);
-          }
-        });
-
-      let providerApp = yield providerAppPromise;
-
-      debug('providerApp:', providerApp);
-
-      let socialAccount = yield SocialAccount.findOrCreate(req.user.socialAccountId, req.user);
+      req.user.provider = providerApp.provider;
+      let socialAccount = yield SocialAccount.getOrCreate(req.user.socialAccountId, req.user);
       debug('socialAccount:', socialAccount);
 
       let providerAccount = yield new Promise((fulfil, reject) => {
         //TODO teach stapi to take js-data query for relations
-        //SocialAccount.find(socialAccount.id, {with: ['providerAccount']})
+        //socialAccount.find(socialAccount.id, {with: ['providerAccount']})
 
-        ProviderAccount.findAll({socialAccountId: socialAccount.id})
+        ProviderAccount.find({socialAccountId: socialAccount.id})
           .then(providerAccounts => {
 
             debug('setAuthorized:providerAccounts:', providerAccounts);
@@ -146,11 +166,13 @@ export function setAuthorized(providerCode) {
                 providerAppId: providerApp.id
               });
 
+              debug('providerAccount:', providerAccount);
+
               ProviderAccount.update(req.user.id, providerAccount)
                 .then(providerAccount => {
                   return fulfil(providerAccount);
                 }, err => {
-                  debug('setAuthorized:ProviderAccount.update error:', err);
+                  debug('setAuthorized:providerAccount.update error:', err);
                   return reject(err);
                 });
 
@@ -160,95 +182,88 @@ export function setAuthorized(providerCode) {
 
           }, err => {
 
-            debug('setAuthorized:ProviderAccount.findAll error:', err);
+            debug('setAuthorized:providerAccount.find error:', err);
             reject(err);
 
           });
       });
 
-      let account = yield Account.findOrCreate(providerAccount.accountId);
-      debug('setAuthorized: account:', account);
+      var linkToAccountId = _.get(req, 'session.linkToAccountId');
+      console.error('linkToAccountId:', linkToAccountId);
 
-      providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
+      if (linkToAccountId && !providerAccount.accountId) {
+        providerAccount.accountId = linkToAccountId;
+      }
+
       debug('setAuthorized: providerAccount:', providerAccount);
 
-      yield ProviderAccount.update(providerAccount.id, providerAccount);
-      let token = yield Token.create({tokenInfo: account}).then(token => {
-        debug('setAuthorized:Token.create', token);
-        return token.id;
+      let account = yield Account.getOrCreate(providerAccount.accountId, {
+        name: providerAccount.name,
+        roles: providerAccount.roles
       });
+      providerAccount = Object.assign({}, providerAccount, {accountId: account.id});
+
+      debug('setAuthorized: account:', account);
+
+
+      yield ProviderAccount.update(providerAccount.id, providerAccount);
+
+      // check session.orgId
+      if (req.session && req.session.orgId) {
+
+        let orgId = req.session.orgId;
+
+        let orgAccount = yield OrgAccount.find({
+          orgId: orgId,
+          accountId: account.id
+        });
+
+        if (orgAccount.length === 0) {
+
+          yield OrgAccount.save({
+            orgId: orgId,
+            accountId: account.id,
+            name: account.name
+          });
+
+        }
+      }
+
+      let appId, orgId, orgAppId;
+
+      if (req.session) {
+        appId = req.session.appId;
+        orgId = req.session.orgId;
+        orgAppId = req.session.orgAppId;
+      }
+
+      let token = yield tokenModel({})
+        .save({tokenInfo: account, accountId: account.id, appId, orgId, orgAppId})
+        .then(token => {
+          debug('setAuthorized:Token.create', token);
+          return token.id;
+        });
+
+      delete req.session.appId;
+      delete req.session.orgId;
+      delete req.session.orgAppId;
 
       debug('setAuthorized: token:', token);
 
+      let redirectUrl;
+
       if (req.session && req.session.returnTo) {
-        console.log(req.session.returnTo);
-        let redirectUrl = req.session.returnTo;
+        redirectUrl = req.session.returnTo;
         delete req.session.returnTo;
-        return res.redirect(redirectUrl + '#/?access-token=' + token);
+      } else {
+        redirectUrl = '/';
       }
 
-      // //TODO redirect to app, or show app list get account org, with org get apps
-      // let orgAccounts = yield OrgAccount.findAll({
-      //   accountId: account.id
-      // });
-      //
-      // debug('orgAccounts:', orgAccounts);
-      //
-      // if (orgAccounts.length === 0) {
-      //   return res.json({
-      //     error: "account don't have orgs"
-      //   });
-      // }
-      //
-      // let orgPromises = [];
-      // orgAccounts.forEach((orgAccount) => {
-      //   let orgPromise = Org.find(orgAccount.orgId);
-      //   orgPromises.push(orgPromise);
-      // });
-      //
-      // Promise.all(orgPromises).then((orgs) => {
-      //   debug('orgs:', orgs);
-      //
-      //   let orgAppPromises = [];
-      //   orgs.forEach((org) => {
-      //     let orgAppPromise = OrgApp.findAll({
-      //       orgId: org.id
-      //     });
-      //
-      //     orgAppPromises.push(orgAppPromise);
-      //   });
-      //
-      //   Promise.all(orgAppPromises).then((orgApps) => {
-      //     debug('orgApps:', orgApps);
-      //
-      //     if (orgApps.length === 0) {
-      //       return res.json({
-      //         error: "org don't have apps"
-      //       });
-      //     }
-      //
-      //     else if (orgApps.length === 1) {
-      //       console.log(orgApps[0][0]);
-      //       let appPromise = App.find(orgApps[0][0].appId);
-      //
-      //       appPromise.then((app) => {
-      //         debug('app:', app);
-      //
-      //         return res.redirect(app.url + '/#/?access-token=' + token);
-      //       });
-      //
-      //     } else {
-      //       return res.json(orgApps);
-      //     }
-      //   }).catch((err) => {
-      //     debug('err in orgAppPromises:', err);
-      //   });
-      //
-      // }).catch((err) => {
-      //   debug('err in orgPromises:', err);
-      // });
+      debug('setAuthorized: redirectUrl:', redirectUrl);
+      return res.redirect(redirectUrl + '#/?access-token=' + token);
 
     }).catch((err) => {
+      //TODO delete req.session onError?
       debug('setAuthorized:catch:', err.data || err);
       return res.sendStatus(500);
     });

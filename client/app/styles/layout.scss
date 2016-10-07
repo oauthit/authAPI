@@ -2,7 +2,6 @@
   margin-left: 15px;
 }
 
-
 .table-hover tr {
   cursor: pointer;
 }
@@ -40,10 +39,12 @@
     }
   }
 
-  .buttons {
-    margin: {
-      top: 20px;
-      bottom: 20px;
+  h3, h2 {
+    &.pull-left ~ .buttons.pull-right {
+      margin: {
+        top: 20px;
+        bottom: 20px;
+      }
     }
   }
 
@@ -70,4 +71,38 @@
 
 .input-group-btn .btn.dropdown-toggle {
   padding-bottom: 7px;
+}
+
+a h3.caption {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+a.thumbnail {
+  &:hover, &:focus, & {
+    text-decoration: none;
+  }
+  .caption {
+    color: inherit;
+  }
+}
+
+th.logo {
+  max-width: 20px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+a.sref {
+  color: $primary-color;
+  &:focus, &:active {
+    color: $primary-color;
+    text-decoration: none;
+  }
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: none;
+  }
 }

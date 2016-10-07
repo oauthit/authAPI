@@ -1,0 +1,21 @@
+.container
+  h1
+    a.sref(ui-sref='auth.org') Organizations
+    .pull-right.buttons
+      button.btn.btn-primary(ui-sref='.create') Create
+      button.btn.btn-primary(ui-sref='.joinPublic') Join Public
+
+  .ui-view.clear-both(cg-busy='vm.orgTable.busy')
+    table.table.table-striped.table-hover.table-responsive(
+    ng-table='vm.ngTableParams'
+    )
+      tr.clickable(
+      ng-repeat='row in $data track by row.id'
+      ui-sref='.info({orgId: row.id})'
+      )
+        td(data-title='"Logo"' header-class='"logo"')
+          img(ng-src='{{row.logo}}')
+        td(data-title='"Name"' header-class='"text-left"')
+          | {{row.name}}
+        td.text-center(data-title='"Info"')
+          span.label.label-info(ng-if='row.isPublic') Public

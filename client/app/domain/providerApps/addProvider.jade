@@ -1,0 +1,18 @@
+.container
+  h1 Add new provider app
+
+  form.clearfix(name='vm.providerAppForm' role='form' novalidate='' ng-submit='vm.onSubmit(vm.providerAppForm)')
+    formly-form(model='vm.providerApp' fields='vm.fields')
+
+    .buttons.pull-right(ng-if='vm.providerAppForm.$dirty')
+      button.btn.btn-primary(
+      type='submit'
+      ng-disabled='vm.providerAppForm.$invalid'
+      )
+        | Save
+      = ' '
+      button.btn.btn-warning(
+      type='button'
+      ng-click='vm.onCancel(vm.providerAppForm)'
+      )
+        | Cancel changes

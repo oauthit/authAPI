@@ -8,7 +8,8 @@ angular.module('authApiApp')
       controller: 'OauthButtonsCtrl',
       controllerAs: 'OauthButtons',
       scope: {
-        classes: '@'
+        classes: '@',
+        buttons: '='
       }
     };
   });

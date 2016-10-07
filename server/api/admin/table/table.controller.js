@@ -1,9 +1,9 @@
 'use strict';
 
-import abstractController from '../../abstract/abstract.stapi.controller';
+import {stapiBaseController} from 'sistemium-node';
 
 /**
  *
  * @return {Object}
  */
-export default abstractController();
+export default stapiBaseController();

@@ -23,9 +23,21 @@ div.navbar.navbar-default.navbar-static-top
         li(ng-hide='nav.isLoggedIn()', ui-sref-active='active')
           a(ui-sref='auth.login') Login
 
-        li(ng-show='nav.isLoggedIn()')
+
+        li.dropdown(ng-show='nav.isLoggedIn()' uib-dropdown='' is-open='nav.orgNavOpen')
           a.dropdown-toggle(href='#' uib-dropdown-toggle='')
-            span {{ nav.getCurrentUser().name }} ({{nav.currentAgent.name}})
+            span {{ nav.getCurrentUser().name }} ({{nav.currentOrg.name}})
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li(ng-repeat='org in nav.orgs ')
+              a(href='' ng-click='nav.setCurrentOrg(org)')
+                | {{org.name}}
+                span(ng-if='org.id==nav.currentOrg.id')
+                  = ' '
+                  i.fa.fa-check
+            li.divider
+            li
+              a(ui-sref='auth.org') Manage Organizations
 
         li(ng-show='nav.isLoggedIn()', ui-sref-active='active')
           a(ui-sref='auth.settings')

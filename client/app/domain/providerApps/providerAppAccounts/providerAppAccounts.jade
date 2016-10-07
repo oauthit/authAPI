@@ -1,0 +1,26 @@
+.container
+  h1 {{vm.providerApp.provider}}/{{vm.providerApp.name}} Provider App Accounts
+
+  .buttons.pull-right
+    button.btn.btn-social.btn-sm(
+    ng-class='"btn-" + vm.providerApp.provider'
+    ng-click='vm.loginOauth()'
+    )
+      i.fa(ng-class='"fa-" + vm.providerApp.provider')
+      = ' '
+      span Connect
+
+
+  table.table.table-striped.table-hover.table-responsive(
+  ng-table='vm.ngTableParams'
+  cg-busy='vm.busy'
+  )
+    tr.clickable(
+    ng-repeat='row in $data track by row.id'
+    )
+      td(data-title="'Name'")
+        | {{row.name}}
+      td(data-title="'Provider'")
+        | {{row.profileData.provider}}
+      td(data-title="'Roles'")
+        | {{row.roles | json}}

@@ -2,51 +2,27 @@
 
 import express from 'express';
 import passport from 'passport';
-import {setAuthorized} from '../auth.service';
-import providerAccount from '../../models/providerAccount/providerAccount.model';
-import _ from 'lodash';
+import googlePassport from './passport';
 
-var router = express.Router();
-
-var providerApps = [];
-
-function setPassportUse(req, res, next) {
-  var fullUrl = req.originalUrl.split('/');
-
-  //TODO learn to parse url
-  //fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
-  fullUrl = fullUrl[2];
-  let providerApp = _.find(providerApps, (o) => {
-    return o.code === fullUrl;
-  });
-  const strategy = require('./passport').setup(providerAccount(), providerApp);
-  passport.use(strategy);
-  req.AUTHAPIproviderApp = providerApp;
-  next();
-}
 
 export default function (providerApp) {
-  providerApps.push(providerApp);
+
+  var router = express.Router();
+
+  passport.use(googlePassport(providerApp));
+
   router
-    .get('/', setPassportUse, function (req, res) {
-      let providerApp = req.AUTHAPIproviderApp;
-      passport.authenticate('google' + providerApp.code, {
+    .get('/', function (req, res) {
+      passport.authenticate(providerApp.code, {
         failureRedirect: '/#/login',
-        scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read'],
-        accessType: 'offline',
-        approvalPrompt: 'force',
+        scope: providerApp.scope, // ['https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/userinfo.profile'],
+        accessType: providerApp.isOffline ? 'offline' : 'online',
+        approvalPrompt: 'auto',
         state: req.query.accountId
       })(req, res);
-    })
-    .get('/callback', setPassportUse, function (req, res, next) {
-      passport.authenticate('google' + req.AUTHAPIproviderApp.code, {
-        failureRedirect: '/#/login',
-        session: false
-      })(req, res, next);
-    }, function (req, res, next) {
-      setAuthorized(req.AUTHAPIproviderApp.code)(req, res, next);
     });
 
   return router;
+
 }
 

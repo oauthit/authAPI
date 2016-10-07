@@ -1,0 +1,47 @@
+section
+  section
+    h2.pull-left {{vm.org.name}}
+    .buttons.pull-right
+      button.btn.btn-danger.btn-sm(ng-click='vm.deleteClick()' ng-show='vm.isOrgAdmin') Delete
+      button.btn.btn-warning.btn-sm(ui-sref='^.setOrgRoles({orgId: vm.orgId})' ng-show='vm.isOrgAdmin') Roles
+
+  h3.clear-both Apps
+
+  div(ng-show='vm.showNoAppsMessage')
+    p Organization have no apps associated with it.
+    button.btn.btn-danger.btn-sm Find or create apps
+
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAppsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgAppsNgTableCtrl.busy')
+    tbody
+      tr(ng-repeat='row in $data track by row.id')
+        td(data-title="'Id'") {{ row.id }}
+        td(data-title="'Url'")
+          a(href='{{row.app.url}}') {{ row.app.url }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
+
+  h3.clear-both Accounts
+
+  div(ng-show='vm.showNoAccountsMessage')
+    p No accounts in organization
+
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgAccountsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgAccountsNgTableCtrl.busy')
+    tbody
+      tr(ng-repeat='row in $data track by row.id' ui-sref='^.orgAccount({orgAccountId: row.id})')
+        td(data-title="'Name'") {{ row.name }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
+        td(data-title="'Roles'")
+          span.label.label-info.ml-5(ng-repeat='oar in row.orgAccountRoles track by oar.id') {{oar.role.name}}
+
+  h3.clear-both Providers Apps
+
+  div(ng-show='vm.showNoProviderAppsMessage')
+    p No providers apps associated with this organization.
+    button.btn.btn-danger.btn-sm() Find provider apps
+
+  table.table.table-striped.table-hover.table-responsive(ng-table='vm.orgProviderAppsNgTable' ng-hide='$data.length === 0' cg-busy='vm.orgProviderAppsNgTableCtrl.busy')
+    tbody
+      tr(ng-repeat='row in $data track by row.id')
+        td(data-title="'Provider'") {{ row.providerApp.provider }}
+        td(data-title="'Name'") {{ row.providerApp.name }}
+        td(data-title="'Last Timestamp'") {{ row.ts | amCalendar }}
+

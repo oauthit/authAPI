@@ -1,0 +1,29 @@
+.container
+
+  h1 Provider Apps
+
+  ui-view
+    .pull-right.buttons
+      button.btn.btn-primary(ui-sref='.add') Add provider
+
+    table.table.table-striped.table-hover.table-responsive(
+    ng-table='vm.ngTableParams'
+    cg-busy='vm.busy'
+    )
+      tr.clickable(
+      ng-repeat='row in $data track by row.id'
+      ng-click='vm.rowClick(row,$event)'
+      )
+        td(data-title="'Name'")
+          | {{row.name}}
+        td(data-title="'Provider'")
+          | {{row.provider}}
+        td.buttons(data-title='"Connect"')
+          button.btn.btn-social.btn-sm(
+          ng-class='"btn-" + row.provider'
+          ng-click='vm.loginOauth(row, $event)'
+          )
+            i.fa(ng-class='"fa-" + row.provider')
+            = ' '
+            span Connect
+

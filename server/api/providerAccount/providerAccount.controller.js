@@ -1,10 +1,10 @@
 'use strict';
 
 import providerAccount from './../../models/js-data/providerAccount.model';
-import abstractController from '../abstract/abstract.jsdata.controller';
+import {jsDataBaseController} from 'sistemium-node';
 var debug = require('debug')('authAPI:providerAccount.controller');
 
-let ctrl = abstractController(providerAccount);
+let ctrl = jsDataBaseController(providerAccount);
 
 function setReq(req) {
   if (!req.params) {

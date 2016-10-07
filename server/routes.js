@@ -20,7 +20,7 @@ export default function(app) {
   // All other routes should redirect to the index.html
   app.route('/*')
     .get((req, res) => {
-      console.log(`app.route('/*')`);
+      //console.log(`app.route('/*')`);
       res.sendFile(path.resolve(app.get('appPath') + '/index.html'));
     });
 }

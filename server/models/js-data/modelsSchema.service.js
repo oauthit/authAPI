@@ -9,10 +9,8 @@ function registerModel(modelName) {
   debug('registerModel:', modelName);
 }
 
-export default {
-  registerModel,
-  model: function (name) {
-    return models[name];
-  },
-  models
-};
+function model(name) {
+  return models[name];
+}
+
+export {registerModel, model};

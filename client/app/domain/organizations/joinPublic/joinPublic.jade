@@ -1,0 +1,31 @@
+section
+
+  h3 List of public organizations
+
+  table.table.table-striped.table-hover.table-responsive
+
+    colgroup
+      col(width='15%')
+      col(width='65%')
+      col(width='10%')
+      col(width='10%')
+
+    thead
+      th Logo
+      th Name
+      th Members
+      th
+
+    tbody
+      tr(ng-repeat='row in vm.orgs track by row.id')
+        td
+          img(ng-src="{{row.logo}}")
+        td
+          a(ui-sref='^.info({orgId: row.id, isPublic: true})')
+            | {{row.name}}
+        td {{row.membersCount | number:0}}
+        td
+          button.btn.btn-block.btn-xs(
+          ng-class='row.isIAmAMember() ? "btn-primary" : "btn-success"' ng-click="vm.joinOrLeave(row)"
+          ) {{ row.isIAmAMember() ? "Leave" : "Join" }}
+

@@ -1,8 +1,5 @@
 "use strict";
 
-import store from './store';
+import store from './storeSchema';
 
-store.defineMapper('ProviderToken');
-
-
-export default store.getMapper('ProviderToken');
+export default store.defineMapper('ProviderToken');

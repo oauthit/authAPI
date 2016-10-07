@@ -1,10 +1,19 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./org.controller.js');
+import controller from './org.controller.js';
+import {stripIdFromName} from '../../middleware/authHelpers.middleware';
 
 var router = express.Router();
-router.get('/', controller.findAll);
-router.get('/:id', controller.find);
 
-module.exports = router;
+router.use(stripIdFromName('org'));
+
+export default router;
+
+router.get('/', controller.index);
+router.get('/:id', controller.show);
+
+router.post('/', controller.create);
+router.put('/:id', controller.create);
+
+router.delete('/:id', controller.destroy);

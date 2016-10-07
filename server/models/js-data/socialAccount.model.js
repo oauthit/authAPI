@@ -1,22 +1,8 @@
 "use strict";
 
-import store from './store';
-import {Schema} from 'js-data';
-import {findOrCreate} from './findOrCreate';
-//
-//const socialAccountSchema = new Schema({
-//  properties: {
-//    name: {type: 'string'},
-//    email: {
-//      type: 'string',
-//      uniqueItems: true
-//    }
-//  }
-//
-//});
+import store from './storeSchema';
 
-
-store.defineMapper('SocialAccount', {
+export default store.defineMapper('SocialAccount', {
   relations: {
     hasOne: {
       ProviderAccount: {
@@ -26,8 +12,3 @@ store.defineMapper('SocialAccount', {
     }
   }
 });
-
-const socialAccount = store.getMapper('SocialAccount');
-socialAccount.findOrCreate = findOrCreate;
-
-export default socialAccount;

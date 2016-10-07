@@ -1,8 +1,8 @@
 'use strict';
 
 import Org from './../../models/js-data/orgProviderApp.model';
-import abstractCtrl from '../abstract/abstract.jsdata.controller';
+import {jsDataBaseController} from 'sistemium-node';
 
-let ctrl = abstractCtrl(Org);
+let ctrl = jsDataBaseController(Org);
 
 export default ctrl;

@@ -1,0 +1,61 @@
+.container
+  .row
+    .col-sm-12
+      h1 My account
+    .col-sm-12
+      form.clearfix(name='vm.accountForm' role='form' novalidate='' ng-submit='vm.onSubmit(vm.accountForm)')
+        formly-form(model='vm.account' fields='vm.fields')
+          .buttons.pull-right(ng-if='vm.accountForm.$dirty')
+            button.btn.btn-primary(
+            type='submit'
+            ng-disabled='vm.accountForm.$invalid'
+            )
+              | Save
+            = ' '
+            button.btn.btn-warning(
+            type='button'
+            ng-click='vm.onCancel(vm.accountForm)'
+            )
+              | Cancel changes
+
+      h3 Organization list
+
+      table.table.table-striped.table-hover.table-responsive(
+      ng-table='vm.orgNgTableParams'
+      )
+        tr.clickable(
+        ng-repeat='row in $data track by row.id'
+        )
+          td(data-title="'Name'")
+            | {{row.name}}
+
+      h3 Provider account list
+
+      table.table.table-striped.table-hover.table-responsive(
+      ng-table='vm.providerAccNgTableParams'
+      )
+        tr.clickable(
+        ng-repeat='row in $data track by row.id'
+        )
+          td(data-title="'Profile ID'")
+            | {{row.profileId}}
+          td(data-title="'Display Name'")
+            | {{row.profileData.displayName}}
+          td(data-title="'Provider'")
+            | {{row.profileData.provider}}
+          td(data-title="'Roles'")
+            | {{row.profileData.roles | json}}
+
+
+      section
+
+        h3 App list
+
+        table.table.table-striped.table-hover.table-responsive(
+        ng-table='vm.appNgTableParams'
+        )
+          tr.clickable(
+          ng-repeat='row in $data track by row.id'
+          )
+            td(data-title="'Url'")
+              a(href="{{vm.getRedirectUrl(row.url)}}" target='blank') {{row.url}}

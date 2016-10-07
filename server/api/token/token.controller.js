@@ -1,14 +1,10 @@
 'use strict';
 
 import Token from '../../models/js-data/token.model';
-import abstractController from '../abstract/abstract.jsdata.controller';
+import {jsDataBaseController} from 'sistemium-node';
 
-let ctrl = abstractController(Token);
+let ctrl = jsDataBaseController(Token);
 let findOriginal = ctrl.find;
-
-function checkToken() {
-
-}
 
 // Gets a single Token from the DB
 ctrl.find = function find(req,res) {

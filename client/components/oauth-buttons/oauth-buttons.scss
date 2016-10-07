@@ -1,1 +1,28 @@
+.fa-sms {
+  &:before {
+    content: "\f10b";
+  }
+  //top: -1px !important;
+}
 
+.fa-mailru {
+  &:before {
+    content: "\f1fa";
+  }
+}
+
+@mixin aa-btn-social($color-bg, $color: #fff) {
+  background-color: $color-bg;
+  @include button-variant($color, $color-bg, rgba(0, 0, 0, .2));
+}
+
+.btn-sms {
+  @include aa-btn-social(#0078e7);
+}
+
+.btn-mailru {
+  @include  aa-btn-social(rgb(24,64,128));
+  i {
+    color: rgb(244,144,20);
+  }
+}

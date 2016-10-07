@@ -36,6 +36,8 @@ var all = {
   },
 
   redisSessionConfig: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
     prefix: 'authApiSess:',
     db: process.env.REDIS_DB || 7,
     ttl: process.env.SESSION_TTL || 24 * 3600
@@ -58,7 +60,9 @@ var all = {
   saaAppConfig: {
     authUrl: process.env.AUTH_URL || 'http://localhost:9080',
     authApiUrl: process.env.AUTH_API_URL || 'http://localhost:9080/api/'
-  }
+  },
+
+
 };
 
 // Export the config object based on the NODE_ENV

@@ -1,35 +1,64 @@
 'use strict';
 
-import Org from './../../models/js-data/org.model';
-import OrgAccount from './../../models/js-data/orgAccount.model';
-import abstractCtrl from '../abstract/abstract.jsdata.controller';
-import co from 'co';
+import stapiOrg from './../../models/org.model.js';
+import orgAccountRole from './../../models/orgAccountRole.model.js';
+import orgAccount from './../../models/orgAccount.model.js';
+import orgRole from './../../models/orgRole.model.js';
+import role from './../../models/role.model.js';
+import {stapiBaseController} from 'sistemium-node';
 
-let ctrl = abstractCtrl(Org);
+let ctrl = stapiBaseController(stapiOrg);
 
-ctrl.findAll = (req, res) => {
+export default {index, show, create, destroy};
 
-  co(function *() {
+function destroy(req, res) {
+  ctrl.destroy(req, res);
+}
 
-    let account = req && req.user && req.user.tokenInfo;
+function index(req, res) {
+  ctrl.index(req, res);
+}
 
-    let orgAccounts = yield OrgAccount.findAll({accountId: account.id});
+function show(req, res) {
+  ctrl.show(req, res);
+}
 
-    let orgs = [];
-    if (orgAccounts) {
-      for (let i = 0; i < orgAccounts.length; i++) {
-        let org = yield Org.find(orgAccounts[i].orgId);
-        orgs.push(org);
-      }
-    }
+function create(req, res, next) {
 
-    return res.json(orgs);
+  req.onStapiSuccess = org =>
 
-  }).catch((err) => {
-    console.log(err);
-    return res.sendStatus(500);
-  });
+    new Promise(function (resolve, reject) {
 
-};
+      role(req).findOne({code: 'admin'})
+        .then((role) => {
 
-export default ctrl;
+          let orgRoleParams = {
+            orgId: org.id,
+            roleId: role.id
+          };
+
+          Promise.all([
+            orgRole(req).getOrCreate(orgRoleParams, orgRoleParams),
+            orgAccount(req).save({
+              orgId: org.id,
+              accountId: req.user.id,
+              name: req.user.name
+            })
+              .then(orgAccount => orgAccountRole(req).save({
+                orgId: org.id,
+                accountId: req.user.id,
+                orgAccountId: orgAccount.id,
+                // TODO: get public roles at bootstrap
+                roleId: role.id
+              }))
+          ])
+            .then(() => resolve(org))
+            .catch(reject);
+
+        })
+        .catch(reject);
+
+    });
+
+  ctrl.create(req, res, next);
+}

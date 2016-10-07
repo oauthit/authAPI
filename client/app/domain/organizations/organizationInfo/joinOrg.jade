@@ -1,0 +1,15 @@
+section.clear-both
+  h3.pull-left
+    span Do you really want to join
+    = ' '
+    span.green "{{ vm.org.name }}"
+    = ' '
+    span ?
+
+  .buttons.pull-right
+    button.btn.btn-primary(type='button' ng-click='vm.join()' ng-disabled='!vm.orgAccount') Yes
+    button.btn.btn-warning(type='button' ui-sref='auth.org' ng-disabled='!vm.orgAccount') No
+
+  section.clear-both
+    form(name='vm.orgAccountForm' role='form' ng-submit='vm.onSubmit(vm.accountForm)' ng-if='vm.orgAccount')
+      formly-form(model='vm.orgAccount' fields='vm.joinFields')

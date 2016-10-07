@@ -1,11 +1,30 @@
 {
   "name": "auth-api",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Albert Kovalevskij",
+      "email": "kovalevskij.albert@gmail.com"
+    },
+    {
+      "name": "Alexander Levin",
+      "email": "alevin.ru@gmail.com"
+    }
+  ],
+  "overrides": {
+    "octicons": {
+      "main": [
+        "octicons/octicons.css",
+        "octicons/octicons.eot",
+        "octicons/octicons.svg",
+        "octicons/octicons.ttf",
+        "octicons/octicons.woff"
+      ]
+    }
+  },
   "dependencies": {
     "json3": "~3.3.1",
     "es5-shim": "~3.0.1",
-    "bootstrap-sass-official": "~3.3.6",
-    "bootstrap": "~3.3.6",
     "bootstrap-social": "~4.9.1",
     "angular-resource": "~1.4.0",
     "angular-sanitize": "~1.4.0",
@@ -22,12 +41,11 @@
     "ngclipboard": "~1.1.0",
     "angular-moment": "^0.10.3",
     "angular-busy": "^4.1.3",
-    "visionmedia-debug": "~2.2.0",
-    "angular-ui-router.stateHelper": "^1.3.1",
-    "sistemium-angular": "^0.6.7",
-    "sistemium-angular-bootstrap": "^0.1.14",
+    "sistemium-angular": ">=0.6.12",
+    "sistemium-angular-bootstrap": ">=0.3.1",
     "octicons": "^3.5.0",
-    "sistemium-angular-auth": "^0.1.4"
+    "sistemium-angular-auth": "^0.1.4",
+    "angular-ui-select": "^0.19.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0",

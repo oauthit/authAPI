@@ -11,25 +11,32 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <base href="/">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
+  <title>AuthAPI</title>
+  <meta name="description" content="oauth2 aggregator">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
   <!-- build:css(client) app/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/bootstrap-social/bootstrap-social.css" />
   <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
   <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
   <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
+  <link rel="stylesheet" href="bower_components/octicons/octicons/octicons.css" />
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
   <!-- endbower -->
   <!-- endbuild -->
+
   <!-- build:css({.tmp,client}) app/app.css -->
   <link rel="stylesheet" href="app/app.css">
   <!-- injector:css -->
   <!-- endinjector -->
   <!-- endbuild -->
 
-  <link rel="stylesheet" href="bower_components/octicons/octicons/octicons.css">
 </head>
 <body ng-app="authApiApp">
 <!--[if lt IE 7]>
@@ -42,22 +49,15 @@
 <div ui-view=""></div>
 <footer></footer>
 
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
-  (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-    a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-XXXXX-X');
+  ga('create', 'UA-81905733-1', 'auto');
   ga('send', 'pageview');
+
 </script>
 
 <!--[if lt IE 9]>
@@ -66,7 +66,6 @@
 <![endif]-->
 <!-- build:js({client,node_modules}) app/vendor.js -->
 <!-- bower:js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -85,10 +84,10 @@
 <script src="bower_components/angular-moment/angular-moment.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
-<script src="bower_components/visionmedia-debug/dist/debug.js"></script>
-<script src="bower_components/angular-ui-router.stateHelper/statehelper.js"></script>
 <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="bower_components/js-data/dist/js-data.js"></script>
+<script src="bower_components/angular-ui-router.stateHelper/statehelper.js"></script>
+<script src="bower_components/visionmedia-debug/dist/debug.js"></script>
 <script src="bower_components/async/lib/async.js"></script>
 <script src="bower_components/js-data-angular/dist/js-data-angular.js"></script>
 <script src="bower_components/sistemium-angular/dist/sistemium-angular.js"></script>
@@ -97,50 +96,60 @@
 <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
 <script src="bower_components/sistemium-angular-bootstrap/dist/sistemium-angular-bootstrap.js"></script>
 <script src="bower_components/sistemium-angular-auth/dist/sistemium-angular-auth.js"></script>
+<script src="bower_components/angular-ui-select/dist/select.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 <!-- build:js(.tmp) app/app.js -->
 <script src="app/app.js"></script>
 <!-- injector:js -->
-<script src="app/account/models/models.module.js"></script>
+<script src="app/account/models.module.js"></script>
 <script src="app/admin/admin.module.js"></script>
 <script src="app/core/core.module.js"></script>
 <script src="app/core/interceptors/interceptors.module.js"></script>
 <script src="app/core/services/services.module.js"></script>
 <script src="components/util/util.module.js"></script>
-<script src="app/account/account.js"></script>
-<script src="app/account/domain/account/account.controller.js"></script>
-<script src="app/account/domain/account/account.router.js"></script>
-<script src="app/account/domain/organizationInfo/orgInfo.controller.js"></script>
-<script src="app/account/domain/organizationInfo/orgInfo.router.js"></script>
-<script src="app/account/domain/organizations/org.controller.js"></script>
-<script src="app/account/domain/organizations/org.router.js"></script>
-<script src="app/account/domain/providerApps/providerApp.controller.js"></script>
-<script src="app/account/domain/providerApps/providerApp.router.js"></script>
-<script src="app/account/domain/providerApps/providerAppAccounts/providerAppAccounts.controller.js"></script>
-<script src="app/account/domain/providerApps/providerAppAccounts/providerAppAccounts.router.js"></script>
 <script src="app/account/login/login.controller.js"></script>
-<script src="app/account/models/SocialAccount.model.js"></script>
-<script src="app/account/models/account.model.js"></script>
-<script src="app/account/models/app.model.js"></script>
-<script src="app/account/models/org.model.js"></script>
-<script src="app/account/models/orgApp.model.js"></script>
-<script src="app/account/models/orgProviderApp.model.js"></script>
-<script src="app/account/models/providerAccount.model.js"></script>
-<script src="app/account/models/providerApp.model.js"></script>
+<script src="app/account/root.routes.js"></script>
 <script src="app/account/settings/settings.controller.js"></script>
 <script src="app/account/signup/signup.controller.js"></script>
 <script src="app/admin/admin.controller.js"></script>
 <script src="app/admin/admin.router.js"></script>
-<script src="app/admin/services/org.service.js"></script>
 <script src="app/app.config.js"></script>
 <script src="app/app.constant.js"></script>
 <script src="app/core/interceptors/error.interceptor.js"></script>
+<script src="app/core/services/domain/Auth.service.js"></script>
 <script src="app/core/services/domain/InitCtrl.service.js"></script>
-<script src="app/core/services/domain/saAuthWrapper.service.js"></script>
-<script src="app/core/services/domain/saSchemaWrapper.service.js"></script>
-<script src="app/domain/main/main.controller.js"></script>
-<script src="app/domain/main/main.router.js"></script>
+<script src="app/core/services/domain/schema.service.js"></script>
+<script src="app/core/services/domain/settings.service.js"></script>
+<script src="app/domain/account/account.controller.js"></script>
+<script src="app/domain/account/account.router.js"></script>
+<script src="app/domain/home/home.controller.js"></script>
+<script src="app/domain/home/home.router.js"></script>
+<script src="app/domain/organizations/create/orgCreate.controller.js"></script>
+<script src="app/domain/organizations/joinPublic/joinPublic.controller.js"></script>
+<script src="app/domain/organizations/org.router.js"></script>
+<script src="app/domain/organizations/organizationInfo/OrgRoles.controller.js"></script>
+<script src="app/domain/organizations/organizationInfo/orgAccount.controller.js"></script>
+<script src="app/domain/organizations/organizationInfo/orgInfo.controller.js"></script>
+<script src="app/domain/organizations/organizationInfo/orgInfo.router.js"></script>
+<script src="app/domain/organizations/orgs.controller.js"></script>
+<script src="app/domain/providerApps/addProviderApp.controller.js"></script>
+<script src="app/domain/providerApps/providerApp.controller.js"></script>
+<script src="app/domain/providerApps/providerApp.router.js"></script>
+<script src="app/domain/providerApps/providerAppAccounts/providerAppAccounts.controller.js"></script>
+<script src="app/domain/providerApps/providerAppAccounts/providerAppAccounts.router.js"></script>
+<script src="app/models/account.model.js"></script>
+<script src="app/models/app.model.js"></script>
+<script src="app/models/org.model.js"></script>
+<script src="app/models/orgAccount.model.js"></script>
+<script src="app/models/orgAccountRole.model.js"></script>
+<script src="app/models/orgApp.model.js"></script>
+<script src="app/models/orgProviderApp.model.js"></script>
+<script src="app/models/orgRole.model.js"></script>
+<script src="app/models/providerAccount.model.js"></script>
+<script src="app/models/providerApp.model.js"></script>
+<script src="app/models/role.model.js"></script>
+<script src="app/models/socialAccount.model.js"></script>
 <script src="app/router.decorator.js"></script>
 <script src="components/footer/footer.directive.js"></script>
 <script src="components/formly/formly-config.js"></script>

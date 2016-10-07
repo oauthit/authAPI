@@ -15,27 +15,46 @@ meta.defineType 'isDeleted:BOOL';
 meta.defineType 'avatarUrl:STRING,,nullable';
 meta.defineType 'clientId:STRING';
 meta.defineType 'clientSecret:CODE';
+meta.defineType 'clientPublic:CODE,,nullable';
 meta.defineType 'callbackUrl:STRING';
 meta.defineType 'passReqToCallback:BOOL';
 meta.defineType 'code:CODE';
 meta.defineType 'tokenInfo:STRING';
 meta.defineType 'url:STRING';
+meta.defineType 'isPublic:BOOL';
+meta.defineType 'loginPage:CODE,,nullable'
+meta.defineType 'isOffline:BOOL';
+meta.defineType 'scope:STRING';
 
 meta.defineEntity 'Account',
   'name;roles;isDeleted;'
 ;
 
-meta.defineEntity 'Org'
-  'isDeleted;name'
+meta.defineEntity 'Org',
+  'isDeleted;name;isPublic'
+;
+
+meta.defineEntity 'Role',
+  'isDeleted;name;code;isPublic'
+;
+
+meta.defineEntity 'OrgRole',
+  'isDeleted',
+  'Org,orgId;Role,roleId'
 ;
 
 meta.defineEntity 'ProviderApp',
-  'isDeleted;name;clientId;clientSecret;provider;code'
+  'isDeleted;name;clientId;clientSecret;clientPublic;provider;url,,,nullable;scope;isOffline'
 ;
 
 meta.defineEntity 'OrgAccount',
-  'isDeleted',
+  'isDeleted;name',
   'Org,orgId;Account,accountId'
+;
+
+meta.defineEntity 'OrgAccountRole',
+  'isDeleted',
+  'Org,orgId;Account,accountId;Role,roleId;OrgAccount,orgAccountId'
 ;
 
 meta.defineEntity 'OrgProviderApp',
@@ -54,7 +73,7 @@ meta.defineEntity 'OrgProviderAccount',
 ;
 
 meta.defineEntity 'SocialAccount',
-  'isDeleted;profileId;name;avatarUrl'
+  'isDeleted;profileId;name;provider;avatarUrl'
 ;
 
 meta.defineEntity 'SocialFriend',
@@ -63,11 +82,12 @@ meta.defineEntity 'SocialFriend',
 ;
 
 meta.defineEntity 'Token',
-  'tokenInfo;isDeleted'
+  'tokenInfo;isDeleted',
+  'Account,accountId;OrgApp,orgAppId,nullable;App,appId,nullable;Org,orgId,nullable'
 ;
 
 meta.defineEntity 'App',
-  'isDeleted;url'
+  'isDeleted;url;loginPage'
 ;
 
 meta.defineEntity 'OrgApp',
@@ -75,18 +95,31 @@ meta.defineEntity 'OrgApp',
   'Org,orgId;App,appId'
 ;
 
-meta.createTable 'SocialAccount',0,1;
-meta.createTable 'SocialFriend',0,1;
 meta.createTable 'Account',0,1;
 meta.createTable 'Org',0,1;
+meta.createTable 'Role',0,1;
+meta.createTable 'App',0,1;
+meta.createTable 'Token',0,1;
+
+meta.createTable 'OrgRole',0,1;
+meta.createTable 'OrgAccountRole',0,1;
+meta.createTable 'OrgAccount',0,1;
+
 meta.createTable 'ProviderApp',0,1;
-meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'ProviderAccount',0,1;
+
+meta.createTable 'SocialAccount',0,1;
+meta.createTable 'SocialFriend',0,1;
+
+meta.createTable 'OrgProviderApp',0,1;
 meta.createTable 'OrgProviderAccount',0,1;
 meta.createTable 'OrgAccount',0,1;
-meta.createTable 'Token',0,1;
-meta.createTable 'App',0,1;
 meta.createTable 'OrgApp',0,1;
 
-alter table aa.ProviderApp add unique (code)
-alter table aa.App add unique (url)
+alter table aa.ProviderApp add code CODE not null compute (string(provider,name));
+alter table aa.ProviderApp add unique (code);
+alter table aa.ProviderApp add unique (provider, name);
+alter table aa.App add unique (url);
+alter table aa.OrgRole add unique (orgId, roleId);
+alter table aa.SocialAccount add unique (profileId, name);
+alter table aa.SocialFriend add unique (ownerProfileId, friendProfileId);

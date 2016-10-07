@@ -1,0 +1,15 @@
+header#banner.hero-unit
+  .container
+    h1 Auth API
+    p.lead Authentication & Authorization service
+
+.container
+  .row
+    .col-sm-6.col-md-4(ng-repeat='section in vm.sections track by section.state')
+      a.thumbnail(ui-sref='{{section.state}}')
+        h3.caption
+          span(ng-class='section.icon')
+          = ' '
+          span.ml-5 {{ section.title }}
+          .text-right
+            small {{ section.description }}

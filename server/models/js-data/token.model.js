@@ -1,11 +1,6 @@
 "use strict";
+//
+import store from './storeSchema';
 
-import store from './store';
-import {findOrCreate} from './findOrCreate';
 
-store.defineMapper('Token');
-
-const token = store.getMapper('Token');
-token.findOrCreate = findOrCreate;
-
-export default token;
+export default store.defineMapper('Token');

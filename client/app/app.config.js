@@ -13,6 +13,10 @@
       localStorageServiceProvider
         .setPrefix('authAPI');
     })
+    .value('cgBusyDefaults',{
+      message: 'Loading data ...',
+      templateUrl: 'components/cg-busy/busy.html'
+    })
   ;
 
 }());

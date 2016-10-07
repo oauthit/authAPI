@@ -1,4 +1,4 @@
 'use strict';
-import STAPI from '../abstract.model.js';
+import {baseStapiModel} from 'sistemium-node';
 
-export default STAPI ('/opr/providerAccount');
+export default baseStapiModel ('/opr/providerAccount');

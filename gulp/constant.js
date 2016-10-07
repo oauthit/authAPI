@@ -32,7 +32,8 @@ gulp.task('constant', function () {
   let {AUTH_URL, AUTH_API_URL} = localConfig;
   let saaAppConfigConstants = {
     authApi: AUTH_URL,
-    authApiUrl: AUTH_API_URL
+    authApiUrl: AUTH_API_URL,
+    loginState: 'auth.login'
   };
 
   let merged = _.merge({}, sharedConfig, localConfig);
@@ -47,8 +48,9 @@ gulp.task('constant', function () {
   return plugins.ngConstant({
       name: 'authApiApp.constants',
       deps: [],
-      wrap: true,
+      wrap: `(function() {<%= __ngModule %>})();`,
       stream: true,
+      templatePath: 'gulp/ng-constant.tpl.ejs',
       constants: {
         appConfig: appConfigConstants,
         saaAppConfig: saaAppConfigConstants

@@ -1,0 +1,11 @@
+section
+  h3
+    span Do you really want to leave
+    = ' '
+    span.green "{{ vm.org.name }}"
+    = ' '
+    span ?
+
+  button.btn.btn-primary(type='button' ng-click='vm.leave()') Yes
+  = ' '
+  button.btn.btn-warning(type='button' ui-sref='auth.org') No

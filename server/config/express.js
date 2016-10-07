@@ -16,7 +16,6 @@ import config from './environment';
 import passport from 'passport';
 import cors from 'cors';
 import expressSession from 'express-session';
-import cookieParser from 'cookie-parser';
 
 export default function(app) {
   var env = app.get('env');
@@ -41,16 +40,24 @@ export default function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
 
-  app.use(cookieParser());
 //Session Configuration
   var sessionConfig = {
-    saveUninitialized: true,
-    resave: true,
+    saveUninitialized: false,
+    resave: false,
     secret: config.secrets.session,
     store: sessionStorage,
     key: 'authAPI.sid',
-    cookie: {maxAge: config.session.maxAge * 1000}
+    cookie: {
+      maxAge: config.session.maxAge * 1000
+    }
   };
+
+  // FIXME app crashes on req.session.returnTo if client didn't send the cookie
+
+  if (env === 'production') {
+    app.set('trust proxy', 1);
+    // sessionConfig.cookie.secure = true;
+  }
 
   app.use(expressSession(sessionConfig));
 
@@ -66,7 +73,9 @@ export default function(app) {
   }
 
   if ('development' === env) {
-    app.use(require('connect-livereload')());
+    app.use(require('connect-livereload')({
+      port: process.env.LIVERELOAD_PORT
+    }));
   }
 
   if ('development' === env || 'test' === env) {

@@ -2,35 +2,11 @@
 
 import express from 'express';
 import passport from 'passport';
-import {setAuthorized} from '../auth.service';
-import providerAccount from '../../models/providerAccount/providerAccount.model';
 import _ from 'lodash';
+import config from '../../config/environment';
+import smsPassport from './passport';
 
 var debug = require('debug')('AuthAPI:auth:sms:index');
-var router = express.Router();
-
-var providerApps = [];
-
-function setPassportUse(req, res, next) {
-
-  var fullUrl = req.originalUrl.split('/');
-  fullUrl = req.originalUrl.indexOf('callback?code=') !== -1 ? fullUrl[fullUrl.length - 2] : fullUrl[fullUrl.length - 1];
-
-  let providerApp = _.find(providerApps, (o) => {
-    return o.code === fullUrl;
-  });
-
-  debug('setPassportUse providerApp:', providerApp);
-
-  if (!providerApp) {
-    return next('no providerApp');
-  }
-
-  passport.use(require('./passport').setup(req, providerAccount(), providerApp));
-  req.AUTHAPIproviderApp = providerApp;
-  next();
-
-}
 
 passport.serializeUser((user, done) => {
 //  debug('serializeUser:', user);
@@ -46,29 +22,31 @@ passport.deserializeUser((user, done) => {
 
 export default function (providerApp) {
 
-  providerApps.push(providerApp);
+  var router = express.Router();
+
+  if (!providerApp) {
+    return new Error('setPassportUse with no providerApp');
+  }
+
+  const smsAuthUrl = _.get(config,'smsAuth.' + providerApp.name + '.url') || providerApp.url;
+
+  let appConfig = {
+    authorizationURL: smsAuthUrl + '/dialog/authorize',
+    tokenURL: smsAuthUrl + '/oauth/token',
+    scope: providerApp.scope, // 'offline_access'
+  };
+
+  passport.use(smsPassport(smsAuthUrl)(providerApp, appConfig));
 
   router
 
-    .get('/', setPassportUse, function (req, res, next) {
+    .get('/', function (req, res, next) {
 
-      req.session.returnTo = req.headers.referer;
-
-      passport.authenticate('sms', {
+      passport.authenticate(providerApp.code, {
         failureRedirect: '/#/login',
         state: req.query.accountId
       })(req, res, next);
 
-    })
-
-    .get('/callback', setPassportUse, function (req, res, next) {
-
-      passport.authenticate('sms', {
-        failureRedirect: '/#/login'
-      })(req, res, next);
-
-    }, function (req, res, next) {
-      setAuthorized(req.AUTHAPIproviderApp.code)(req, res, next);
     });
 
   return router;

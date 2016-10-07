@@ -1,69 +1,35 @@
-import passport from 'passport';
 import {Strategy as OAuthStrategy} from 'passport-oauth2';
-var debug = require('debug')('authAPI:sms/passport');
-import passportCb from '../passportCallback';
 import rp from 'request-promise';
-import config from '../../config/environment';
+import basePassportSetup from '../basePassportSetup';
 
-var smsAuthUrl = config.smsAuth.url;
+var debug = require('debug')('authAPI:auth:sms:passport');
 
-OAuthStrategy.prototype.userProfile = function (accessToken, done) {
+export default function(smsAuthUrl) {
 
-  return rp({
-    method: 'GET',
-    url: smsAuthUrl + '/api/userinfo',
-    headers: {
-      'authorization': 'Bearer ' + accessToken
+  function userProfile (accessToken, done) {
+
+    if (!accessToken) {
+      console.error ('No access token calling SMS userProfile');
+      return;
     }
-  }).then(body => {
-    body = JSON.parse(body);
-    done(null, body);
-  }).catch(err => {
-    debug('error:', err);
-    done(err);
-  });
-  //'https://api.sistemium.com/pha/roles', )
 
-};
+    return rp({
+      method: 'GET',
+      url: smsAuthUrl + '/api/userinfo',
+      headers: {
+        'authorization': 'Bearer ' + accessToken
+      },
+      json: true
+    }).then(body => {
+      body.provider = 'sms';
+      done(null, body);
+    }).catch(err => {
+      console.error('sms:passport error:', err);
+      done(err);
+    });
 
-export function setup(req, ProviderAccount, config) {
-  debug (config);
-  debug (config.code);
-  var strategy = new OAuthStrategy({
-    //TODO authorization url
-    authorizationURL: smsAuthUrl + '/dialog/authorize',
-    tokenURL: smsAuthUrl + '/oauth/token',
-    //TODO change record for correct clientID and clientSecret
-    clientID: 'db089742-97e7-483d-ba7f-7b4a0485b082',
-    clientSecret: 'someSecret' || config.clientSecret,
-    scope: 'offline_access',
-    callbackURL: (process.env.DOMAIN || '') + '/auth/' + config.code + '/callback',
-    passReqToCallback: true
-  }, (req, accessToken, refreshToken, profile, done) => {
+  }
 
-    //debug('accessToken:', accessToken);
-    //debug('refreshToken:', refreshToken);
-    //debug('profile:', profile);
+  return basePassportSetup(OAuthStrategy,{userProfile});
 
-    debug('done', done);
-    debug('profile', profile);
-
-    profile.id = profile.authId;
-
-    ProviderAccount.getOrCreate({
-      profileId: profile.id
-    }, {
-      profileData: profile,
-      profileId: profile.id,
-      name: profile.name,
-      //TODO change this
-      roles: [],
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      providerAppId: config.id
-    }).then(passportCb(config.provider, profile, done), done);
-  });
-
-  strategy.name = config.code;
-  return strategy;
 }
