@@ -5,6 +5,10 @@
 
     let vm = this;
 
+    _.assign(vm, {
+
+    });
+
   }
 
   angular.module('authApiApp.admin')
