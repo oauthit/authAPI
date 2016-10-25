@@ -8,6 +8,10 @@ var router = express.Router();
 var model = baseStapiModel('/aa/orgAccountRoleHelper');
 
 var ctrl = stapiBaseController(req => {
+
+  req.query['x-page-size:'] = 100;
+  req.query['x-start-page:'] = 1;
+
   return {
     find: () => model(req).find()
       .then(response => {
@@ -20,6 +24,7 @@ var ctrl = stapiBaseController(req => {
         return res;
       })
   };
+  
 });
 
 router.get('/', ctrl.index);
