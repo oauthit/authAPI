@@ -1,9 +1,14 @@
+'use strict';
+
 (function () {
-  'use strict';
 
   function AdminController() {
 
     let vm = this;
+
+    _.assign(vm, {
+
+    });
 
   }
 

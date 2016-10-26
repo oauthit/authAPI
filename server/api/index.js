@@ -10,6 +10,7 @@ router.use('/token', authMiddleware, require('./token'));
 router.use('/providerAccount', /*authMiddleware,*/ require('./providerAccount'));
 router.use('/providerApp', /*authMiddleware*/ require('./providerApp'));
 router.use('/role', authMiddleware, require('./role'));
+router.use('/roles', ...authMiddleware, require('./roles'));
 
 router.use('/org', ...authMiddleware, require('./org'));
 router.use('/orgRole', ...authMiddleware, require('./orgRole'));

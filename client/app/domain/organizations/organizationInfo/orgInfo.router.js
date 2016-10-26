@@ -12,7 +12,7 @@
         })
         .state({
           name: 'auth.org.orgAccount',
-          url: '/:orgAccountId/edit',
+          url: '/orgAccount/:orgAccountId',
           templateUrl: 'app/domain/organizations/organizationInfo/orgAccount.html',
           controller: 'OrgAccountController',
           controllerAs: 'vm'
