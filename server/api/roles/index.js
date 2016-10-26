@@ -16,15 +16,18 @@ var ctrl = stapiBaseController(req => {
     find: () => model(req).find()
       .then(response => {
         var grouped = _.groupBy(response, 'code');
-        var res = {};
+        var res = {
+          account: _.pick(req.user, ['id', 'name']),
+          roles: {}
+        };
         _.each(grouped, (values, code) => {
           var value = _.map(values, value => value.value || true);
-          res[code] = value.length === 1 ? value[0] : value;
+          res.roles[code] = value.length === 1 ? value[0] : value;
         });
         return res;
       })
   };
-  
+
 });
 
 router.get('/', ctrl.index);
