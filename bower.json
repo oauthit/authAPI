@@ -52,6 +52,6 @@
     "js-data-angular-mocks": "~3.1.0"
   },
   "resolutions": {
-    "angular": ">=1.4.0"
+    "angular": "~1.6.3"
   }
 }
