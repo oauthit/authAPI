@@ -79,6 +79,7 @@ gulp.task('build:client', ['transpile:client', 'styles', 'html', 'constant'], ()
     .pipe(plugins.uglify())
     .pipe(jsFilter.restore)
     .pipe(cssFilter)
+    .pipe(plugins.replace(/(octicons\.)/g, '/bower_components/$1'))
     .pipe(plugins.minifyCss({
       cache: true,
       processImportFrom: ['!fonts.googleapis.com']

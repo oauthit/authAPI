@@ -3,8 +3,14 @@
 import gulp from 'gulp';
 import paths from './conf';
 
+
+let fontsSrc = [
+  `${paths.clientPath}/bower_components/{sistemium-angular-bootstrap/dist,font-awesome}/fonts/**/*`,
+  `${paths.clientPath}/bower_components/octicons/octicons/octicons.{eot,ttf,woff,svg}`
+];
+
 gulp.task('copy:fonts', () => {
-  return gulp.src(`${paths.clientPath}/bower_components/{sistemium-angular-bootstrap/dist,font-awesome}/fonts/**/*`, {dot: true})
+  return gulp.src(fontsSrc, {dot: true})
     .pipe(gulp.dest(`${paths.dist}/${paths.clientPath}/bower_components`));
 });
 
