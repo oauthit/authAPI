@@ -3,16 +3,25 @@
 (function () {
 
   angular.module('authApiApp')
-    .config(function ($httpProvider, $urlRouterProvider, localStorageServiceProvider) {
+
+    .config(($httpProvider, $urlRouterProvider, localStorageServiceProvider) => {
 
       $httpProvider.interceptors.push('errorInterceptor');
 
-      $urlRouterProvider
-        .otherwise('/');
+      $urlRouterProvider.otherwise('/');
 
-      localStorageServiceProvider
-        .setPrefix('authAPI');
+      localStorageServiceProvider.setPrefix('authAPI');
+
     })
+
+    .config($locationProvider => {
+      $locationProvider.hashPrefix('');
+    })
+
+    .config($compileProvider => {
+      $compileProvider.preAssignBindingsEnabled(true);
+    })
+
     .value('cgBusyDefaults',{
       message: 'Loading data ...',
       templateUrl: 'components/cg-busy/busy.html'
