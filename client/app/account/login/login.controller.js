@@ -4,23 +4,21 @@
 
   function LoginController($state, schema) {
 
-    var vm = angular.extend(this,{
+    const vm = angular.extend(this, {
       user: {},
-      errors: {}
+      errors: {},
+      login
     });
 
-    var ProviderApp = schema.model('ProviderApp');
+    const {ProviderApp} = schema.models();
 
     ProviderApp.findAll()
-      .then(function (data) {
-        vm.buttons = _.map(data, function (app) {
-          return app.oauthButton();
-        });
+      .then(data => {
+        vm.buttons = _.map(data, app => app.oauthButton());
       });
 
-
-    var catchFn = function (text404) {
-      return function (err) {
+    function catchFn (text404) {
+      return err => {
         if (err.status === 404) {
           vm.errors.other = text404;
         } else {
@@ -28,9 +26,9 @@
         }
         vm.submitted = false;
       };
-    };
+    }
 
-    vm.login = function () {
+    function login () {
 
       var q;
       vm.errors = {};
@@ -51,7 +49,7 @@
 
         q = vm.Auth.authWithSmsCode(vm.smsId, vm.smsCode)
 
-          .then(function (res) {
+          .then(res => {
             if (res.token) {
               $state.go('main', {'access-token': res.token});
             } else {
@@ -66,11 +64,10 @@
 
       if (q) {
         vm.busy = q;
-        q.finally(function () {
-          vm.submitted = false;
-        });
+        q.finally(() => vm.submitted = false);
       }
-    };
+
+    }
 
   }
 
