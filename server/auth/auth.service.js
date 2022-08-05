@@ -259,8 +259,11 @@ function setAuthorized(providerApp) {
         redirectUrl = '/';
       }
 
-      debug('setAuthorized: redirectUrl:', redirectUrl);
-      return res.redirect(redirectUrl + '#/?access-token=' + token);
+      const slash = redirectUrl.match(/#/) ? '' : '#/';
+      const question = redirectUrl.match(/\?/) ? '&' : '?';
+      const finalUrl = `${redirectUrl}${slash}${question}access-token=${token}`;
+      debug('setAuthorized:redirectUrl:', redirectUrl, finalUrl);
+      return res.redirect(finalUrl);
 
     }).catch((err) => {
       //TODO delete req.session onError?
